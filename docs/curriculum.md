@@ -1,6 +1,6 @@
 # 《从 Learn Claude Code 编程 Agent 学 RAG 与 Agent 评测》课程设计
 
-> 状态：仅课程设计。旧Faithfulness样章已清理；当前从第1课最小编程Agent重新制作，实际完成情况见验收记录；其余课程与17机制完整迁移仍按计划推进。
+> 状态：第1、2课已制作并通过真实Docker实验。旧Faithfulness样章已清理；其余14课与17机制完整迁移按计划推进。
 
 ## 原项目学习方式与课程改编
 
@@ -240,8 +240,10 @@ config/      # Agent、裁判、生成器、模拟用户的独立配置
 
 Learn Claude Code 的17项机制均已有课程归属：循环e01；工具、权限、hook e02；skill加载e04；上下文压缩e12；记忆e12；计划、子Agent、任务系统、团队协作e13；后台任务与调度e14；MCP e10；目标闭环e11；集成、workflow续跑和目标复核e16。
 
-这些归属只是制作与验证计划，不能解释为已完成迁移、功能等价或通过实验。旧Faithfulness样章已移除。第1课从最小循环与Bash重新实现；第5课将按编程知识与真实Agent输出重新制作。其余课程、代码增量、数据、报告、17项机制迁移和新编程Agent的GitHub回归均为计划状态。已有SDK回放工程的验证记录单独保留。
+第1、2课已验证最小循环、Bash及本课具名工具、权限和轨迹合同，与上游的改编差异见源码导读。这不代表17项机制完整迁移或全部功能等价。旧Faithfulness样章已移除，第5课将按编程知识与真实Agent输出重新制作；其余课程与完整机制核对仍为计划状态。历史验证记录单独保留。
 
 ## 相关材料与生成记录
 
 [教学方式详解](teaching-method.md)、[评测与数据能力地图](evaluation-landscape.md)、[具体制作计划](course-production-plan.md)、[PocketFlow规划凭证](../generation/curriculum-README.md)、[原24课知识对照](archive/curriculum-24.md)。
+
+第2课入口：[教材](../lessons/e02_tools_traces/README.zh.md)、[实验结果](../lessons/e02_tools_traces/run_summary.md)、[验收记录](e02-validation.md)。

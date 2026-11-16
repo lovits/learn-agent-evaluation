@@ -1,12 +1,15 @@
 # 从 Learn Claude Code 编程 Agent 学评测
 
 课程围绕同一个编程Agent递进，每课只引入当前评测需要的代码。
-第1课只有最小循环与Bash，使用真实模型决策，在Docker执行命令，再独立验收结果。
+第1课从最小循环与Bash开始；第2课加入文件工具、权限分支和可关联的轨迹。
+两课都使用真实模型决策，在Docker执行工具，再独立验收结果。
 
 - [16课详细设计与制作规范](docs/course-specification.md)
 - [飞书云文档](https://my.feishu.cn/docx/V8CPdL3Y8oMZt4xJ8RCc4HfNnfb)
 - [16课大纲](docs/curriculum.md)
 - [第1课教材](lessons/e01_agent_baseline/README.zh.md)
+- [第2课教材](lessons/e02_tools_traces/README.zh.md) / [飞书版](https://my.feishu.cn/docx/KVAkdoPHlofNEOxSPQqcfXuenfn) / [源码导读](lessons/e02_tools_traces/source_walkthrough.md)
+- [第2课运行结果](lessons/e02_tools_traces/run_summary.md) / [验收记录](docs/e02-validation.md)
 - [第1课源码导读](lessons/e01_agent_baseline/source_walkthrough.md)
 - [练习](lessons/e01_agent_baseline/exercises.md) / [参考答案](lessons/e01_agent_baseline/solutions.md)
 - [实际运行报告](lessons/e01_agent_baseline/example_report.json) / [验收记录](docs/validation.md)
@@ -63,7 +66,19 @@ python3 tools/run_e01.py
 ## 项目状态
 
 旧Faithfulness样章和专属回放实现已清理；该主题将在第5课以编程案例重新制作。
-当前只制作第1课，其余15课保留详细设计。DeepEval/Ragas用于评测方法和源码依据，
+当前已制作第1、2课，其余14课保留详细设计。DeepEval/Ragas用于评测方法和源码依据，
 第一课先用确定性任务合同判断文件、输出和退出码，后续再逐步引入框架接口与模型裁判。
 
 教材通过 [PocketFlow流程](generation/README.md)组织，来源与许可见 [第三方说明](THIRD_PARTY.md)。
+
+## 第2课实验
+
+沿用上面的宿主机模型入口和Docker环境。升级项目后重新启动模型入口，让它载入第2课的工具描述。
+
+```sh
+docker compose run --rm -T course run-e02 --case edit_and_run
+docker compose --profile verify run --rm -T verifier verify-e02 --run-id 实际run_id
+python3 tools/run_e02.py
+```
+
+阅读页面：http://localhost:8765/lesson2 。[五组实验及结果](lessons/e02_tools_traces/run_summary.md)中区分正常任务与故障注入。

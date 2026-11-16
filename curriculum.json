@@ -58,7 +58,7 @@
     {
       "id": "e02",
       "title": "工具、权限、轨迹与统一评测样本",
-      "status": "planned",
+      "status": "implemented_live_docker_verified",
       "original_lessons": [
         "s02",
         "s13"
@@ -488,8 +488,9 @@
       "source_analysis": "按所选指标适用部分追踪输入校验、prompt/schema、模型调用、verdict、聚合、异步与结果对象；规则指标说明不适用项。"
     }
   ],
-  "runtime_status": "e01: live model-driven Bash loop and independent Docker verification complete; old sample removed.",
+  "runtime_status": "e01 and e02 implemented; later lessons remain planned",
   "implemented_lessons": [
-    "e01"
+    "e01",
+    "e02"
   ]
 }

@@ -1,0 +1,19 @@
+{
+  "title": "第2课：工具、权限、轨迹与统一评测样本",
+  "document_id": "KVAkdoPHlofNEOxSPQqcfXuenfn",
+  "revision_id": 5,
+  "url": "https://my.feishu.cn/docx/KVAkdoPHlofNEOxSPQqcfXuenfn",
+  "verified_revision_id": 5,
+  "local_path": "lessons/e02_tools_traces/README.zh.md",
+  "local_sha256": "99b51802baf79542df7e542773c8613b0ac44f03c9901af0f912b65adbc7c569",
+  "cloud_content_sha256": "db8b5e9d5772434e8a0985c2d418bc47c13d7d60df33e1d82fb2fd2490afc70f",
+  "includes": [
+    "textbook",
+    "source walkthrough",
+    "exercises",
+    "solutions",
+    "live results",
+    "validation"
+  ],
+  "verified": true
+}

@@ -1,6 +1,6 @@
 # Learn Claude Code 编程Agent评测课程：16课详细设计与制作规范
 
-本说明先于第1课实施完成，是逐课制作与验收的共同依据。被测对象为固定版本 Learn Claude Code 编程 Agent；每课只引入当前评测需要的可执行代码。原24课知识合并为16课，后续按小节递进。当前仅第1课获准实施，其余课程保持设计状态。
+本说明先于第1课实施完成，是逐课制作与验收的共同依据。被测对象为固定版本 Learn Claude Code 编程 Agent；每课只引入当前评测需要的可执行代码。原24课知识合并为16课，后续按小节递进。目前已制作第1、2课，其余14课保持设计状态。
 
 ## 课程目标与制作范围
 
@@ -156,7 +156,7 @@ Agent代码增量：read/write/edit/glob dispatch、权限检查和记录 hook
 - 文档依据：https://deepeval.com/guides/guides-tracing-ai-agents
 - 文档依据：https://deepeval.com/docs/evaluation-trajectory-based-llm-evals
 
-原课知识映射：s02, s13。实施状态：后续逐课制作，本说明不代表已实现。
+原课知识映射：s02, s13。实施状态：第2课已制作并完成真实Docker实验，详见本课验收记录。
 
 ### e03 规则评分与 LLM 裁判
 
@@ -769,3 +769,7 @@ learn_claude_code：https://github.com/shareAI-lab/learn-claude-code @ 448c75bb5
 pocketflow_tutorial：https://github.com/The-Pocket/PocketFlow-Tutorial-Codebase-Knowledge @ 05b24cbbb0fe409c5e23c9791f0342f07524ffdc
 
 课程仓库：https://github.com/lovits/learn-agent-evaluation
+
+## 第2课实际交付
+
+[飞书教材与验收结果](https://my.feishu.cn/docx/KVAkdoPHlofNEOxSPQqcfXuenfn)。5条开发任务全部通过，16次真实模型请求、14次工具请求；四种SDK样本可导出并恢复。本地与Docker断网32项测试通过。校准与留出各2条未执行，不计入成绩。

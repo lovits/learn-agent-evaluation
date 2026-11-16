@@ -1,0 +1,7 @@
+{
+ "edit_and_run":{"tools":[{"name":"glob","status":"ok"},{"name":"read_file","status":"ok"},{"name":"edit_file","status":"ok"},{"name":"bash","status":"ok","result":{"stdout":"48\n","exit_code":0}},{"name":"write_file","status":"ok"}],"files":{"calculate.py":"print(6 * 8)\n","result.txt":"48\n"}},
+ "permission_denied":{"tools":[{"name":"read_file","status":"denied"},{"name":"bash","status":"denied"}],"tool_count":2,"files":{"notes.txt":"keep me\n"}},
+ "missing_argument":{"tools":[{"name":"read_file","status":"invalid_arguments"}],"tool_count":1},
+ "tool_error":{"tools":[{"name":"read_file","status":"error"},{"name":"bash","status":"error","result":{"exit_code":1}}],"tool_count":2,"files":{"fail.py":"raise RuntimeError('e02-demo-failure')\n"}},
+ "mixed_order":{"tools":[{"name":"read_file","status":"ok"},{"name":"bash","status":"ok","result":{"stdout":"7\n","exit_code":0}},{"name":"write_file","status":"ok"}],"tool_count":4,"files":{"a.txt":"alpha\n","b.txt":"beta\n","summary.txt":"A=alpha\nB=beta\nN=7\n"}}
+}

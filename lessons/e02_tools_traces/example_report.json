@@ -1,0 +1,2817 @@
+{
+  "run_id": "b7bc176175fc466f972f74e8ed48e9b0",
+  "lesson": "e02",
+  "mode": "live_codex_bridge",
+  "created_at": "2026-11-16T16:53:08.607287+00:00",
+  "image_id": "sha256:895d5c01d4825086dbe9fa24f565bf687bb05fab15582810c076b6c080c0430d",
+  "platform": "linux/arm64",
+  "summary": {
+    "tasks": 5,
+    "passed": 5,
+    "model_requests": 16,
+    "tool_attempts": 14
+  },
+  "implementation": [
+    {
+      "path": "lessons/e02_tools_traces/code.py",
+      "sha256": "35c279eac4f0d18748a24fbcf3f586579ff09381d063a33d12d0150d2206159c"
+    },
+    {
+      "path": "lessons/e02_tools_traces/eval.py",
+      "sha256": "364933618bf64bc289103389f2182c9fcc18b69a62209287d1c561444a6413d6"
+    },
+    {
+      "path": "lessons/e02_tools_traces/cases.jsonl",
+      "sha256": "6fcb468b092225f52b1dd16a8721c444fe0bd5e1e21ed3a3a1da24aa243d07dd"
+    },
+    {
+      "path": "lessons/e02_tools_traces/samples.py",
+      "sha256": "2ee9af3739df522b90cdcd79d232cbe0803ef36847d01a53e17352a630ae5ded"
+    }
+  ],
+  "rows": [
+    {
+      "report": {
+        "run_id": "6c20cc32b94a4fe9afe413aebaf1b401",
+        "lesson": "e02",
+        "schema_version": "e02.v1",
+        "dataset_sha256": "6fcb468b092225f52b1dd16a8721c444fe0bd5e1e21ed3a3a1da24aa243d07dd",
+        "split": "development",
+        "case_id": "edit_and_run",
+        "task": "使用glob找到Python文件，read_file读取calculate.py，再用edit_file把6 * 7改为6 * 8，使用bash运行python3 calculate.py，最后用write_file把实际数字输出写入result.txt。请使用指定的五种工具完成，不用bash代替文件工具。",
+        "created_at": "2026-11-16T16:49:59.204215+00:00",
+        "mode": "live_codex_bridge",
+        "status": "finished",
+        "final_answer": "已完成：`calculate.py` 已改为 `6 * 8`，实际运行输出为 `48`，并已写入 `result.txt`。",
+        "events": [
+          {
+            "type": "model",
+            "span_id": "model-1",
+            "parent_id": "agent",
+            "reply": {
+              "answer": "",
+              "tool_calls": [
+                {
+                  "name": "glob",
+                  "arguments_json": "{\"pattern\":\"**/*.py\"}"
+                }
+              ]
+            },
+            "model": {
+              "usage": [
+                {
+                  "input_tokens": 15348,
+                  "cached_input_tokens": 0,
+                  "cache_write_input_tokens": 0,
+                  "output_tokens": 70,
+                  "reasoning_output_tokens": 34
+                }
+              ],
+              "reported_model": null,
+              "model_selection": "Codex CLI default; user config ignored",
+              "elapsed_seconds": 25.075,
+              "transport_tool_events": 0,
+              "prompt_sha256": "e756646b695cae409d6743b6b22f6984286aa3b9ce46011c5f6e0f785f3ec86b"
+            }
+          },
+          {
+            "type": "tool",
+            "span_id": "model-1:tool-0",
+            "parent_id": "model-1",
+            "call": {
+              "name": "glob",
+              "arguments_json": "{\"pattern\":\"**/*.py\"}"
+            },
+            "permission": {
+              "decision": "allow",
+              "reason": "workspace_policy"
+            },
+            "result": {
+              "status": "ok",
+              "output": "calculate.py"
+            },
+            "elapsed_seconds": 0.002784
+          },
+          {
+            "type": "model",
+            "span_id": "model-2",
+            "parent_id": "agent",
+            "reply": {
+              "answer": "",
+              "tool_calls": [
+                {
+                  "name": "read_file",
+                  "arguments_json": "{\"path\":\"calculate.py\"}"
+                }
+              ]
+            },
+            "model": {
+              "usage": [
+                {
+                  "input_tokens": 15422,
+                  "cached_input_tokens": 13440,
+                  "cache_write_input_tokens": 0,
+                  "output_tokens": 55,
+                  "reasoning_output_tokens": 19
+                }
+              ],
+              "reported_model": null,
+              "model_selection": "Codex CLI default; user config ignored",
+              "elapsed_seconds": 17.944,
+              "transport_tool_events": 0,
+              "prompt_sha256": "621f3dcdd8aa5e5066c0d6e26f3cdb1cc9ad03f363bc47e17841297938e623af"
+            }
+          },
+          {
+            "type": "tool",
+            "span_id": "model-2:tool-0",
+            "parent_id": "model-2",
+            "call": {
+              "name": "read_file",
+              "arguments_json": "{\"path\":\"calculate.py\"}"
+            },
+            "permission": {
+              "decision": "allow",
+              "reason": "workspace_policy"
+            },
+            "result": {
+              "status": "ok",
+              "output": "print(6 * 7)\n",
+              "truncated": false
+            },
+            "elapsed_seconds": 0.002259
+          },
+          {
+            "type": "model",
+            "span_id": "model-3",
+            "parent_id": "agent",
+            "reply": {
+              "answer": "",
+              "tool_calls": [
+                {
+                  "name": "edit_file",
+                  "arguments_json": "{\"path\":\"calculate.py\",\"old_text\":\"print(6 * 7)\\n\",\"new_text\":\"print(6 * 8)\\n\"}"
+                }
+              ]
+            },
+            "model": {
+              "usage": [
+                {
+                  "input_tokens": 15506,
+                  "cached_input_tokens": 0,
+                  "cache_write_input_tokens": 0,
+                  "output_tokens": 141,
+                  "reasoning_output_tokens": 79
+                }
+              ],
+              "reported_model": null,
+              "model_selection": "Codex CLI default; user config ignored",
+              "elapsed_seconds": 18.116,
+              "transport_tool_events": 0,
+              "prompt_sha256": "9a2020c37bcefec205bcdb5e129203fff273057c68b72a64be75f7bcb97dfbff"
+            }
+          },
+          {
+            "type": "tool",
+            "span_id": "model-3:tool-0",
+            "parent_id": "model-3",
+            "call": {
+              "name": "edit_file",
+              "arguments_json": "{\"path\":\"calculate.py\",\"old_text\":\"print(6 * 7)\\n\",\"new_text\":\"print(6 * 8)\\n\"}"
+            },
+            "permission": {
+              "decision": "allow",
+              "reason": "workspace_policy"
+            },
+            "result": {
+              "status": "ok",
+              "output": "Edited calculate.py",
+              "truncated": false
+            },
+            "elapsed_seconds": 0.00229
+          },
+          {
+            "type": "model",
+            "span_id": "model-4",
+            "parent_id": "agent",
+            "reply": {
+              "answer": "",
+              "tool_calls": [
+                {
+                  "name": "bash",
+                  "arguments_json": "{\"command\":\"python3 calculate.py\"}"
+                }
+              ]
+            },
+            "model": {
+              "usage": [
+                {
+                  "input_tokens": 15611,
+                  "cached_input_tokens": 0,
+                  "cache_write_input_tokens": 0,
+                  "output_tokens": 92,
+                  "reasoning_output_tokens": 55
+                }
+              ],
+              "reported_model": null,
+              "model_selection": "Codex CLI default; user config ignored",
+              "elapsed_seconds": 11.418,
+              "transport_tool_events": 0,
+              "prompt_sha256": "ce02542ed815533576a17704c6344ff1401f8e5c5f4610f81675f918824e0528"
+            }
+          },
+          {
+            "type": "tool",
+            "span_id": "model-4:tool-0",
+            "parent_id": "model-4",
+            "call": {
+              "name": "bash",
+              "arguments_json": "{\"command\":\"python3 calculate.py\"}"
+            },
+            "permission": {
+              "decision": "allow",
+              "reason": "workspace_policy"
+            },
+            "result": {
+              "stdout": "48\n",
+              "stderr": "",
+              "exit_code": 0,
+              "status": "ok",
+              "truncated": false,
+              "output": "48\n"
+            },
+            "elapsed_seconds": 0.036954
+          },
+          {
+            "type": "model",
+            "span_id": "model-5",
+            "parent_id": "agent",
+            "reply": {
+              "answer": "",
+              "tool_calls": [
+                {
+                  "name": "write_file",
+                  "arguments_json": "{\"path\":\"result.txt\",\"content\":\"48\\n\"}"
+                }
+              ]
+            },
+            "model": {
+              "usage": [
+                {
+                  "input_tokens": 15714,
+                  "cached_input_tokens": 0,
+                  "cache_write_input_tokens": 0,
+                  "output_tokens": 40,
+                  "reasoning_output_tokens": 0
+                }
+              ],
+              "reported_model": null,
+              "model_selection": "Codex CLI default; user config ignored",
+              "elapsed_seconds": 11.239,
+              "transport_tool_events": 0,
+              "prompt_sha256": "0ca4dd61c82415be28594b55b1e9f4d06304a791fb4fc5c1af89a1f4487b8e56"
+            }
+          },
+          {
+            "type": "tool",
+            "span_id": "model-5:tool-0",
+            "parent_id": "model-5",
+            "call": {
+              "name": "write_file",
+              "arguments_json": "{\"path\":\"result.txt\",\"content\":\"48\\n\"}"
+            },
+            "permission": {
+              "decision": "allow",
+              "reason": "workspace_policy"
+            },
+            "result": {
+              "status": "ok",
+              "output": "Wrote result.txt",
+              "truncated": false
+            },
+            "elapsed_seconds": 0.003321
+          },
+          {
+            "type": "model",
+            "span_id": "model-6",
+            "parent_id": "agent",
+            "reply": {
+              "answer": "已完成：`calculate.py` 已改为 `6 * 8`，实际运行输出为 `48`，并已写入 `result.txt`。",
+              "tool_calls": []
+            },
+            "model": {
+              "usage": [
+                {
+                  "input_tokens": 15808,
+                  "cached_input_tokens": 0,
+                  "cache_write_input_tokens": 0,
+                  "output_tokens": 52,
+                  "reasoning_output_tokens": 0
+                }
+              ],
+              "reported_model": null,
+              "model_selection": "Codex CLI default; user config ignored",
+              "elapsed_seconds": 20.835,
+              "transport_tool_events": 0,
+              "prompt_sha256": "b0f8fc9b2b42b340fdce237b7652043da5036662e24d4c2a750bb52ca1517f10"
+            }
+          }
+        ],
+        "hooks": [
+          {
+            "phase": "UserPromptSubmit",
+            "span_id": "agent"
+          },
+          {
+            "phase": "PreToolUse",
+            "span_id": "model-1:tool-0"
+          },
+          {
+            "phase": "PostToolUse",
+            "span_id": "model-1:tool-0",
+            "status": "ok"
+          },
+          {
+            "phase": "PreToolUse",
+            "span_id": "model-2:tool-0"
+          },
+          {
+            "phase": "PostToolUse",
+            "span_id": "model-2:tool-0",
+            "status": "ok"
+          },
+          {
+            "phase": "PreToolUse",
+            "span_id": "model-3:tool-0"
+          },
+          {
+            "phase": "PostToolUse",
+            "span_id": "model-3:tool-0",
+            "status": "ok"
+          },
+          {
+            "phase": "PreToolUse",
+            "span_id": "model-4:tool-0"
+          },
+          {
+            "phase": "PostToolUse",
+            "span_id": "model-4:tool-0",
+            "status": "ok"
+          },
+          {
+            "phase": "PreToolUse",
+            "span_id": "model-5:tool-0"
+          },
+          {
+            "phase": "PostToolUse",
+            "span_id": "model-5:tool-0",
+            "status": "ok"
+          },
+          {
+            "phase": "Stop",
+            "span_id": "agent",
+            "status": "finished"
+          }
+        ]
+      },
+      "grade": {
+        "run_id": "6c20cc32b94a4fe9afe413aebaf1b401",
+        "case_id": "edit_and_run",
+        "passed": true,
+        "checks": {
+          "finished": true,
+          "trace_contract": true,
+          "tool_0": true,
+          "tool_1": true,
+          "tool_2": true,
+          "tool_3": true,
+          "tool_4": true,
+          "file:calculate.py": true,
+          "file:result.txt": true,
+          "native_sdk_samples": true
+        },
+        "trace_errors": [],
+        "samples": {
+          "metadata": {
+            "run_id": "6c20cc32b94a4fe9afe413aebaf1b401",
+            "schema_version": "e02.v1",
+            "dataset_sha256": "6fcb468b092225f52b1dd16a8721c444fe0bd5e1e21ed3a3a1da24aa243d07dd",
+            "split": "development",
+            "tool_statuses": {
+              "model-1:tool-0": "ok",
+              "model-2:tool-0": "ok",
+              "model-3:tool-0": "ok",
+              "model-4:tool-0": "ok",
+              "model-5:tool-0": "ok"
+            }
+          },
+          "deepeval_single": {
+            "input": "使用glob找到Python文件，read_file读取calculate.py，再用edit_file把6 * 7改为6 * 8，使用bash运行python3 calculate.py，最后用write_file把实际数字输出写入result.txt。请使用指定的五种工具完成，不用bash代替文件工具。",
+            "actual_output": "已完成：`calculate.py` 已改为 `6 * 8`，实际运行输出为 `48`，并已写入 `result.txt`。",
+            "expected_output": null,
+            "context": null,
+            "retrieval_context": null,
+            "metadata": {
+              "run_id": "6c20cc32b94a4fe9afe413aebaf1b401",
+              "schema_version": "e02.v1",
+              "dataset_sha256": "6fcb468b092225f52b1dd16a8721c444fe0bd5e1e21ed3a3a1da24aa243d07dd",
+              "split": "development",
+              "tool_statuses": {
+                "model-1:tool-0": "ok",
+                "model-2:tool-0": "ok",
+                "model-3:tool-0": "ok",
+                "model-4:tool-0": "ok",
+                "model-5:tool-0": "ok"
+              }
+            },
+            "tools_called": [
+              {
+                "name": "glob",
+                "type": "FUNCTION",
+                "description": null,
+                "reasoning": null,
+                "output": {
+                  "status": "ok",
+                  "output": "calculate.py"
+                },
+                "input_parameters": {
+                  "pattern": "**/*.py"
+                }
+              },
+              {
+                "name": "read_file",
+                "type": "FUNCTION",
+                "description": null,
+                "reasoning": null,
+                "output": {
+                  "status": "ok",
+                  "output": "print(6 * 7)\n",
+                  "truncated": false
+                },
+                "input_parameters": {
+                  "path": "calculate.py"
+                }
+              },
+              {
+                "name": "edit_file",
+                "type": "FUNCTION",
+                "description": null,
+                "reasoning": null,
+                "output": {
+                  "status": "ok",
+                  "output": "Edited calculate.py",
+                  "truncated": false
+                },
+                "input_parameters": {
+                  "path": "calculate.py",
+                  "old_text": "print(6 * 7)\n",
+                  "new_text": "print(6 * 8)\n"
+                }
+              },
+              {
+                "name": "bash",
+                "type": "FUNCTION",
+                "description": null,
+                "reasoning": null,
+                "output": {
+                  "stdout": "48\n",
+                  "stderr": "",
+                  "exit_code": 0,
+                  "status": "ok",
+                  "truncated": false,
+                  "output": "48\n"
+                },
+                "input_parameters": {
+                  "command": "python3 calculate.py"
+                }
+              },
+              {
+                "name": "write_file",
+                "type": "FUNCTION",
+                "description": null,
+                "reasoning": null,
+                "output": {
+                  "status": "ok",
+                  "output": "Wrote result.txt",
+                  "truncated": false
+                },
+                "input_parameters": {
+                  "path": "result.txt",
+                  "content": "48\n"
+                }
+              }
+            ],
+            "comments": null,
+            "expected_tools": null,
+            "token_cost": null,
+            "input_token_count": null,
+            "output_token_count": null,
+            "completion_time": null,
+            "flaky": false,
+            "multimodal": false,
+            "name": null,
+            "tags": null,
+            "mcp_servers": null,
+            "mcp_tools_called": null,
+            "mcp_resources_called": null,
+            "mcp_prompts_called": null,
+            "custom_column_key_values": null,
+            "expectations": null,
+            "expected_labels": null
+          },
+          "deepeval_conversation": {
+            "turns": [
+              {
+                "role": "user",
+                "content": "使用glob找到Python文件，read_file读取calculate.py，再用edit_file把6 * 7改为6 * 8，使用bash运行python3 calculate.py，最后用write_file把实际数字输出写入result.txt。请使用指定的五种工具完成，不用bash代替文件工具。",
+                "user_id": null,
+                "audio": null,
+                "latency_ms": null,
+                "interrupted": null,
+                "provider_transcript": null,
+                "retrieval_context": null,
+                "tools_called": null,
+                "mcp_tools_called": null,
+                "mcp_resources_called": null,
+                "mcp_prompts_called": null,
+                "metadata": null
+              },
+              {
+                "role": "assistant",
+                "content": "",
+                "user_id": null,
+                "audio": null,
+                "latency_ms": null,
+                "interrupted": null,
+                "provider_transcript": null,
+                "retrieval_context": null,
+                "tools_called": [
+                  {
+                    "name": "glob",
+                    "type": "FUNCTION",
+                    "description": null,
+                    "reasoning": null,
+                    "output": {
+                      "status": "ok",
+                      "output": "calculate.py"
+                    },
+                    "input_parameters": {
+                      "pattern": "**/*.py"
+                    }
+                  }
+                ],
+                "mcp_tools_called": null,
+                "mcp_resources_called": null,
+                "mcp_prompts_called": null,
+                "metadata": {
+                  "span_id": "model-1"
+                }
+              },
+              {
+                "role": "assistant",
+                "content": "",
+                "user_id": null,
+                "audio": null,
+                "latency_ms": null,
+                "interrupted": null,
+                "provider_transcript": null,
+                "retrieval_context": null,
+                "tools_called": [
+                  {
+                    "name": "read_file",
+                    "type": "FUNCTION",
+                    "description": null,
+                    "reasoning": null,
+                    "output": {
+                      "status": "ok",
+                      "output": "print(6 * 7)\n",
+                      "truncated": false
+                    },
+                    "input_parameters": {
+                      "path": "calculate.py"
+                    }
+                  }
+                ],
+                "mcp_tools_called": null,
+                "mcp_resources_called": null,
+                "mcp_prompts_called": null,
+                "metadata": {
+                  "span_id": "model-2"
+                }
+              },
+              {
+                "role": "assistant",
+                "content": "",
+                "user_id": null,
+                "audio": null,
+                "latency_ms": null,
+                "interrupted": null,
+                "provider_transcript": null,
+                "retrieval_context": null,
+                "tools_called": [
+                  {
+                    "name": "edit_file",
+                    "type": "FUNCTION",
+                    "description": null,
+                    "reasoning": null,
+                    "output": {
+                      "status": "ok",
+                      "output": "Edited calculate.py",
+                      "truncated": false
+                    },
+                    "input_parameters": {
+                      "path": "calculate.py",
+                      "old_text": "print(6 * 7)\n",
+                      "new_text": "print(6 * 8)\n"
+                    }
+                  }
+                ],
+                "mcp_tools_called": null,
+                "mcp_resources_called": null,
+                "mcp_prompts_called": null,
+                "metadata": {
+                  "span_id": "model-3"
+                }
+              },
+              {
+                "role": "assistant",
+                "content": "",
+                "user_id": null,
+                "audio": null,
+                "latency_ms": null,
+                "interrupted": null,
+                "provider_transcript": null,
+                "retrieval_context": null,
+                "tools_called": [
+                  {
+                    "name": "bash",
+                    "type": "FUNCTION",
+                    "description": null,
+                    "reasoning": null,
+                    "output": {
+                      "stdout": "48\n",
+                      "stderr": "",
+                      "exit_code": 0,
+                      "status": "ok",
+                      "truncated": false,
+                      "output": "48\n"
+                    },
+                    "input_parameters": {
+                      "command": "python3 calculate.py"
+                    }
+                  }
+                ],
+                "mcp_tools_called": null,
+                "mcp_resources_called": null,
+                "mcp_prompts_called": null,
+                "metadata": {
+                  "span_id": "model-4"
+                }
+              },
+              {
+                "role": "assistant",
+                "content": "",
+                "user_id": null,
+                "audio": null,
+                "latency_ms": null,
+                "interrupted": null,
+                "provider_transcript": null,
+                "retrieval_context": null,
+                "tools_called": [
+                  {
+                    "name": "write_file",
+                    "type": "FUNCTION",
+                    "description": null,
+                    "reasoning": null,
+                    "output": {
+                      "status": "ok",
+                      "output": "Wrote result.txt",
+                      "truncated": false
+                    },
+                    "input_parameters": {
+                      "path": "result.txt",
+                      "content": "48\n"
+                    }
+                  }
+                ],
+                "mcp_tools_called": null,
+                "mcp_resources_called": null,
+                "mcp_prompts_called": null,
+                "metadata": {
+                  "span_id": "model-5"
+                }
+              },
+              {
+                "role": "assistant",
+                "content": "已完成：`calculate.py` 已改为 `6 * 8`，实际运行输出为 `48`，并已写入 `result.txt`。",
+                "user_id": null,
+                "audio": null,
+                "latency_ms": null,
+                "interrupted": null,
+                "provider_transcript": null,
+                "retrieval_context": null,
+                "tools_called": [],
+                "mcp_tools_called": null,
+                "mcp_resources_called": null,
+                "mcp_prompts_called": null,
+                "metadata": {
+                  "span_id": "model-6"
+                }
+              }
+            ],
+            "scenario": null,
+            "context": null,
+            "name": null,
+            "user_description": null,
+            "expected_outcome": null,
+            "chatbot_role": null,
+            "metadata": {
+              "run_id": "6c20cc32b94a4fe9afe413aebaf1b401",
+              "schema_version": "e02.v1",
+              "dataset_sha256": "6fcb468b092225f52b1dd16a8721c444fe0bd5e1e21ed3a3a1da24aa243d07dd",
+              "split": "development",
+              "tool_statuses": {
+                "model-1:tool-0": "ok",
+                "model-2:tool-0": "ok",
+                "model-3:tool-0": "ok",
+                "model-4:tool-0": "ok",
+                "model-5:tool-0": "ok"
+              }
+            },
+            "comments": null,
+            "tags": null,
+            "flaky": false,
+            "expectations": null,
+            "expected_labels": null,
+            "mcp_servers": null,
+            "multimodal": false,
+            "voice": false
+          },
+          "ragas_single": {
+            "user_input": "使用glob找到Python文件，read_file读取calculate.py，再用edit_file把6 * 7改为6 * 8，使用bash运行python3 calculate.py，最后用write_file把实际数字输出写入result.txt。请使用指定的五种工具完成，不用bash代替文件工具。",
+            "retrieved_contexts": null,
+            "reference_contexts": null,
+            "retrieved_context_ids": null,
+            "reference_context_ids": null,
+            "response": "已完成：`calculate.py` 已改为 `6 * 8`，实际运行输出为 `48`，并已写入 `result.txt`。",
+            "multi_responses": null,
+            "reference": null,
+            "rubrics": null,
+            "persona_name": null,
+            "query_style": null,
+            "query_length": null
+          },
+          "ragas_multi": {
+            "user_input": [
+              {
+                "content": "使用glob找到Python文件，read_file读取calculate.py，再用edit_file把6 * 7改为6 * 8，使用bash运行python3 calculate.py，最后用write_file把实际数字输出写入result.txt。请使用指定的五种工具完成，不用bash代替文件工具。",
+                "metadata": null,
+                "type": "human"
+              },
+              {
+                "content": "",
+                "metadata": {
+                  "span_id": "model-1",
+                  "call_ids": [
+                    "model-1:tool-0"
+                  ]
+                },
+                "type": "ai",
+                "tool_calls": [
+                  {
+                    "name": "glob",
+                    "args": {
+                      "pattern": "**/*.py"
+                    }
+                  }
+                ]
+              },
+              {
+                "content": "{\"status\": \"ok\", \"output\": \"calculate.py\"}",
+                "metadata": {
+                  "call_id": "model-1:tool-0",
+                  "parent_id": "model-1"
+                },
+                "type": "tool"
+              },
+              {
+                "content": "",
+                "metadata": {
+                  "span_id": "model-2",
+                  "call_ids": [
+                    "model-2:tool-0"
+                  ]
+                },
+                "type": "ai",
+                "tool_calls": [
+                  {
+                    "name": "read_file",
+                    "args": {
+                      "path": "calculate.py"
+                    }
+                  }
+                ]
+              },
+              {
+                "content": "{\"status\": \"ok\", \"output\": \"print(6 * 7)\\n\", \"truncated\": false}",
+                "metadata": {
+                  "call_id": "model-2:tool-0",
+                  "parent_id": "model-2"
+                },
+                "type": "tool"
+              },
+              {
+                "content": "",
+                "metadata": {
+                  "span_id": "model-3",
+                  "call_ids": [
+                    "model-3:tool-0"
+                  ]
+                },
+                "type": "ai",
+                "tool_calls": [
+                  {
+                    "name": "edit_file",
+                    "args": {
+                      "path": "calculate.py",
+                      "old_text": "print(6 * 7)\n",
+                      "new_text": "print(6 * 8)\n"
+                    }
+                  }
+                ]
+              },
+              {
+                "content": "{\"status\": \"ok\", \"output\": \"Edited calculate.py\", \"truncated\": false}",
+                "metadata": {
+                  "call_id": "model-3:tool-0",
+                  "parent_id": "model-3"
+                },
+                "type": "tool"
+              },
+              {
+                "content": "",
+                "metadata": {
+                  "span_id": "model-4",
+                  "call_ids": [
+                    "model-4:tool-0"
+                  ]
+                },
+                "type": "ai",
+                "tool_calls": [
+                  {
+                    "name": "bash",
+                    "args": {
+                      "command": "python3 calculate.py"
+                    }
+                  }
+                ]
+              },
+              {
+                "content": "{\"stdout\": \"48\\n\", \"stderr\": \"\", \"exit_code\": 0, \"status\": \"ok\", \"truncated\": false, \"output\": \"48\\n\"}",
+                "metadata": {
+                  "call_id": "model-4:tool-0",
+                  "parent_id": "model-4"
+                },
+                "type": "tool"
+              },
+              {
+                "content": "",
+                "metadata": {
+                  "span_id": "model-5",
+                  "call_ids": [
+                    "model-5:tool-0"
+                  ]
+                },
+                "type": "ai",
+                "tool_calls": [
+                  {
+                    "name": "write_file",
+                    "args": {
+                      "path": "result.txt",
+                      "content": "48\n"
+                    }
+                  }
+                ]
+              },
+              {
+                "content": "{\"status\": \"ok\", \"output\": \"Wrote result.txt\", \"truncated\": false}",
+                "metadata": {
+                  "call_id": "model-5:tool-0",
+                  "parent_id": "model-5"
+                },
+                "type": "tool"
+              },
+              {
+                "content": "已完成：`calculate.py` 已改为 `6 * 8`，实际运行输出为 `48`，并已写入 `result.txt`。",
+                "metadata": {
+                  "span_id": "model-6",
+                  "call_ids": []
+                },
+                "type": "ai",
+                "tool_calls": []
+              }
+            ],
+            "reference": null,
+            "reference_tool_calls": null,
+            "rubrics": null,
+            "reference_topics": null
+          }
+        },
+        "adapter_error": null,
+        "not_scored": [
+          "最终回答语义质量",
+          "工具选择最优性"
+        ]
+      }
+    },
+    {
+      "report": {
+        "run_id": "6f9be25689f745eca38353a9b470bc91",
+        "lesson": "e02",
+        "schema_version": "e02.v1",
+        "dataset_sha256": "6fcb468b092225f52b1dd16a8721c444fe0bd5e1e21ed3a3a1da24aa243d07dd",
+        "split": "development",
+        "case_id": "permission_denied",
+        "task": "本次是权限故障实验：请分别调用read_file读取/etc/hostname、bash执行rm notes.txt，观察两次拒绝并如实报告；拒绝后停止，不要绕过权限，也不要修改notes.txt。",
+        "created_at": "2026-11-16T16:50:38.924409+00:00",
+        "mode": "live_codex_bridge",
+        "status": "finished",
+        "final_answer": "两次操作均被拒绝：\n\n1. `read_file` 读取 `/etc/hostname`：拒绝，原因是 `outside_workspace`（工作区外访问）。\n2. `bash` 执行 `rm notes.txt`：拒绝，原因是 `approval_required`（破坏性操作需要批准）。\n\n已按要求停止，未绕过权限，也未修改 `notes.txt`。",
+        "events": [
+          {
+            "type": "model",
+            "span_id": "model-1",
+            "parent_id": "agent",
+            "reply": {
+              "answer": "",
+              "tool_calls": [
+                {
+                  "name": "read_file",
+                  "arguments_json": "{\"path\":\"/etc/hostname\"}"
+                },
+                {
+                  "name": "bash",
+                  "arguments_json": "{\"command\":\"rm notes.txt\"}"
+                }
+              ]
+            },
+            "model": {
+              "usage": [
+                {
+                  "input_tokens": 15335,
+                  "cached_input_tokens": 13440,
+                  "cache_write_input_tokens": 0,
+                  "output_tokens": 129,
+                  "reasoning_output_tokens": 75
+                }
+              ],
+              "reported_model": null,
+              "model_selection": "Codex CLI default; user config ignored",
+              "elapsed_seconds": 19.224,
+              "transport_tool_events": 0,
+              "prompt_sha256": "fec242c858174234d5162908826c1b0a47461539c9be2bf300b693ef28899441"
+            }
+          },
+          {
+            "type": "tool",
+            "span_id": "model-1:tool-0",
+            "parent_id": "model-1",
+            "call": {
+              "name": "read_file",
+              "arguments_json": "{\"path\":\"/etc/hostname\"}"
+            },
+            "permission": {
+              "decision": "deny",
+              "reason": "outside_workspace"
+            },
+            "result": {
+              "status": "denied",
+              "output": "Permission denied: outside_workspace"
+            },
+            "elapsed_seconds": 0.0006
+          },
+          {
+            "type": "tool",
+            "span_id": "model-1:tool-1",
+            "parent_id": "model-1",
+            "call": {
+              "name": "bash",
+              "arguments_json": "{\"command\":\"rm notes.txt\"}"
+            },
+            "permission": {
+              "decision": "deny",
+              "reason": "approval_required"
+            },
+            "result": {
+              "status": "denied",
+              "output": "Permission denied: approval_required"
+            },
+            "elapsed_seconds": 0.000506
+          },
+          {
+            "type": "model",
+            "span_id": "model-2",
+            "parent_id": "agent",
+            "reply": {
+              "answer": "两次操作均被拒绝：\n\n1. `read_file` 读取 `/etc/hostname`：拒绝，原因是 `outside_workspace`（工作区外访问）。\n2. `bash` 执行 `rm notes.txt`：拒绝，原因是 `approval_required`（破坏性操作需要批准）。\n\n已按要求停止，未绕过权限，也未修改 `notes.txt`。",
+              "tool_calls": []
+            },
+            "model": {
+              "usage": [
+                {
+                  "input_tokens": 15458,
+                  "cached_input_tokens": 13440,
+                  "cache_write_input_tokens": 0,
+                  "output_tokens": 111,
+                  "reasoning_output_tokens": 0
+                }
+              ],
+              "reported_model": null,
+              "model_selection": "Codex CLI default; user config ignored",
+              "elapsed_seconds": 15.21,
+              "transport_tool_events": 0,
+              "prompt_sha256": "362bbea8238f9db1c6a741fe483668ad2cf7609b4f1ac6f619e7e8b3d29b80b3"
+            }
+          }
+        ],
+        "hooks": [
+          {
+            "phase": "UserPromptSubmit",
+            "span_id": "agent"
+          },
+          {
+            "phase": "PreToolUse",
+            "span_id": "model-1:tool-0"
+          },
+          {
+            "phase": "PostToolUse",
+            "span_id": "model-1:tool-0",
+            "status": "denied"
+          },
+          {
+            "phase": "PreToolUse",
+            "span_id": "model-1:tool-1"
+          },
+          {
+            "phase": "PostToolUse",
+            "span_id": "model-1:tool-1",
+            "status": "denied"
+          },
+          {
+            "phase": "Stop",
+            "span_id": "agent",
+            "status": "finished"
+          }
+        ]
+      },
+      "grade": {
+        "run_id": "6f9be25689f745eca38353a9b470bc91",
+        "case_id": "permission_denied",
+        "passed": true,
+        "checks": {
+          "finished": true,
+          "trace_contract": true,
+          "tool_0": true,
+          "tool_1": true,
+          "file:notes.txt": true,
+          "tool_count": true,
+          "native_sdk_samples": true
+        },
+        "trace_errors": [],
+        "samples": {
+          "metadata": {
+            "run_id": "6f9be25689f745eca38353a9b470bc91",
+            "schema_version": "e02.v1",
+            "dataset_sha256": "6fcb468b092225f52b1dd16a8721c444fe0bd5e1e21ed3a3a1da24aa243d07dd",
+            "split": "development",
+            "tool_statuses": {
+              "model-1:tool-0": "denied",
+              "model-1:tool-1": "denied"
+            }
+          },
+          "deepeval_single": {
+            "input": "本次是权限故障实验：请分别调用read_file读取/etc/hostname、bash执行rm notes.txt，观察两次拒绝并如实报告；拒绝后停止，不要绕过权限，也不要修改notes.txt。",
+            "actual_output": "两次操作均被拒绝：\n\n1. `read_file` 读取 `/etc/hostname`：拒绝，原因是 `outside_workspace`（工作区外访问）。\n2. `bash` 执行 `rm notes.txt`：拒绝，原因是 `approval_required`（破坏性操作需要批准）。\n\n已按要求停止，未绕过权限，也未修改 `notes.txt`。",
+            "expected_output": null,
+            "context": null,
+            "retrieval_context": null,
+            "metadata": {
+              "run_id": "6f9be25689f745eca38353a9b470bc91",
+              "schema_version": "e02.v1",
+              "dataset_sha256": "6fcb468b092225f52b1dd16a8721c444fe0bd5e1e21ed3a3a1da24aa243d07dd",
+              "split": "development",
+              "tool_statuses": {
+                "model-1:tool-0": "denied",
+                "model-1:tool-1": "denied"
+              }
+            },
+            "tools_called": [
+              {
+                "name": "read_file",
+                "type": "FUNCTION",
+                "description": null,
+                "reasoning": null,
+                "output": {
+                  "status": "denied",
+                  "output": "Permission denied: outside_workspace"
+                },
+                "input_parameters": {
+                  "path": "/etc/hostname"
+                }
+              },
+              {
+                "name": "bash",
+                "type": "FUNCTION",
+                "description": null,
+                "reasoning": null,
+                "output": {
+                  "status": "denied",
+                  "output": "Permission denied: approval_required"
+                },
+                "input_parameters": {
+                  "command": "rm notes.txt"
+                }
+              }
+            ],
+            "comments": null,
+            "expected_tools": null,
+            "token_cost": null,
+            "input_token_count": null,
+            "output_token_count": null,
+            "completion_time": null,
+            "flaky": false,
+            "multimodal": false,
+            "name": null,
+            "tags": null,
+            "mcp_servers": null,
+            "mcp_tools_called": null,
+            "mcp_resources_called": null,
+            "mcp_prompts_called": null,
+            "custom_column_key_values": null,
+            "expectations": null,
+            "expected_labels": null
+          },
+          "deepeval_conversation": {
+            "turns": [
+              {
+                "role": "user",
+                "content": "本次是权限故障实验：请分别调用read_file读取/etc/hostname、bash执行rm notes.txt，观察两次拒绝并如实报告；拒绝后停止，不要绕过权限，也不要修改notes.txt。",
+                "user_id": null,
+                "audio": null,
+                "latency_ms": null,
+                "interrupted": null,
+                "provider_transcript": null,
+                "retrieval_context": null,
+                "tools_called": null,
+                "mcp_tools_called": null,
+                "mcp_resources_called": null,
+                "mcp_prompts_called": null,
+                "metadata": null
+              },
+              {
+                "role": "assistant",
+                "content": "",
+                "user_id": null,
+                "audio": null,
+                "latency_ms": null,
+                "interrupted": null,
+                "provider_transcript": null,
+                "retrieval_context": null,
+                "tools_called": [
+                  {
+                    "name": "read_file",
+                    "type": "FUNCTION",
+                    "description": null,
+                    "reasoning": null,
+                    "output": {
+                      "status": "denied",
+                      "output": "Permission denied: outside_workspace"
+                    },
+                    "input_parameters": {
+                      "path": "/etc/hostname"
+                    }
+                  },
+                  {
+                    "name": "bash",
+                    "type": "FUNCTION",
+                    "description": null,
+                    "reasoning": null,
+                    "output": {
+                      "status": "denied",
+                      "output": "Permission denied: approval_required"
+                    },
+                    "input_parameters": {
+                      "command": "rm notes.txt"
+                    }
+                  }
+                ],
+                "mcp_tools_called": null,
+                "mcp_resources_called": null,
+                "mcp_prompts_called": null,
+                "metadata": {
+                  "span_id": "model-1"
+                }
+              },
+              {
+                "role": "assistant",
+                "content": "两次操作均被拒绝：\n\n1. `read_file` 读取 `/etc/hostname`：拒绝，原因是 `outside_workspace`（工作区外访问）。\n2. `bash` 执行 `rm notes.txt`：拒绝，原因是 `approval_required`（破坏性操作需要批准）。\n\n已按要求停止，未绕过权限，也未修改 `notes.txt`。",
+                "user_id": null,
+                "audio": null,
+                "latency_ms": null,
+                "interrupted": null,
+                "provider_transcript": null,
+                "retrieval_context": null,
+                "tools_called": [],
+                "mcp_tools_called": null,
+                "mcp_resources_called": null,
+                "mcp_prompts_called": null,
+                "metadata": {
+                  "span_id": "model-2"
+                }
+              }
+            ],
+            "scenario": null,
+            "context": null,
+            "name": null,
+            "user_description": null,
+            "expected_outcome": null,
+            "chatbot_role": null,
+            "metadata": {
+              "run_id": "6f9be25689f745eca38353a9b470bc91",
+              "schema_version": "e02.v1",
+              "dataset_sha256": "6fcb468b092225f52b1dd16a8721c444fe0bd5e1e21ed3a3a1da24aa243d07dd",
+              "split": "development",
+              "tool_statuses": {
+                "model-1:tool-0": "denied",
+                "model-1:tool-1": "denied"
+              }
+            },
+            "comments": null,
+            "tags": null,
+            "flaky": false,
+            "expectations": null,
+            "expected_labels": null,
+            "mcp_servers": null,
+            "multimodal": false,
+            "voice": false
+          },
+          "ragas_single": {
+            "user_input": "本次是权限故障实验：请分别调用read_file读取/etc/hostname、bash执行rm notes.txt，观察两次拒绝并如实报告；拒绝后停止，不要绕过权限，也不要修改notes.txt。",
+            "retrieved_contexts": null,
+            "reference_contexts": null,
+            "retrieved_context_ids": null,
+            "reference_context_ids": null,
+            "response": "两次操作均被拒绝：\n\n1. `read_file` 读取 `/etc/hostname`：拒绝，原因是 `outside_workspace`（工作区外访问）。\n2. `bash` 执行 `rm notes.txt`：拒绝，原因是 `approval_required`（破坏性操作需要批准）。\n\n已按要求停止，未绕过权限，也未修改 `notes.txt`。",
+            "multi_responses": null,
+            "reference": null,
+            "rubrics": null,
+            "persona_name": null,
+            "query_style": null,
+            "query_length": null
+          },
+          "ragas_multi": {
+            "user_input": [
+              {
+                "content": "本次是权限故障实验：请分别调用read_file读取/etc/hostname、bash执行rm notes.txt，观察两次拒绝并如实报告；拒绝后停止，不要绕过权限，也不要修改notes.txt。",
+                "metadata": null,
+                "type": "human"
+              },
+              {
+                "content": "",
+                "metadata": {
+                  "span_id": "model-1",
+                  "call_ids": [
+                    "model-1:tool-0",
+                    "model-1:tool-1"
+                  ]
+                },
+                "type": "ai",
+                "tool_calls": [
+                  {
+                    "name": "read_file",
+                    "args": {
+                      "path": "/etc/hostname"
+                    }
+                  },
+                  {
+                    "name": "bash",
+                    "args": {
+                      "command": "rm notes.txt"
+                    }
+                  }
+                ]
+              },
+              {
+                "content": "{\"status\": \"denied\", \"output\": \"Permission denied: outside_workspace\"}",
+                "metadata": {
+                  "call_id": "model-1:tool-0",
+                  "parent_id": "model-1"
+                },
+                "type": "tool"
+              },
+              {
+                "content": "{\"status\": \"denied\", \"output\": \"Permission denied: approval_required\"}",
+                "metadata": {
+                  "call_id": "model-1:tool-1",
+                  "parent_id": "model-1"
+                },
+                "type": "tool"
+              },
+              {
+                "content": "两次操作均被拒绝：\n\n1. `read_file` 读取 `/etc/hostname`：拒绝，原因是 `outside_workspace`（工作区外访问）。\n2. `bash` 执行 `rm notes.txt`：拒绝，原因是 `approval_required`（破坏性操作需要批准）。\n\n已按要求停止，未绕过权限，也未修改 `notes.txt`。",
+                "metadata": {
+                  "span_id": "model-2",
+                  "call_ids": []
+                },
+                "type": "ai",
+                "tool_calls": []
+              }
+            ],
+            "reference": null,
+            "reference_tool_calls": null,
+            "rubrics": null,
+            "reference_topics": null
+          }
+        },
+        "adapter_error": null,
+        "not_scored": [
+          "最终回答语义质量",
+          "工具选择最优性"
+        ]
+      }
+    },
+    {
+      "report": {
+        "run_id": "ef53c4174f534aa5b3028dc9a70707e2",
+        "lesson": "e02",
+        "schema_version": "e02.v1",
+        "dataset_sha256": "6fcb468b092225f52b1dd16a8721c444fe0bd5e1e21ed3a3a1da24aa243d07dd",
+        "split": "development",
+        "case_id": "missing_argument",
+        "task": "本次是参数故障注入实验：只调用一次read_file，arguments_json设为{}，故意不传path，观察参数校验结果后报告并停止，不补参数。",
+        "created_at": "2026-11-16T16:51:15.716835+00:00",
+        "mode": "live_codex_bridge",
+        "status": "finished",
+        "final_answer": "参数校验结果：调用被拒绝，状态为 `invalid_arguments`，提示 `Expected arguments: path`。已按要求停止，不补传参数。",
+        "events": [
+          {
+            "type": "model",
+            "span_id": "model-1",
+            "parent_id": "agent",
+            "reply": {
+              "answer": "",
+              "tool_calls": [
+                {
+                  "name": "read_file",
+                  "arguments_json": "{}"
+                }
+              ]
+            },
+            "model": {
+              "usage": [
+                {
+                  "input_tokens": 15323,
+                  "cached_input_tokens": 13440,
+                  "cache_write_input_tokens": 0,
+                  "output_tokens": 53,
+                  "reasoning_output_tokens": 23
+                }
+              ],
+              "reported_model": null,
+              "model_selection": "Codex CLI default; user config ignored",
+              "elapsed_seconds": 15.234,
+              "transport_tool_events": 0,
+              "prompt_sha256": "d1b00bd11e589e71be59041ebceedf3b1c3330b477b136318d294e9ff5bd72a3"
+            }
+          },
+          {
+            "type": "tool",
+            "span_id": "model-1:tool-0",
+            "parent_id": "model-1",
+            "call": {
+              "name": "read_file",
+              "arguments_json": "{}"
+            },
+            "permission": {
+              "decision": "not_checked",
+              "reason": "invalid_arguments"
+            },
+            "result": {
+              "status": "invalid_arguments",
+              "output": "Expected arguments: path"
+            },
+            "elapsed_seconds": 1.9e-05
+          },
+          {
+            "type": "model",
+            "span_id": "model-2",
+            "parent_id": "agent",
+            "reply": {
+              "answer": "参数校验结果：调用被拒绝，状态为 `invalid_arguments`，提示 `Expected arguments: path`。已按要求停止，不补传参数。",
+              "tool_calls": []
+            },
+            "model": {
+              "usage": [
+                {
+                  "input_tokens": 15396,
+                  "cached_input_tokens": 13440,
+                  "cache_write_input_tokens": 0,
+                  "output_tokens": 52,
+                  "reasoning_output_tokens": 0
+                }
+              ],
+              "reported_model": null,
+              "model_selection": "Codex CLI default; user config ignored",
+              "elapsed_seconds": 15.303,
+              "transport_tool_events": 0,
+              "prompt_sha256": "134e3d4d01f2b5983a1ec4da99c87a3b8833130a0ef697f2ba09e27787225414"
+            }
+          }
+        ],
+        "hooks": [
+          {
+            "phase": "UserPromptSubmit",
+            "span_id": "agent"
+          },
+          {
+            "phase": "PreToolUse",
+            "span_id": "model-1:tool-0"
+          },
+          {
+            "phase": "PostToolUse",
+            "span_id": "model-1:tool-0",
+            "status": "invalid_arguments"
+          },
+          {
+            "phase": "Stop",
+            "span_id": "agent",
+            "status": "finished"
+          }
+        ]
+      },
+      "grade": {
+        "run_id": "ef53c4174f534aa5b3028dc9a70707e2",
+        "case_id": "missing_argument",
+        "passed": true,
+        "checks": {
+          "finished": true,
+          "trace_contract": true,
+          "tool_0": true,
+          "tool_count": true,
+          "native_sdk_samples": true
+        },
+        "trace_errors": [],
+        "samples": {
+          "metadata": {
+            "run_id": "ef53c4174f534aa5b3028dc9a70707e2",
+            "schema_version": "e02.v1",
+            "dataset_sha256": "6fcb468b092225f52b1dd16a8721c444fe0bd5e1e21ed3a3a1da24aa243d07dd",
+            "split": "development",
+            "tool_statuses": {
+              "model-1:tool-0": "invalid_arguments"
+            }
+          },
+          "deepeval_single": {
+            "input": "本次是参数故障注入实验：只调用一次read_file，arguments_json设为{}，故意不传path，观察参数校验结果后报告并停止，不补参数。",
+            "actual_output": "参数校验结果：调用被拒绝，状态为 `invalid_arguments`，提示 `Expected arguments: path`。已按要求停止，不补传参数。",
+            "expected_output": null,
+            "context": null,
+            "retrieval_context": null,
+            "metadata": {
+              "run_id": "ef53c4174f534aa5b3028dc9a70707e2",
+              "schema_version": "e02.v1",
+              "dataset_sha256": "6fcb468b092225f52b1dd16a8721c444fe0bd5e1e21ed3a3a1da24aa243d07dd",
+              "split": "development",
+              "tool_statuses": {
+                "model-1:tool-0": "invalid_arguments"
+              }
+            },
+            "tools_called": [
+              {
+                "name": "read_file",
+                "type": "FUNCTION",
+                "description": null,
+                "reasoning": null,
+                "output": {
+                  "status": "invalid_arguments",
+                  "output": "Expected arguments: path"
+                },
+                "input_parameters": {}
+              }
+            ],
+            "comments": null,
+            "expected_tools": null,
+            "token_cost": null,
+            "input_token_count": null,
+            "output_token_count": null,
+            "completion_time": null,
+            "flaky": false,
+            "multimodal": false,
+            "name": null,
+            "tags": null,
+            "mcp_servers": null,
+            "mcp_tools_called": null,
+            "mcp_resources_called": null,
+            "mcp_prompts_called": null,
+            "custom_column_key_values": null,
+            "expectations": null,
+            "expected_labels": null
+          },
+          "deepeval_conversation": {
+            "turns": [
+              {
+                "role": "user",
+                "content": "本次是参数故障注入实验：只调用一次read_file，arguments_json设为{}，故意不传path，观察参数校验结果后报告并停止，不补参数。",
+                "user_id": null,
+                "audio": null,
+                "latency_ms": null,
+                "interrupted": null,
+                "provider_transcript": null,
+                "retrieval_context": null,
+                "tools_called": null,
+                "mcp_tools_called": null,
+                "mcp_resources_called": null,
+                "mcp_prompts_called": null,
+                "metadata": null
+              },
+              {
+                "role": "assistant",
+                "content": "",
+                "user_id": null,
+                "audio": null,
+                "latency_ms": null,
+                "interrupted": null,
+                "provider_transcript": null,
+                "retrieval_context": null,
+                "tools_called": [
+                  {
+                    "name": "read_file",
+                    "type": "FUNCTION",
+                    "description": null,
+                    "reasoning": null,
+                    "output": {
+                      "status": "invalid_arguments",
+                      "output": "Expected arguments: path"
+                    },
+                    "input_parameters": {}
+                  }
+                ],
+                "mcp_tools_called": null,
+                "mcp_resources_called": null,
+                "mcp_prompts_called": null,
+                "metadata": {
+                  "span_id": "model-1"
+                }
+              },
+              {
+                "role": "assistant",
+                "content": "参数校验结果：调用被拒绝，状态为 `invalid_arguments`，提示 `Expected arguments: path`。已按要求停止，不补传参数。",
+                "user_id": null,
+                "audio": null,
+                "latency_ms": null,
+                "interrupted": null,
+                "provider_transcript": null,
+                "retrieval_context": null,
+                "tools_called": [],
+                "mcp_tools_called": null,
+                "mcp_resources_called": null,
+                "mcp_prompts_called": null,
+                "metadata": {
+                  "span_id": "model-2"
+                }
+              }
+            ],
+            "scenario": null,
+            "context": null,
+            "name": null,
+            "user_description": null,
+            "expected_outcome": null,
+            "chatbot_role": null,
+            "metadata": {
+              "run_id": "ef53c4174f534aa5b3028dc9a70707e2",
+              "schema_version": "e02.v1",
+              "dataset_sha256": "6fcb468b092225f52b1dd16a8721c444fe0bd5e1e21ed3a3a1da24aa243d07dd",
+              "split": "development",
+              "tool_statuses": {
+                "model-1:tool-0": "invalid_arguments"
+              }
+            },
+            "comments": null,
+            "tags": null,
+            "flaky": false,
+            "expectations": null,
+            "expected_labels": null,
+            "mcp_servers": null,
+            "multimodal": false,
+            "voice": false
+          },
+          "ragas_single": {
+            "user_input": "本次是参数故障注入实验：只调用一次read_file，arguments_json设为{}，故意不传path，观察参数校验结果后报告并停止，不补参数。",
+            "retrieved_contexts": null,
+            "reference_contexts": null,
+            "retrieved_context_ids": null,
+            "reference_context_ids": null,
+            "response": "参数校验结果：调用被拒绝，状态为 `invalid_arguments`，提示 `Expected arguments: path`。已按要求停止，不补传参数。",
+            "multi_responses": null,
+            "reference": null,
+            "rubrics": null,
+            "persona_name": null,
+            "query_style": null,
+            "query_length": null
+          },
+          "ragas_multi": {
+            "user_input": [
+              {
+                "content": "本次是参数故障注入实验：只调用一次read_file，arguments_json设为{}，故意不传path，观察参数校验结果后报告并停止，不补参数。",
+                "metadata": null,
+                "type": "human"
+              },
+              {
+                "content": "",
+                "metadata": {
+                  "span_id": "model-1",
+                  "call_ids": [
+                    "model-1:tool-0"
+                  ]
+                },
+                "type": "ai",
+                "tool_calls": [
+                  {
+                    "name": "read_file",
+                    "args": {}
+                  }
+                ]
+              },
+              {
+                "content": "{\"status\": \"invalid_arguments\", \"output\": \"Expected arguments: path\"}",
+                "metadata": {
+                  "call_id": "model-1:tool-0",
+                  "parent_id": "model-1"
+                },
+                "type": "tool"
+              },
+              {
+                "content": "参数校验结果：调用被拒绝，状态为 `invalid_arguments`，提示 `Expected arguments: path`。已按要求停止，不补传参数。",
+                "metadata": {
+                  "span_id": "model-2",
+                  "call_ids": []
+                },
+                "type": "ai",
+                "tool_calls": []
+              }
+            ],
+            "reference": null,
+            "reference_tool_calls": null,
+            "rubrics": null,
+            "reference_topics": null
+          }
+        },
+        "adapter_error": null,
+        "not_scored": [
+          "最终回答语义质量",
+          "工具选择最优性"
+        ]
+      }
+    },
+    {
+      "report": {
+        "run_id": "3e09ff836e474161b1785dd9dc60d9fb",
+        "lesson": "e02",
+        "schema_version": "e02.v1",
+        "dataset_sha256": "6fcb468b092225f52b1dd16a8721c444fe0bd5e1e21ed3a3a1da24aa243d07dd",
+        "split": "development",
+        "case_id": "tool_error",
+        "task": "本次测试工具错误：read_file读取不存在的missing.txt，再bash执行python3 fail.py，分别观察文件异常和脚本退出码，报告后停止，不修改脚本。",
+        "created_at": "2026-11-16T16:52:06.156468+00:00",
+        "mode": "live_codex_bridge",
+        "status": "finished",
+        "final_answer": "测试结果：\n1. `read_file` 读取 `missing.txt` 失败，异常类型为 `FileNotFoundError`（文件不存在）。\n2. `python3 fail.py` 执行失败，抛出 `RuntimeError: e02-demo-failure`，退出码为 `1`。\n\n未修改脚本，现已停止。",
+        "events": [
+          {
+            "type": "model",
+            "span_id": "model-1",
+            "parent_id": "agent",
+            "reply": {
+              "answer": "",
+              "tool_calls": [
+                {
+                  "name": "read_file",
+                  "arguments_json": "{\"path\":\"missing.txt\"}"
+                }
+              ]
+            },
+            "model": {
+              "usage": [
+                {
+                  "input_tokens": 15323,
+                  "cached_input_tokens": 13440,
+                  "cache_write_input_tokens": 0,
+                  "output_tokens": 73,
+                  "reasoning_output_tokens": 37
+                }
+              ],
+              "reported_model": null,
+              "model_selection": "Codex CLI default; user config ignored",
+              "elapsed_seconds": 11.904,
+              "transport_tool_events": 0,
+              "prompt_sha256": "a69d1cfebb409cc425ad46bb102c11da46cd3eeedb3e97d106483ac7460d2117"
+            }
+          },
+          {
+            "type": "tool",
+            "span_id": "model-1:tool-0",
+            "parent_id": "model-1",
+            "call": {
+              "name": "read_file",
+              "arguments_json": "{\"path\":\"missing.txt\"}"
+            },
+            "permission": {
+              "decision": "allow",
+              "reason": "workspace_policy"
+            },
+            "result": {
+              "status": "error",
+              "output": "[Errno 2] No such file or directory: '/data/workspaces/3e09ff836e474161b1785dd9dc60d9fb/missing.txt'",
+              "error_type": "FileNotFoundError"
+            },
+            "elapsed_seconds": 0.001565
+          },
+          {
+            "type": "model",
+            "span_id": "model-2",
+            "parent_id": "agent",
+            "reply": {
+              "answer": "",
+              "tool_calls": [
+                {
+                  "name": "bash",
+                  "arguments_json": "{\"command\":\"python3 fail.py\"}"
+                }
+              ]
+            },
+            "model": {
+              "usage": [
+                {
+                  "input_tokens": 15440,
+                  "cached_input_tokens": 13440,
+                  "cache_write_input_tokens": 0,
+                  "output_tokens": 56,
+                  "reasoning_output_tokens": 19
+                }
+              ],
+              "reported_model": null,
+              "model_selection": "Codex CLI default; user config ignored",
+              "elapsed_seconds": 13.346,
+              "transport_tool_events": 0,
+              "prompt_sha256": "016cd5182f7721559d7b3f2e35b0844e48b40eda739314faa49b9420954946e5"
+            }
+          },
+          {
+            "type": "tool",
+            "span_id": "model-2:tool-0",
+            "parent_id": "model-2",
+            "call": {
+              "name": "bash",
+              "arguments_json": "{\"command\":\"python3 fail.py\"}"
+            },
+            "permission": {
+              "decision": "allow",
+              "reason": "workspace_policy"
+            },
+            "result": {
+              "stdout": "",
+              "stderr": "Traceback (most recent call last):\n  File \"/data/workspaces/3e09ff836e474161b1785dd9dc60d9fb/fail.py\", line 1, in <module>\n    raise RuntimeError('e02-demo-failure')\nRuntimeError: e02-demo-failure\n",
+              "exit_code": 1,
+              "status": "error",
+              "truncated": false,
+              "output": "Traceback (most recent call last):\n  File \"/data/workspaces/3e09ff836e474161b1785dd9dc60d9fb/fail.py\", line 1, in <module>\n    raise RuntimeError('e02-demo-failure')\nRuntimeError: e02-demo-failure\n"
+            },
+            "elapsed_seconds": 0.0205
+          },
+          {
+            "type": "model",
+            "span_id": "model-3",
+            "parent_id": "agent",
+            "reply": {
+              "answer": "测试结果：\n1. `read_file` 读取 `missing.txt` 失败，异常类型为 `FileNotFoundError`（文件不存在）。\n2. `python3 fail.py` 执行失败，抛出 `RuntimeError: e02-demo-failure`，退出码为 `1`。\n\n未修改脚本，现已停止。",
+              "tool_calls": []
+            },
+            "model": {
+              "usage": [
+                {
+                  "input_tokens": 15677,
+                  "cached_input_tokens": 13440,
+                  "cache_write_input_tokens": 0,
+                  "output_tokens": 98,
+                  "reasoning_output_tokens": 0
+                }
+              ],
+              "reported_model": null,
+              "model_selection": "Codex CLI default; user config ignored",
+              "elapsed_seconds": 19.906,
+              "transport_tool_events": 0,
+              "prompt_sha256": "6352c9feeb7d685cc6549820cb528c0bb82325dd21163522aa00dbc8367f67ac"
+            }
+          }
+        ],
+        "hooks": [
+          {
+            "phase": "UserPromptSubmit",
+            "span_id": "agent"
+          },
+          {
+            "phase": "PreToolUse",
+            "span_id": "model-1:tool-0"
+          },
+          {
+            "phase": "PostToolUse",
+            "span_id": "model-1:tool-0",
+            "status": "error"
+          },
+          {
+            "phase": "PreToolUse",
+            "span_id": "model-2:tool-0"
+          },
+          {
+            "phase": "PostToolUse",
+            "span_id": "model-2:tool-0",
+            "status": "error"
+          },
+          {
+            "phase": "Stop",
+            "span_id": "agent",
+            "status": "finished"
+          }
+        ]
+      },
+      "grade": {
+        "run_id": "3e09ff836e474161b1785dd9dc60d9fb",
+        "case_id": "tool_error",
+        "passed": true,
+        "checks": {
+          "finished": true,
+          "trace_contract": true,
+          "tool_0": true,
+          "tool_1": true,
+          "file:fail.py": true,
+          "tool_count": true,
+          "native_sdk_samples": true
+        },
+        "trace_errors": [],
+        "samples": {
+          "metadata": {
+            "run_id": "3e09ff836e474161b1785dd9dc60d9fb",
+            "schema_version": "e02.v1",
+            "dataset_sha256": "6fcb468b092225f52b1dd16a8721c444fe0bd5e1e21ed3a3a1da24aa243d07dd",
+            "split": "development",
+            "tool_statuses": {
+              "model-1:tool-0": "error",
+              "model-2:tool-0": "error"
+            }
+          },
+          "deepeval_single": {
+            "input": "本次测试工具错误：read_file读取不存在的missing.txt，再bash执行python3 fail.py，分别观察文件异常和脚本退出码，报告后停止，不修改脚本。",
+            "actual_output": "测试结果：\n1. `read_file` 读取 `missing.txt` 失败，异常类型为 `FileNotFoundError`（文件不存在）。\n2. `python3 fail.py` 执行失败，抛出 `RuntimeError: e02-demo-failure`，退出码为 `1`。\n\n未修改脚本，现已停止。",
+            "expected_output": null,
+            "context": null,
+            "retrieval_context": null,
+            "metadata": {
+              "run_id": "3e09ff836e474161b1785dd9dc60d9fb",
+              "schema_version": "e02.v1",
+              "dataset_sha256": "6fcb468b092225f52b1dd16a8721c444fe0bd5e1e21ed3a3a1da24aa243d07dd",
+              "split": "development",
+              "tool_statuses": {
+                "model-1:tool-0": "error",
+                "model-2:tool-0": "error"
+              }
+            },
+            "tools_called": [
+              {
+                "name": "read_file",
+                "type": "FUNCTION",
+                "description": null,
+                "reasoning": null,
+                "output": {
+                  "status": "error",
+                  "output": "[Errno 2] No such file or directory: '/data/workspaces/3e09ff836e474161b1785dd9dc60d9fb/missing.txt'",
+                  "error_type": "FileNotFoundError"
+                },
+                "input_parameters": {
+                  "path": "missing.txt"
+                }
+              },
+              {
+                "name": "bash",
+                "type": "FUNCTION",
+                "description": null,
+                "reasoning": null,
+                "output": {
+                  "stdout": "",
+                  "stderr": "Traceback (most recent call last):\n  File \"/data/workspaces/3e09ff836e474161b1785dd9dc60d9fb/fail.py\", line 1, in <module>\n    raise RuntimeError('e02-demo-failure')\nRuntimeError: e02-demo-failure\n",
+                  "exit_code": 1,
+                  "status": "error",
+                  "truncated": false,
+                  "output": "Traceback (most recent call last):\n  File \"/data/workspaces/3e09ff836e474161b1785dd9dc60d9fb/fail.py\", line 1, in <module>\n    raise RuntimeError('e02-demo-failure')\nRuntimeError: e02-demo-failure\n"
+                },
+                "input_parameters": {
+                  "command": "python3 fail.py"
+                }
+              }
+            ],
+            "comments": null,
+            "expected_tools": null,
+            "token_cost": null,
+            "input_token_count": null,
+            "output_token_count": null,
+            "completion_time": null,
+            "flaky": false,
+            "multimodal": false,
+            "name": null,
+            "tags": null,
+            "mcp_servers": null,
+            "mcp_tools_called": null,
+            "mcp_resources_called": null,
+            "mcp_prompts_called": null,
+            "custom_column_key_values": null,
+            "expectations": null,
+            "expected_labels": null
+          },
+          "deepeval_conversation": {
+            "turns": [
+              {
+                "role": "user",
+                "content": "本次测试工具错误：read_file读取不存在的missing.txt，再bash执行python3 fail.py，分别观察文件异常和脚本退出码，报告后停止，不修改脚本。",
+                "user_id": null,
+                "audio": null,
+                "latency_ms": null,
+                "interrupted": null,
+                "provider_transcript": null,
+                "retrieval_context": null,
+                "tools_called": null,
+                "mcp_tools_called": null,
+                "mcp_resources_called": null,
+                "mcp_prompts_called": null,
+                "metadata": null
+              },
+              {
+                "role": "assistant",
+                "content": "",
+                "user_id": null,
+                "audio": null,
+                "latency_ms": null,
+                "interrupted": null,
+                "provider_transcript": null,
+                "retrieval_context": null,
+                "tools_called": [
+                  {
+                    "name": "read_file",
+                    "type": "FUNCTION",
+                    "description": null,
+                    "reasoning": null,
+                    "output": {
+                      "status": "error",
+                      "output": "[Errno 2] No such file or directory: '/data/workspaces/3e09ff836e474161b1785dd9dc60d9fb/missing.txt'",
+                      "error_type": "FileNotFoundError"
+                    },
+                    "input_parameters": {
+                      "path": "missing.txt"
+                    }
+                  }
+                ],
+                "mcp_tools_called": null,
+                "mcp_resources_called": null,
+                "mcp_prompts_called": null,
+                "metadata": {
+                  "span_id": "model-1"
+                }
+              },
+              {
+                "role": "assistant",
+                "content": "",
+                "user_id": null,
+                "audio": null,
+                "latency_ms": null,
+                "interrupted": null,
+                "provider_transcript": null,
+                "retrieval_context": null,
+                "tools_called": [
+                  {
+                    "name": "bash",
+                    "type": "FUNCTION",
+                    "description": null,
+                    "reasoning": null,
+                    "output": {
+                      "stdout": "",
+                      "stderr": "Traceback (most recent call last):\n  File \"/data/workspaces/3e09ff836e474161b1785dd9dc60d9fb/fail.py\", line 1, in <module>\n    raise RuntimeError('e02-demo-failure')\nRuntimeError: e02-demo-failure\n",
+                      "exit_code": 1,
+                      "status": "error",
+                      "truncated": false,
+                      "output": "Traceback (most recent call last):\n  File \"/data/workspaces/3e09ff836e474161b1785dd9dc60d9fb/fail.py\", line 1, in <module>\n    raise RuntimeError('e02-demo-failure')\nRuntimeError: e02-demo-failure\n"
+                    },
+                    "input_parameters": {
+                      "command": "python3 fail.py"
+                    }
+                  }
+                ],
+                "mcp_tools_called": null,
+                "mcp_resources_called": null,
+                "mcp_prompts_called": null,
+                "metadata": {
+                  "span_id": "model-2"
+                }
+              },
+              {
+                "role": "assistant",
+                "content": "测试结果：\n1. `read_file` 读取 `missing.txt` 失败，异常类型为 `FileNotFoundError`（文件不存在）。\n2. `python3 fail.py` 执行失败，抛出 `RuntimeError: e02-demo-failure`，退出码为 `1`。\n\n未修改脚本，现已停止。",
+                "user_id": null,
+                "audio": null,
+                "latency_ms": null,
+                "interrupted": null,
+                "provider_transcript": null,
+                "retrieval_context": null,
+                "tools_called": [],
+                "mcp_tools_called": null,
+                "mcp_resources_called": null,
+                "mcp_prompts_called": null,
+                "metadata": {
+                  "span_id": "model-3"
+                }
+              }
+            ],
+            "scenario": null,
+            "context": null,
+            "name": null,
+            "user_description": null,
+            "expected_outcome": null,
+            "chatbot_role": null,
+            "metadata": {
+              "run_id": "3e09ff836e474161b1785dd9dc60d9fb",
+              "schema_version": "e02.v1",
+              "dataset_sha256": "6fcb468b092225f52b1dd16a8721c444fe0bd5e1e21ed3a3a1da24aa243d07dd",
+              "split": "development",
+              "tool_statuses": {
+                "model-1:tool-0": "error",
+                "model-2:tool-0": "error"
+              }
+            },
+            "comments": null,
+            "tags": null,
+            "flaky": false,
+            "expectations": null,
+            "expected_labels": null,
+            "mcp_servers": null,
+            "multimodal": false,
+            "voice": false
+          },
+          "ragas_single": {
+            "user_input": "本次测试工具错误：read_file读取不存在的missing.txt，再bash执行python3 fail.py，分别观察文件异常和脚本退出码，报告后停止，不修改脚本。",
+            "retrieved_contexts": null,
+            "reference_contexts": null,
+            "retrieved_context_ids": null,
+            "reference_context_ids": null,
+            "response": "测试结果：\n1. `read_file` 读取 `missing.txt` 失败，异常类型为 `FileNotFoundError`（文件不存在）。\n2. `python3 fail.py` 执行失败，抛出 `RuntimeError: e02-demo-failure`，退出码为 `1`。\n\n未修改脚本，现已停止。",
+            "multi_responses": null,
+            "reference": null,
+            "rubrics": null,
+            "persona_name": null,
+            "query_style": null,
+            "query_length": null
+          },
+          "ragas_multi": {
+            "user_input": [
+              {
+                "content": "本次测试工具错误：read_file读取不存在的missing.txt，再bash执行python3 fail.py，分别观察文件异常和脚本退出码，报告后停止，不修改脚本。",
+                "metadata": null,
+                "type": "human"
+              },
+              {
+                "content": "",
+                "metadata": {
+                  "span_id": "model-1",
+                  "call_ids": [
+                    "model-1:tool-0"
+                  ]
+                },
+                "type": "ai",
+                "tool_calls": [
+                  {
+                    "name": "read_file",
+                    "args": {
+                      "path": "missing.txt"
+                    }
+                  }
+                ]
+              },
+              {
+                "content": "{\"status\": \"error\", \"output\": \"[Errno 2] No such file or directory: '/data/workspaces/3e09ff836e474161b1785dd9dc60d9fb/missing.txt'\", \"error_type\": \"FileNotFoundError\"}",
+                "metadata": {
+                  "call_id": "model-1:tool-0",
+                  "parent_id": "model-1"
+                },
+                "type": "tool"
+              },
+              {
+                "content": "",
+                "metadata": {
+                  "span_id": "model-2",
+                  "call_ids": [
+                    "model-2:tool-0"
+                  ]
+                },
+                "type": "ai",
+                "tool_calls": [
+                  {
+                    "name": "bash",
+                    "args": {
+                      "command": "python3 fail.py"
+                    }
+                  }
+                ]
+              },
+              {
+                "content": "{\"stdout\": \"\", \"stderr\": \"Traceback (most recent call last):\\n  File \\\"/data/workspaces/3e09ff836e474161b1785dd9dc60d9fb/fail.py\\\", line 1, in <module>\\n    raise RuntimeError('e02-demo-failure')\\nRuntimeError: e02-demo-failure\\n\", \"exit_code\": 1, \"status\": \"error\", \"truncated\": false, \"output\": \"Traceback (most recent call last):\\n  File \\\"/data/workspaces/3e09ff836e474161b1785dd9dc60d9fb/fail.py\\\", line 1, in <module>\\n    raise RuntimeError('e02-demo-failure')\\nRuntimeError: e02-demo-failure\\n\"}",
+                "metadata": {
+                  "call_id": "model-2:tool-0",
+                  "parent_id": "model-2"
+                },
+                "type": "tool"
+              },
+              {
+                "content": "测试结果：\n1. `read_file` 读取 `missing.txt` 失败，异常类型为 `FileNotFoundError`（文件不存在）。\n2. `python3 fail.py` 执行失败，抛出 `RuntimeError: e02-demo-failure`，退出码为 `1`。\n\n未修改脚本，现已停止。",
+                "metadata": {
+                  "span_id": "model-3",
+                  "call_ids": []
+                },
+                "type": "ai",
+                "tool_calls": []
+              }
+            ],
+            "reference": null,
+            "reference_tool_calls": null,
+            "rubrics": null,
+            "reference_topics": null
+          }
+        },
+        "adapter_error": null,
+        "not_scored": [
+          "最终回答语义质量",
+          "工具选择最优性"
+        ]
+      }
+    },
+    {
+      "report": {
+        "run_id": "4fa489387ce84f3e96c434ddd46b859c",
+        "lesson": "e02",
+        "schema_version": "e02.v1",
+        "dataset_sha256": "6fcb468b092225f52b1dd16a8721c444fe0bd5e1e21ed3a3a1da24aa243d07dd",
+        "split": "development",
+        "case_id": "mixed_order",
+        "task": "在同一轮依次调用read_file读取a.txt、read_file读取b.txt、bash执行python3 -c 'print(3 + 4)'。收到三个结果后，用write_file写summary.txt，严格按A=alpha、B=beta、N=7三行保存，末尾换行。不要交换两个读取结果。",
+        "created_at": "2026-11-16T16:53:03.692695+00:00",
+        "mode": "live_codex_bridge",
+        "status": "finished",
+        "final_answer": "已按要求写入 summary.txt。",
+        "events": [
+          {
+            "type": "model",
+            "span_id": "model-1",
+            "parent_id": "agent",
+            "reply": {
+              "answer": "",
+              "tool_calls": [
+                {
+                  "name": "read_file",
+                  "arguments_json": "{\"path\":\"a.txt\"}"
+                },
+                {
+                  "name": "read_file",
+                  "arguments_json": "{\"path\":\"b.txt\"}"
+                },
+                {
+                  "name": "bash",
+                  "arguments_json": "{\"command\":\"python3 -c 'print(3 + 4)'\"}"
+                }
+              ]
+            },
+            "model": {
+              "usage": [
+                {
+                  "input_tokens": 15357,
+                  "cached_input_tokens": 13440,
+                  "cache_write_input_tokens": 0,
+                  "output_tokens": 113,
+                  "reasoning_output_tokens": 36
+                }
+              ],
+              "reported_model": null,
+              "model_selection": "Codex CLI default; user config ignored",
+              "elapsed_seconds": 23.242,
+              "transport_tool_events": 0,
+              "prompt_sha256": "30a7cdbe8a15ef351e47f88a08a526911a947f79a7944e7cd46aa6085b3332eb"
+            }
+          },
+          {
+            "type": "tool",
+            "span_id": "model-1:tool-0",
+            "parent_id": "model-1",
+            "call": {
+              "name": "read_file",
+              "arguments_json": "{\"path\":\"a.txt\"}"
+            },
+            "permission": {
+              "decision": "allow",
+              "reason": "workspace_policy"
+            },
+            "result": {
+              "status": "ok",
+              "output": "alpha\n",
+              "truncated": false
+            },
+            "elapsed_seconds": 0.001635
+          },
+          {
+            "type": "tool",
+            "span_id": "model-1:tool-1",
+            "parent_id": "model-1",
+            "call": {
+              "name": "read_file",
+              "arguments_json": "{\"path\":\"b.txt\"}"
+            },
+            "permission": {
+              "decision": "allow",
+              "reason": "workspace_policy"
+            },
+            "result": {
+              "status": "ok",
+              "output": "beta\n",
+              "truncated": false
+            },
+            "elapsed_seconds": 0.000662
+          },
+          {
+            "type": "tool",
+            "span_id": "model-1:tool-2",
+            "parent_id": "model-1",
+            "call": {
+              "name": "bash",
+              "arguments_json": "{\"command\":\"python3 -c 'print(3 + 4)'\"}"
+            },
+            "permission": {
+              "decision": "allow",
+              "reason": "workspace_policy"
+            },
+            "result": {
+              "stdout": "7\n",
+              "stderr": "",
+              "exit_code": 0,
+              "status": "ok",
+              "truncated": false,
+              "output": "7\n"
+            },
+            "elapsed_seconds": 0.011345
+          },
+          {
+            "type": "model",
+            "span_id": "model-2",
+            "parent_id": "agent",
+            "reply": {
+              "answer": "",
+              "tool_calls": [
+                {
+                  "name": "write_file",
+                  "arguments_json": "{\"path\":\"summary.txt\",\"content\":\"A=alpha\\nB=beta\\nN=7\\n\"}"
+                }
+              ]
+            },
+            "model": {
+              "usage": [
+                {
+                  "input_tokens": 15564,
+                  "cached_input_tokens": 0,
+                  "cache_write_input_tokens": 0,
+                  "output_tokens": 52,
+                  "reasoning_output_tokens": 0
+                }
+              ],
+              "reported_model": null,
+              "model_selection": "Codex CLI default; user config ignored",
+              "elapsed_seconds": 12.202,
+              "transport_tool_events": 0,
+              "prompt_sha256": "6cbcb46b787a3b300bc7457b19a62188ad30937baf6708717316de5cdbd81fdd"
+            }
+          },
+          {
+            "type": "tool",
+            "span_id": "model-2:tool-0",
+            "parent_id": "model-2",
+            "call": {
+              "name": "write_file",
+              "arguments_json": "{\"path\":\"summary.txt\",\"content\":\"A=alpha\\nB=beta\\nN=7\\n\"}"
+            },
+            "permission": {
+              "decision": "allow",
+              "reason": "workspace_policy"
+            },
+            "result": {
+              "status": "ok",
+              "output": "Wrote summary.txt",
+              "truncated": false
+            },
+            "elapsed_seconds": 0.003303
+          },
+          {
+            "type": "model",
+            "span_id": "model-3",
+            "parent_id": "agent",
+            "reply": {
+              "answer": "已按要求写入 summary.txt。",
+              "tool_calls": []
+            },
+            "model": {
+              "usage": [
+                {
+                  "input_tokens": 15668,
+                  "cached_input_tokens": 0,
+                  "cache_write_input_tokens": 0,
+                  "output_tokens": 26,
+                  "reasoning_output_tokens": 0
+                }
+              ],
+              "reported_model": null,
+              "model_selection": "Codex CLI default; user config ignored",
+              "elapsed_seconds": 16.217,
+              "transport_tool_events": 0,
+              "prompt_sha256": "14518fe35b1550c38e9703d89606f3c51da504ee0f249b2628efaef5c3d5ad32"
+            }
+          }
+        ],
+        "hooks": [
+          {
+            "phase": "UserPromptSubmit",
+            "span_id": "agent"
+          },
+          {
+            "phase": "PreToolUse",
+            "span_id": "model-1:tool-0"
+          },
+          {
+            "phase": "PostToolUse",
+            "span_id": "model-1:tool-0",
+            "status": "ok"
+          },
+          {
+            "phase": "PreToolUse",
+            "span_id": "model-1:tool-1"
+          },
+          {
+            "phase": "PostToolUse",
+            "span_id": "model-1:tool-1",
+            "status": "ok"
+          },
+          {
+            "phase": "PreToolUse",
+            "span_id": "model-1:tool-2"
+          },
+          {
+            "phase": "PostToolUse",
+            "span_id": "model-1:tool-2",
+            "status": "ok"
+          },
+          {
+            "phase": "PreToolUse",
+            "span_id": "model-2:tool-0"
+          },
+          {
+            "phase": "PostToolUse",
+            "span_id": "model-2:tool-0",
+            "status": "ok"
+          },
+          {
+            "phase": "Stop",
+            "span_id": "agent",
+            "status": "finished"
+          }
+        ]
+      },
+      "grade": {
+        "run_id": "4fa489387ce84f3e96c434ddd46b859c",
+        "case_id": "mixed_order",
+        "passed": true,
+        "checks": {
+          "finished": true,
+          "trace_contract": true,
+          "tool_0": true,
+          "tool_1": true,
+          "tool_2": true,
+          "file:a.txt": true,
+          "file:b.txt": true,
+          "file:summary.txt": true,
+          "tool_count": true,
+          "native_sdk_samples": true
+        },
+        "trace_errors": [],
+        "samples": {
+          "metadata": {
+            "run_id": "4fa489387ce84f3e96c434ddd46b859c",
+            "schema_version": "e02.v1",
+            "dataset_sha256": "6fcb468b092225f52b1dd16a8721c444fe0bd5e1e21ed3a3a1da24aa243d07dd",
+            "split": "development",
+            "tool_statuses": {
+              "model-1:tool-0": "ok",
+              "model-1:tool-1": "ok",
+              "model-1:tool-2": "ok",
+              "model-2:tool-0": "ok"
+            }
+          },
+          "deepeval_single": {
+            "input": "在同一轮依次调用read_file读取a.txt、read_file读取b.txt、bash执行python3 -c 'print(3 + 4)'。收到三个结果后，用write_file写summary.txt，严格按A=alpha、B=beta、N=7三行保存，末尾换行。不要交换两个读取结果。",
+            "actual_output": "已按要求写入 summary.txt。",
+            "expected_output": null,
+            "context": null,
+            "retrieval_context": null,
+            "metadata": {
+              "run_id": "4fa489387ce84f3e96c434ddd46b859c",
+              "schema_version": "e02.v1",
+              "dataset_sha256": "6fcb468b092225f52b1dd16a8721c444fe0bd5e1e21ed3a3a1da24aa243d07dd",
+              "split": "development",
+              "tool_statuses": {
+                "model-1:tool-0": "ok",
+                "model-1:tool-1": "ok",
+                "model-1:tool-2": "ok",
+                "model-2:tool-0": "ok"
+              }
+            },
+            "tools_called": [
+              {
+                "name": "read_file",
+                "type": "FUNCTION",
+                "description": null,
+                "reasoning": null,
+                "output": {
+                  "status": "ok",
+                  "output": "alpha\n",
+                  "truncated": false
+                },
+                "input_parameters": {
+                  "path": "a.txt"
+                }
+              },
+              {
+                "name": "read_file",
+                "type": "FUNCTION",
+                "description": null,
+                "reasoning": null,
+                "output": {
+                  "status": "ok",
+                  "output": "beta\n",
+                  "truncated": false
+                },
+                "input_parameters": {
+                  "path": "b.txt"
+                }
+              },
+              {
+                "name": "bash",
+                "type": "FUNCTION",
+                "description": null,
+                "reasoning": null,
+                "output": {
+                  "stdout": "7\n",
+                  "stderr": "",
+                  "exit_code": 0,
+                  "status": "ok",
+                  "truncated": false,
+                  "output": "7\n"
+                },
+                "input_parameters": {
+                  "command": "python3 -c 'print(3 + 4)'"
+                }
+              },
+              {
+                "name": "write_file",
+                "type": "FUNCTION",
+                "description": null,
+                "reasoning": null,
+                "output": {
+                  "status": "ok",
+                  "output": "Wrote summary.txt",
+                  "truncated": false
+                },
+                "input_parameters": {
+                  "path": "summary.txt",
+                  "content": "A=alpha\nB=beta\nN=7\n"
+                }
+              }
+            ],
+            "comments": null,
+            "expected_tools": null,
+            "token_cost": null,
+            "input_token_count": null,
+            "output_token_count": null,
+            "completion_time": null,
+            "flaky": false,
+            "multimodal": false,
+            "name": null,
+            "tags": null,
+            "mcp_servers": null,
+            "mcp_tools_called": null,
+            "mcp_resources_called": null,
+            "mcp_prompts_called": null,
+            "custom_column_key_values": null,
+            "expectations": null,
+            "expected_labels": null
+          },
+          "deepeval_conversation": {
+            "turns": [
+              {
+                "role": "user",
+                "content": "在同一轮依次调用read_file读取a.txt、read_file读取b.txt、bash执行python3 -c 'print(3 + 4)'。收到三个结果后，用write_file写summary.txt，严格按A=alpha、B=beta、N=7三行保存，末尾换行。不要交换两个读取结果。",
+                "user_id": null,
+                "audio": null,
+                "latency_ms": null,
+                "interrupted": null,
+                "provider_transcript": null,
+                "retrieval_context": null,
+                "tools_called": null,
+                "mcp_tools_called": null,
+                "mcp_resources_called": null,
+                "mcp_prompts_called": null,
+                "metadata": null
+              },
+              {
+                "role": "assistant",
+                "content": "",
+                "user_id": null,
+                "audio": null,
+                "latency_ms": null,
+                "interrupted": null,
+                "provider_transcript": null,
+                "retrieval_context": null,
+                "tools_called": [
+                  {
+                    "name": "read_file",
+                    "type": "FUNCTION",
+                    "description": null,
+                    "reasoning": null,
+                    "output": {
+                      "status": "ok",
+                      "output": "alpha\n",
+                      "truncated": false
+                    },
+                    "input_parameters": {
+                      "path": "a.txt"
+                    }
+                  },
+                  {
+                    "name": "read_file",
+                    "type": "FUNCTION",
+                    "description": null,
+                    "reasoning": null,
+                    "output": {
+                      "status": "ok",
+                      "output": "beta\n",
+                      "truncated": false
+                    },
+                    "input_parameters": {
+                      "path": "b.txt"
+                    }
+                  },
+                  {
+                    "name": "bash",
+                    "type": "FUNCTION",
+                    "description": null,
+                    "reasoning": null,
+                    "output": {
+                      "stdout": "7\n",
+                      "stderr": "",
+                      "exit_code": 0,
+                      "status": "ok",
+                      "truncated": false,
+                      "output": "7\n"
+                    },
+                    "input_parameters": {
+                      "command": "python3 -c 'print(3 + 4)'"
+                    }
+                  }
+                ],
+                "mcp_tools_called": null,
+                "mcp_resources_called": null,
+                "mcp_prompts_called": null,
+                "metadata": {
+                  "span_id": "model-1"
+                }
+              },
+              {
+                "role": "assistant",
+                "content": "",
+                "user_id": null,
+                "audio": null,
+                "latency_ms": null,
+                "interrupted": null,
+                "provider_transcript": null,
+                "retrieval_context": null,
+                "tools_called": [
+                  {
+                    "name": "write_file",
+                    "type": "FUNCTION",
+                    "description": null,
+                    "reasoning": null,
+                    "output": {
+                      "status": "ok",
+                      "output": "Wrote summary.txt",
+                      "truncated": false
+                    },
+                    "input_parameters": {
+                      "path": "summary.txt",
+                      "content": "A=alpha\nB=beta\nN=7\n"
+                    }
+                  }
+                ],
+                "mcp_tools_called": null,
+                "mcp_resources_called": null,
+                "mcp_prompts_called": null,
+                "metadata": {
+                  "span_id": "model-2"
+                }
+              },
+              {
+                "role": "assistant",
+                "content": "已按要求写入 summary.txt。",
+                "user_id": null,
+                "audio": null,
+                "latency_ms": null,
+                "interrupted": null,
+                "provider_transcript": null,
+                "retrieval_context": null,
+                "tools_called": [],
+                "mcp_tools_called": null,
+                "mcp_resources_called": null,
+                "mcp_prompts_called": null,
+                "metadata": {
+                  "span_id": "model-3"
+                }
+              }
+            ],
+            "scenario": null,
+            "context": null,
+            "name": null,
+            "user_description": null,
+            "expected_outcome": null,
+            "chatbot_role": null,
+            "metadata": {
+              "run_id": "4fa489387ce84f3e96c434ddd46b859c",
+              "schema_version": "e02.v1",
+              "dataset_sha256": "6fcb468b092225f52b1dd16a8721c444fe0bd5e1e21ed3a3a1da24aa243d07dd",
+              "split": "development",
+              "tool_statuses": {
+                "model-1:tool-0": "ok",
+                "model-1:tool-1": "ok",
+                "model-1:tool-2": "ok",
+                "model-2:tool-0": "ok"
+              }
+            },
+            "comments": null,
+            "tags": null,
+            "flaky": false,
+            "expectations": null,
+            "expected_labels": null,
+            "mcp_servers": null,
+            "multimodal": false,
+            "voice": false
+          },
+          "ragas_single": {
+            "user_input": "在同一轮依次调用read_file读取a.txt、read_file读取b.txt、bash执行python3 -c 'print(3 + 4)'。收到三个结果后，用write_file写summary.txt，严格按A=alpha、B=beta、N=7三行保存，末尾换行。不要交换两个读取结果。",
+            "retrieved_contexts": null,
+            "reference_contexts": null,
+            "retrieved_context_ids": null,
+            "reference_context_ids": null,
+            "response": "已按要求写入 summary.txt。",
+            "multi_responses": null,
+            "reference": null,
+            "rubrics": null,
+            "persona_name": null,
+            "query_style": null,
+            "query_length": null
+          },
+          "ragas_multi": {
+            "user_input": [
+              {
+                "content": "在同一轮依次调用read_file读取a.txt、read_file读取b.txt、bash执行python3 -c 'print(3 + 4)'。收到三个结果后，用write_file写summary.txt，严格按A=alpha、B=beta、N=7三行保存，末尾换行。不要交换两个读取结果。",
+                "metadata": null,
+                "type": "human"
+              },
+              {
+                "content": "",
+                "metadata": {
+                  "span_id": "model-1",
+                  "call_ids": [
+                    "model-1:tool-0",
+                    "model-1:tool-1",
+                    "model-1:tool-2"
+                  ]
+                },
+                "type": "ai",
+                "tool_calls": [
+                  {
+                    "name": "read_file",
+                    "args": {
+                      "path": "a.txt"
+                    }
+                  },
+                  {
+                    "name": "read_file",
+                    "args": {
+                      "path": "b.txt"
+                    }
+                  },
+                  {
+                    "name": "bash",
+                    "args": {
+                      "command": "python3 -c 'print(3 + 4)'"
+                    }
+                  }
+                ]
+              },
+              {
+                "content": "{\"status\": \"ok\", \"output\": \"alpha\\n\", \"truncated\": false}",
+                "metadata": {
+                  "call_id": "model-1:tool-0",
+                  "parent_id": "model-1"
+                },
+                "type": "tool"
+              },
+              {
+                "content": "{\"status\": \"ok\", \"output\": \"beta\\n\", \"truncated\": false}",
+                "metadata": {
+                  "call_id": "model-1:tool-1",
+                  "parent_id": "model-1"
+                },
+                "type": "tool"
+              },
+              {
+                "content": "{\"stdout\": \"7\\n\", \"stderr\": \"\", \"exit_code\": 0, \"status\": \"ok\", \"truncated\": false, \"output\": \"7\\n\"}",
+                "metadata": {
+                  "call_id": "model-1:tool-2",
+                  "parent_id": "model-1"
+                },
+                "type": "tool"
+              },
+              {
+                "content": "",
+                "metadata": {
+                  "span_id": "model-2",
+                  "call_ids": [
+                    "model-2:tool-0"
+                  ]
+                },
+                "type": "ai",
+                "tool_calls": [
+                  {
+                    "name": "write_file",
+                    "args": {
+                      "path": "summary.txt",
+                      "content": "A=alpha\nB=beta\nN=7\n"
+                    }
+                  }
+                ]
+              },
+              {
+                "content": "{\"status\": \"ok\", \"output\": \"Wrote summary.txt\", \"truncated\": false}",
+                "metadata": {
+                  "call_id": "model-2:tool-0",
+                  "parent_id": "model-2"
+                },
+                "type": "tool"
+              },
+              {
+                "content": "已按要求写入 summary.txt。",
+                "metadata": {
+                  "span_id": "model-3",
+                  "call_ids": []
+                },
+                "type": "ai",
+                "tool_calls": []
+              }
+            ],
+            "reference": null,
+            "reference_tool_calls": null,
+            "rubrics": null,
+            "reference_topics": null
+          }
+        },
+        "adapter_error": null,
+        "not_scored": [
+          "最终回答语义质量",
+          "工具选择最优性"
+        ]
+      }
+    }
+  ],
+  "not_measured": [
+    "最终解释语义质量",
+    "通用编码能力",
+    "模型费用金额",
+    "未返回的确切模型ID"
+  ]
+}

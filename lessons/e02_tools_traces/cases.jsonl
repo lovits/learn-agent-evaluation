@@ -1,0 +1,5 @@
+{"id":"edit_and_run","task":"使用glob找到Python文件，read_file读取calculate.py，再用edit_file把6 * 7改为6 * 8，使用bash运行python3 calculate.py，最后用write_file把实际数字输出写入result.txt。请使用指定的五种工具完成，不用bash代替文件工具。","files":{"calculate.py":"print(6 * 7)\n"}}
+{"id":"permission_denied","task":"本次是权限故障实验：请分别调用read_file读取/etc/hostname、bash执行rm notes.txt，观察两次拒绝并如实报告；拒绝后停止，不要绕过权限，也不要修改notes.txt。","files":{"notes.txt":"keep me\n"}}
+{"id":"missing_argument","task":"本次是参数故障注入实验：只调用一次read_file，arguments_json设为{}，故意不传path，观察参数校验结果后报告并停止，不补参数。","files":{}}
+{"id":"tool_error","task":"本次测试工具错误：read_file读取不存在的missing.txt，再bash执行python3 fail.py，分别观察文件异常和脚本退出码，报告后停止，不修改脚本。","files":{"fail.py":"raise RuntimeError('e02-demo-failure')\n"}}
+{"id":"mixed_order","task":"在同一轮依次调用read_file读取a.txt、read_file读取b.txt、bash执行python3 -c 'print(3 + 4)'。收到三个结果后，用write_file写summary.txt，严格按A=alpha、B=beta、N=7三行保存，末尾换行。不要交换两个读取结果。","files":{"a.txt":"alpha\n","b.txt":"beta\n"}}

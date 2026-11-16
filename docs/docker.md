@@ -52,3 +52,19 @@ uv run python tools/generate_lesson.py
 
 它只读取第1课白名单材料，原始输出保存在generation/output/e01_agent_baseline，
 不会自动覆盖审校后的教材。Codex CLI只需要安装在宿主机。
+
+## 第2课：工具与轨迹
+
+模型入口仍使用 `python3 tools/model_bridge.py`。如果入口是在更新代码前启动的，请先停止旧进程再启动。
+Docker 更新后用 `docker compose up --build -d` 启动阅读器，打开 http://localhost:8765/lesson2 。
+
+```sh
+docker compose run --rm -T course run-e02 --case edit_and_run
+docker compose --profile verify run --rm -T verifier verify-e02 --run-id 实际run_id
+python3 tools/run_e02.py
+```
+
+第2课报告前缀为 e02、grade-e02、e02-suite。每次任务独立创建练习目录；验收器继续断网运行，
+只读练习目录和 evaluation_private/e02.json。它构造并往返恢复四种原生SDK样本，不调用模型裁判。
+权限实验的危险命令批准回调固定拒绝。Bash规则是教学策略，不能保证拦截任意危险命令。
+知识库仍只读挂载，本课尚未接入检索。

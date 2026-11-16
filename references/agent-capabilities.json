@@ -4,28 +4,31 @@
     "source_path": "learn-claude-code/s01_agent_loop/code.py",
     "sha256": "8feaf7f73da6f9a7f0f030a66ed017bdf13d9884c4537b0b5805a55b43dbfc00",
     "introduced_in": "e01",
-    "status": "e01_loop_and_bash_contract_verified; other upstream mechanisms planned"
+    "status": "e01_loop_and_bash_contract_verified"
   },
   {
     "upstream_lesson": "s02_tool_use",
     "source_path": "learn-claude-code/s02_tool_use/code.py",
     "sha256": "fde1337c5a17bc2f8666e9adc36717f37ea8803dbf04fe8d73e2400ce812a9fb",
     "introduced_in": "e02",
-    "status": "planned_not_implemented_or_validated"
+    "status": "e02_core_contract_verified_with_documented_adaptations",
+    "adaptations": "Five required-argument tools; outside file access denied; batch approval declined; audit hook pairs include rejection. No claim of complete upstream equivalence."
   },
   {
     "upstream_lesson": "s03_permission",
     "source_path": "learn-claude-code/s03_permission/code.py",
     "sha256": "97b42c55a782027517f365a379f17687f86444f38729772c1791105051a1ee2a",
     "introduced_in": "e02",
-    "status": "planned_not_implemented_or_validated"
+    "status": "e02_core_contract_verified_with_documented_adaptations",
+    "adaptations": "Five required-argument tools; outside file access denied; batch approval declined; audit hook pairs include rejection. No claim of complete upstream equivalence."
   },
   {
     "upstream_lesson": "s04_hooks",
     "source_path": "learn-claude-code/s04_hooks/code.py",
     "sha256": "2ff90e604304083d0c4cda941c847420a338235482d318b70e7bd2edcf79505b",
     "introduced_in": "e02",
-    "status": "planned_not_implemented_or_validated"
+    "status": "e02_core_contract_verified_with_documented_adaptations",
+    "adaptations": "Five required-argument tools; outside file access denied; batch approval declined; audit hook pairs include rejection. No claim of complete upstream equivalence."
   },
   {
     "upstream_lesson": "s05_todo_write",

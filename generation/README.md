@@ -20,3 +20,5 @@ uv run python tools/generate_lesson.py
 
 重新生成会调用模型并更新原始输出，不会自动覆盖审校版。
 课程大纲生成是此前的独立流程，见 [规划记录](curriculum-README.md)。
+
+第2课已使用同一PocketFlow流程完成，详见[第2课生成与审校记录](e02-README.md)。

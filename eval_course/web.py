@@ -3,7 +3,6 @@
 import html
 import json
 import os
-import re
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import parse_qs, quote, unquote, urlparse
@@ -13,18 +12,26 @@ from markdown_it import MarkdownIt
 from lessons.e01_agent_baseline.code import load_cases
 
 from .knowledge import PROJECT, catalog, document, search
+from .records import NAME as REPORT_NAME
 
 PAGES = {
     "/": ("课程首页", "README.md"),
     "/lesson": ("第1课：最小Agent", "lessons/e01_agent_baseline/README.zh.md"),
-    "/source": ("源码分析", "lessons/e01_agent_baseline/source_walkthrough.md"),
-    "/exercises": ("练习", "lessons/e01_agent_baseline/exercises.md"),
-    "/solutions": ("参考答案", "lessons/e01_agent_baseline/solutions.md"),
+    "/lesson2": ("第2课：工具与轨迹", "lessons/e02_tools_traces/README.zh.md"),
+    "/source": ("第1课源码", "lessons/e01_agent_baseline/source_walkthrough.md"),
+    "/exercises": ("第1课练习", "lessons/e01_agent_baseline/exercises.md"),
+    "/solutions": ("第1课答案", "lessons/e01_agent_baseline/solutions.md"),
     "/docker": ("Docker 与知识库", "docs/docker.md"),
     "/generation": ("PocketFlow 生成记录", "generation/README.md"),
 }
 DOCUMENTS = {
     **PAGES,
+    "/source2": ("第2课源码分析", "lessons/e02_tools_traces/source_walkthrough.md"),
+    "/exercises2": ("第2课练习", "lessons/e02_tools_traces/exercises.md"),
+    "/solutions2": ("第2课参考答案", "lessons/e02_tools_traces/solutions.md"),
+    "/e02-results": ("第2课实测结果", "lessons/e02_tools_traces/run_summary.md"),
+    "/validation2": ("第2课验收", "docs/e02-validation.md"),
+    "/generation2": ("第2课生成记录", "generation/e02-README.md"),
     "/curriculum": ("16课路线", "docs/curriculum.md"),
     "/validation": ("验证记录", "docs/validation.md"),
     "/third-party": ("第三方说明", "THIRD_PARTY.md"),
@@ -40,7 +47,6 @@ DOCUMENTS = {
     "/curriculum-validation": ("课程设计核验", "docs/curriculum-validation.md"),
 }
 RENDERER = MarkdownIt("commonmark", {"html": False}).enable("table")
-REPORT_NAME = re.compile(r"(?:e01|grade-e01|e01-suite)-[a-f0-9]{32}\.json")
 
 
 def layout(title: str, body: str) -> bytes:
@@ -114,7 +120,7 @@ def reports_page(query: dict) -> bytes:
     )
     return layout(
         "实验结果",
-        "<h1>实验结果</h1><p>运行第1课Agent并独立验收后刷新此页。</p><ul>" + links + "</ul>",
+        "<h1>实验结果</h1><p>运行课程Agent并独立验收后刷新此页。</p><ul>" + links + "</ul>",
     )
 
 

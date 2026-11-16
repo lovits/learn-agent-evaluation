@@ -1,7 +1,7 @@
 # 编程 Agent 评测课程的制作计划
 
 本轮交付课程设计、知识地图、16课逐课要求和PocketFlow生成凭证。
-编程Agent各课代码属于后续实施；旧Faithfulness样章已清理。当前从第1课重新制作，详细制作要求见course-specification.md。
+第1、2课代码已制作并通过真实Docker实验；旧Faithfulness样章已清理。后续逐课递进，详细制作要求见course-specification.md。
 
 ## 设计基准
 

@@ -1,9 +1,11 @@
-"""Generate only lesson e01 using pinned original PocketFlow tutorial nodes."""
+"""Generate a selected lesson using pinned original PocketFlow tutorial nodes."""
 
+import argparse
 import json
 import sys
 import time
 import types
+from pathlib import Path
 
 from model_backend import PROJECT, VENDOR, codex_completion, sha
 
@@ -11,9 +13,16 @@ from model_backend import PROJECT, VENDOR, codex_completion, sha
 def main():
     from pocketflow import Flow, Node
 
-    private = PROJECT / "generation/private/e01"
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--lesson", choices=["e01", "e02"], default="e01")
+    args = parser.parse_args()
+    lesson = args.lesson
+    slug = "e01_agent_baseline" if lesson == "e01" else "e02_tools_traces"
+    title = "最小编程Agent与第一份评测协议" if lesson == "e01" else "工具、权限、轨迹与统一评测样本"
+    brief_path = "generation/lesson_brief.md" if lesson == "e01" else "generation/e02-brief.md"
+    private = PROJECT / "generation/private" / lesson
     private.mkdir(parents=True, exist_ok=True)
-    brief = (PROJECT / "generation/lesson_brief.md").read_text()
+    brief = (PROJECT / brief_path).read_text()
     calls = []
 
     def call_llm(prompt, use_cache=False):
@@ -44,20 +53,30 @@ def main():
     shared = {
         "repo_url": None,
         "local_dir": str(PROJECT),
-        "project_name": "e01_agent_baseline",
+        "project_name": slug,
         "github_token": None,
         "output_dir": str(PROJECT / "generation/output"),
         "language": "Chinese",
         "use_cache": False,
         "max_file_size": 100000,
         "include_patterns": {
-            "lessons/e01_agent_baseline/code.py",
-            "lessons/e01_agent_baseline/eval.py",
-            "lessons/e01_agent_baseline/cases.jsonl",
-            "lessons/e01_agent_baseline/example_report.json",
-            "lessons/e01_agent_baseline/source_walkthrough.md",
-            "lessons/e01_agent_baseline/exercises.md",
-            "lessons/e01_agent_baseline/solutions.md",
+            *(
+                f"lessons/{slug}/{name}"
+                for name in (
+                    "code.py",
+                    "eval.py",
+                    "cases.jsonl",
+                    "run_summary.md" if lesson == "e02" else "example_report.json",
+                    "source_walkthrough.md",
+                    "exercises.md",
+                    "solutions.md",
+                )
+            ),
+            *(
+                [f"lessons/{slug}/samples.py", f"lessons/{slug}/dataset_manifest.json"]
+                if lesson == "e02"
+                else []
+            ),
             "eval_course/records.py",
             "references/versions.json",
         },
@@ -70,9 +89,7 @@ def main():
             "runs",
             "evaluation_private",
         },
-        "abstractions": [
-            {"name": "最小编程Agent与第一份评测协议", "description": brief, "files": []}
-        ],
+        "abstractions": [{"name": title, "description": brief, "files": []}],
         "relationships": {
             "summary": "模型给动作，Docker里的循环执行Bash，独立容器核实结果。",
             "details": [],
@@ -96,7 +113,7 @@ def main():
         "calls": calls,
         "nodes_run": [
             "FetchRepo",
-            "BindLesson (approved e01 adapter)",
+            "BindLesson (fixed lesson adapter)",
             "WriteChapters",
             "CombineTutorial",
         ],
@@ -106,9 +123,9 @@ def main():
             {"path": name, "sha256": sha(content)} for name, content in shared["files"]
         ],
         "brief_sha256": sha(brief),
-        "raw_output_directory": shared["final_output_dir"],
+        "raw_output_directory": str(Path(shared["final_output_dir"]).relative_to(PROJECT)),
     }
-    (PROJECT / "generation/e01-provenance.json").write_text(
+    (PROJECT / f"generation/{lesson}-provenance.json").write_text(
         json.dumps(result, ensure_ascii=False, indent=2) + "\n"
     )
     print(

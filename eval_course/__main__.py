@@ -14,6 +14,12 @@ def main():
         from lessons.e01_agent_baseline.eval import main as verify
 
         return verify(sys.argv[2:])
+    if len(sys.argv) > 1 and sys.argv[1] in ("run-e02", "verify-e02"):
+        if sys.argv[1] == "run-e02":
+            from lessons.e02_tools_traces.code import main as lesson_command
+        else:
+            from lessons.e02_tools_traces.eval import main as lesson_command
+        return lesson_command(sys.argv[2:])
     parser = argparse.ArgumentParser(description="从编程Agent学评测")
     commands = parser.add_subparsers(dest="command", required=True)
     server = commands.add_parser("serve")

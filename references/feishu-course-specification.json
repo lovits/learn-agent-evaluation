@@ -2,11 +2,12 @@
   "title": "Learn Claude Code 编程Agent评测课程：16课详细设计与制作规范",
   "url": "https://my.feishu.cn/docx/V8CPdL3Y8oMZt4xJ8RCc4HfNnfb",
   "document_id": "V8CPdL3Y8oMZt4xJ8RCc4HfNnfb",
-  "revision_id": 14,
+  "revision_id": 16,
   "verified_lesson_count": 16,
   "local_path": "docs/course-specification.md",
-  "local_sha256": "20d0f778391be093214512548d6758f796a06060119e512f0ddd2de6dc12852b",
-  "cloud_content_sha256": "9376061ca988ddb588631693fa9df5a2d3ce8216511d8e2bf41d211f0332b3b1",
+  "local_sha256": "01186e33cd18e8d324543f5a721afa91c343874fc38adf66784ba305149a39aa",
+  "cloud_content_sha256": "be85b1208e7f8e5a7b59a7e8966c89b370f8ac15e9749a5d6784b7c14a17593e",
   "delivery_appendix_verified": true,
-  "e02_delivery_verified": true
+  "e02_delivery_verified": true,
+  "e03_delivery_verified": true
 }

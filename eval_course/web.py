@@ -17,6 +17,7 @@ from .records import NAME as REPORT_NAME
 PAGES = {
     "/": ("课程首页", "README.md"),
     "/lesson": ("第1课：最小Agent", "lessons/e01_agent_baseline/README.zh.md"),
+    "/lesson3": ("第3课：规则与裁判", "lessons/e03_judges/README.zh.md"),
     "/lesson2": ("第2课：工具与轨迹", "lessons/e02_tools_traces/README.zh.md"),
     "/source": ("第1课源码", "lessons/e01_agent_baseline/source_walkthrough.md"),
     "/exercises": ("第1课练习", "lessons/e01_agent_baseline/exercises.md"),
@@ -26,6 +27,11 @@ PAGES = {
 }
 DOCUMENTS = {
     **PAGES,
+    "/validation3": ("第3课验收", "docs/e03-validation.md"),
+    "/source3": ("第3课源码", "lessons/e03_judges/source_walkthrough.md"),
+    "/exercises3": ("第3课练习", "lessons/e03_judges/exercises.md"),
+    "/solutions3": ("第3课答案", "lessons/e03_judges/solutions.md"),
+    "/e03-results": ("第3课实测", "lessons/e03_judges/run_summary.md"),
     "/source2": ("第2课源码分析", "lessons/e02_tools_traces/source_walkthrough.md"),
     "/exercises2": ("第2课练习", "lessons/e02_tools_traces/exercises.md"),
     "/solutions2": ("第2课参考答案", "lessons/e02_tools_traces/solutions.md"),

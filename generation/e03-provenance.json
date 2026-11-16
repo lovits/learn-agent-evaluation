@@ -1,0 +1,74 @@
+{
+  "generator": "The-Pocket/PocketFlow-Tutorial-Codebase-Knowledge",
+  "upstream_commit": "05b24cbbb0fe409c5e23c9791f0342f07524ffdc",
+  "backend": "local authenticated Codex CLI with tools disabled",
+  "actual_model_calls": 1,
+  "calls": [
+    {
+      "prompt_sha256": "54633c8255b62127c4fd2bba71ed3c318f613dfb6a1f5a863484fffab6206f2f",
+      "response_sha256": "a37d17cb8d1d9a485596667447ddac5be3ff2363993851f6f5ccfe87aac95ce1",
+      "elapsed_seconds": 70.54
+    }
+  ],
+  "nodes_run": [
+    "FetchRepo",
+    "BindLesson (fixed lesson adapter)",
+    "WriteChapters",
+    "CombineTutorial"
+  ],
+  "not_run": [
+    "IdentifyAbstractions",
+    "AnalyzeRelationships",
+    "OrderChapters"
+  ],
+  "reason": "The sixteen-lesson outline and current lesson are already fixed.",
+  "input_manifest": [
+    {
+      "path": "eval_course/records.py",
+      "sha256": "940890c3876981a2273497e8d0d06da4a882d7e65cea6098f6217f87de498181"
+    },
+    {
+      "path": "references/versions.json",
+      "sha256": "75831131b2e85e8f0edd2ddd4534642f169a6d0cd0d5ac89d47c5465581ce99c"
+    },
+    {
+      "path": "lessons/e03_judges/solutions.md",
+      "sha256": "706998ab0be7cdaa01aaae7faad081f6cdea1dc49c7597f2e79887d900c76e8a"
+    },
+    {
+      "path": "generation/e03-materials/run_summary.md",
+      "sha256": "a0c440662a38c2206ae1247570e875cd3e8f250995c1af214532a951a9419002",
+      "source_path": "lessons/e03_judges/run_summary.md"
+    },
+    {
+      "path": "lessons/e03_judges/exercises.md",
+      "sha256": "a7cc29a36fe1cfe740eef913d4342c79926680659cd66107742ee374a6d83c8a"
+    },
+    {
+      "path": "lessons/e03_judges/code.py",
+      "sha256": "3e034b236f6d0a9ae6715c2501245e3e3d2d8d1d98550e1517e7423223199c4f"
+    },
+    {
+      "path": "lessons/e03_judges/cases.jsonl",
+      "sha256": "f2bc6aa0befc928224c65a0e6df2029707ee68a1f918f8cc572b4968cdaa2e77"
+    },
+    {
+      "path": "lessons/e03_judges/source_walkthrough.md",
+      "sha256": "282bfc6d989f8ed4a76eebb4c0e9f77c6673fca413f25ed8b5f89840ead874c8"
+    },
+    {
+      "path": "lessons/e03_judges/eval.py",
+      "sha256": "92afaa766de88acfde052a51346e86c62eb3d822f0e38cc214eda557c8d46b95"
+    }
+  ],
+  "brief_sha256": "22dfd65107dc091c14b4779099747a43e5891118dc919e474a3088ca52a1d599",
+  "raw_output_directory": "generation/output/e03_judges",
+  "post_generation_evidence": "rubric v2 single-development-case calibration, 3 additional calls; main original run retained",
+  "publication": {
+    "path": "lessons/e03_judges/README.zh.md",
+    "sha256": "8b3fb7ffa60a578de5053d607cc34c9fc006f26866fa79d7972fd0dbbea2a0b5",
+    "humanizer_reviewed_sections": 11,
+    "unreviewed_sections": 0,
+    "review": "Full prose pass; code fences and link targets preserved. Technical review added separately recorded rubric-v2 calibration."
+  }
+}

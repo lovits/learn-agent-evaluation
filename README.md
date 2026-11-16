@@ -66,7 +66,7 @@ python3 tools/run_e01.py
 ## 项目状态
 
 旧Faithfulness样章和专属回放实现已清理；该主题将在第5课以编程案例重新制作。
-当前已制作第1、2课，其余14课保留详细设计。DeepEval/Ragas用于评测方法和源码依据，
+当前已制作第1、2、3课，其余13课保留详细设计。DeepEval/Ragas用于评测方法和源码依据，
 第一课先用确定性任务合同判断文件、输出和退出码，后续再逐步引入框架接口与模型裁判。
 
 教材通过 [PocketFlow流程](generation/README.md)组织，来源与许可见 [第三方说明](THIRD_PARTY.md)。
@@ -82,3 +82,9 @@ python3 tools/run_e02.py
 ```
 
 阅读页面：http://localhost:8765/lesson2 。[五组实验及结果](lessons/e02_tools_traces/run_summary.md)中区分正常任务与故障注入。
+
+## 第3课：规则评分与LLM裁判
+
+[教材](lessons/e03_judges/README.zh.md)、[源码导读](lessons/e03_judges/source_walkthrough.md)、[实验与校准](lessons/e03_judges/run_summary.md)。先启动 `python3 tools/judge_bridge.py`，再运行 `docker compose run --rm -T --entrypoint python course -m lessons.e03_judges.eval`。阅读地址：http://localhost:8765/lesson3 。
+
+[第3课飞书完整教材](https://my.feishu.cn/docx/J6iAd17kSonCjCxqlOWcjyGonTg) / [第3课验收](docs/e03-validation.md)。

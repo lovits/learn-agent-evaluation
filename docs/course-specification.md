@@ -1,6 +1,6 @@
 # Learn Claude Code 编程Agent评测课程：16课详细设计与制作规范
 
-本说明先于第1课实施完成，是逐课制作与验收的共同依据。被测对象为固定版本 Learn Claude Code 编程 Agent；每课只引入当前评测需要的可执行代码。原24课知识合并为16课，后续按小节递进。目前已制作第1、2课，其余14课保持设计状态。
+本说明先于第1课实施完成，是逐课制作与验收的共同依据。被测对象为固定版本 Learn Claude Code 编程 Agent；每课只引入当前评测需要的可执行代码。原24课知识合并为16课，后续按小节递进。目前已制作第1、2、3课，其余13课保持设计状态。
 
 ## 课程目标与制作范围
 
@@ -773,3 +773,7 @@ pocketflow_tutorial：https://github.com/The-Pocket/PocketFlow-Tutorial-Codebase
 ## 第2课实际交付
 
 [飞书教材与验收结果](https://my.feishu.cn/docx/KVAkdoPHlofNEOxSPQqcfXuenfn)。5条开发任务全部通过，16次真实模型请求、14次工具请求；四种SDK样本可导出并恢复。本地与Docker断网32项测试通过。校准与留出各2条未执行，不计入成绩。
+
+## 第3课实际交付
+
+[教材与验收](https://my.feishu.cn/docx/J6iAd17kSonCjCxqlOWcjyGonTg)。规则评分、GEval、DAGMetric、AspectCritic已实测，两轮共15次真实裁判请求；原始分歧和标准修订分别保留。44项本地及Docker断网测试通过。

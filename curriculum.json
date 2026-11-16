@@ -94,7 +94,7 @@
     {
       "id": "e03",
       "title": "规则评分与 LLM 裁判",
-      "status": "planned",
+      "status": "implemented_live_docker_judges_verified",
       "original_lessons": [
         "s03",
         "s04"
@@ -488,9 +488,10 @@
       "source_analysis": "按所选指标适用部分追踪输入校验、prompt/schema、模型调用、verdict、聚合、异步与结果对象；规则指标说明不适用项。"
     }
   ],
-  "runtime_status": "e01 and e02 implemented; later lessons remain planned",
+  "runtime_status": "e01/e02 Agent and e03 independent judges implemented; e04-e16 planned",
   "implemented_lessons": [
     "e01",
-    "e02"
+    "e02",
+    "e03"
   ]
 }

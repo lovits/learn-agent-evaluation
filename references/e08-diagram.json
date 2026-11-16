@@ -1,0 +1,10 @@
+{
+  "authoring": "native draw.io XML",
+  "preview": "PNG rendered with Pillow from the same nodes and edges; not a draw.io Desktop export",
+  "reason": "draw.io Desktop unavailable",
+  "visual_review": "PNG inspected: full labels visible, branch and split arrows clear",
+  "files": {
+    "lessons/e08_datasets/images/dataset-pipeline.drawio": "feb5ae1f48eab42edfb6872604744b3f8e7c14421860fa632457769de70f01e8",
+    "lessons/e08_datasets/images/dataset-pipeline.png": "0d662698723edb718a91aeb83e4baa871ae83cd620f45dd067a09cac2f03792f"
+  }
+}

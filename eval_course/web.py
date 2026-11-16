@@ -23,6 +23,7 @@ PAGES = {
     "/lesson5": ("第5课：Faithfulness", "lessons/e05_faithfulness/README.zh.md"),
     "/lesson6": ("第6课：答案质量与拒答", "lessons/e06_answer_quality/README.zh.md"),
     "/lesson7": ("第7课：故障定位", "lessons/e07_failure_diagnosis/README.zh.md"),
+    "/lesson8": ("第8课：评测数据集", "lessons/e08_datasets/README.zh.md"),
     "/source": ("第1课源码", "lessons/e01_agent_baseline/source_walkthrough.md"),
     "/exercises": ("第1课练习", "lessons/e01_agent_baseline/exercises.md"),
     "/solutions": ("第1课答案", "lessons/e01_agent_baseline/solutions.md"),
@@ -31,6 +32,12 @@ PAGES = {
 }
 DOCUMENTS = {
     **PAGES,
+    "/source8": ("第8课源码", "lessons/e08_datasets/source_walkthrough.md"),
+    "/exercises8": ("第8课练习", "lessons/e08_datasets/exercises.md"),
+    "/solutions8": ("第8课答案", "lessons/e08_datasets/solutions.md"),
+    "/e08-results": ("第8课实测", "lessons/e08_datasets/run_summary.md"),
+    "/validation8": ("第8课验收", "docs/e08-validation.md"),
+    "/generation8": ("第8课生成与审校", "generation/e08-README.md"),
     "/e01-results": ("第1课原始实验", "lessons/e01_agent_baseline/run_summary.md"),
     "/e01-rewrite-validation": ("第1课改写核验", "docs/e01-rewrite-validation.md"),
     "/source7": ("第7课源码", "lessons/e07_failure_diagnosis/source_walkthrough.md"),
@@ -189,8 +196,13 @@ class Handler(BaseHTTPRequestHandler):
                 body = layout(title, render_page(path))
             elif parsed.path == "/image":
                 target = (PROJECT / query.get("path", [""])[0]).resolve()
-                image_root = (PROJECT / "lessons/e01_agent_baseline/images").resolve()
-                if target.parent != image_root or target.suffix != ".png":
+                lessons_root = (PROJECT / "lessons").resolve()
+                if (
+                    not target.is_relative_to(lessons_root)
+                    or target.parent.name != "images"
+                    or target.parent.parent.parent != lessons_root
+                    or target.suffix != ".png"
+                ):
                     raise ValueError("该文件不在本课图片范围内。")
                 return self.send(200, target.read_bytes(), "image/png")
             elif parsed.path == "/code":

@@ -15,7 +15,7 @@ def main():
 
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
-        "--lesson", choices=["e01", "e02", "e03", "e04", "e05", "e06", "e07"], default="e01"
+        "--lesson", choices=["e01", "e02", "e03", "e04", "e05", "e06", "e07", "e08"], default="e01"
     )
     args = parser.parse_args()
     lesson = args.lesson
@@ -47,6 +47,12 @@ def main():
             "e07_failure_diagnosis",
             "RAG故障定位：只改一个位置",
             "generation/e07-brief.md",
+        )
+    if lesson == "e08":
+        slug, title, brief_path = (
+            "e08_datasets",
+            "评测数据集：从候选题到可审核样本",
+            "generation/e08-brief.md",
         )
     private = PROJECT / "generation/private" / lesson
     private.mkdir(parents=True, exist_ok=True)
@@ -95,7 +101,7 @@ def main():
                     "eval.py",
                     "cases.jsonl",
                     "run_summary.md"
-                    if lesson in ("e02", "e03", "e04", "e05", "e06", "e07")
+                    if lesson in ("e02", "e03", "e04", "e05", "e06", "e07", "e08")
                     else "example_report.json",
                     "source_walkthrough.md",
                     "exercises.md",
@@ -126,6 +132,11 @@ def main():
                 else []
             ),
             *(["references/e01-rewrite-plan.md"] if lesson == "e01" else []),
+            *(
+                [f"lessons/{slug}/dataset.py", "references/e08-reading.json"]
+                if lesson == "e08"
+                else []
+            ),
             "eval_course/records.py",
             "references/versions.json",
             "references/textbook-writing-standard.md",

@@ -68,3 +68,27 @@ python3 tools/run_e02.py
 只读练习目录和 evaluation_private/e02.json。它构造并往返恢复四种原生SDK样本，不调用模型裁判。
 权限实验的危险命令批准回调固定拒绝。Bash规则是教学策略，不能保证拦截任意危险命令。
 知识库仍只读挂载，本课尚未接入检索。
+
+## 第8课：独立数据生成与审核
+
+数据生成器与参考审核器在宿主机两个终端分别启动。它们复用本机登录，角色提示词与端口分开，底层模型来源相同，不能据此声称独立模型投票。
+
+```sh
+python3 tools/generation_bridge.py
+```
+
+```sh
+python3 tools/judge_bridge.py
+```
+
+随后运行：
+
+```sh
+docker compose build
+docker compose run --rm -T --entrypoint python course -m lessons.e08_datasets.code
+docker compose --profile verify run --rm -T --entrypoint python verifier -m lessons.e08_datasets.eval
+```
+
+知识库继续只读挂载；生成读取e04/auth.md与e04/limits.md，记录当前内容哈希。报告写runs/e08-dataset.json；断网验收写runs/e08-dataset-grade.json，重跑前请另存需要比较的记录。本课不运行目标Agent。阅读器更新后打开 /lesson8，候选样本仍待人工确认。
+
+`.env`可分别覆盖GENERATION_BRIDGE_URL与JUDGE_BRIDGE_URL；不要把服务端登录凭据写进环境文件或镜像。教材生成仍在宿主机使用`uv run python tools/generate_lesson.py --lesson e08`，原稿与发布正文分开保存。

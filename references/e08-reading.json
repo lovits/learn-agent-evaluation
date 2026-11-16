@@ -1,0 +1,82 @@
+{
+  "scope": "Selected e08 document pages and fixed source call paths, not all framework documentation",
+  "documents": [
+    "https://deepeval.com/guides/guides-using-synthesizer",
+    "https://docs.ragas.io/en/stable/concepts/test_data_generation/rag/",
+    "https://docs.ragas.io/en/stable/howtos/customizations/testgenerator/"
+  ],
+  "sources": [
+    {
+      "repository": "deepeval",
+      "commit": "34db63dd005ebc9a905c8ef4741ae0687c93c14c",
+      "path": "deepeval/synthesizer/synthesizer.py",
+      "sha256": "ac2a2ab0ad5c38e365c5197209b14d2af2519707e410c0c52cf14674c8db7a81"
+    },
+    {
+      "repository": "deepeval",
+      "commit": "34db63dd005ebc9a905c8ef4741ae0687c93c14c",
+      "path": "deepeval/synthesizer/config.py",
+      "sha256": "f19c4f186d96de2b48203b4ae64970f80a03dba4beb5b1a552c05adae4f4525c"
+    },
+    {
+      "repository": "deepeval",
+      "commit": "34db63dd005ebc9a905c8ef4741ae0687c93c14c",
+      "path": "deepeval/synthesizer/types.py",
+      "sha256": "c14667b6f080136f6c33d2bc864f513f05299138a9d4e6ce084c72304a37b0c1"
+    },
+    {
+      "repository": "deepeval",
+      "commit": "34db63dd005ebc9a905c8ef4741ae0687c93c14c",
+      "path": "deepeval/synthesizer/schema.py",
+      "sha256": "8027e849e61af22a37d19eae6efcbf89069718c5fc572066b68cdc8f466b9d7e"
+    },
+    {
+      "repository": "ragas",
+      "commit": "8c63f10d500c44efbf24fdb9e2920de2104c321c",
+      "path": "src/ragas/testset/graph.py",
+      "sha256": "90dae5c6177f4dbd53785afe49b4eefbe7a1acef4fbce3bf50acf5a9bda4478a"
+    },
+    {
+      "repository": "ragas",
+      "commit": "8c63f10d500c44efbf24fdb9e2920de2104c321c",
+      "path": "src/ragas/testset/synthesizers/generate.py",
+      "sha256": "9126c74f636a6857e2ddc3f464bb00f430943e06c6e3b04cbf3dd38e3f758b15"
+    },
+    {
+      "repository": "ragas",
+      "commit": "8c63f10d500c44efbf24fdb9e2920de2104c321c",
+      "path": "src/ragas/testset/synthesizers/__init__.py",
+      "sha256": "cf6290d741b303d6a83d6a1e8f221be79bdddd4e5ace48f617f05ebd49c037c4"
+    },
+    {
+      "repository": "ragas",
+      "commit": "8c63f10d500c44efbf24fdb9e2920de2104c321c",
+      "path": "src/ragas/testset/synthesizers/single_hop/specific.py",
+      "sha256": "9e46984968022b2183946d9149b819e727ec222272ea731ccc7b9ffb2f45d13a"
+    },
+    {
+      "repository": "ragas",
+      "commit": "8c63f10d500c44efbf24fdb9e2920de2104c321c",
+      "path": "src/ragas/testset/synthesizers/single_hop/base.py",
+      "sha256": "f14210ecd4aa3b67996620fd52f35b04a0275d935aba1855cad4b9e8beb48e17"
+    },
+    {
+      "repository": "ragas",
+      "commit": "8c63f10d500c44efbf24fdb9e2920de2104c321c",
+      "path": "src/ragas/testset/synthesizers/multi_hop/specific.py",
+      "sha256": "dcf2cb83052e6c1bab3b1e35efb38120708c1bcb8b91d6f5705fa5d60daba99d"
+    },
+    {
+      "repository": "ragas",
+      "commit": "8c63f10d500c44efbf24fdb9e2920de2104c321c",
+      "path": "src/ragas/testset/synthesizers/multi_hop/base.py",
+      "sha256": "ba919f094235d692d3008a544ea632a3475776c7d409b5e9262cfe8b257fd153"
+    },
+    {
+      "repository": "ragas",
+      "commit": "8c63f10d500c44efbf24fdb9e2920de2104c321c",
+      "path": "src/ragas/testset/transforms/relationship_builders/traditional.py",
+      "sha256": "93fde7e813f0647b8979286b4f7d9db09b5f2977701d150c0b97e72c64238278"
+    }
+  ]
+}

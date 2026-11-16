@@ -1,0 +1,41 @@
+{
+  "generation_image_id": "sha256:b7cf2037e8d8999830a47a0467a4f29308cef3e79dcf17a8c3d53dbad08da298",
+  "native_generation_source_sha256": {
+    "lessons/e08_datasets/code.py": "c344af6433f1966b0e846701d5759a9624019550426b1f894cc7b1ed1defc24e",
+    "lessons/e08_datasets/dataset.py": "ae2dfd4e01927f53d1fc8a7cced6a1bb72c7da21de4b7e79588fabc6d433a477",
+    "lessons/e08_datasets/cases.jsonl": "69aaf1a71911929453c864165bf1a5c15de0020f3be92b69fb0988221baa2cf5",
+    "tools/generation_bridge.py": "3a661983ed9cb501ae698d4788b080a4e686746362c86eca4887a4dc8c288fd9",
+    "uv.lock": "93e0c1a94dcf33b0f1e02b76597ff15fdf5e83351176af0538ddd7b3d6cd9113"
+  },
+  "source_report_sha256": "f17fd120bba4064f0d2eb67298ff6ee9e8334e962fb522cdcf6abd4ec69c211e",
+  "model_roles": {
+    "generation": "host port 8769 /generate; tools disabled",
+    "automated_review": "host port 8768 /judge; tools disabled",
+    "target_agent": "not executed"
+  },
+  "versions": {
+    "deepeval": {
+      "repository": "https://github.com/confident-ai/deepeval",
+      "commit": "34db63dd005ebc9a905c8ef4741ae0687c93c14c",
+      "mode": "llm"
+    },
+    "ragas": {
+      "repository": "https://github.com/vibrantlabsai/ragas",
+      "commit": "8c63f10d500c44efbf24fdb9e2920de2104c321c",
+      "api": "metrics.collections"
+    },
+    "learn_claude_code": {
+      "repository": "https://github.com/shareAI-lab/learn-claude-code",
+      "commit": "448c75bb596917ad196cc1fb7558f459c5c50fdd"
+    },
+    "pocketflow_tutorial": {
+      "repository": "https://github.com/The-Pocket/PocketFlow-Tutorial-Codebase-Knowledge",
+      "commit": "05b24cbbb0fe409c5e23c9791f0342f07524ffdc"
+    }
+  },
+  "generator_responses": 16,
+  "review_responses": 8,
+  "embedding_model_executed": false,
+  "grader_sha256": "bf9877e01903bddd3445b445fad8ef60d3f7874b40c9d9cf4659a8f1586fdca3",
+  "grading_image_id": "sha256:b0eb27106afb77434f5ad7aeaee1cc73a5c488ffaaa9865dfc8af6ce72158c35"
+}

@@ -40,11 +40,12 @@ class Links(HTMLParser):
             self.images.extend(value for key, value in attrs if key == "src")
 
 
-def test_first_lesson_diagrams_load_from_the_rendered_page(reader):
-    with urlopen(reader + "/lesson") as reply:
+@pytest.mark.parametrize("route,count", [("/lesson", 2), ("/lesson8", 1)])
+def test_lesson_diagrams_load_from_the_rendered_page(reader, route, count):
+    with urlopen(reader + route) as reply:
         page = Links()
         page.feed(reply.read().decode())
-    assert len(page.images) == 2
+    assert len(page.images) == count
     for src in page.images:
         assert src.startswith("/image?path=")
         with urlopen(reader + src) as reply:

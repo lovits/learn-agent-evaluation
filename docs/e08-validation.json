@@ -1,0 +1,27 @@
+{
+  "lesson": "e08",
+  "local_tests": {
+    "passed": 87,
+    "warnings": 1
+  },
+  "docker_network_none_tests": {
+    "passed": 87,
+    "warnings": 1
+  },
+  "ruff": "passed",
+  "reader": {
+    "lesson8_http": 200,
+    "png_images_fetched": 1
+  },
+  "native_generation_source_hashes_verified": true,
+  "fixed_report_hash_verified": true,
+  "candidate_count": 9,
+  "pending_human": 7,
+  "quarantined": 2,
+  "human_approved": 0,
+  "new_agent_runs": 0,
+  "dataset_contract_checks_passed": 14,
+  "textbook_review_units": 12,
+  "textbook_unreviewed_units": 0,
+  "scope": "data-pipeline acceptance, not Agent benchmark; public seed split demonstration"
+}

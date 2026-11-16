@@ -1,0 +1,105 @@
+{
+  "generator": "The-Pocket/PocketFlow-Tutorial-Codebase-Knowledge",
+  "upstream_commit": "05b24cbbb0fe409c5e23c9791f0342f07524ffdc",
+  "backend": "local authenticated Codex CLI with tools disabled",
+  "actual_model_calls": 1,
+  "calls": [
+    {
+      "prompt_sha256": "2b4626a7ee72800d9e8d59a5abb5a14dbebe88018ff10f0081cc664b7f6168e9",
+      "response_sha256": "9fb158686cb97fc1d5f36525fbc1f231d08896de3ba475ece5831b4f40bb4b1f",
+      "elapsed_seconds": 69.093
+    }
+  ],
+  "nodes_run": [
+    "FetchRepo",
+    "BindLesson (fixed lesson adapter)",
+    "WriteChapters",
+    "CombineTutorial"
+  ],
+  "not_run": [
+    "IdentifyAbstractions",
+    "AnalyzeRelationships",
+    "OrderChapters"
+  ],
+  "reason": "The sixteen-lesson outline and current lesson are already fixed.",
+  "input_manifest": [
+    {
+      "path": "eval_course/records.py",
+      "sha256": "940890c3876981a2273497e8d0d06da4a882d7e65cea6098f6217f87de498181"
+    },
+    {
+      "path": "references/textbook-writing-standard.md",
+      "sha256": "f5b37acb847f10b22c835e46865394eb1b12d0119af01aa030faab4a817f0109"
+    },
+    {
+      "path": "references/versions.json",
+      "sha256": "75831131b2e85e8f0edd2ddd4534642f169a6d0cd0d5ac89d47c5465581ce99c"
+    },
+    {
+      "path": "references/e08-reading.json",
+      "sha256": "4d70fc12ee9d255fa57feff1acc54f5fc933e8b897f7825d79eccbde630460da"
+    },
+    {
+      "path": "lessons/e08_datasets/solutions.md",
+      "sha256": "b750b5baef55184be042dc4700957a2126ab45c4291debd897e499039c208edc"
+    },
+    {
+      "path": "lessons/e08_datasets/run_summary.md",
+      "sha256": "2372ae3b630435f531213a78ec20edf5339e39fa7d73e674658471238aed90e8"
+    },
+    {
+      "path": "lessons/e08_datasets/exercises.md",
+      "sha256": "ad9be9b190488edbbb4fea522b49192d9f3966d8713596d4cf86cf982842ef21"
+    },
+    {
+      "path": "lessons/e08_datasets/code.py",
+      "sha256": "c344af6433f1966b0e846701d5759a9624019550426b1f894cc7b1ed1defc24e"
+    },
+    {
+      "path": "lessons/e08_datasets/cases.jsonl",
+      "sha256": "69aaf1a71911929453c864165bf1a5c15de0020f3be92b69fb0988221baa2cf5"
+    },
+    {
+      "path": "lessons/e08_datasets/dataset.py",
+      "sha256": "ae2dfd4e01927f53d1fc8a7cced6a1bb72c7da21de4b7e79588fabc6d433a477"
+    },
+    {
+      "path": "lessons/e08_datasets/source_walkthrough.md",
+      "sha256": "3c22e739cf4339fce504dc000ab393415ac1a9b253262f69fc7957f0e13b1224"
+    },
+    {
+      "path": "lessons/e08_datasets/eval.py",
+      "sha256": "bf9877e01903bddd3445b445fad8ef60d3f7874b40c9d9cf4659a8f1586fdca3"
+    }
+  ],
+  "brief_sha256": "50a2340ddfbfb9444ac8a3c23154ddb167f09177f4e6de2d0eeeecfb19d9b98c",
+  "raw_output_directory": "generation/output/e08_datasets",
+  "publication": {
+    "technical_review": [
+      "restored omitted native Relationship properties",
+      "replaced reformatted/invented check excerpt with actual keys and source",
+      "corrected previous lesson real Agent execution",
+      "removed generator footer and tooling reminder",
+      "corrected closing transition against frozen curriculum: e09 version comparison, tools belong to e10"
+    ],
+    "humanizer": {
+      "scope": "entire current README.zh.md read from disk, including all six sections and six working steps",
+      "review_units": 12,
+      "unreviewed_units": 0,
+      "protected_spans_unchanged": true,
+      "prose_replacements": 13,
+      "post_review_change": "one closing paragraph corrected to actual e09, reread and prose reviewed"
+    },
+    "published_path": "lessons/e08_datasets/README.zh.md",
+    "published_sha256": "f2cf955b253255f3c3ce9473e13c4cdf3c8694d8bc0ac6e3395d1383bd745e62",
+    "main_sections": [
+      "问题",
+      "解决方案",
+      "工作原理",
+      "相对上一课的变更",
+      "试一下",
+      "接下来"
+    ],
+    "working_steps": 6
+  }
+}

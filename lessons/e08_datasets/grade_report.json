@@ -1,0 +1,38 @@
+{
+  "lesson": "e08",
+  "passed": true,
+  "checks": {
+    "native_generation_and_review_no_errors": true,
+    "both_native_generators": true,
+    "generation_and_review_called_models": true,
+    "evidence_text_hashes": true,
+    "duplicate_rejected": true,
+    "wrong_reference_rejected": true,
+    "single_and_multi_hop_reviewed": true,
+    "unanswerable_candidate": true,
+    "programming_acceptance_contract": true,
+    "all_three_splits": true,
+    "no_normalized_duplicates_in_eligible": true,
+    "families_not_crossing_splits": true,
+    "no_invented_agent_run_or_human_approval": true,
+    "reported_audit_matches_recomputed": true
+  },
+  "candidate_count": 9,
+  "eligible_pending_human": 7,
+  "quarantined": 2,
+  "eligible_by_split": {
+    "development": 5,
+    "calibration": 1,
+    "holdout": 1
+  },
+  "eligible_by_query_type": {
+    "single_hop": 2,
+    "multi_hop": 2,
+    "unanswerable": 1,
+    "coding_task": 2
+  },
+  "human_approved": 0,
+  "agent_benchmark_accuracy": null,
+  "scope": "Small teaching dataset pipeline; automated support judgments need human review; public-seed splits are not blind evaluation.",
+  "source_report_sha256": "f17fd120bba4064f0d2eb67298ff6ee9e8334e962fb522cdcf6abd4ec69c211e"
+}

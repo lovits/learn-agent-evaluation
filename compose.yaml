@@ -11,6 +11,8 @@ services:
       RUNS_DIR: /data/runs
       WORKSPACES_DIR: /data/workspaces
       MODEL_BRIDGE_URL: "${MODEL_BRIDGE_URL:-http://host.docker.internal:8766/next}"
+      JUDGE_BRIDGE_URL: "${JUDGE_BRIDGE_URL:-http://host.docker.internal:8768/judge}"
+      GENERATION_BRIDGE_URL: "${GENERATION_BRIDGE_URL:-http://host.docker.internal:8769/generate}"
       DEEPEVAL_TELEMETRY_OPT_OUT: "YES"
       RAGAS_DO_NOT_TRACK: "true"
     volumes:

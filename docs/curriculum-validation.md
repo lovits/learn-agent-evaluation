@@ -1,6 +1,6 @@
-# 本轮课程设计核验
+# 课程设计核验（2026-11-16历史记录）
 
-日期：2026-11-16。本轮核验课程设计、生成流程与阅读器，没有把16课编程Agent实验当成已执行。
+日期：2026-11-16。当时核验课程设计、生成流程与阅读器，没有把16课编程Agent实验当成已执行。
 
 - 原24课恰好各映射一次，知识文字保留于新curriculum.json。
 - Learn Claude Code的17个机制均有明确引入课程，状态为待实现/验证。
@@ -14,7 +14,7 @@
 机器可读记录在docs/curriculum-validation.json；源码引用目录在references/curriculum-sources.json。
 PocketFlow原始输出、调用与节点凭证在generation/output/curriculum_v2。
 
-已有Faithfulness工程的Docker断网、挂载、持久化验证是此前的独立记录。
+本页记录此前课程设计的核验。旧Faithfulness样章已按新指令清理；当前课程运行验收见第1课验证记录。
 新编程Agent的功能等价、真实模型成绩与各课实验仍待按制作计划完成。
 
 参见 [课程大纲](curriculum.md)、[制作计划](course-production-plan.md)、

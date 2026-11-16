@@ -9,8 +9,8 @@ services:
     environment:
       KNOWLEDGE_DIR: /data/knowledge
       RUNS_DIR: /data/runs
-      JUDGE_MODEL: "${JUDGE_MODEL:-}"
-      JUDGE_BASE_URL: "${JUDGE_BASE_URL:-https://api.openai.com/v1}"
+      WORKSPACES_DIR: /data/workspaces
+      MODEL_BRIDGE_URL: "${MODEL_BRIDGE_URL:-http://host.docker.internal:8766/next}"
       DEEPEVAL_TELEMETRY_OPT_OUT: "YES"
       RAGAS_DO_NOT_TRACK: "true"
     volumes:
@@ -25,6 +25,11 @@ services:
         target: /data/runs
         bind:
           create_host_path: false
+      - type: bind
+        source: ./workspaces
+        target: /data/workspaces
+        bind:
+          create_host_path: false
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/healthz', timeout=3)"]
       interval: 10s
@@ -33,3 +38,19 @@ services:
       start_period: 15s
     cap_drop: ["ALL"]
     security_opt: ["no-new-privileges:true"]
+  verifier:
+    image: learn-agent-evaluation:local
+    profiles: ["verify"]
+    user: "${LOCAL_UID:-1000}:${LOCAL_GID:-1000}"
+    network_mode: none
+    environment:
+      WORKSPACES_DIR: /data/workspaces
+      RUNS_DIR: /data/runs
+      CRITERIA_FILE: /verification/e01.json
+    volumes:
+      - ./workspaces:/data/workspaces:ro
+      - ./runs:/data/runs
+      - ./evaluation_private:/verification:ro
+    cap_drop: ["ALL"]
+    security_opt: ["no-new-privileges:true"]
+    command: ["verify", "--help"]

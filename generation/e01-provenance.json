@@ -1,0 +1,75 @@
+{
+  "generator": "The-Pocket/PocketFlow-Tutorial-Codebase-Knowledge",
+  "upstream_commit": "05b24cbbb0fe409c5e23c9791f0342f07524ffdc",
+  "backend": "local authenticated Codex CLI with tools disabled",
+  "actual_model_calls": 1,
+  "calls": [
+    {
+      "prompt_sha256": "ba8c69213cd64d7607822aa458bb7c68fef2b6bb7c4f6529b232422f31a98d09",
+      "response_sha256": "6c7a61d0abfd005ae6639aae6695f59f0da22ef8257ba5262bc3cbe0e8713edd",
+      "elapsed_seconds": 137.171
+    }
+  ],
+  "nodes_run": [
+    "FetchRepo",
+    "BindLesson (approved e01 adapter)",
+    "WriteChapters",
+    "CombineTutorial"
+  ],
+  "not_run": [
+    "IdentifyAbstractions",
+    "AnalyzeRelationships",
+    "OrderChapters"
+  ],
+  "reason": "The sixteen-lesson outline and current lesson are already fixed.",
+  "input_manifest": [
+    {
+      "path": "eval_course/records.py",
+      "sha256": "aef9bafe178d0b963ffe131731bdffa5fcb3f619bea5ea65d8265758c95c7a4a"
+    },
+    {
+      "path": "references/versions.json",
+      "sha256": "75831131b2e85e8f0edd2ddd4534642f169a6d0cd0d5ac89d47c5465581ce99c"
+    },
+    {
+      "path": "lessons/e01_agent_baseline/solutions.md",
+      "sha256": "33c672bcff38597aeeb64b52a64bd86ee44e186e434e9d9dba48af94e2778200"
+    },
+    {
+      "path": "lessons/e01_agent_baseline/exercises.md",
+      "sha256": "940b71a58a7ef276aaf4cdea9be5e6f48e718926580a2a0fee15c5daad7ef5d8"
+    },
+    {
+      "path": "lessons/e01_agent_baseline/code.py",
+      "sha256": "b527f99a5202f5cafb7cbfdf8c4f24eead68800c8984645abc2f7c83b2a6eb06"
+    },
+    {
+      "path": "lessons/e01_agent_baseline/cases.jsonl",
+      "sha256": "f4b0f8f3cadf28417270d5f6af72de7673854aabead09fedbc7d98c7c0d4afc9"
+    },
+    {
+      "path": "lessons/e01_agent_baseline/source_walkthrough.md",
+      "sha256": "c768344a0a2e6fa5189ef1cf69ea122e5a791180f83c6978ae9bdd6f8fab4279"
+    },
+    {
+      "path": "lessons/e01_agent_baseline/eval.py",
+      "sha256": "f4788d0fd93def6032a73654f74b07331daec0aa6a6d3ba44f91f67d6b61f5cb"
+    },
+    {
+      "path": "lessons/e01_agent_baseline/example_report.json",
+      "sha256": "51b6917abf8274e3c18a1ed62a2cc73f2a6ac5319b8ed10c1b7885807648efeb"
+    }
+  ],
+  "brief_sha256": "b516de8a2da933496cfea74861ef2c9f68c3c6b3d6c3d3238257db14e0ebde92",
+  "raw_output_directory": "generation/output/e01_agent_baseline",
+  "publication": {
+    "path": "lessons/e01_agent_baseline/README.zh.md",
+    "sha256": "66ab30fe0be21e05af9be6657cb1dd098aea339a71d2bd116332a37d343cf014",
+    "review_notes": [
+      "核对4/4真实任务、8次模型请求、4条Bash和独立验收结果",
+      "标明代码删节并补足Popen关键参数",
+      "明确独立目录不等于内核级隔离、自动合同不等于通用证明",
+      "保留原始生成稿，公开教材单独保存"
+    ]
+  }
+}

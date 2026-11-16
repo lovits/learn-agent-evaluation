@@ -11,6 +11,6 @@ jobs:
       - name: Build the complete course environment
         run: docker build -t learn-agent-evaluation:ci .
       - name: Check authored code
-        run: docker run --rm --network none --entrypoint ruff learn-agent-evaluation:ci check eval_course s07_faithfulness/code.py tests tools
-      - name: Test real SDK replay without internet
+        run: docker run --rm --network none --entrypoint ruff learn-agent-evaluation:ci check eval_course lessons tests tools
+      - name: Test Bash loop and independent grading without internet
         run: docker run --rm --network none --entrypoint python learn-agent-evaluation:ci -m pytest -q

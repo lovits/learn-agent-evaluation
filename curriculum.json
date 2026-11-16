@@ -1,6 +1,6 @@
 {
   "title": "从 Learn Claude Code 编程 Agent 学 RAG 与 Agent 评测",
-  "status": "curriculum_design_only",
+  "status": "e01_implemented_other_lessons_planned",
   "audience": "会 Python，了解 RAG/Agent，系统学习评测",
   "versions": {
     "deepeval": {
@@ -27,7 +27,7 @@
     {
       "id": "e01",
       "title": "最小编程 Agent 与第一份评测协议",
-      "status": "planned",
+      "status": "implemented_live_docker_verified",
       "original_lessons": [
         "s01",
         "s09"
@@ -488,13 +488,8 @@
       "source_analysis": "按所选指标适用部分追踪输入校验、prompt/schema、模型调用、verdict、聚合、异步与结果对象；规则指标说明不适用项。"
     }
   ],
-  "runtime_status": "Only the existing s07 Faithfulness replay pilot is implemented; coding-agent lessons are planned.",
-  "legacy_pilots": [
-    {
-      "path": "s07_faithfulness",
-      "status": "implemented_fixed_sdk_replay",
-      "future_lesson": "e05"
-    }
-  ],
-  "implemented_lessons": []
+  "runtime_status": "e01: live model-driven Bash loop and independent Docker verification complete; old sample removed.",
+  "implemented_lessons": [
+    "e01"
+  ]
 }

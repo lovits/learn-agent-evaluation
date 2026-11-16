@@ -6,7 +6,7 @@ import sys
 import time
 import types
 
-from generate_lesson import PROJECT, VENDOR, codex_completion, sha
+from model_backend import PROJECT, VENDOR, codex_completion, sha
 
 
 def main():
@@ -160,7 +160,7 @@ def main():
         ],
         "brief_sha256": sha(brief),
         "draft_sha256": sha((output / "curriculum-draft.md").read_text()),
-        "implementation_status": "planned; existing Faithfulness replay pilot remains separate",
+        "implementation_status": "curriculum planning only; current lesson status is tracked in curriculum.json",
     }
     (output / "provenance.json").write_text(
         json.dumps(provenance, ensure_ascii=False, indent=2) + "\n"

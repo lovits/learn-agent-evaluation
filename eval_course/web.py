@@ -10,21 +10,22 @@ from urllib.parse import parse_qs, quote, unquote, urlparse
 
 from markdown_it import MarkdownIt
 
-from .data import load_cases
+from lessons.e01_agent_baseline.code import load_cases
+
 from .knowledge import PROJECT, catalog, document, search
 
 PAGES = {
     "/": ("课程首页", "README.md"),
-    "/lesson": ("s07 Faithfulness", "s07_faithfulness/README.zh.md"),
-    "/source": ("源码分析", "s07_faithfulness/source_walkthrough.md"),
-    "/exercises": ("练习", "s07_faithfulness/exercises.md"),
-    "/solutions": ("参考答案", "s07_faithfulness/solutions.md"),
+    "/lesson": ("第1课：最小Agent", "lessons/e01_agent_baseline/README.zh.md"),
+    "/source": ("源码分析", "lessons/e01_agent_baseline/source_walkthrough.md"),
+    "/exercises": ("练习", "lessons/e01_agent_baseline/exercises.md"),
+    "/solutions": ("参考答案", "lessons/e01_agent_baseline/solutions.md"),
     "/docker": ("Docker 与知识库", "docs/docker.md"),
     "/generation": ("PocketFlow 生成记录", "generation/README.md"),
 }
 DOCUMENTS = {
     **PAGES,
-    "/curriculum": ("24 课路线", "docs/curriculum.md"),
+    "/curriculum": ("16课路线", "docs/curriculum.md"),
     "/validation": ("验证记录", "docs/validation.md"),
     "/third-party": ("第三方说明", "THIRD_PARTY.md"),
     "/plan": ("需求与项目计划", "docs/project-plan.md"),
@@ -35,10 +36,11 @@ DOCUMENTS = {
     "/production-plan": ("课程制作计划", "docs/course-production-plan.md"),
     "/curriculum-generation": ("课程规划生成记录", "generation/curriculum-README.md"),
     "/archive-24": ("原24课知识对照", "docs/archive/curriculum-24.md"),
+    "/specification": ("16课详细设计与制作规范", "docs/course-specification.md"),
     "/curriculum-validation": ("课程设计核验", "docs/curriculum-validation.md"),
 }
 RENDERER = MarkdownIt("commonmark", {"html": False}).enable("table")
-REPORT_NAME = re.compile(r"(?:replay|live)-[a-f0-9]{32}\.json")
+REPORT_NAME = re.compile(r"(?:e01|grade-e01|e01-suite)-[a-f0-9]{32}\.json")
 
 
 def layout(title: str, body: str) -> bytes:
@@ -76,7 +78,7 @@ def render_page(path: str) -> str:
                 token.attrSet(
                     "href", routes[target] + ("#" + parsed.fragment if parsed.fragment else "")
                 )
-            elif target.is_relative_to(PROJECT) and target.suffix in {".py", ".json"}:
+            elif target.is_relative_to(PROJECT) and target.suffix in {".py", ".json", ".jsonl"}:
                 token.attrSet("href", "/code?path=" + quote(str(target.relative_to(PROJECT))))
     return RENDERER.renderer.render(tokens, RENDERER.options, {})
 
@@ -88,7 +90,7 @@ def knowledge_page(query: dict) -> bytes:
     term = query.get("q", [""])[0]
     docs = search(term, limit=10) if term else catalog()
     content = "<h1>当前挂载的知识库</h1><p>每次查询重新读文件，不依赖隐藏索引。</p>"
-    content += '<form><label for="query">检索词：</label><input id="query" name="q" placeholder="例如：退款"'
+    content += '<form><label for="query">检索词：</label><input id="query" name="q" placeholder="例如：Python"'
     content += f' value="{html.escape(term, quote=True)}"><button>检索</button></form>'
     for doc in docs:
         content += f'<h2><a href="/knowledge?path={quote(doc["path"])}">'
@@ -111,7 +113,8 @@ def reports_page(query: dict) -> bytes:
         if REPORT_NAME.fullmatch(p.name)
     )
     return layout(
-        "实验结果", "<h1>实验结果</h1><p>运行 replay / live 后刷新此页。</p><ul>" + links + "</ul>"
+        "实验结果",
+        "<h1>实验结果</h1><p>运行第1课Agent并独立验收后刷新此页。</p><ul>" + links + "</ul>",
     )
 
 
@@ -133,8 +136,8 @@ class Handler(BaseHTTPRequestHandler):
                 body = layout(title, render_page(path))
             elif parsed.path == "/code":
                 target = (PROJECT / query.get("path", [""])[0]).resolve()
-                allowed = [PROJECT / n for n in ("s07_faithfulness", "eval_course", "references")]
-                if target.suffix not in {".py", ".txt", ".json"} or not any(
+                allowed = [PROJECT / n for n in ("lessons", "eval_course", "references", "tools")]
+                if target.suffix not in {".py", ".txt", ".json", ".jsonl"} or not any(
                     target.is_relative_to(x) for x in allowed
                 ):
                     raise ValueError("该文件不在课程源码阅读范围内。")

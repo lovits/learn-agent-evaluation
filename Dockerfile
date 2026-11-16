@@ -11,8 +11,8 @@ ENV UV_LINK_MODE=copy PYTHONUNBUFFERED=1 PYTHONDONTWRITEBYTECODE=1 \
 COPY pyproject.toml uv.lock .python-version ./
 RUN --mount=type=cache,target=/root/.cache/uv uv sync --frozen --no-install-project
 COPY --chown=course:course . .
-RUN mkdir -p /data/knowledge /data/runs \
-    && chown course:course /app /data /data/knowledge /data/runs
+RUN mkdir -p /data/knowledge /data/runs /data/workspaces \
+    && chown course:course /app /data /data/knowledge /data/runs /data/workspaces
 USER course
 EXPOSE 8000
 ENTRYPOINT ["python", "-m", "eval_course"]

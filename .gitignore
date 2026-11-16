@@ -15,3 +15,6 @@ runs/*
 .cache/
 *.egg-info/
 generation/private/
+draft_*_folder/
+workspaces/*
+!workspaces/.gitkeep

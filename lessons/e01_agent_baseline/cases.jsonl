@@ -1,0 +1,4 @@
+{"id": "list_files", "task": "用Bash列出当前练习目录中的文件名，基于实际结果回答。", "files": {"alpha.py": "# teaching input\n", "notes.txt": "hello\n"}}
+{"id": "create_and_run", "task": "创建hello.py，内容只包含一条print(\"Hello, World!\")语句，然后使用python3运行它，报告实际结果。", "files": {}}
+{"id": "run_existing", "task": "用python3运行calculate.py，基于实际输出给出结果，不要修改脚本。", "files": {"calculate.py": "print(6 * 7)\n"}}
+{"id": "command_error", "task": "用python3运行fail.py，如实报告实际错误，不要修改脚本或声称已修复。", "files": {"fail.py": "raise RuntimeError(\"demo-failure\")\n"}}

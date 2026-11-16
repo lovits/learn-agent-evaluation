@@ -4,7 +4,7 @@
     "source_path": "learn-claude-code/s01_agent_loop/code.py",
     "sha256": "8feaf7f73da6f9a7f0f030a66ed017bdf13d9884c4537b0b5805a55b43dbfc00",
     "introduced_in": "e01",
-    "status": "planned_not_implemented_or_validated"
+    "status": "e01_loop_and_bash_contract_verified; other upstream mechanisms planned"
   },
   {
     "upstream_lesson": "s02_tool_use",

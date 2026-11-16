@@ -1,0 +1,282 @@
+{
+  "lesson": "e05",
+  "mode": "live_judges_controlled_answers_and_recorded_agent",
+  "rows": [
+    {
+      "case": {
+        "id": "supported",
+        "response": "The upload token must be sent in X-Project-Token.",
+        "annotation": "supported",
+        "question": "Explain the upload authentication, size limit, status and optional retry behavior based only on retrieved project documentation.",
+        "documents": [
+          {
+            "id": "e04/auth.md",
+            "text": "# Upload API authentication\nFor POST /upload, send the API token in the X-Project-Token header. This endpoint accepts file uploads.\n",
+            "sha256": "c679cde9b3a727c786041a104888227dad4338379942276adeba9f3e211c335f",
+            "matches": 5
+          },
+          {
+            "id": "e04/limits.md",
+            "text": "# Upload API size limit\nPOST /upload accepts files up to 1048576 bytes (1 MiB). Larger requests return HTTP 413. Check the file size before sending.\n",
+            "sha256": "a742717e40c3a2af1a7c2fee961c06ee9d91872b8d09b81089159a057af1d949",
+            "matches": 5
+          }
+        ],
+        "origin": "controlled_answer"
+      },
+      "evidence_key": "0b330107f7d0d963ebb8bc2db9dff8b1cce3eaf4f293eff7fc54601a51fcc83b",
+      "metrics": {
+        "DeepEval": {
+          "score": null,
+          "status": "error",
+          "error": "<urlopen error [Errno 101] Network is unreachable>"
+        },
+        "Ragas": {
+          "score": null,
+          "status": "error",
+          "error": "<urlopen error [Errno 101] Network is unreachable>",
+          "steps": []
+        }
+      },
+      "calls": []
+    },
+    {
+      "case": {
+        "id": "unmentioned",
+        "response": "The upload API automatically retries failed requests three times.",
+        "annotation": "not_in_evidence",
+        "question": "Explain the upload authentication, size limit, status and optional retry behavior based only on retrieved project documentation.",
+        "documents": [
+          {
+            "id": "e04/auth.md",
+            "text": "# Upload API authentication\nFor POST /upload, send the API token in the X-Project-Token header. This endpoint accepts file uploads.\n",
+            "sha256": "c679cde9b3a727c786041a104888227dad4338379942276adeba9f3e211c335f",
+            "matches": 5
+          },
+          {
+            "id": "e04/limits.md",
+            "text": "# Upload API size limit\nPOST /upload accepts files up to 1048576 bytes (1 MiB). Larger requests return HTTP 413. Check the file size before sending.\n",
+            "sha256": "a742717e40c3a2af1a7c2fee961c06ee9d91872b8d09b81089159a057af1d949",
+            "matches": 5
+          }
+        ],
+        "origin": "controlled_answer"
+      },
+      "evidence_key": "0b330107f7d0d963ebb8bc2db9dff8b1cce3eaf4f293eff7fc54601a51fcc83b",
+      "metrics": {
+        "DeepEval": {
+          "score": null,
+          "status": "error",
+          "error": "<urlopen error [Errno 101] Network is unreachable>"
+        },
+        "Ragas": {
+          "score": null,
+          "status": "error",
+          "error": "<urlopen error [Errno 101] Network is unreachable>",
+          "steps": []
+        }
+      },
+      "calls": []
+    },
+    {
+      "case": {
+        "id": "contradiction",
+        "response": "The maximum upload size is 2097152 bytes.",
+        "annotation": "contradicts_current_evidence",
+        "question": "Explain the upload authentication, size limit, status and optional retry behavior based only on retrieved project documentation.",
+        "documents": [
+          {
+            "id": "e04/auth.md",
+            "text": "# Upload API authentication\nFor POST /upload, send the API token in the X-Project-Token header. This endpoint accepts file uploads.\n",
+            "sha256": "c679cde9b3a727c786041a104888227dad4338379942276adeba9f3e211c335f",
+            "matches": 5
+          },
+          {
+            "id": "e04/limits.md",
+            "text": "# Upload API size limit\nPOST /upload accepts files up to 1048576 bytes (1 MiB). Larger requests return HTTP 413. Check the file size before sending.\n",
+            "sha256": "a742717e40c3a2af1a7c2fee961c06ee9d91872b8d09b81089159a057af1d949",
+            "matches": 5
+          }
+        ],
+        "origin": "controlled_answer"
+      },
+      "evidence_key": "0b330107f7d0d963ebb8bc2db9dff8b1cce3eaf4f293eff7fc54601a51fcc83b",
+      "metrics": {
+        "DeepEval": {
+          "score": null,
+          "status": "error",
+          "error": "<urlopen error [Errno 101] Network is unreachable>"
+        },
+        "Ragas": {
+          "score": null,
+          "status": "error",
+          "error": "<urlopen error [Errno 101] Network is unreachable>",
+          "steps": []
+        }
+      },
+      "calls": []
+    },
+    {
+      "case": {
+        "id": "mixed",
+        "response": "The upload token belongs in X-Project-Token. Uploads automatically retry three times. The maximum size is 2097152 bytes.",
+        "annotation": "mixed_three_claims",
+        "question": "Explain the upload authentication, size limit, status and optional retry behavior based only on retrieved project documentation.",
+        "documents": [
+          {
+            "id": "e04/auth.md",
+            "text": "# Upload API authentication\nFor POST /upload, send the API token in the X-Project-Token header. This endpoint accepts file uploads.\n",
+            "sha256": "c679cde9b3a727c786041a104888227dad4338379942276adeba9f3e211c335f",
+            "matches": 5
+          },
+          {
+            "id": "e04/limits.md",
+            "text": "# Upload API size limit\nPOST /upload accepts files up to 1048576 bytes (1 MiB). Larger requests return HTTP 413. Check the file size before sending.\n",
+            "sha256": "a742717e40c3a2af1a7c2fee961c06ee9d91872b8d09b81089159a057af1d949",
+            "matches": 5
+          }
+        ],
+        "origin": "controlled_answer"
+      },
+      "evidence_key": "0b330107f7d0d963ebb8bc2db9dff8b1cce3eaf4f293eff7fc54601a51fcc83b",
+      "metrics": {
+        "DeepEval": {
+          "score": null,
+          "status": "error",
+          "error": "<urlopen error [Errno 101] Network is unreachable>"
+        },
+        "Ragas": {
+          "score": null,
+          "status": "error",
+          "error": "<urlopen error [Errno 101] Network is unreachable>",
+          "steps": []
+        }
+      },
+      "calls": []
+    },
+    {
+      "case": {
+        "id": "no_claim",
+        "response": "Thanks!",
+        "annotation": "no_factual_claim_intended",
+        "question": "Explain the upload authentication, size limit, status and optional retry behavior based only on retrieved project documentation.",
+        "documents": [
+          {
+            "id": "e04/auth.md",
+            "text": "# Upload API authentication\nFor POST /upload, send the API token in the X-Project-Token header. This endpoint accepts file uploads.\n",
+            "sha256": "c679cde9b3a727c786041a104888227dad4338379942276adeba9f3e211c335f",
+            "matches": 5
+          },
+          {
+            "id": "e04/limits.md",
+            "text": "# Upload API size limit\nPOST /upload accepts files up to 1048576 bytes (1 MiB). Larger requests return HTTP 413. Check the file size before sending.\n",
+            "sha256": "a742717e40c3a2af1a7c2fee961c06ee9d91872b8d09b81089159a057af1d949",
+            "matches": 5
+          }
+        ],
+        "origin": "controlled_answer"
+      },
+      "evidence_key": "0b330107f7d0d963ebb8bc2db9dff8b1cce3eaf4f293eff7fc54601a51fcc83b",
+      "metrics": {
+        "DeepEval": {
+          "score": null,
+          "status": "error",
+          "error": "<urlopen error [Errno 101] Network is unreachable>"
+        },
+        "Ragas": {
+          "score": null,
+          "status": "error",
+          "error": "<urlopen error [Errno 101] Network is unreachable>",
+          "steps": []
+        }
+      },
+      "calls": []
+    },
+    {
+      "case": {
+        "id": "evidence_v2",
+        "response": "The maximum upload size is 2097152 bytes.",
+        "question": "Explain the upload authentication, size limit, status and optional retry behavior based only on retrieved project documentation.",
+        "documents": [
+          {
+            "id": "e04/auth.md",
+            "text": "# Upload API authentication\nFor POST /upload, send the API token in the X-Project-Token header. This endpoint accepts file uploads.\n",
+            "sha256": "c679cde9b3a727c786041a104888227dad4338379942276adeba9f3e211c335f",
+            "matches": 5
+          },
+          {
+            "id": "e04/limits.md",
+            "text": "# Upload API size limit\nPOST /upload accepts files up to 2097152 bytes (2 MiB). Larger requests return HTTP 413. Check the file size before sending.\n",
+            "sha256": "3d833ab2fc342b961518483f3de2a2deac25101f5e2b6146418f70e3235ce174",
+            "matches": 5
+          }
+        ],
+        "origin": "controlled_evidence_revision"
+      },
+      "evidence_key": "5b606c0684d2ba12af2da6d2e04b7ce5f55be7e5623469e9ff8d3c68b992099f",
+      "metrics": {
+        "DeepEval": {
+          "score": null,
+          "status": "error",
+          "error": "<urlopen error [Errno 101] Network is unreachable>"
+        },
+        "Ragas": {
+          "score": null,
+          "status": "error",
+          "error": "<urlopen error [Errno 101] Network is unreachable>",
+          "steps": []
+        }
+      },
+      "calls": []
+    },
+    {
+      "case": {
+        "id": "recorded_agent",
+        "response": "认证 Header：X-Project-Token（来源：e04/auth.md）\n最大文件字节数：1048576 字节（1 MiB）（来源：e04/limits.md）\n超限状态码：HTTP 413（来源：e04/limits.md）\n",
+        "question": "先调用search_knowledge查询POST upload API token size limit，依据知识库说明POST /upload需要哪个认证header、最大文件字节数、超限状态码。写入upload_notes.txt，每项一行并附来源路径。不调用网络API。",
+        "documents": [
+          {
+            "id": "e04/auth.md",
+            "text": "# Upload API authentication\nFor POST /upload, send the API token in the X-Project-Token header. This endpoint accepts file uploads.\n",
+            "sha256": "c679cde9b3a727c786041a104888227dad4338379942276adeba9f3e211c335f",
+            "matches": 5
+          },
+          {
+            "id": "e04/limits.md",
+            "text": "# Upload API size limit\nPOST /upload accepts files up to 1048576 bytes (1 MiB). Larger requests return HTTP 413. Check the file size before sending.\n",
+            "sha256": "a742717e40c3a2af1a7c2fee961c06ee9d91872b8d09b81089159a057af1d949",
+            "matches": 5
+          }
+        ],
+        "origin": "recorded_live_agent_e04",
+        "source_run_id": "0bac799b14cd4e3baee0aaa54f599079"
+      },
+      "evidence_key": "0b330107f7d0d963ebb8bc2db9dff8b1cce3eaf4f293eff7fc54601a51fcc83b",
+      "metrics": {
+        "DeepEval": {
+          "score": null,
+          "status": "error",
+          "error": "<urlopen error [Errno 101] Network is unreachable>"
+        },
+        "Ragas": {
+          "score": null,
+          "status": "error",
+          "error": "<urlopen error [Errno 101] Network is unreachable>",
+          "steps": []
+        }
+      },
+      "calls": []
+    }
+  ],
+  "source_agent_sha256": "7b8d33a455485a2f03ccb1dfcafeb44320624851c6e1dc647a70744b461caf5c",
+  "source_agent_run_id": "0bac799b14cd4e3baee0aaa54f599079",
+  "agent_new_execution": false,
+  "stale_annotation_rejected": true,
+  "model_calls": 0,
+  "metric_errors": 14,
+  "implementation": {
+    "code.py": "7f4f482d51700af8682a5ead375c0ecfaf38b8c31b62b8b031a6cc86774e2658",
+    "eval.py": "688642739329c88fb590d2dd149a6288af53745d8bf5f10500985e1b9773d918",
+    "cases.jsonl": "84ed0e3c972ae3274a0fa72a022a9f3b626c2477897f5017df68705f2ce5f19d"
+  }
+}

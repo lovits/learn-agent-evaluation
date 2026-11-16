@@ -65,8 +65,8 @@ python3 tools/run_e01.py
 
 ## 项目状态
 
-旧Faithfulness样章和专属回放实现已清理；该主题将在第5课以编程案例重新制作。
-当前已制作第1、2、3、4课，其余12课保留详细设计。DeepEval/Ragas用于评测方法和源码依据，
+旧Faithfulness样章和专属回放实现已清理；该主题已在第5课以编程案例重新制作。
+当前已制作第1至5课，其余11课保留详细设计。DeepEval/Ragas用于评测方法和源码依据，
 第一课先用确定性任务合同判断文件、输出和退出码，后续再逐步引入框架接口与模型裁判。
 
 教材通过 [PocketFlow流程](generation/README.md)组织，来源与许可见 [第三方说明](THIRD_PARTY.md)。
@@ -105,3 +105,9 @@ docker compose run --rm -T --entrypoint python course -m lessons.e04_retrieval.e
 使用自己的知识库时，设置 `KNOWLEDGE_DIR=/实际绝对路径` 再运行compose；只需检索即可验证新挂载，固定upload例题与验收标准用于附带的合成资料。新目录必须已存在。
 
 [第4课飞书完整版本](https://my.feishu.cn/docx/SPD5dOh7vo7LVtxrbykc7tgSn4g)。
+
+## 第5课：Faithfulness
+
+[教材](lessons/e05_faithfulness/README.zh.md)、[源码导读](lessons/e05_faithfulness/source_walkthrough.md)、[实验结果](lessons/e05_faithfulness/run_summary.md)、[验收记录](docs/e05-validation.md)。宿主机保持 `python3 tools/judge_bridge.py` 运行，容器执行 `docker compose run --rm -T --entrypoint python course -m lessons.e05_faithfulness.eval`。阅读地址：http://localhost:8765/lesson5 。
+
+[第5课飞书完整教材](https://my.feishu.cn/docx/VnU4dKOOHoMJhEx55jpcQ83fn4e)。

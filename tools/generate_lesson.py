@@ -124,6 +124,7 @@ def main():
                 if lesson == "e07"
                 else []
             ),
+            *(["references/e01-rewrite-plan.md"] if lesson == "e01" else []),
             "eval_course/records.py",
             "references/versions.json",
         },

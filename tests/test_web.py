@@ -31,10 +31,25 @@ class Links(HTMLParser):
     def __init__(self):
         super().__init__()
         self.hrefs = []
+        self.images = []
 
     def handle_starttag(self, tag, attrs):
         if tag == "a":
             self.hrefs.extend(value for key, value in attrs if key == "href")
+        if tag == "img":
+            self.images.extend(value for key, value in attrs if key == "src")
+
+
+def test_first_lesson_diagrams_load_from_the_rendered_page(reader):
+    with urlopen(reader + "/lesson") as reply:
+        page = Links()
+        page.feed(reply.read().decode())
+    assert len(page.images) == 2
+    for src in page.images:
+        assert src.startswith("/image?path=")
+        with urlopen(reader + src) as reply:
+            assert reply.headers.get_content_type() == "image/png"
+            assert reply.read(8) == b"\x89PNG\r\n\x1a\n"
 
 
 def test_course_documents_and_local_links_are_readable(reader):
@@ -70,6 +85,8 @@ def test_api_reads_the_selected_mount(reader):
         "/code?path=secrets/judge_api_key.txt",
         "/knowledge?path=../README.md",
         "/reports?file=../README.md",
+        "/image?path=../../.env",
+        "/image?path=lessons/e01_agent_baseline/code.py",
     ],
 )
 def test_reader_rejects_files_outside_its_reading_scope(reader, path):

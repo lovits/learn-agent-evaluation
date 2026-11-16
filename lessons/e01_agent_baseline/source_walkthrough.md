@@ -53,3 +53,19 @@ command_error任务的目标是如实观察原脚本失败，所以工具非零�
 
 没有专用文件工具、知识检索、记忆、计划、任务图、子Agent或团队。
 知识库挂载已准备，但第1课不检索它。共享模块只处理记录与阅读，不藏入后续Agent能力。
+
+## Bash与消息的细节
+
+run_bash以cwd=workspace启动/bin/bash，分开保存stdout、stderr、exit_code与status；超时会终止命令进程组，输出截断会标记truncated。教学阻断词表不是完整安全体系。每条任务的新workspace用于避免遗留文件误通过，不等于内核级隔离。
+
+模型动作结构经过call_model检查：answer为字符串、tool_calls为列表，每个command非空。agent_loop用max_steps限制循环，空tool_calls返回finished，用完预算返回step_limit，模型传输或结构错误另记model_error。工具失败的stderr/退出码照常回填，模型可以继续观察；预算耗尽和传输失败不按通过处理。
+
+私有合同只给verifier，不能为提高分数而看结果后倒推标准。successful_stdout_contains必须对应成功工具输出；error_contains必须对应非零退出和stderr；file_sha256检查不可修改脚本；python_ast用ast.dump对照明确的单语句要求，接受引号、注释和空白变化，拒绝额外语句。它不证明任意程序功能等价，输出检查也不是完整防投机证明。
+
+本课保留DeepEval的数据集/运行组织与Ragas实验代码作为方法依据，使用的是确定性程序断言，没有调用它们的LLM裁判。原始运行的具体证据见[实验记录](run_summary.md)，不把文档更新当成重新运行。
+
+## 读图时对应哪些代码
+
+正文图1只展开正常回路：messages → call_model → 空调用判停或run_bash → 把结果回填messages。异常和预算分支由文字及完整代码解释。图2对应tools/run_e01.py先启动Agent、再启动独立verifier；eval.py的evaluate汇集checks，check_rule读取工具记录或文件内容。
+
+图中的代码名都对应实际实现。两张图有[执行循环源文件](https://github.com/lovits/learn-agent-evaluation/blob/main/lessons/e01_agent_baseline/images/agent-loop.drawio)和[评测结构源文件](https://github.com/lovits/learn-agent-evaluation/blob/main/lessons/e01_agent_baseline/images/evaluation-path.drawio)，可在draw.io编辑。图示只讲本课关键边界，没有加入RAG、文件专用工具或后续Agent机制。

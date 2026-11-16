@@ -793,3 +793,7 @@ pocketflow_tutorial：https://github.com/The-Pocket/PocketFlow-Tutorial-Codebase
 ## 第7课实际交付
 
 [飞书教材与验收](https://my.feishu.cn/docx/Yueedp2OAo3ljdxc5Fich78ZnWc)：按Learn Claude Code的讲解、组织和带读语气完成六部分正文与六步短代码，12节已审校。六组真实Agent干预留下资料、检索前后与实际文件证据；25次Agent模型请求，两轮裁判共108次请求，SDK错误0。初轮评分输入问题、修订与原始结果分开留存。本地与Docker断网75项测试通过。
+
+## 第1课图文改写
+
+[第1课新版教材、配图与验收](https://my.feishu.cn/docx/ZIlFdoY5EoFvaExYY9dcvQnnnce)：按Learn Claude Code的六部分正文和六步短代码重写，补入Agent/Harness循环、独立验收两张关键结构图，保留源码导读、练习、答案和首次实验。PocketFlow实际生成一次，humanizer审校12节。本地与Docker断网78项测试通过，浏览器已检查两图加载与缩放。原Agent代码、样本和历史报告保持一致，本次未重新测量Agent。

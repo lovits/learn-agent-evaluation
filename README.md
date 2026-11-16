@@ -7,7 +7,7 @@
 - [16课详细设计与制作规范](docs/course-specification.md)
 - [飞书云文档](https://my.feishu.cn/docx/V8CPdL3Y8oMZt4xJ8RCc4HfNnfb)
 - [16课大纲](docs/curriculum.md)
-- [第1课教材](lessons/e01_agent_baseline/README.zh.md)
+- [第1课教材：已按 Learn Claude Code 方式改写，含两张关键结构图](lessons/e01_agent_baseline/README.zh.md) / [飞书版](https://my.feishu.cn/docx/ZIlFdoY5EoFvaExYY9dcvQnnnce) / [图文改写验收](docs/e01-rewrite-validation.md)
 - [第2课教材](lessons/e02_tools_traces/README.zh.md) / [飞书版](https://my.feishu.cn/docx/KVAkdoPHlofNEOxSPQqcfXuenfn) / [源码导读](lessons/e02_tools_traces/source_walkthrough.md)
 - [第2课运行结果](lessons/e02_tools_traces/run_summary.md) / [验收记录](docs/e02-validation.md)
 - [第1课源码导读](lessons/e01_agent_baseline/source_walkthrough.md)

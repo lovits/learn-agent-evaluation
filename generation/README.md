@@ -1,17 +1,17 @@
-# 第1课PocketFlow教材生成
+# 第1课PocketFlow教材生成与图文改写
 
-本课按“代码与实验先验证，再组织教材”的顺序制作。
+第1课首次制作按“代码与实验先验证，再组织教材”的顺序进行。本次在第7课之后重写第1课的讲解，沿用原可运行代码和历史实验。
 原版节点来自固定commit的PocketFlow-Tutorial-Codebase-Knowledge，vendor文件未修改。
 
 实际采用FetchRepo → BindLesson → WriteChapters → CombineTutorial。
 BindLesson将已确定的e01目标绑定到本课白名单文件；WriteChapters实际调用本机Codex生成正文。
 本轮没有重新运行主题识别、关系分析与排序，因为16课设计已经固定。
 
-输入只包含e01代码、评分器、公开任务、真实运行报告、源码导读、练习/答案和版本信息。
+输入只包含e01代码、评分器、公开任务、真实运行报告、源码导读、练习/答案、版本信息和第1课改写规则。
 不包含整套集成Agent、后续机制或私有验收标准。
 
-原始输出在generation/output/e01_agent_baseline；调用与输入哈希记录在generation/e01-provenance.json。
-已审校的课程在lessons/e01_agent_baseline/README.zh.md。
+本次改写原稿在generation/output/e01_agent_baseline；调用与输入哈希记录在generation/e01-provenance.json。本次实际写作调用1次；首次制作的原稿、brief和凭证完整归档在generation/archive/e01-first-generation，不把两次生成合并成一次。
+已审校的课程在lessons/e01_agent_baseline/README.zh.md，含六节正文、六步带读和两张配图。图文改写的检查见[验收](../docs/e01-rewrite-validation.md)。
 完整prompt/response在Git忽略的generation/private/e01中。
 
 ```sh

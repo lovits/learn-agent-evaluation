@@ -31,12 +31,15 @@ PAGES = {
 }
 DOCUMENTS = {
     **PAGES,
+    "/e01-results": ("第1课原始实验", "lessons/e01_agent_baseline/run_summary.md"),
+    "/e01-rewrite-validation": ("第1课改写核验", "docs/e01-rewrite-validation.md"),
     "/source7": ("第7课源码", "lessons/e07_failure_diagnosis/source_walkthrough.md"),
     "/exercises7": ("第7课练习", "lessons/e07_failure_diagnosis/exercises.md"),
     "/solutions7": ("第7课答案", "lessons/e07_failure_diagnosis/solutions.md"),
     "/e07-results": ("第7课实测", "lessons/e07_failure_diagnosis/run_summary.md"),
     "/validation7": ("第7课验收", "docs/e07-validation.md"),
     "/generation7": ("第7课生成与审校", "generation/e07-README.md"),
+    "/teaching1": ("第1课改写规则", "references/e01-rewrite-plan.md"),
     "/teaching7": ("第7课写作方式", "references/e07-teaching-pattern.md"),
     "/source6": ("第6课源码", "lessons/e06_answer_quality/source_walkthrough.md"),
     "/exercises6": ("第6课练习", "lessons/e06_answer_quality/exercises.md"),
@@ -107,6 +110,12 @@ def render_page(path: str) -> str:
     routes = {(PROJECT / filename).resolve(): url for url, (_, filename) in DOCUMENTS.items()}
     for block in tokens:
         for token in block.children or []:
+            if token.type == "image":
+                src = urlparse(token.attrGet("src") or "")
+                target = (source.parent / unquote(src.path)).resolve()
+                if not src.scheme and not src.netloc and target.is_relative_to(PROJECT):
+                    token.attrSet("src", "/image?path=" + quote(str(target.relative_to(PROJECT))))
+                continue
             if token.type != "link_open":
                 continue
             href = token.attrGet("href") or ""
@@ -118,6 +127,8 @@ def render_page(path: str) -> str:
                 token.attrSet(
                     "href", routes[target] + ("#" + parsed.fragment if parsed.fragment else "")
                 )
+            elif target.is_relative_to(PROJECT) and target.suffix == ".png":
+                token.attrSet("href", "/image?path=" + quote(str(target.relative_to(PROJECT))))
             elif target.is_relative_to(PROJECT) and target.suffix in {".py", ".json", ".jsonl"}:
                 token.attrSet("href", "/code?path=" + quote(str(target.relative_to(PROJECT))))
     return RENDERER.renderer.render(tokens, RENDERER.options, {})
@@ -174,6 +185,12 @@ class Handler(BaseHTTPRequestHandler):
             if parsed.path in DOCUMENTS:
                 title, path = DOCUMENTS[parsed.path]
                 body = layout(title, render_page(path))
+            elif parsed.path == "/image":
+                target = (PROJECT / query.get("path", [""])[0]).resolve()
+                image_root = (PROJECT / "lessons/e01_agent_baseline/images").resolve()
+                if target.parent != image_root or target.suffix != ".png":
+                    raise ValueError("该文件不在本课图片范围内。")
+                return self.send(200, target.read_bytes(), "image/png")
             elif parsed.path == "/code":
                 target = (PROJECT / query.get("path", [""])[0]).resolve()
                 allowed = [PROJECT / n for n in ("lessons", "eval_course", "references", "tools")]

@@ -1,4 +1,4 @@
-# 第1课验收记录
+# 第1课首次制作验收记录
 
 真实任务已在Docker运行，记录见 [完整示例报告](../lessons/e01_agent_baseline/example_report.json)。
 本课模型驱动最小循环执行Bash，随后在独立无网络verifier容器按固定合同验收。
@@ -12,3 +12,5 @@ verifier工作目录只读及外部连接不可达。完整机器记录见docs/v
 
 教材由PocketFlow原版写作节点实际生成1次，并经源码/报告核对；原始稿与审校稿分开保存。
 16课完整制作规范已同步 [飞书云文档](https://my.feishu.cn/docx/V8CPdL3Y8oMZt4xJ8RCc4HfNnfb)。
+
+第1课后续图文改写的检查另见[改写验收](e01-rewrite-validation.md)。上面的任务记录和20项测试是首次制作时的历史事实。

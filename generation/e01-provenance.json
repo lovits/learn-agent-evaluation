@@ -5,14 +5,14 @@
   "actual_model_calls": 1,
   "calls": [
     {
-      "prompt_sha256": "ba8c69213cd64d7607822aa458bb7c68fef2b6bb7c4f6529b232422f31a98d09",
-      "response_sha256": "6c7a61d0abfd005ae6639aae6695f59f0da22ef8257ba5262bc3cbe0e8713edd",
-      "elapsed_seconds": 137.171
+      "prompt_sha256": "91c9a8fdc4af0975506fd60c06afd295fceba30caf9b8ab768f5c59b3a898300",
+      "response_sha256": "2511c00ae14e5d98aba6838c1bbbce2e71d2e84eabe811c3a635202b645616d2",
+      "elapsed_seconds": 61.432
     }
   ],
   "nodes_run": [
     "FetchRepo",
-    "BindLesson (approved e01 adapter)",
+    "BindLesson (fixed lesson adapter)",
     "WriteChapters",
     "CombineTutorial"
   ],
@@ -25,11 +25,15 @@
   "input_manifest": [
     {
       "path": "eval_course/records.py",
-      "sha256": "aef9bafe178d0b963ffe131731bdffa5fcb3f619bea5ea65d8265758c95c7a4a"
+      "sha256": "940890c3876981a2273497e8d0d06da4a882d7e65cea6098f6217f87de498181"
     },
     {
       "path": "references/versions.json",
       "sha256": "75831131b2e85e8f0edd2ddd4534642f169a6d0cd0d5ac89d47c5465581ce99c"
+    },
+    {
+      "path": "references/e01-rewrite-plan.md",
+      "sha256": "b51b63ab2a87f105a7097401337fc176167b2067c24fefcb0aa15837d558d60b"
     },
     {
       "path": "lessons/e01_agent_baseline/solutions.md",
@@ -49,7 +53,7 @@
     },
     {
       "path": "lessons/e01_agent_baseline/source_walkthrough.md",
-      "sha256": "c768344a0a2e6fa5189ef1cf69ea122e5a791180f83c6978ae9bdd6f8fab4279"
+      "sha256": "c7f3b595a35c1211c4e030a1d19cca6d656829e1fb6b3537d8fd7b19330dac0b"
     },
     {
       "path": "lessons/e01_agent_baseline/eval.py",
@@ -60,16 +64,37 @@
       "sha256": "51b6917abf8274e3c18a1ed62a2cc73f2a6ac5319b8ed10c1b7885807648efeb"
     }
   ],
-  "brief_sha256": "b516de8a2da933496cfea74861ef2c9f68c3c6b3d6c3d3238257db14e0ebde92",
+  "brief_sha256": "506a041b44905cf9adb4788f09daf3beb5b374db2e6ccca42c68e617cdbd516a",
   "raw_output_directory": "generation/output/e01_agent_baseline",
+  "revision": {
+    "kind": "documentation rewrite after e07",
+    "previous_published_commit": "ffbf162e29f886d1b34aff6e14edc12f93664995",
+    "previous_published_sha256": "66ab30fe0be21e05af9be6657cb1dd098aea339a71d2bd116332a37d343cf014",
+    "original_generation_archive": "generation/archive/e01-first-generation",
+    "agent_executed_for_rewrite": false
+  },
   "publication": {
-    "path": "lessons/e01_agent_baseline/README.zh.md",
-    "sha256": "66ab30fe0be21e05af9be6657cb1dd098aea339a71d2bd116332a37d343cf014",
-    "review_notes": [
-      "核对4/4真实任务、8次模型请求、4条Bash和独立验收结果",
-      "标明代码删节并补足Popen关键参数",
-      "明确独立目录不等于内核级隔离、自动合同不等于通用证明",
-      "保留原始生成稿，公开教材单独保存"
-    ]
+    "skill": "humanizer",
+    "file": "lessons/e01_agent_baseline/README.zh.md",
+    "main_sections": [
+      "问题",
+      "解决方案",
+      "工作原理",
+      "相对一次模型问答的变更",
+      "试一下",
+      "接下来"
+    ],
+    "working_steps": [
+      "第1步：先把用户任务放进消息历史",
+      "第2步：向模型取得下一步动作",
+      "第3步：没有动作时停止循环",
+      "第4步：命令真正执行在这里",
+      "第5步：把真实结果还给模型",
+      "第6步：把“停止”交给独立验收器复查"
+    ],
+    "reviewed_sections": 12,
+    "unreviewed_sections": [],
+    "protected_code_inline_links_unchanged": true,
+    "sha256": "e6be21537619cf5ee1a1b738103b08b4d490ba1afc48c356bbc1d642e10f5da6"
   }
 }

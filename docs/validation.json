@@ -1,0 +1,125 @@
+{
+  "created_at": "2026-11-16T13:45:42.841096+00:00",
+  "image_id": "sha256:c157fb399a7deeb3174527389696dba7768cda47b3401591e993539617d9c808",
+  "platform": "linux/arm64",
+  "image_size_bytes": 944938664,
+  "checks": [
+    {
+      "name": "compose_reader",
+      "passed": true,
+      "detail": "healthy; 12 course routes return HTTP 200"
+    },
+    {
+      "name": "default_kb_mount",
+      "passed": true,
+      "detail": {
+        "documents": 2,
+        "refund_policy_sha256": "64ce8519335ae6213d423c8a4450787cb48d43bc78985af3b7e32bf328d77849"
+      }
+    },
+    {
+      "name": "offline_real_sdk_replay",
+      "passed": true,
+      "detail": {
+        "versions": {
+          "deepeval": "4.3.4",
+          "ragas": "0.4.4"
+        },
+        "rows": 5,
+        "report_name": "replay-a9d1865bf2b9445885f97f2ca9bfe129.json"
+      }
+    },
+    {
+      "name": "read_only_kb",
+      "passed": true,
+      "detail": "read-only mount enforced"
+    },
+    {
+      "name": "custom_kb_and_changed_evidence",
+      "passed": true,
+      "detail": "custom mount read; old replay refused with exit 1"
+    },
+    {
+      "name": "result_persistence",
+      "passed": true,
+      "detail": "same host report readable after service restart"
+    },
+    {
+      "name": "container_tests",
+      "passed": true,
+      "detail": "20 passed in 6.75s"
+    },
+    {
+      "name": "container_lint",
+      "passed": true,
+      "detail": "All checks passed!"
+    },
+    {
+      "name": "browser_layout_and_search",
+      "passed": true,
+      "detail": "Desktop 1176px and mobile 390px visually reviewed; no horizontal overflow; search 退款 returns mounted refund policy."
+    }
+  ],
+  "not_run": [
+    "live judge API calls: no API key configured",
+    "PocketFlow OpenAI backend: Codex backend used for this chapter"
+  ],
+  "implementation_manifest": [
+    {
+      "path": "Dockerfile",
+      "sha256": "5f5afa454e1964deca2a7cb23ccc871778ca1748f112b60ce73e5cfb587d8edd"
+    },
+    {
+      "path": "compose.yaml",
+      "sha256": "66f298d404e633f54a28524ff830cda67ac95229b87487d7cf9dc5e07ef4dff8"
+    },
+    {
+      "path": "eval_course/__init__.py",
+      "sha256": "e936606c4bd3dc393e6c8470f8eafeb373fbd0aa779388e710590b0dd11aab6a"
+    },
+    {
+      "path": "eval_course/__main__.py",
+      "sha256": "a59979fdba864ee06f4059cdc7b2a460d8c25e76914d91488bdf942d53f564ba"
+    },
+    {
+      "path": "eval_course/data.py",
+      "sha256": "bf4ae293043894c105e9cc61c7155e99155c37c9b5f2f2468626b14cd57e9b65"
+    },
+    {
+      "path": "eval_course/judges.py",
+      "sha256": "39a1eb30306537dc1514c762640909f8c188c9c91dbae6f2c4edcd923f5e8a6a"
+    },
+    {
+      "path": "eval_course/knowledge.py",
+      "sha256": "a268269f5f1abfaeb951149843c128533dc9b713b8c687bca7acc88ee3d0db76"
+    },
+    {
+      "path": "eval_course/page.html",
+      "sha256": "8e54d90bde0d57a6068663ac83225bb1ebef9fceba2588e2b8f568174af2dd11"
+    },
+    {
+      "path": "eval_course/runner.py",
+      "sha256": "14e7f6ccbd6e0980e412775a49b4a385c4a3cc2adc7161e2bdd1c72336b738c9"
+    },
+    {
+      "path": "eval_course/web.py",
+      "sha256": "5dd745256b0d1284449eb82b58a48f7d11a8a18732bb5b650d9904f07d7a4e54"
+    },
+    {
+      "path": "pyproject.toml",
+      "sha256": "e49a93215f2c5852b2da250cd2bded69d646015dd74f85d5c8b2bbe4b52837f2"
+    },
+    {
+      "path": "s07_faithfulness/code.py",
+      "sha256": "3c8d046db7f75dc4464ce1acdb1d339a3e708988a74807b0af1f9e5c534868e7"
+    },
+    {
+      "path": "s07_faithfulness/fixtures.json",
+      "sha256": "1bdf6847643c19a9ede82943dcf60e025b2279abde050988e3c4343287203f26"
+    },
+    {
+      "path": "uv.lock",
+      "sha256": "93e0c1a94dcf33b0f1e02b76597ff15fdf5e83351176af0538ddd7b3d6cd9113"
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+[
+  {
+    "path": "references/upstream/deepeval/deepeval/metrics/faithfulness/faithfulness.py",
+    "source_path": "deepeval/metrics/faithfulness/faithfulness.py",
+    "url": "https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/faithfulness/faithfulness.py",
+    "sha256": "25125d543e3cd4b22121f1033daa8c561c59ec690325e4b15fadcb15de90763f"
+  },
+  {
+    "path": "references/upstream/deepeval/deepeval/metrics/faithfulness/schema.py",
+    "source_path": "deepeval/metrics/faithfulness/schema.py",
+    "url": "https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/faithfulness/schema.py",
+    "sha256": "e59799ee55b65fb4fe27af78a3516bd26fe08ba91c495ece4fdae019b819a1cd"
+  },
+  {
+    "path": "references/upstream/deepeval/deepeval/metrics/utils/qag.py",
+    "source_path": "deepeval/metrics/utils/qag.py",
+    "url": "https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/utils/qag.py",
+    "sha256": "90c9c2488425d6c6f5b5d92282b1a7b39aec545dcd1024feb32b5bc9bedaf905"
+  },
+  {
+    "path": "references/upstream/deepeval/deepeval/templates/metrics/fragments/faithfulness_verdicts_guidelines_text_only.txt",
+    "source_path": "deepeval/templates/metrics/fragments/faithfulness_verdicts_guidelines_text_only.txt",
+    "url": "https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/templates/metrics/fragments/faithfulness_verdicts_guidelines_text_only.txt",
+    "sha256": "6dd06d60a02fc864293c66c23a59e9c1694143b177fde4cd3637e208dcd08d08"
+  },
+  {
+    "path": "references/upstream/ragas/src/ragas/metrics/collections/faithfulness/metric.py",
+    "source_path": "src/ragas/metrics/collections/faithfulness/metric.py",
+    "url": "https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/metrics/collections/faithfulness/metric.py",
+    "sha256": "f3850ad76e173c932dff09464489934f7df7c499a8e43b178cd69f339511965d"
+  },
+  {
+    "path": "references/upstream/ragas/src/ragas/metrics/collections/faithfulness/util.py",
+    "source_path": "src/ragas/metrics/collections/faithfulness/util.py",
+    "url": "https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/metrics/collections/faithfulness/util.py",
+    "sha256": "255ebb3305934a3c5769ecfd395d5825050a62b3f03f09b5e18647c3f651776d"
+  }
+]

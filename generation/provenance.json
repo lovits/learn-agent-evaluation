@@ -1,0 +1,98 @@
+{
+  "generator": "The-Pocket/PocketFlow-Tutorial-Codebase-Knowledge",
+  "upstream_commit": "05b24cbbb0fe409c5e23c9791f0342f07524ffdc",
+  "backend": "codex",
+  "actual_model_calls": 1,
+  "calls": [
+    {
+      "prompt_sha256": "34ec819c49104884d7741af067d6e1af53c64f81ecd4d0244e9f427489ee3764",
+      "response_sha256": "ab3e56f0fb8552580c75954a710c790fab316a537d19ed4c18cc9af334287498",
+      "elapsed_seconds": 119.19
+    }
+  ],
+  "nodes_run": [
+    "FetchRepo",
+    "BindLesson (curriculum adapter)",
+    "WriteChapters",
+    "CombineTutorial"
+  ],
+  "not_run": [
+    "IdentifyAbstractions",
+    "AnalyzeRelationships",
+    "OrderChapters"
+  ],
+  "reason": "The approved 24-lesson curriculum already fixes this one lesson and its order.",
+  "input_manifest": [
+    {
+      "path": "eval_course/runner.py",
+      "sha256": "4def627961608a04924409ecf2f89992c38672c1891a57389b88d8e2ad0e7cd1"
+    },
+    {
+      "path": "eval_course/judges.py",
+      "sha256": "17517ca679b2a380e6a6e99b6d652a9cc4a0c2589b2857c66704cea9feea4800"
+    },
+    {
+      "path": "references/versions.json",
+      "sha256": "75831131b2e85e8f0edd2ddd4534642f169a6d0cd0d5ac89d47c5465581ce99c"
+    },
+    {
+      "path": "references/upstream/ragas/src/ragas/metrics/collections/faithfulness/util.py",
+      "sha256": "255ebb3305934a3c5769ecfd395d5825050a62b3f03f09b5e18647c3f651776d"
+    },
+    {
+      "path": "references/upstream/ragas/src/ragas/metrics/collections/faithfulness/metric.py",
+      "sha256": "f3850ad76e173c932dff09464489934f7df7c499a8e43b178cd69f339511965d"
+    },
+    {
+      "path": "references/upstream/deepeval/deepeval/metrics/utils/qag.py",
+      "sha256": "90c9c2488425d6c6f5b5d92282b1a7b39aec545dcd1024feb32b5bc9bedaf905"
+    },
+    {
+      "path": "references/upstream/deepeval/deepeval/metrics/faithfulness/faithfulness.py",
+      "sha256": "25125d543e3cd4b22121f1033daa8c561c59ec690325e4b15fadcb15de90763f"
+    },
+    {
+      "path": "references/upstream/deepeval/deepeval/metrics/faithfulness/schema.py",
+      "sha256": "e59799ee55b65fb4fe27af78a3516bd26fe08ba91c495ece4fdae019b819a1cd"
+    },
+    {
+      "path": "references/upstream/deepeval/deepeval/templates/metrics/fragments/faithfulness_verdicts_guidelines_text_only.txt",
+      "sha256": "6dd06d60a02fc864293c66c23a59e9c1694143b177fde4cd3637e208dcd08d08"
+    },
+    {
+      "path": "knowledge_base/policies/refund_policy.md",
+      "sha256": "64ce8519335ae6213d423c8a4450787cb48d43bc78985af3b7e32bf328d77849"
+    },
+    {
+      "path": "s07_faithfulness/code.py",
+      "sha256": "3c8d046db7f75dc4464ce1acdb1d339a3e708988a74807b0af1f9e5c534868e7"
+    },
+    {
+      "path": "s07_faithfulness/fixtures.json",
+      "sha256": "3b021881ff111947c979d7bd60ecc83070468dd919338bd550f644f4fc7f980f"
+    }
+  ],
+  "brief_sha256": "7247d57d49e73c6ec2a9ef358625dde42da27a5145e0ded345645b9e73855b56",
+  "raw_output_directory": "generation/output/s07_faithfulness",
+  "publication": {
+    "path": "s07_faithfulness/README.zh.md",
+    "sha256": "2b9ad5bdcb760e71a2776b2c4417d0ecdb2f106727006cab7901238c5f4216e0",
+    "review_notes": [
+      "核对固定源码、真实 SDK 五组回放和空声明边界",
+      "补充学习目标与 Learn Claude Code 学习顺序，修正样本切换、链接和公式显示",
+      "明确预设标注由课程编写，未经过独立人工双标审核",
+      "生成后整理运行代码与字段名称；input_manifest 保留实际生成时哈希，当前运行代码以仓库提交为准",
+      "原始生成文件保持不变"
+    ]
+  },
+  "raw_output_manifest": [
+    {
+      "path": "generation/output/s07_faithfulness/01_faithfulness_回答真的被证据支持吗.md",
+      "sha256": "cf4ea296bb74a0f6047bc3512867d1393b4244629c3088a3a6d6cc9dea2734cc"
+    },
+    {
+      "path": "generation/output/s07_faithfulness/index.md",
+      "sha256": "f532053f576ecb4c679b0587146f66691f2739e70def32f041efe18370b5d6d4"
+    }
+  ]
+}

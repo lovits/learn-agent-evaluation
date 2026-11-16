@@ -1,0 +1,16 @@
+name: Course checks
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  course:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Build the complete course environment
+        run: docker build -t learn-agent-evaluation:ci .
+      - name: Check authored code
+        run: docker run --rm --network none --entrypoint ruff learn-agent-evaluation:ci check eval_course s07_faithfulness/code.py tests tools
+      - name: Test real SDK replay without internet
+        run: docker run --rm --network none --entrypoint python learn-agent-evaluation:ci -m pytest -q

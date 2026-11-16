@@ -1,0 +1,17 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.DS_Store
+.env
+.env.*
+!.env.example
+secrets/*
+!secrets/README.md
+runs/*
+!runs/.gitkeep
+.deepeval/
+.cache/
+*.egg-info/
+generation/private/

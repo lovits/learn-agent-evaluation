@@ -1,0 +1,10 @@
+# Optional override. Default compose.yaml never requires this secret.
+services:
+  course:
+    environment:
+      JUDGE_API_KEY_FILE: /run/secrets/judge_api_key
+    secrets:
+      - judge_api_key
+secrets:
+  judge_api_key:
+    file: ./secrets/judge_api_key.txt

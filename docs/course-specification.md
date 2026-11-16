@@ -247,7 +247,7 @@ Agent代码增量：知识库挂载与 search_knowledge，参考 SkillLoader 按
 - 文档依据：https://deepeval.com/docs/metrics-contextual-recall
 - 文档依据：https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/context_recall/
 
-原课知识映射：s05, s06。实施状态：已制作并验证，等待按统一正文标准重写。
+原课知识映射：s05, s06。实施状态：已制作并验证，本轮六部分正文与六步代码重写、审校完成。
 
 ### e05 Faithfulness：解释是否忠于检索证据
 
@@ -285,7 +285,7 @@ Agent代码增量：复用检索 Agent，加逐声明 SDK 记录
 - 文档依据：https://deepeval.com/docs/metrics-faithfulness
 - 文档依据：https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/faithfulness/
 
-原课知识映射：s07。实施状态：已制作并验证，等待按统一正文标准重写。
+原课知识映射：s07。实施状态：已制作并验证，本轮六部分正文与六步代码重写、审校完成。
 
 ### e06 答案相关性、正确性、完整性与拒答
 
@@ -326,7 +326,7 @@ Agent代码增量：同一 Agent，加入 reference 和不可回答任务
 - 文档依据：https://deepeval.com/guides/guides-answer-correctness-metric
 - 文档依据：https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/factual_correctness/
 
-原课知识映射：s08。实施状态：已制作并验证，等待按统一正文标准重写。
+原课知识映射：s08。实施状态：已制作并验证，本轮六部分正文与六步代码重写、审校完成。
 
 ### e07 通过故障实验定位 RAG 失败
 
@@ -362,7 +362,7 @@ Agent代码增量：文档/检索/生成三个位置的可控故障开关
 - 文档依据：https://deepeval.com/guides/guides-rag-evaluation
 - 文档依据：https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/noise_sensitivity/
 
-原课知识映射：s10。实施状态：已制作并验证，纳入本轮统一复核与再编排。
+原课知识映射：s10。实施状态：已制作并验证，本轮六部分正文与六步代码重写、审校完成。
 
 ### e08 构建、生成与审查评测数据集
 
@@ -803,3 +803,9 @@ pocketflow_tutorial：https://github.com/The-Pocket/PocketFlow-Tutorial-Codebase
 [第2课新版](https://my.feishu.cn/docx/KVAkdoPHlofNEOxSPQqcfXuenfn) · [第3课新版](https://my.feishu.cn/docx/J6iAd17kSonCjCxqlOWcjyGonTg)
 
 第2、3课已按问题、解决方案、工作原理、变更、试一下、接下来重写，每课六步真实代码，humanizer各审校12节。原运行代码、样本和固定报告保持一致，本轮不新增Agent或裁判测量。PocketFlow本轮各实际生成一次，本地与Docker断网78项测试通过；飞书原文档已局部更新并回读核对。
+
+## 统一标准重写：第4至7课
+
+[第4课新版](https://my.feishu.cn/docx/SPD5dOh7vo7LVtxrbykc7tgSn4g) · [第5课新版](https://my.feishu.cn/docx/VnU4dKOOHoMJhEx55jpcQ83fn4e) · [第6课新版](https://my.feishu.cn/docx/IrtXdlfrVoYPZcxNPkLccRzHn0b) · [第7课新版](https://my.feishu.cn/docx/Yueedp2OAo3ljdxc5Fich78ZnWc)
+
+第4至7课已按统一六部分正文与六步关键代码重新生成并审校，每课PocketFlow本轮写作调用1次、humanizer审校12节。原执行代码、样本与固定报告保持一致，历史实验明确保留。本地与Docker断网78项测试通过；四篇飞书原文档已局部更新，主文代码与发布稿逐块回读一致，源码/练习/答案保留。第1至7课现均落实新写法，第8至16课与综合项目继续制作。

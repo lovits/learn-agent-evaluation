@@ -48,4 +48,4 @@
 
 采用Learn Claude Code实际正文的带读方式：问题、解决方案、工作原理、相对前课变更、试一下、接下来。工作原理将一次机制变化拆成短步骤，每步先说明遇到什么问题，再解释一段真实代码，交代输入、输出和接入位置。主文不以指标清单、测试数字或完成报告为主线；详细源码、实验记录和验收放附页。
 
-第7课的[逐项对应与上游阅读记录](../references/e07-teaching-pattern.md)列出实际参考的章节、代码段与正文标准。第1课现已按同一标准重写，补入最小循环和独立验收两张结构图，详见[改写计划](../references/e01-rewrite-plan.md)。第2、3课已按同样的六部分正文与六步代码完成重写和审校；第4至6课尚待重写，第7课继续纳入统一复核。见[整套制作计划](course-production-plan.md)与[正文标准](../references/textbook-writing-standard.md)。
+第7课的[逐项对应与上游阅读记录](../references/e07-teaching-pattern.md)列出实际参考的章节、代码段与正文标准。第1课现已按同一标准重写，补入最小循环和独立验收两张结构图，详见[改写计划](../references/e01-rewrite-plan.md)。第2至7课均已按同样的六部分正文与六步代码重新生成、核对和审校，原代码与历史报告保留。第8至16课继续依此标准逐课制作。见[整套制作计划](course-production-plan.md)与[正文标准](../references/textbook-writing-standard.md)。

@@ -5,9 +5,9 @@
   "actual_model_calls": 1,
   "calls": [
     {
-      "prompt_sha256": "76d81482f0e2334ac2a2437939100feddf4ebe97b19c6bf190bb664c9eac469d",
-      "response_sha256": "131df7d132e8cb7fb5f6c57897f37b2c5b068f150f57a63cc2bc3f1833663e1d",
-      "elapsed_seconds": 65.408
+      "prompt_sha256": "316f463b2f76385aef3c9da0567066eb0551bf759b832d5304d76e29a135c6e5",
+      "response_sha256": "abd8a2a4f7b80574dc90cfa026db6b5f99e17439f9d135b141a2e901bb03ac24",
+      "elapsed_seconds": 67.878
     }
   ],
   "nodes_run": [
@@ -28,6 +28,10 @@
       "sha256": "940890c3876981a2273497e8d0d06da4a882d7e65cea6098f6217f87de498181"
     },
     {
+      "path": "references/textbook-writing-standard.md",
+      "sha256": "f5b37acb847f10b22c835e46865394eb1b12d0119af01aa030faab4a817f0109"
+    },
+    {
       "path": "references/versions.json",
       "sha256": "75831131b2e85e8f0edd2ddd4534642f169a6d0cd0d5ac89d47c5465581ce99c"
     },
@@ -41,7 +45,7 @@
     },
     {
       "path": "lessons/e07_failure_diagnosis/run_summary.md",
-      "sha256": "ce1dddb46196c05789a239c5049b689d56be0b692ba8065d981dc9cd8a7fbf0d"
+      "sha256": "a61489cdd94aa1987ad3200f93b5f6b16f556b2be930f2bc4fa716cfd39f4d3e"
     },
     {
       "path": "lessons/e07_failure_diagnosis/exercises.md",
@@ -68,22 +72,18 @@
       "sha256": "783553ab81d348527c5585d6554dc95a0e303385fa0807fe4ade5ab6f288f53a"
     }
   ],
-  "brief_sha256": "d0f6c9b2381dab05a9e4a68f33067aaf73c0ad2436d0317d8acb5af1fbac0410",
+  "brief_sha256": "5f8de69b9ef35f4af9844d7a09d776bd3763d348124a3ccff57fce9d35c79cd0",
   "raw_output_directory": "generation/output/e07_failure_diagnosis",
   "publication": {
     "path": "lessons/e07_failure_diagnosis/README.zh.md",
-    "sha256": "7b4393a1aa278729f5ba82ac655ad3c5fd13c245b21edc16f63842bbb5188b72",
-    "humanizer_reviewed_sections": 12,
+    "sha256": "32d104069a5f42a0efe52bf4c4bae18ebdf269740bafd2c81d30cbd8405970d1",
+    "review": "Current code and historical-result technical review, then full humanizer prose review; protected code/inline/commands/links unchanged during prose pass.",
+    "reviewed_sections": 12,
     "unreviewed_sections": 0,
-    "main_sections": [
-      "问题",
-      "解决方案",
-      "工作原理",
-      "相对第6课的变更",
-      "试一下",
-      "接下来"
-    ],
-    "working_principle_code_steps": 6,
-    "review": "Full disk-read prose pass following Learn Claude Code teaching voice. Code blocks, inline code, commands and link targets preserved during prose edits. Technical review separately replaces an incomplete function-signature fragment, aligns artifact-check snippet and metric configuration to actual code, and explains residual missing-information scoring."
+    "main_sections": 6,
+    "working_steps": 6,
+    "baseline": "references/full-course-revision-baseline.json",
+    "previous_generation_archive": "generation/archive/e07-before-course-revision",
+    "new_agent_or_judge_execution_for_rewrite": false
   }
 }

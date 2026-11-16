@@ -5,9 +5,9 @@
   "actual_model_calls": 1,
   "calls": [
     {
-      "prompt_sha256": "ddad2b44db6cfb87a08a56dc4dd520976d8af18dbe0fe55e2c7133f12e282211",
-      "response_sha256": "4762103abf3e6e7b7361ebdebd143639f36dced2333c9fc542726d4f045fda27",
-      "elapsed_seconds": 73.074
+      "prompt_sha256": "d544a35d19ed389e9316ef54b0718d610df18e730101adc9fff089bfed48c83b",
+      "response_sha256": "eb40883bc31d52c8006a786615a75dcc74c84c251e21ac399fdbf64141c668dc",
+      "elapsed_seconds": 73.971
     }
   ],
   "nodes_run": [
@@ -32,6 +32,10 @@
       "sha256": "a268269f5f1abfaeb951149843c128533dc9b713b8c687bca7acc88ee3d0db76"
     },
     {
+      "path": "references/textbook-writing-standard.md",
+      "sha256": "f5b37acb847f10b22c835e46865394eb1b12d0119af01aa030faab4a817f0109"
+    },
+    {
       "path": "references/versions.json",
       "sha256": "75831131b2e85e8f0edd2ddd4534642f169a6d0cd0d5ac89d47c5465581ce99c"
     },
@@ -49,7 +53,7 @@
     },
     {
       "path": "lessons/e04_retrieval/code.py",
-      "sha256": "2e5a6e4a2049eb852a687fe741739cb719396130b776f729fc653210515cf569"
+      "sha256": "783553ab81d348527c5585d6554dc95a0e303385fa0807fe4ade5ab6f288f53a"
     },
     {
       "path": "lessons/e04_retrieval/cases.jsonl",
@@ -80,13 +84,18 @@
       "sha256": "c679cde9b3a727c786041a104888227dad4338379942276adeba9f3e211c335f"
     }
   ],
-  "brief_sha256": "e51340e0afecc31ab014d38d4ff2a292a261327e2e4676aa23707e0fb4dfe6a5",
+  "brief_sha256": "002e3610a559fdc44a17b70826d98f45b5eeafe7315ee3815e48060823e678c0",
   "raw_output_directory": "generation/output/e04_retrieval",
   "publication": {
     "path": "lessons/e04_retrieval/README.zh.md",
-    "sha256": "4631458c8ff41ca796bd4b6fba0ffcfdbedb4d0fc28a13d47abcd88154a501e2",
-    "humanizer_reviewed_sections": 11,
+    "sha256": "2ede1b325d9ad7a30552814f52632520ed49015f48904bec5460e503d266e723",
+    "review": "Current code and historical-result technical review, then full humanizer prose review; protected code/inline/commands/links unchanged during prose pass.",
+    "reviewed_sections": 12,
     "unreviewed_sections": 0,
-    "review": "Full prose pass; code blocks and link targets preserved. Technical edits clarify observed vs known evidence, good-label meaning and request-count acceptance."
+    "main_sections": 6,
+    "working_steps": 6,
+    "baseline": "references/full-course-revision-baseline.json",
+    "previous_generation_archive": "generation/archive/e04-before-course-revision",
+    "new_agent_or_judge_execution_for_rewrite": false
   }
 }

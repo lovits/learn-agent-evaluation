@@ -58,7 +58,123 @@
         "headings": 6,
         "code_blocks": 13
       }
+    },
+    "e04": {
+      "runtime_and_fixed_reports_unchanged": true,
+      "generation_calls": 1,
+      "reviewed_sections": 12,
+      "unreviewed_sections": 0,
+      "new_agent_or_judge_run": false,
+      "local_tests": {
+        "passed": 78,
+        "warnings": 1
+      },
+      "docker_tests": {
+        "passed": 78,
+        "warnings": 1,
+        "network": "none"
+      },
+      "ruff": "passed locally and in Docker",
+      "reader": {
+        "url": "http://localhost:8765/lesson4",
+        "status": 200,
+        "headings": 6,
+        "code_blocks": 15
+      },
+      "feishu": {
+        "url": "https://my.feishu.cn/docx/SPD5dOh7vo7LVtxrbykc7tgSn4g",
+        "revision": 7,
+        "main_code_blocks_verified": 15,
+        "untargeted_appendices_preserved": true
+      }
+    },
+    "e05": {
+      "runtime_and_fixed_reports_unchanged": true,
+      "generation_calls": 1,
+      "reviewed_sections": 12,
+      "unreviewed_sections": 0,
+      "new_agent_or_judge_run": false,
+      "local_tests": {
+        "passed": 78,
+        "warnings": 1
+      },
+      "docker_tests": {
+        "passed": 78,
+        "warnings": 1,
+        "network": "none"
+      },
+      "ruff": "passed locally and in Docker",
+      "reader": {
+        "url": "http://localhost:8765/lesson5",
+        "status": 200,
+        "headings": 6,
+        "code_blocks": 13
+      },
+      "feishu": {
+        "url": "https://my.feishu.cn/docx/VnU4dKOOHoMJhEx55jpcQ83fn4e",
+        "revision": 14,
+        "main_code_blocks_verified": 13,
+        "untargeted_appendices_preserved": true
+      }
+    },
+    "e06": {
+      "runtime_and_fixed_reports_unchanged": true,
+      "generation_calls": 1,
+      "reviewed_sections": 12,
+      "unreviewed_sections": 0,
+      "new_agent_or_judge_run": false,
+      "local_tests": {
+        "passed": 78,
+        "warnings": 1
+      },
+      "docker_tests": {
+        "passed": 78,
+        "warnings": 1,
+        "network": "none"
+      },
+      "ruff": "passed locally and in Docker",
+      "reader": {
+        "url": "http://localhost:8765/lesson6",
+        "status": 200,
+        "headings": 6,
+        "code_blocks": 9
+      },
+      "feishu": {
+        "url": "https://my.feishu.cn/docx/IrtXdlfrVoYPZcxNPkLccRzHn0b",
+        "revision": 9,
+        "main_code_blocks_verified": 9,
+        "untargeted_appendices_preserved": true
+      }
+    },
+    "e07": {
+      "runtime_and_fixed_reports_unchanged": true,
+      "generation_calls": 1,
+      "reviewed_sections": 12,
+      "unreviewed_sections": 0,
+      "new_agent_or_judge_run": false,
+      "local_tests": {
+        "passed": 78,
+        "warnings": 1
+      },
+      "docker_tests": {
+        "passed": 78,
+        "warnings": 1,
+        "network": "none"
+      },
+      "ruff": "passed locally and in Docker",
+      "reader": {
+        "url": "http://localhost:8765/lesson7",
+        "status": 200,
+        "headings": 6,
+        "code_blocks": 13
+      },
+      "feishu": {
+        "url": "https://my.feishu.cn/docx/Yueedp2OAo3ljdxc5Fich78ZnWc",
+        "revision": 7,
+        "main_code_blocks_verified": 13,
+        "untargeted_appendices_preserved": true
+      }
     }
   },
-  "scope": "e02/e03 documentation rewrite only"
+  "scope": "e02–e07 documentation rewrites; e01 already rewritten and independently recorded"
 }

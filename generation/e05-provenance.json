@@ -5,9 +5,9 @@
   "actual_model_calls": 1,
   "calls": [
     {
-      "prompt_sha256": "ca6df948a585369d55d40ac2b845f9f5fe9f44f79e5b5843e1d50d3b1516c9bc",
-      "response_sha256": "b34aaeb401dd7a91d91906fb201b8a951492088d6f3e4dd1d74869f668401a05",
-      "elapsed_seconds": 74.328
+      "prompt_sha256": "c5b818c8073ebb07d81c6b52d7fdcef776a35741a02c31be1a49da955618fa1b",
+      "response_sha256": "b1feb574769b95c57924f4c4a10f434464f6114b825419a5f725c0ecc28444c6",
+      "elapsed_seconds": 64.45
     }
   ],
   "nodes_run": [
@@ -28,6 +28,10 @@
       "sha256": "940890c3876981a2273497e8d0d06da4a882d7e65cea6098f6217f87de498181"
     },
     {
+      "path": "references/textbook-writing-standard.md",
+      "sha256": "f5b37acb847f10b22c835e46865394eb1b12d0119af01aa030faab4a817f0109"
+    },
+    {
       "path": "references/versions.json",
       "sha256": "75831131b2e85e8f0edd2ddd4534642f169a6d0cd0d5ac89d47c5465581ce99c"
     },
@@ -36,9 +40,8 @@
       "sha256": "c7740584b9f2835af0178dcf70b6e9b3500b3812a18b917ca130d127866b45e7"
     },
     {
-      "path": "generation/e05-materials/run_summary.md",
-      "sha256": "8c36798c7d57e9a21089c445565fabebb00704627ffd5c397b849ad0895ea72b",
-      "source_path": "lessons/e05_faithfulness/run_summary.md"
+      "path": "lessons/e05_faithfulness/run_summary.md",
+      "sha256": "b3fdcc2ca2c4fd361ae1871c7f3ef56b9c9160971d6143f732c28d8c0a64e1f0"
     },
     {
       "path": "lessons/e05_faithfulness/exercises.md",
@@ -61,14 +64,18 @@
       "sha256": "688642739329c88fb590d2dd149a6288af53745d8bf5f10500985e1b9773d918"
     }
   ],
-  "brief_sha256": "c1d5e06d728cd38e05eecabdbc0aa4a377d551ead8ef1ba025369248fc39d64a",
+  "brief_sha256": "244330fe29363572b23e00c942f2f15596dcf8381ee12dca4df0aac5663f790b",
   "raw_output_directory": "generation/output/e05_faithfulness",
-  "post_generation_evidence": "5-call source-prefixed input calibration on recorded Agent answer; main 7-row results retained",
   "publication": {
     "path": "lessons/e05_faithfulness/README.zh.md",
-    "sha256": "d98feee5d32c6328748fcd4b1bb93ba5068dc98b57b1abd194b3f68d8f7e36d4",
-    "humanizer_reviewed_sections": 13,
+    "sha256": "d8c836cdeca3e6fd17fba2fecb7f5b3035f104c66907998fae1d1ddd54239546",
+    "review": "Current code and historical-result technical review, then full humanizer prose review; protected code/inline/commands/links unchanged during prose pass.",
+    "reviewed_sections": 12,
     "unreviewed_sections": 0,
-    "review": "Full prose pass; code fences and link targets preserved during prose edits. Technical review corrects no-claim observation and documents separate source-ID experiment."
+    "main_sections": 6,
+    "working_steps": 6,
+    "baseline": "references/full-course-revision-baseline.json",
+    "previous_generation_archive": "generation/archive/e05-before-course-revision",
+    "new_agent_or_judge_execution_for_rewrite": false
   }
 }

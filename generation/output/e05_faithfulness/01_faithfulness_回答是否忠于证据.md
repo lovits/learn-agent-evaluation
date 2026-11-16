@@ -1,214 +1,205 @@
 # Chapter 1: Faithfulness：回答是否忠于证据
 
-文档只说了上传认证方式、大小限制和状态查询，没有说“失败后自动重试三次”。可是回答却写道：
+## 问题
 
-> 上传接口会在失败后自动重试三次。
+检索到的项目文档只说明了上传认证方式和大小限制，并没有提到自动重试。可是回答却写道：
 
-这句话听起来很像正规的接口说明，甚至可能恰好符合某个真实系统，但它并不忠于本次检索到的证据。第5课要解决的就是这个问题：把回答拆成可以核对的声明，再检查每条声明是否得到当前证据支持。
+> 上传接口失败后会自动重试三次。
 
-本课只新增一层独立评分，不扩展第4课的 Agent，也不让 Agent 重新执行。五条受控回答用于观察不同情况；一条回答换用新版证据；最后一条则取出第4课已经保存的原始回答和当时 `search_knowledge` 返回的文档快照，重新交给裁判评分。这里发生的是“旧记录再评”，不是一次新的 Agent 运行。
+“三次”从哪里来的？
 
-## 1. Faithfulness究竟在评什么
+它听起来合理，甚至可能碰巧符合真实系统，但无法从本次检索证据中推出。Faithfulness 要检查的正是这件事：回答中的事实声明，是否忠于交给模型的证据。
 
-可以把证据想成一张允许回答使用的“小抄”。Faithfulness只问：
+这里要特别注意“相对证据”。Faithfulness 不等于外部正确性，也不负责判断回答是否切题、是否完整、是否完成任务。例如，旧文档写着上传上限为 1 MiB，回答也照着写了。这个回答可以忠于旧文档，却可能不符合服务器当前配置。
 
-> 回答中的事实性声明，能否从这张小抄中得到支持？
+本课不会扩展 Agent，也不会重新运行第4课的 Agent。我们只增加一个独立评分环节：
 
-它不等于以下任何一项：
+- 五条人工构造的受控回答；
+- 一条使用新版证据、但回答不变的对照；
+- 一条第4课真实 Agent 的历史回答，以及它当时检索到的文档快照。
 
-- 外部正确性：证据本身可能已经过时。
-- 完整性：回答可能只说了证据中的一小部分。
-- 相关性：一句话可能有证据支持，却没有回答用户的问题。
-- 任务成功：Agent可能写对了说明，但没有正确完成文件操作。
-- 拒答质量：没有事实声明，也不代表回答合格。
+最后一条只是重新评分历史记录，不是一次新的 Agent 运行，也没有用今天重新检索的内容替换当时证据。
 
-例如，旧文档写着上传上限为 `1048576` 字节。回答也写 `1048576`，那么它对旧文档是忠实的；如果服务器实际已经改为 `2097152` 字节，它在外部仍然可能是错的。Faithfulness不能替代对真实配置的检查。
+## 解决方案
 
-## 2. 先把回答拆成原子声明
+先把回答拆成尽量独立的事实声明，再逐条对照证据。可以用自然语言推断的三个关系帮助理解：
 
-下面这条混合回答包含三件事：
+- 支持：证据足以推出声明；
+- 矛盾：证据明确否定声明；
+- 信息不足：证据没有说明，既不能支持，也不能断定相反。
 
-> 上传令牌应放在 X-Project-Token 中。上传失败会自动重试三次。最大文件大小为 2097152 字节。
+“文档没提自动重试”属于信息不足，不应自动当成“文档明确说不会重试”。
 
-适合核对的拆法是：
+本课分别调用 DeepEval 4.3.4 和 Ragas 0.4.4 的原生 Faithfulness 指标。三种关系只是理解工具，两个软件开发工具包实际使用的结构并不相同：
 
-1. 上传令牌位于 `X-Project-Token`。
-2. 上传失败会自动重试三次。
-3. 最大文件大小是 `2097152` 字节。
+- DeepEval 先整理证据中的 `truths`，再从回答抽取 `claims`，最后生成 `yes`、`borderline` 或 `no`；
+- Ragas 先生成原子 `statements`，再通过自然语言推断为每条声明给出 `1` 或 `0`。
 
-每条声明只保留一个可以单独判断的事实。若把整段话视为一个整体，就很难表达“第一句有支持，第二句没提到，第三句与证据冲突”。
+两者可能把同一句话拆成不同数量的声明，因此不能只看谁的分数高，就断言谁更准确。`cases.jsonl` 中的人工 `annotation` 只用于教学说明，不会作为标准答案交给裁判。
 
-理解这一过程时，可以借用自然语言推断，也就是 NLI 的三个关系：
+七条历史实测结果如下。它们来自已经保存的实验，本轮教材重写没有增加 Agent 或裁判测量。
 
-- 支持：证据能够推出声明。
-- 矛盾：证据与声明不能同时成立。
-- 信息不足：证据既没有支持，也没有否定声明。
+| 样本 | DeepEval 默认 | 惩罚模糊声明 | Ragas | 含义 |
+|---|---:|---:|---:|---|
+| `supported` | 1.0 | 1.0 | 1.0 | 认证声明有证据支持 |
+| `unmentioned` | 1.0 | 0.0 | 0.0 | 自动重试未被证据提及 |
+| `contradiction` | 0.0 | 0.0 | 0.0 | 大小声明与旧证据矛盾 |
+| `mixed` | 2/3 | 1/3 | 1/3 | 支持、未提及、矛盾并存 |
+| `no_claim` | 1 | 1 | 0.0 | “Thanks!”的实际拆解结果 |
+| `evidence_v2` | 1.0 | 1.0 | 1.0 | 同一回答改用新版证据 |
+| `recorded_agent` | 1.0 | 0.0 | 4/7 | 第4课历史回答重新评分 |
 
-“文档没说自动重试”属于信息不足，不应自动标成矛盾。只有文档明确说“不会自动重试”，它才与“会自动重试三次”构成矛盾。
+这里最值得警惕的是 `unmentioned`：DeepEval 默认把 `borderline` 计为通过，所以得到 1.0；开启惩罚后，同一组裁决重聚合为 0.0。这个差异不是重新调用模型得到的。
 
-这三个关系是理解工具。两个原生 SDK 实际使用的裁决结构并不完全相同，不能强行把它们改造成统一的三标签分类器。
+完整的小数、原始请求数、初次连接失败以及来源封装补测都在[实测摘要](run_summary.md)中。逐条声明、原始裁决和证据快照可在[固定示例报告](example_report.json)中核对。
 
-## 3. 本课的七条输入
+## 工作原理
 
-五条受控回答保存在 `cases.jsonl` 中：
+下面只展示现有实现中的必要片段，均省略了导入、异常记录和报告写入等上下文，不能单独作为运行入口。完整实现见[评测代码](eval.py)和[聚合与证据身份代码](code.py)。
 
-| 样本 | 回答意图 |
-|---|---|
-| `supported` | 只陈述证据支持的认证头 |
-| `unmentioned` | 声称自动重试三次，但证据未提及 |
-| `contradiction` | 声称上限为 `2097152`，与旧证据冲突 |
-| `mixed` | 同时包含支持、未提及和矛盾声明 |
-| `no_claim` | 非事实性回复 `Thanks!` |
+**第1步：固定本次评分使用的证据快照**
 
-另外两条是：
+Faithfulness 必须知道回答是相对哪一批文档产生的。代码从第4课历史报告中找到当次 `search_knowledge` 的命中结果：
 
-- `evidence_v2`：仍回答上限为 `2097152`，但证据中的同一路径已经从 `1048576` 改为 `2097152`，并同步更新 `sha256`。
-- `recorded_agent`：使用第4课真实记录中的原始回答，以及当次检索保存下来的文档快照。
+```python
+documents = next(
+    e["result"]["hits"]
+    for e in agent["events"]
+    if e["type"] == "tool"
+    and e["call"]["name"] == "search_knowledge"
+)
+```
 
-`cases.jsonl` 中的 `annotation` 是供读者理解实验设计的人工标注，不会传给模型裁判充当标准答案。否则评测就变成了让裁判照抄提示。
+`documents` 保存文档正文、标识和哈希。真实 Agent 样本直接复用这份快照，不重新检索。否则知识库变化后，我们就无法分清分数变化来自回答，还是来自证据。
 
-## 4. 一次评分内部发生了什么
+证据身份由文档的 `id`、`sha256` 及顺序共同决定：
 
-调用指标后，可以按下面的顺序理解：
+```python
+def evidence_key(documents):
+    payload = [
+        {"id": d["id"], "sha256": d["sha256"]}
+        for d in documents
+    ]
+    return hashlib.sha256(
+        json.dumps(payload, sort_keys=True).encode()
+    ).hexdigest()
+```
 
-1. 接收问题、回答和检索证据。
-2. 从回答中抽取可核对的声明。
-3. 整理证据中的事实，或直接将证据交给推断步骤。
-4. 逐条判断声明是否获得支持。
-5. 聚合逐声明裁决，得到一个分数。
-6. 保存声明、裁决理由、原始阶段结果和证据身份，供人工复核。
+这些哈希来自可信加载器，用于识别版本，不是防篡改证明。
 
-关键不是只得到一个小数，而是能够回到“哪条声明为什么被判成这样”。不同模型可能采用不同的断句方式，所以声明数量也可能不同。
+**第2步：准备可解释的受控回答**
 
-本课复用前几课的模型适配层：
+五条受控回答分别覆盖支持、未提及、矛盾、混合和无事实声明。运行时为它们补上同一个问题和同一份证据：
+
+```python
+cases = [
+    {
+        **json.loads(line),
+        "question": question,
+        "documents": documents,
+        "origin": "controlled_answer",
+    }
+    for line in (HERE / "cases.jsonl").read_text().splitlines()
+]
+```
+
+例如 `mixed` 包含三句话：认证请求头有支持；自动重试三次未被提及；2097152 字节与旧证据的 1048576 字节矛盾。先用这种容易检查的输入理解指标，再看真实 Agent 记录，会比直接盯着一个总分清楚得多。
+
+**第3步：让 DeepEval 逐声明裁决**
+
+DeepEval 的原生输入是 `LLMTestCase`。回答放入 `actual_output`，检索证据正文放入 `retrieval_context`：
+
+```python
+sample = LLMTestCase(
+    input=case["question"],
+    actual_output=case["response"],
+    retrieval_context=[
+        d["text"] for d in case["documents"]
+    ],
+)
+```
+
+随后创建并同步运行原生指标：
 
 ```python
 metric = FaithfulnessMetric(
-    model=DeepJudge(transport),
+    model=DeepJudge(t),
     async_mode=False,
     include_reason=False,
     threshold=0.7,
 )
+value = metric.measure(sample, _show_indicator=False)
 ```
 
-这里使用教学约定阈值 `0.7`，并保持 `strict_mode=False`。`include_reason=False` 省去最终总结理由的调用，但逐声明裁决中的 `reason` 仍然保留。同步与异步入口的差异可在源码导读中继续查看。
+这里复用第3课的 `DeepEvalBaseLLM` 适配，不修改 DeepEval 的算法。`strict_mode=False` 保持默认值；0.7 是本课的教学阈值。`include_reason=False` 省去最终总结调用，但每条裁决的 `reason` 仍会保存。
 
-另一个指标使用第4课的适配器：
+内部顺序是：抽取 `truths`、抽取 `claims`、生成 `verdicts`。`truths` 也是模型整理的结果，并非天然完整的真值；如果整理时漏掉原文信息，后续判定也会受到影响。同步与异步入口的差别见[源码导读](source_walkthrough.md)。
+
+**第4步：让 Ragas 完成声明生成与自然语言推断**
+
+Ragas 使用问题、回答和检索上下文三个原生参数：
 
 ```python
-judge = CapturingJudge(transport)
 metric = Faithfulness(llm=judge)
-result = asyncio.run(metric.ascore(
-    user_input=question,
-    response=response,
-    retrieved_contexts=contexts,
-))
+value = asyncio.run(metric.ascore(
+    user_input=case["question"],
+    response=case["response"],
+    retrieved_contexts=[
+        d["text"] for d in case["documents"]
+    ],
+)).value
 ```
 
-适配器只让现有裁判模型符合 SDK 接口，并记录真实结构化结果；它不替换 SDK 的提示词，也不修改算法。
-
-## 5. DeepEval 4.3.4如何评分
-
-本课固定使用 DeepEval 4.3.4。它的核心流程分三段：
-
-1. 从检索材料抽取 `truths`。
-2. 从回答抽取 `claims`。
-3. 根据 `truths` 判断每个 `claim`，产生 `yes`、`no` 或 `borderline`。
-
-需要特别小心：`truths` 也是模型整理出来的结果，不是不可出错的外部真值。如果原文中的信息在抽取时遗漏，后面的判定也会受影响。因此报告同时保存原始证据和 `truths`，不能只看最终分数。
-
-默认聚合时，`yes` 与 `borderline` 都计为通过；启用 `penalize_ambiguous_claims` 后，只有 `yes` 计为通过。教材没有为了比较这个开关再次请求模型，而是对已经得到的同一组实际裁决重新聚合：
+这里的 `judge` 复用第4课的 `InstructorBaseRagasLLM` 适配。`CapturingJudge` 只记录每一步真实结构，不替换提示词，也不改写裁决：
 
 ```python
-passing = {"yes"} if penalize else {"yes", "borderline"}
-return sum(v in passing for v in verdicts) / len(verdicts)
+result = super().generate(prompt, response_model)
+self.steps.append({
+    "schema": response_model.__name__,
+    "result": result.model_dump(mode="json"),
+})
 ```
 
-假设三条裁决正好是：
+报告会分别留下 `StatementGenerator` 的声明生成结果和后续自然语言推断结果。这样即使总分令人意外，也能检查问题出在如何拆句，还是如何判定。
 
-```text
-yes, borderline, no
-```
+**第5步：区分有效分数、未定义和调用错误**
 
-默认分数为 `2/3`，惩罚模糊声明后为 `1/3`。这是对固定裁决的手算说明，不代表模型面对任何混合回答都一定生成这三个标签。
-
-DeepEval共享的 `score_qag_verdicts` 对空裁决列表返回 `1`。这个 `1` 只是空集合的实现约定，不表示回答正确、完整或完成了任务。
-
-## 6. Ragas 0.4.4如何评分
-
-Ragas的 `collections` 接口分成两步：
-
-1. `StatementGenerator`根据问题和回答生成原子 `statements`。
-2. NLI步骤结合检索上下文，为每条声明输出理由和二元裁决 `0/1`。
-
-本课把两步的原始结构都保存下来。其聚合方式是支持声明数除以有效判定数：
+假设 DeepEval 实际得到 `yes`、`borderline`、`no`，默认把前两项计为通过，因此是 2/3；打开 `penalize_ambiguous_claims` 后只计 `yes`，所以是 1/3：
 
 ```python
-def ragas_aggregate(verdicts):
-    if not verdicts:
-        return None
-    return sum(verdicts) / len(verdicts)
+metric.penalize_ambiguous_claims = True
+scores["DeepEval"][
+    "penalized_same_verdicts"
+] = metric._calculate_score()
 ```
 
-若三条裁决为 `1、0、0`，分数就是 `1/3`。Ragas没有沿用 DeepEval“默认接受 `borderline`”的规则。
+这只是对已经得到的裁决重新聚合，没有新的模型调用。Ragas 若对应得到 `1、0、0`，二元支持比例为 1/3。
 
-当没有生成声明或没有判定时，原生结果为 `NaN`。标准 JSON不能保存 `NaN`，所以报告转换为：
+边界情况不能混在一起：
 
-```json
-{
-  "score": null,
-  "status": "undefined_nan",
-  "passed": null
-}
-```
+- DeepEval 的共享聚合函数对空 `verdicts` 返回 1，但这不表示任务答对；
+- Ragas 没有声明或没有判定时返回 `NaN`；
+- Ragas 的空字符串 `response` 会更早触发输入错误；
+- 非空的 `Thanks!` 是否被拆成零条声明，应以模型实测为准，不能强迫它输出预设标签。
 
-这与运行错误不同。错误使用 `status=error`，并使评测程序以非零状态退出；有效的 `0` 分则是正常评分，必须如实保存为 `0`，不能伪装成异常。
+原生 `NaN` 写入 JSON 时转换为 `null`，同时记录 `status="undefined_nan"` 和 `passed=null`。调用异常记录为 `status="error"`，并使程序以非零状态退出。有效的 0 分仍是正常结果，不能和前两者合并成零。
 
-还有一个容易混淆的边界：非空的 `Thanks!` 是否被拆出事实声明，应以模型实测结果为准，不能强迫它符合预设标签；真正的空字符串 `response` 会更早触发 Ragas输入校验错误。二者不是同一种情况。
+**第6步：证据变化后拒绝旧标注**
 
-## 7. 七条结果怎样阅读
-
-固定实测报告记录了七条样本、两个原生 SDK，共 `34` 次真实裁判请求，运行错误为 `0`。生成教材所用的调用另算。
-
-| 样本 | DeepEval默认 | 惩罚同组模糊裁决 | Ragas | 状态 |
-|---|---:|---:|---:|---|
-| `supported` | 1.0 | 1.0 | 1.0 | 已评分 |
-| `unmentioned` | 1.0 | 0.0 | 0.0 | 已评分 |
-| `contradiction` | 0.0 | 0.0 | 0.0 | 已评分 |
-| `mixed` | 0.6666666666666666 | 0.3333333333333333 | 0.3333333333333333 | 已评分 |
-| `no_claim` | 1 | 1 | 0.0 | 已评分 |
-| `evidence_v2` | 1.0 | 1.0 | 1.0 | 已评分 |
-| `recorded_agent` | 1.0 | 0.0 | 0.5714285714285714 | 已评分 |
-
-`unmentioned`尤其值得检查：DeepEval默认把实际产生的模糊裁决计入通过，开启惩罚后变为 `0`；Ragas的二元判定也是 `0`。这不是简单地说某个框架“更宽松”或“更准确”，而是提醒我们检查实际声明和裁决口径。
-
-`recorded_agent`在两个 SDK 中的结果也不同。原因之一是它们可能拆出不同数量、不同粒度的声明。只比较最终高分，不能推导出哪个 SDK 更优秀。
-
-阅读报告时应区分三种结果：
-
-- 有效低分：指标成功运行，结果可能为 `0`。
-- 未定义：原生得到 `NaN`，保存为 `null` 与 `undefined_nan`。
-- 调用错误：保存为 `error`，不是一个可参与平均的零分。
-
-初次实验时，宿主机裁判入口尚未启动，出现了 `14` 项连接错误，真实模型调用为 `0`。失败报告被保留下来。启动入口后才完成上述 `34` 次真实请求。请求数是这次固定记录的事实，不应被宣传成每次运行都必须相同。
-
-## 8. 证据改版为什么必须换身份
-
-旧证据写的是 `1048576` 字节。同一个回答“最大上传大小为 `2097152` 字节”，在旧证据下发生冲突，在受控的新证据下则得到支持。
-
-本课根据有序的文档 `id` 与可信加载器提供的 `sha256` 计算证据键：
+对照实验把同一路径文档中的 1048576 攄为 2097152，并重新计算正文哈希：
 
 ```python
-payload = [
-    {"id": d["id"], "sha256": d["sha256"]}
-    for d in documents
-]
-return hashlib.sha256(
-    json.dumps(payload, sort_keys=True).encode()
+d["text"] = d["text"].replace(
+    "1048576", "2097152"
+).replace("1 MiB", "2 MiB")
+d["sha256"] = hashlib.sha256(
+    d["text"].encode()
 ).hexdigest()
 ```
 
-证据顺序也属于身份的一部分。即使文件路径不变，只要内容和哈希改变，旧标注就不能直接复用：
+然后用同一个回答重新评分。旧证据下它构成矛盾，新证据下则获得支持。这只是受控材料改版，不代表真实服务器配置发生了变化。
+
+在复用人工标注前，代码检查证据身份：
 
 ```python
 def require_same_evidence(old_key, documents):
@@ -218,40 +209,35 @@ def require_same_evidence(old_key, documents):
         )
 ```
 
-这项检查信任加载器给出的哈希元数据，不是防篡改证明。实际项目仍应保存文档快照。新版证据也是专门构造的教学材料，不能据此声称真实服务器配置已经改变。
+同一个文档标识配上新的哈希，会产生新的 `evidence_key`，旧标注因此被拒绝。最终验收关注的是原生指标能正常运行、原始裁决可以核对、旧证据标注确实被拒用，而不是让所有样本都拿高分。
 
-## 9. 重新评价第4课记录，而不是重跑Agent
+## 相对上一课的变更
 
-真实 Agent 样本从第4课报告中读取两样东西：
+| 第4课 | 本课 |
+|---|---|
+| Agent 检索文档并生成任务产物 | 不改 Agent，只增加独立 Faithfulness 评分 |
+| 关注检索与任务执行记录 | 关注回答声明能否由当次证据支持 |
+| 保存真实回答和命中文档 | 复用原始回答与原始证据快照 |
+| 运行 Agent 得到新轨迹 | 不重新执行 Agent，只重放裁判 |
 
-- 当时生成的原始回答。
-- 当次 `search_knowledge` 返回的文档快照。
+因此，本课没有把评测逻辑塞进 Agent，也没有改变它的工具、提示词或停止条件。评分发生在历史运行结束之后。
 
-随后只重新调用两个指标。报告保留源 `run_id` 和源报告哈希，且明确记录：
+## 试一下
 
-```text
-agent_new_execution = false
-```
-
-不能重新检索今天的知识库并替换旧快照，因为那会悄悄改变被评价的证据。也不能把这次裁判调用写成一次新的 Agent 运行。Faithfulness分数还应与第4课的文件验收结果分开呈现：一个检查回答对证据是否忠实，另一个检查任务产物是否符合要求。
-
-## 10. 运行与核对
-
-先在宿主机保持裁判入口运行。它复用本机已经登录的 Codex，凭据不进入容器：
+先在宿主机保持裁判入口运行。它复用本机已经登录的 Codex，凭据不会放入容器：
 
 ```sh
 python3 tools/judge_bridge.py
 ```
 
-另开一个终端构建并执行评测：
+另开一个终端执行：
 
 ```sh
 docker compose build
-docker compose run --rm -T --entrypoint python course \
-  -m lessons.e05_faithfulness.eval
+docker compose run --rm -T --entrypoint python course -m lessons.e05_faithfulness.eval
 ```
 
-结果写入 `runs/e05-evaluation.json`，再次运行会覆盖同名文件；需要比较时应先另存。教材中的固定真实记录 `example_report.json` 不受重跑影响。
+结果写入 `runs/e05-evaluation.json`。再次运行会覆盖同名文件，需要比较时请先另存。教材中的 `example_report.json` 是固定历史记录，不受重跑影响。
 
 阅读课程页面可运行：
 
@@ -261,34 +247,19 @@ docker compose up -d
 
 然后访问 `http://localhost:8765/lesson5`。
 
-最终验收目标不是让所有样本都获得高分，也不是强求每次调用数完全相同，而是确认：
+请带着三个问题查看报告：
 
-- 两个原生指标运行时没有错误。
-- 原始声明、事实整理和逐条裁决可以核对。
-- 证据发生变化后，旧标注确实被拒绝复用。
+1. `mixed` 被两个软件开发工具包分别拆成了多少条声明？哪些属于支持、矛盾或证据未提及？
+2. 为什么同一组 `yes、borderline、no` 在 DeepEval 默认设置下是 2/3，开启惩罚后却是 1/3？
+3. `evidence_v2` 与旧证据的文档路径相同，为什么旧标注仍会被拒绝复用？
 
-## 11. 动手练习
+更多手算、空声明、证据改版和历史快照再评练习见[练习](exercises.md)，完成后可对照[参考答案](solutions.md)。官方说明、固定提交和源码调用链集中在[源码导读](source_walkthrough.md)。
 
-1. 把 `mixed` 拆成原子声明，分别标注支持、信息不足和矛盾，再对照两个 SDK 的实际拆解。
-2. 对 `yes、borderline、no` 手算 DeepEval默认分数和惩罚分数；再计算 Ragas的 `1、0、0`。
-3. 解释为什么 `Thanks!` 得到高分或未定义，都不能证明任务答对；再说明它与空字符串的区别。
-4. 用同一路径的两个证据版本评价同一回答，确认 `evidence_key` 改变，并验证旧标注被拒用。
-5. 构造一个“忠于过时文档，却不符合当前真实配置”的例子，分别列出 Faithfulness和外部正确性需要的材料。
-6. 从第4课记录中取出原始回答和当次检索快照，说明还需要哪些指标才能判断任务总体成功。
+## 接下来
 
-## 完整材料
+Faithfulness 只回答“这些话能否从本次证据推出”。它不能单独判断答案是否切题、是否遗漏关键内容、证据本身是否正确，也不能证明整个任务已经成功。
 
-- [完整评测代码](eval.py)
-- [确定性聚合与证据身份代码](code.py)
-- [五条受控回答](cases.jsonl)
-- [固定真实评测报告](example_report.json)
-- [初始连接失败记录](initial_connection_failure.json)
-- [实测摘要](run_summary.md)
-- [源码导读与官方固定源码链接](source_walkthrough.md)
-- [练习](exercises.md)
-- [参考答案](solutions.md)
-
-本课建立的是一套小型开发教学实验：保存证据快照，把回答拆成声明，保留原始裁决，并区分有效低分、未定义和调用错误。它不是严格盲测，也不能证明指标具有通用可靠性。下一课将继续处理相关性、外部正确性、完整性与拒答，避免让一个 Faithfulness分数承担它无法回答的问题。
+本课材料是一组小型开发教学实验，不是严格盲测，也不代表指标在所有项目中都同样可靠。下一课会继续处理相关性、正确性、完整性和拒答，把“忠于证据”与“真正回答好问题”分开评价。
 
 ---
 

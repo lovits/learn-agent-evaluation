@@ -1,336 +1,226 @@
-# 第6课：答案相关性、正确性、完整性与拒答
+# 第6课：答案切题、答对、答全，是三件事
+
+## 问题
 
 用户问：
 
-> 对课程合成系统 v2，客户端应使用什么认证头？最大上传字节数是多少？超限返回什么状态码？
+> 对课程合成系统 v2，上传接口使用什么认证头？最大文件是多少字节？超过限制返回什么状态码？
 
 回答是：
 
 > 使用 `X-Project-Token` 认证头。
 
-用户要了三项信息，回答只给出认证头。它确实说到了问题中的一部分，另外两项还没有交代。
+这句话切题，也可能是事实，但仍不合格：用户问了三项，它只答了一项。
 
-沿用前五课的 Agent、检索和裁判适配器，本课增加以下评测材料与入口：
+这正是本课要分清的三个问题：
 
-1. 带版本的 `reference`；
-2. 明确的不可回答问题与拒答政策；
-3. 一个独立的答案质量评测入口。
+1. **切题吗？**回答是否在处理用户的问题。
+2. **答对吗？**回答中的事实是否得到当前标准支持。
+3. **答全吗？**用户要求的事项是否都已覆盖。
 
-这一课沿用已有回答，不再执行 Agent。先看指标需要什么材料，再用少量分数检查自己的理解。
+此外还有第四个问题：资料不足时，应该给数字、说“无法判断”，还是请求补充配置？这不能只靠相关性或通用事实指标决定，而要结合信息是否可得以及业务拒答政策。
 
-## 先分清评测中的七种材料
+本课不扩展 Agent，不增加工具，也不重新执行 Agent。我们只加入版本化 `reference`、不可回答问题和评测入口。教材中的八条回答是明确标注的受控构造样例；第九条来自第4课保存的真实 Agent 原始 `notes`。本轮改写保留已有历史结果，没有增加 Agent 执行或裁判测量。
 
-拿到一条回答，先把问题、证据和评分标准分开。它们会进入不同的指标。
+先看各字段各管什么：
 
-- `question`：用户究竟问了什么。它决定回答是否切题，以及需要覆盖哪些事项。
-- `response`：被评测的回答。
-- `retrieved_contexts`：回答当时实际拿到的检索证据。它适合判断回答是否忠于证据。
-- `reference`：经过审核、带版本的参考事实，用来判断回答是否符合目标合同。
-- 需求清单：问题中必须逐项回答的内容，例如“认证头、最大字节数、超限状态码”。
-- `answerable`：根据限定的信息范围，这个问题是否能够回答。
-- `policy`：业务如何处理遗漏、拒答、未知信息和无关内容。
+| 字段 | 用途 | 主要比较对象 |
+|---|---|---|
+| `question` | 用户究竟问了什么 | 与 `response` 比较切题程度 |
+| `response` | 被评测的回答 | 所有指标的被测对象 |
+| `retrieved_contexts` | 当次检索实际拿到的证据 | 与回答比较忠实性 |
+| `reference` | 指定版本下的参考事实 | 与回答比较事实正确性 |
+| 需求清单 | 用户要求覆盖的事项 | 检查业务完整性 |
+| `answerable` | 给定证据范围内能否回答 | 决定回答还是限定性拒答 |
+| `policy` | 业务接受与拒绝规则 | 评价遗漏、拒答和越界推断 |
 
-可以把它们想成考试中的不同材料：题目是 `question`，考生答案是 `response`，考生当时查到的书是 `retrieved_contexts`，标准答案是 `reference`，评分点是需求清单，题目是否缺条件由 `answerable` 表示，阅卷规则则是 `policy`。
+这些对象不能混用。切题不等于正确；事实精确率高不等于答全；忠于旧检索证据不等于符合当前合同；`reference` 不支持某句话，也不自动证明它在外部世界中为假。
 
-| 评测目标 | 主要输入 | 实际比较的两个对象 | 不能单独证明什么 |
-|---|---|---|---|
-| 答案相关性 | `question`、`response` | 回答内容与所问内容 | 事实是否正确 |
-| 证据忠实性 | `response`、`retrieved_contexts` | 回答声明与当次检索证据 | 是否符合当前版本合同 |
-| 参考事实正确性 | `response`、`reference` | 回答声明与版本化参考事实 | 是否覆盖全部需求 |
-| 业务完整性 | `question`、需求清单、`response` | 所问事项与实际覆盖事项 | 百科知识是否面面俱到 |
-| 拒答质量 | `answerable`、`policy`、证据、`response` | 回答行为与信息可得性及业务政策 | 仅靠通用事实无法决定 |
-| 语义相似性 | `response`、`reference` | 两段文本的嵌入表示 | 数字、否定词和合同是否正确 |
+## 解决方案
 
-这几种判断需要分别做：
+本课把评分拆成几条独立观察线：
 
-- 切题不等于正确；
-- 事实 `precision` 高不等于完整；
-- 忠于过时证据不等于符合当前合同；
-- 拒答是否合理，要结合信息可得性和业务政策判断。
+- DeepEval `AnswerRelevancyMetric` 比较 `question` 与 `response`，检查回答声明是否切题，不核验数字。
+- Ragas `FactualCorrectness` 比较 `response` 与版本化 `reference`，用双向声明拆解和自然语言推断形成事实上的 TP、FP、FN。
+- Ragas `AnswerCorrectness` 分别从回答与参考答案抽取声明，再直接分类 TP、FP、FN。它与前一个指标不是同一种算法。
+- DeepEval `GEval` 接收问题、回答以及包含 `reference`、`answerable`、`policy` 的 `expected_output`，评价业务完整性和拒答是否合理。
+- `retrieved_contexts` 只在需要检查“是否忠于当次检索证据”时使用，不能代替当前合同。
 
-## 版本化参考答案为什么必要
+本课的 [`reference.json`](reference.json) 是独立编写的课程合成系统合同。v2 中的 `2097152` 字节，也就是 2 MiB，只是受控教学设定，不代表任何生产环境配置。受控回答可以为了暴露边界而构造，但必须清楚标注；SDK 的历史实测分数以 [`run_summary.md`](run_summary.md) 为准。
 
-本课的 [`reference.json`](reference.json) 保存了单独编写的课程合成系统合同。v2 规定：
+真实旧 Agent 记录来自第4课原始 `notes`，并按它自己的 v1 `reference` 评价，不能偷偷换成 v2 后重新标错。另一个受控样例 `stale_v1` 才专门模拟“当前任务要求 v2，却检索到旧文档”的情况。
 
-- 认证头为 `X-Project-Token`；
-- 最大上传大小为 `2097152` 字节；
-- 超限返回 HTTP `413`。
+## 工作原理
 
-这里的 2 MiB 只是受控课程设定，不代表任何生产系统的真实配置。受控答案可以人为构造，但必须明确标注为构造教学样例。
+**第1步：固定问题、证据和合同版本**
 
-参考材料还包含 v1：它沿用第4课冻结的 1 MiB 合同。同一句“最大为 1048576 字节”，在 v1 任务中可能正确，在当前 v2 任务中却已经过时。
+同一句回答可能忠于 v1，却不符合 v2。因此先把版本写进评测输入。下面片段来自 [`eval.py`](eval.py)，省略了异常处理和其他指标：
 
-本课共有九条评测记录：
+```python
+policy = (
+    f"Reference version: {case['reference_version']}\n"
+    f"Answerable within supplied evidence: {case['answerable']}\n"
+    f"Reference: {case['reference']}\nPolicy: {case['policy']}"
+)
+```
 
-- 八条明确标注的受控回答；
-- 一条来自第4课原始 `notes` 的真实旧 Agent 产物。
+`reference_version` 防止新旧标准混在一起；`answerable` 表示在指定证据范围内能否作答；`policy` 说明怎样才算业务上合格。需求清单则来自 `question` 和政策，例如这里明确要求认证头、字节限额、超限状态码三项。
 
-`answerable` 由课程信息合同独立标注，不能根据被测回答是否说“不知道”反推。本课是构造回答与旧记录的内容再评，reference 仅提供给评分器；真实任务是否可答，还应核对 Agent 当时拿到的资料。
+旧 Agent 的 v1 记录按 v1 判断。`stale_v1` 则用 v2 问题和 v2 参考答案评价，同时另用 `retrieved_contexts` 检查它对旧证据是否忠实。于是“忠于证据”和“符合当前合同”可以同时得到不同结论。
 
-真实旧产物必须使用它自己的 v1 `reference`。不能因为今天有了 v2，就偷偷按 v2 重标过去的任务。另一个受控样例 `stale_v1` 才专门模拟“当前执行 v2 任务，却检索到了旧文档”的故障。
+**第2步：先检查回答是否切题**
 
-本次 `stale_v1` 对旧证据的 Faithfulness 实测为1，对当前 v2 reference 的事实 F1 为0.67。两个指标使用了不同的比较材料。
-
-这两个场景表面上都出现了 1 MiB，时间语境却完全不同：
-
-- `recorded_v1`：过去回答过去的问题，应按 v1 评价；
-- `stale_v1`：现在回答 v2 问题，却用了 v1 资料，应按当前 v2 合同评价。
-
-## 九条回答覆盖了哪些问题
-
-八条受控回答包含四类核心错误：
-
-- `relevant_wrong`：回答相关，但限额错误；
-- `stale_v1`：忠于旧文档，却不符合当前合同；
-- `off_topic`：陈述了真实但答偏的健康接口事实；
-- `invented_retry`：信息不足时编造重试次数。
-
-另外还有四个对照：
-
-- `complete_v2`：三项都答对；
-- `partial`：只回答认证头，漏掉两项；
-- `appropriate_refusal`：证据不足时合理限定并请求配置；
-- `unnecessary_refusal`：明明可以回答，却无理由拒答。
-
-看 `off_topic` 时，先检查它用了哪份标准。`GET /health` 返回 HTTP `200` 的事实存在于合成 `v2_config` 中，但没有写入上传问题的 `reference`。因此“reference 不支持”只表示当前评分标准没有覆盖这条声明，不能自动升级为“它在外部世界是假的”。评测参考本身也需要接受范围审查。
-
-## DeepEval：相关性只问“有没有回答这个问题”
-
-本课使用固定版本 DeepEval 4.3.4 的 `AnswerRelevancyMetric`，并显式选择 `llm` 模式。它需要的是：
+DeepEval 的相关性指标只需要问题与回答：
 
 ```python
 sample = LLMTestCase(
     input=case["question"],
     actual_output=case["response"],
 )
+metric = AnswerRelevancyMetric(
+    model=DeepJudge(transport), eval_mode="llm",
+    async_mode=False, include_reason=False,
+)
+value = metric.measure(sample, _show_indicator=False)
 ```
 
-这个调用没有传入 `reference`。指标能看回答有没有围绕问题展开，却没有当前限额的标准答案可供核对。
+固定版本的 LLM 模式先从回答抽取 `statements`，再把每条判为 `yes`、`no` 或 `borderline`。`yes` 和 `borderline` 都计为通过；声明列表为空时默认得 1。实际拆出的声明与裁决会原样保存在报告里，不能用人工预期替换。
 
-内部过程分两步：
+因为输入中没有 `reference`，它不会核验 `4194304` 是否正确。一个回答可以非常切题，却把限额答错。它也不同于 Ragas 的 Answer Relevancy：后者会从回答反推多个问题，再与原问题计算平均嵌入余弦；固定版本只有全部反推结果都标为不作实质回答时才乘以 0。本课仅做这条源码原理分析，没有实际运行其嵌入模型。
 
-1. 从回答中拆出若干 `statements`；
-2. 对每条声明裁决 `yes`、`no` 或 `borderline`。
+**第3步：用双向声明判断事实支持**
 
-`yes` 和 `borderline` 都计为通过，最终分数近似为“切题声明所占比例”。如果声明列表为空，固定实现默认得到 1。这个边界行为来自实现，不能解释成空回答在业务上合格。
-
-例如：
-
-> 最大上传大小为 4194304 字节，超限返回 HTTP 413。
-
-它完全围绕上传设置作答，因此相关性可能是 1；但其中的限额仍然错误。相关性指标比较的是 `question` 与 `response`，不是 `response` 与 v2 合同。
-
-实际拆出的声明和逐条裁决保存在报告中。模型如何拆分，就按实际结果呈现，不能为了符合人工预期而重写它的中间输出。固定源码及详细调用顺序见 [`source_walkthrough.md`](source_walkthrough.md)，版本固定信息见 [`versions.json`](../../references/versions.json)。
-
-## 用 GEval 表达业务正确性、完整性与拒答
-
-DeepEval 的正确性指南建议使用 GEval 描述应用自己的评分标准。本课继续使用第3课的 GEval 和模型适配器，把评分标准写进已有入口。
-
-GEval 的 `expected_output` 同时携带参考答案、版本与业务政策：
-
-```text
-Reference version: e06-contract-v2
-Answerable within supplied evidence: True
-Reference: ...
-Policy: ...
-```
-
-评分步骤明确要求检查：
-
-- 内容事实是否符合版本化 `reference`；
-- 是否覆盖问题要求的每一项；
-- 是否切题；
-- 拒答是否符合 `answerable` 与 `policy`。
-
-业务完整性指的是“用户所问的需求有没有覆盖”，不是“是否列出了所有相关百科事实”。用户问三项，正确回答三项就完整；没有必要顺便介绍健康接口、部署拓扑或所有 HTTP 状态码。
-
-GEval 会依据这些标准作判断。检查分数时，还要看 `reason` 是否确实引用了遗漏或错误。本课评价答案内容；工具是否执行、文件是否写好，需要前几课的独立产物验收。
-
-## Ragas FactualCorrectness：两个方向的声明与 NLI
-
-固定版本 Ragas 0.4.4 的 `FactualCorrectness` 接收 `response` 和 `reference`。它先拆解声明，再通过自然语言推断判断一段文本能否支持另一段文本中的声明。
-
-它会做两个方向：
-
-1. 正向：拆 `response`，由 `reference` 判断每条回答声明是否受到支持；
-2. 反向：拆 `reference`，由 `response` 判断参考声明是否被回答覆盖。
-
-计数方式是：
-
-- TP：正向中受到 reference 支持的回答声明数；
-- FP：正向中不受支持的回答声明数；
-- FN：反向中未被回答支持的参考声明数。
-
-对这组计数，公式为：
-
-```text
-precision = TP / (TP + FP)
-recall = TP / (TP + FN)
-
-Fbeta = (1 + beta²) × precision × recall
-        / (beta² × precision + recall)
-```
-
-注意，固定源码计算 `recall` 时仍使用正向 TP。假设正向裁决是 `[1, 1, 1]`，反向裁决是 `[1, 0]`：
-
-```text
-TP = 3
-FP = 0
-FN = 1
-recall = 3 / (3 + 1) = 3/4
-```
-
-它不是简单的反向覆盖率 `1/2`。原因是两个方向可能拆出不同数量、不同粒度的声明。自然语言中的一句复合事实，在另一个方向可能被拆成三句，分母因此不能随意互换。
-
-固定源码在分母中加入很小的 `epsilon`，最后保留两位小数。本课原生只运行 `f1`；报告中的 `precision` 和 `recall` 是对同一组实际裁决重新聚合，不是冒充原生又独立运行了两遍。原生 `precision`、`recall`、`f1` 三种模式由固定裁决的断网测试校验。
-
-手算函数可在 [`code.py`](code.py) 查看。最小调用如下：
+Ragas `FactualCorrectness` 的真实 SDK 调用如下，片段同样省略了记录步骤：
 
 ```python
-from lessons.e06_answer_quality.code import fbeta
-
-f1 = fbeta(1, 0, 2)
-f2 = fbeta(1, 0, 2, beta=2)
+metric = FactualCorrectness(
+    llm=judge, mode="f1",
+    atomicity="high", coverage="high",
+)
+value = asyncio.run(metric.ascore(
+    response=case["response"],
+    reference=case["reference"],
+)).value
 ```
 
-给定 TP=1、FP=0、FN=2：
+它先拆回答声明，并用自然语言推断判断每条能否由 `reference` 推出；随后交换两个文本，再检查参考答案有哪些内容未被回答支持。
 
-```text
-precision = 1
-recall = 1/3
-F1 = 0.5
-F2 = 5/13
+- TP：回答中被 `reference` 支持的声明数。
+- FP：回答中不被 `reference` 支持的声明数。
+- FN：反向检查中未被回答支持的参考声明数。
+
+精确率 = TP / (TP + FP)  
+召回率 = TP / (TP + FN)  
+F-beta = (1 + beta²) × 精确率 × 召回率 / (beta² × 精确率 + 召回率)
+
+例如人工设定 TP=1、FP=0、FN=2：
+
+- 精确率为 1；
+- 召回率为 1/3；
+- F1 为 0.5；
+- F2 为 5/13。
+
+这说明“说出来的都对”仍可能漏答。业务完整性只要求覆盖本题所问事项，不是要求回答所有百科事实。
+
+这是**人工计数演示**，不是模型实测。固定源码计算时会在分母加入很小的 `epsilon`，最终保留两位小数。本课原生只运行 `f1`；报告中的精确率和召回率是对同一组实际裁决重新聚合，不是另外运行两遍指标。三种原生模式由固定裁决的断网测试验证。双向拆解粒度及完整公式见 [`source_walkthrough.md`](source_walkthrough.md)。
+
+**第4步：不要把两个“正确性”算法当成同一个**
+
+`AnswerCorrectness` 会分别抽取回答和参考答案的声明，再由分类器直接生成 TP、FP、FN：
+
+```python
+metric = AnswerCorrectness(
+    llm=judge,
+    weights=[1.0, 0.0],
+)
+value = asyncio.run(metric.ascore(
+    user_input=case["question"],
+    response=case["response"],
+    reference=case["reference"],
+)).value
 ```
 
-`precision=1` 只说明回答说出的那一项没有计入错误，不能证明另外两项已经回答。`beta=2` 更重视召回，因此漏答会受到更明显的惩罚。
+本课历史原生实测使用 `[1.0, 0.0]`，只保留事实部分，没有调用嵌入服务。默认配置则以 `[0.75, 0.25]` 混合事实 F-beta 与回答、参考答案的嵌入余弦，但那不是本课的原生实测设置。
 
-这些计数是构造的手算演示，不是模型成绩。
+固定版本还有一个需要谨慎解释的边界：任一侧没有抽出声明时，事实部分直接为 1。这个行为已由原生离线边界测试检查，却绝不能据此推断拒答合格。
 
-## partial：人工预期为什么与原生实测不同
+Ragas `SemanticSimilarity` 更简单：直接计算回答和 `reference` 的嵌入相似度。它没有专门的数值正确性或逻辑蕴含检查；改一个数字或否定词后，嵌入仍可能很相近。Response Relevancy 和 Semantic Similarity 在本课都只有**固定源码解释**，没有真实运行嵌入模型。
+
+**第5步：把完整性和拒答政策明确交给业务裁判**
+
+本课把这些业务标准交给第3课已经使用过的 `GEval`：
+
+```python
+metric = GEval(
+    name="Task answer quality including refusal",
+    model=DeepJudge(transport),
+    evaluation_steps=STEPS,
+    evaluation_params=[
+        SingleTurnParams.INPUT,
+        SingleTurnParams.ACTUAL_OUTPUT,
+        SingleTurnParams.EXPECTED_OUTPUT,
+    ],
+    async_mode=False,
+)
+```
+
+`expected_output` 中放的是版本化参考答案、可回答性和政策。它要求可回答问题覆盖所有所问事项，也要求不可回答问题进行合理限定。
+
+“文档没有写重试次数”不等于“重试 0 次”。合格回答可以说：现有资料无法确定，请提供重试政策或客户端配置。相反，如果资料已经给出认证头、限额和状态码，却无理由拒答，就应扣分。通用事实知识和相关性分数都不能代替这条业务政策。
+
+`GEval` 仍是模型依照标准作出的判断，不是独立外部真值，也不能证明工具调用、文件修改或整个 Agent 任务已经完成。
+
+**第6步：检查 `partial` 中参考措辞造成的真实分歧**
 
 `partial` 的回答是：
 
-> Use the X-Project-Token authentication header.
+> 使用 `X-Project-Token` 认证头。
 
-人工设计意图是“认证头正确，但遗漏限额和状态码”。如果按这个预期计数，可以得到 TP=1、FP=0、FN=2。
-
-FactualCorrectness 的原生实测 F1 却为0。回到 NLI 输入，可以看到 reference 首句只有：
+人工设计意图是“认证事实正确，但漏掉限额和状态码”。然而历史原生 `FactualCorrectness` 实测为 0。回到这次裁决的输入，可以看到参考首句写的是：
 
 > Use the X-Project-Token header.
 
-它没有明确写出 `authentication`。正向 NLI 因而把“用于认证”判成不受支持。不能把人工预期中的 `precision=1` 写成原生实测结果。
+参考句没有明写“用于认证”。这次 NLI 把回答中的“用于认证”判为不受支持。
 
-本课还做了一次独立补测：保留相同回答，只把 reference 首句澄清为：
+另一个 `AnswerCorrectness` 分类器在生成参考声明时还能看到问题，获得了认证语境，最后得到 TP=1、FN=2、事实分 0.5。两者输入和声明生成方式不同，不能把人工预期的精确率 1 写成前一个指标的原生实测结果。
 
-> For authentication, use the X-Project-Token header.
+补测脚本只澄清参考首句，回答保持不变：
 
-主报告没有被改写。补测中原生 FactualCorrectness F1 从 0 变为 0.5。这个对照说明 reference 措辞会影响声明蕴含判断，但一次补测不能证明指标在所有任务上都稳定。准确结果以 [`run_summary.md`](run_summary.md) 为准，原始报告和补测报告见文末。
-
-## Ragas AnswerCorrectness：声明分类与加权
-
-`AnswerCorrectness` 同样涉及 TP、FP、FN，但内部流程不同。它分别从 `response` 和 `reference` 抽取声明，然后让分类器直接输出三类列表：
-
-- TP：正确且匹配的声明；
-- FP：回答中未获 reference 支持的声明，可能是事实错误，也可能是参考未覆盖；
-- FN：reference 中有、回答未覆盖的声明。
-
-这里要读的是分类器给出的三份列表，与前面的双向 NLI 记录分别核对。
-
-默认情况下，它按权重 `[0.75, 0.25]` 混合：
-
-- 事实 F-beta 分数；
-- 回答与 reference 的嵌入余弦相似度。
-
-本课没有 embedding 服务，因此原生实测明确使用 `[1.0, 0.0]`，只运行事实部分，embedding 调用数为 0。
-
-默认混合可以先用人工数字手算。取两个人工向量：
-
-```text
-a = [1, 0]
-b = [0.8, 0.6]
+```python
+clarified = case["reference"].replace(
+    "Use the X-Project-Token header.",
+    "For authentication, use the X-Project-Token header."
+)
+assert clarified != case["reference"]
 ```
 
-两者余弦相似度为 0.8。若预设事实分为 0.5，则默认混合为：
+这段来自[补测脚本](../../tools/e06_reference_repair.py)，省略后续原生调用与保存。已保存的补测将原生事实F1从0变为0.5；原始报告另存未覆盖。它展示参考措辞的影响，单次对照不能证明普遍稳定性。详细阶段结果见[实验摘要](run_summary.md)。
 
-```text
-0.75 × 0.5 + 0.25 × 0.8 = 0.575
-```
+类似地，真实旧回答中的来源路径被 `FactualCorrectness` 拆成独立声明，而参考答案没有该路径；`AnswerCorrectness` 却把路径和内容并入复合声明并接受。不能只凭两个分数选择“赢家”，应先查看它们究竟比较了什么。
 
-0.8 和 0.575 都是人工计算，不是 embedding 模型实测。完整计算函数见 [`code.py`](code.py)。
+## 相对上一课的变更
 
-固定版本还约定：任意一侧没有抽出 statements 时，事实部分直接设为 1。该行为由原生离线边界测试检查，但绝不能据此推断拒答合格。空声明默认值只是实现约定，拒答仍须按信息可得性和业务政策判断。
+| 上一课已有内容 | 本课只增加的内容 |
+|---|---|
+| Agent、检索结果和历史运行记录 | 版本化 `reference` |
+| 回答与检索证据的忠实性 | 切题、事实正确性和需求覆盖 |
+| 已有裁判适配器 | 原生指标评测入口 |
+| 可回答的任务样例 | `answerable=false` 与拒答政策 |
+| 第4课保存的旧 Agent 产物 | 按其原始 v1 合同重新评价 |
 
-在 `partial` 中，AnswerCorrectness 的声明生成过程还拿到了问题，因此为 reference 声明补出了认证语境，最终得到 TP=1、FN=2、事实 F1=0.5。它与 FactualCorrectness 的 0 来自不同输入和不同拆分方式，不能把二者看成互相推翻。
+Agent 沿用已有实现，九条材料中，八条来自 [`cases.jsonl`](cases.jsonl) 的受控回答：全对、相关但错误、缺项、真实却答偏、忠于旧文档、适当拒答、信息不足却编造、不必要拒答；第九条是旧 Agent 的真实产物。
 
-## Response Relevancy 与 SemanticSimilarity
+其中 `off_topic` 所说的健康接口事实存在于合成 `v2_config`，但不在上传问题的 `reference` 内。指标把它判为不受参考支持，只能说明它超出了当前评分标准，不能推出该事实在外部为假。完整九条历史结果和具体分歧见 [`run_summary.md`](run_summary.md)。
 
-Ragas 文档中的 Response Relevancy 概念，在本课固定的 `metrics.collections` 接口中对应 `AnswerRelevancy`。
+## 试一下
 
-它通过回答反推问题，流程是：
-
-1. 根据回答反推出多个可能的问题；
-2. 将这些生成问题与原问题分别嵌入；
-3. 计算余弦相似度并取平均。
-
-这个固定版本只有在生成结果全部是 `noncommittal`，也就是全部不作实质回答时，才把结果乘以 0。它与 DeepEval 的“切题声明比例”不是同一种算法。
-
-`SemanticSimilarity` 更直接：只比较 `response` 与 `reference` 的嵌入。两句话即使只差一个限额数字或一个否定词，语义空间仍可能很接近。因此相似不能保证合同正确，也不能验证数字、否定关系或业务限制。
-
-本课只做了这两项的源码原理分析，没有实际运行 embedding 模型。源码位置、固定提交和边界行为见 [`source_walkthrough.md`](source_walkthrough.md)。
-
-## 拒答要看资料是否足够
-
-用户问：
-
-> 仅根据提供的上传文档，客户端失败后会自动重试几次？
-
-提供的证据没有写重试次数。这不等于重试 0 次。
-
-比较这三种回答：
-
-- “自动重试 0 次”：没有证据支持；
-- “自动重试 3 次”：同样是编造；
-- “现有资料未说明自动重试次数，请提供重试政策或客户端配置”：合理限定了信息范围，并请求必要材料。
-
-第三种可以按本课政策判为适当拒答。这里的 `answerable=false` 表示“在给定证据范围内无法确定”，不表示世界上永远没有答案。
-
-反过来，如果 v2 reference 已经明确给出了认证头、限额和状态码，却回答“无法确定任何上传设置”，就是不必要拒答，应当扣分。
-
-通用事实不能替代拒答政策，相关性也不能替代它。实测中 `appropriate_refusal` 和 `invented_retry` 的 DeepEval 相关性都是 1，因为它们都在讨论重试次数；但 GEval 业务政策分数分别为 1 和 0。回答切题，不代表处理未知信息的方式正确。
-
-## 实测结果：数字之后要回到中间声明
-
-实际 SDK 分数以 [`run_summary.md`](run_summary.md) 为准：
-
-| 样本 | DeepEval 相关性 | Ragas 事实 F1 | Ragas 正确性 `[1,0]` | GEval 业务政策 |
-|---|---:|---:|---:|---:|
-| `complete_v2` | 1 | 1 | 1 | 1 |
-| `relevant_wrong` | 1 | 0.57 | 0.6667 | 0.7 |
-| `partial` | 1 | 0 | 0.5 | 0.4 |
-| `off_topic` | 0 | 0 | 0 | 0 |
-| `stale_v1` | 1 | 0.67 | 0.3333 | 0.7 |
-| `appropriate_refusal` | 1 | 1 | 1 | 1 |
-| `invented_retry` | 1 | 0 | 0 | 0 |
-| `unnecessary_refusal` | 0 | 0 | 0 | 0 |
-| `recorded_v1` | 1 | 0.73 | 1 | 1 |
-
-本课没有设置统一的业务通过阈值。分数出现差异时，回到声明、参考材料和裁判理由，检查差异从哪里来。
-
-第一，`relevant_wrong` 的相关性为 1，却把限额写成 4194304。它说明切题不等于正确。FactualCorrectness 得 0.57，AnswerCorrectness 事实版得 2/3，是因为两者拆解和计数不同。
-
-第二，`partial` 的人工预期与实测冲突。前一个指标只看未明确写出认证语境的 reference，判“用于认证”不受支持；后一个指标生成 reference 声明时拿到了问题，接受了认证语境。保留原始实测与人工预期，才有材料检查这处输入差异。
-
-第三，`recorded_v1` 中真实旧回答包含来源路径。FactualCorrectness 把路径拆成独立声明，而 reference 没列路径，因此得到 0.73；AnswerCorrectness 把来源与内容并入复合声明并接受，得到 1。不能因为某个分数更高，就宣布该算法一定更准确。先检查声明粒度和分母是否相同。
-
-## 如何运行与保存报告
-
-宿主机保持裁判桥接服务运行：
+先在宿主机保持裁判桥运行。已有 Codex 登录凭据留在宿主机，不进入容器：
 
 ```bash
 python3 tools/judge_bridge.py
 ```
 
-已有 Codex 登录凭据留在宿主机，不进入容器。另开终端构建并执行评测：
+另开终端构建并执行评测：
 
 ```bash
 docker compose build
@@ -338,21 +228,7 @@ docker compose run --rm -T --entrypoint python course \
   -m lessons.e06_answer_quality.eval
 ```
 
-评测写入：
-
-```text
-runs/e06-evaluation.json
-```
-
-重跑会覆盖该文件，需要保留旧结果时应先另存。固定的 [`example_report.json`](example_report.json) 不会被运行覆盖。
-
-reference 澄清补测在主实验后独立运行，保留主报告：
-
-```bash
-docker compose run --rm -T --entrypoint python course tools/e06_reference_repair.py
-```
-
-补测写入 `runs/e06-reference-repair.json`，也会覆盖同名旧文件。
+结果写入 `runs/e06-evaluation.json`。重跑会覆盖该文件，如需比较，请先另存旧结果。固定的 [`example_report.json`](example_report.json) 不会被覆盖。这里的精确事实以报告和 [`run_summary.md`](run_summary.md) 为准，这些分数用于解释各个案例，不能据此排名或推断通用能力；构造的失败案例也不需要越过通过阈值。
 
 启动教材服务：
 
@@ -360,44 +236,16 @@ docker compose run --rm -T --entrypoint python course tools/e06_reference_repair
 docker compose up -d
 ```
 
-然后访问 `http://localhost:8765/lesson6`。
+浏览器访问 `http://localhost:8765/lesson6`。
 
-评测入口的完整实现见 [`eval.py`](eval.py)。它没有新增 Agent 执行，也没有调用 embedding 模型。
+请在报告中回答三个观察题：
 
-## 动手练习
+1. `relevant_wrong` 为什么相关性为 1，却不能视为正确答案？
+2. `partial` 在两个事实指标中使用了哪些不同输入，为什么得到不同结果？
+3. `appropriate_refusal` 与 `invented_retry` 都在回答重试问题，业务政策为什么给出相反评价？
 
-1. 用户要求认证头、限额和状态码，回答只给出正确认证头。分别判断它的相关性、事实 `precision` 和需求覆盖情况，并写出每项判断所需的输入字段。
-2. 用 TP=1、FP=0、FN=2 手算 `precision`、`recall`、F1 和 F2，解释为什么更大的 `beta` 更重视漏答。
-3. 对正向 `[1,1,1]`、反向 `[1,0]`，分别计算固定 Ragas 实现的 `recall` 和直接反向覆盖率。
-4. 比较 v1 旧证据与 v2 当前合同：什么时候应使用 Faithfulness，什么时候应使用版本化 reference？
-5. 对“0次”“3次”“资料未说明，请补充配置”三种重试回答制定拒答政策；再考虑证据已经包含答案时应如何评分。
-6. 用人工事实分 0.5、人工相似度 0.8 和默认权重算出混合分，并说明它为什么不是 embedding 实测。
-7. 从真实报告中选一处分歧，依次检查 reference、声明拆解、版本、输入字段和业务政策。若实测与预期不同，保留两者。
+更多练习见 [`exercises.md`](exercises.md)，参考答案见 [`solutions.md`](solutions.md)。完整的双向 NLI 粒度示例、空声明边界、默认嵌入混合的人工计算、固定版本源码链接和调用链见 [`source_walkthrough.md`](source_walkthrough.md)；完整九条结果及参考措辞补测见 [`run_summary.md`](run_summary.md)。
 
-练习全文见 [`exercises.md`](exercises.md)，参考答案见 [`solutions.md`](solutions.md)。
+## 接下来
 
-## 适用边界
-
-本课的方法适合评价有明确问题、参考事实、证据范围和业务政策的回答。它不能自动解决以下问题：
-
-- reference 本身错误或覆盖不全；
-- 版本标注缺失；
-- 模型把复合声明拆成了意外粒度；
-- 外部事实并未进入评分标准；
-- 分数被误当成工具执行成功证明；
-- 单次裁判结果被当成普遍结论。
-
-复核时可以沿报告中的 statements、TP/FP/FN、NLI 裁决和 GEval reason 往回找，逐项确认输入和判断依据。
-
-完整材料：
-
-- [`source_walkthrough.md`](source_walkthrough.md)：固定版本源码导读；
-- [DeepEval 相关性文档](https://deepeval.com/docs/metrics-answer-relevancy)、[正确性指南](https://deepeval.com/guides/guides-answer-correctness-metric)；
-- [Ragas 事实正确性文档](https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/factual_correctness/)、[AnswerCorrectness 文档](https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/answer_correctness/)；
-- [`exercises.md`](exercises.md)：练习；
-- [`solutions.md`](solutions.md)：参考答案；
-- [`example_report.json`](example_report.json)：固定主报告；
-- [`reference_repair_report.json`](reference_repair_report.json)：`partial` 的 reference 澄清补测；
-- [`run_summary.md`](run_summary.md)：精确实测摘要。
-
-下一课会主动删改检索证据、加入噪声，再沿中间阶段定位故障。可以先把本课的一处分歧整理成案例：问题、回答、reference、声明与裁决理由都放在一起。
+相关性比较问题与回答，事实正确性比较回答与指定版本参考，完整性看所问事项的覆盖，拒答还要结合信息范围和政策。遇到分歧，先看各指标的输入、声明和裁决。第7课把这些观察接回完整执行过程，通过可控故障定位资料、检索和生成阶段的问题。

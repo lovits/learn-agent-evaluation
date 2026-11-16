@@ -32,3 +32,5 @@ uv run python tools/generate_lesson.py
 [第7课生成与审校](e07-README.md)先细读Learn Claude Code的正文与代码组织，再按同一带读方式生成，保留六组真实实验和12节审校记录。
 
 第2、3课现已按统一标准重新实际生成并审校；每课本轮写作调用1次，旧原稿和凭证在generation/archive/e02-before-course-revision与e03-before-course-revision。发布稿采用六部分正文与六步代码，不重跑历史Agent或裁判。见[阶段验收](../docs/course-revision-validation.md)。
+
+第4至7课也已按统一标准分别实际重新生成1次并完成技术核对与humanizer各12节审校，原稿/凭证归档后保留。现有第1至7课均落实六部分带读方式；本轮未把历史模型实验记为新测量，见[阶段验收](../docs/course-revision-validation.md)。

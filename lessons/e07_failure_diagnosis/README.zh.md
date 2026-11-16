@@ -1,41 +1,48 @@
 # 第7课：RAG故障定位，只改一个位置
 
-同样漏掉上传限额，问题可能出在资料、检索或生成。我们给这三个位置加上开关，分别跑一遍。
 
 ## 问题
 
-假设 Agent 最终生成了 `upload_notes.json`，其中 `max_bytes` 是 `null`。只看这个文件，三种情况几乎一模一样：
+假设 Agent 的任务是阅读上传接口资料，并生成 `upload_notes.json`。正确结果应包含认证头、最大上传字节数和超限状态码。某次运行中，文件里的 `max_bytes` 却是 `null`。
 
-- 挂载资料里根本没有限额说明。
-- 资料存在，但检索结果漏掉了它。
-- 资料已经交给模型，模型却没有正确使用。
+只看最终文件，原因至少有三种：
 
-只看答案分数，还不知道该从哪里改。要找到问题，得把资料、检索结果和实际文件一起留下来。
+- 资料源里根本没有限额说明。
+- 限额说明存在，但检索结果没有返回它。
+- 限额说明已经交给模型，模型却没有正确使用。
 
-本课固定回到第4课挂载资料使用的合成 v1 上传合同：认证头是 `X-Project-Token`，最大上传量是 `1048576` 字节，也就是 1 MiB，超限返回 `413`。第6课的 v2 合同是另一个受控版本，限额为 2 MiB，不能拿来判定本课的 v1 文档。参考答案仍然要带版本，这一次明确使用 v1。
+一个答案分数也区分不了这三种情况。低分只告诉我们“末端有问题”，没有告诉我们问题从哪里开始。若没有阶段证据，很容易一看到错误就修改提示词；但真正缺的是文档时，改提示词并不能补回事实。
+
+本课固定使用第4课挂载资料中的合成上传合同 v1：
+
+- 认证头：`X-Project-Token`
+- 最大上传大小：`1048576` 字节，也就是 1 MiB
+- 超限状态码：`413`
+
+第6课的合成 v2 将限额设为 2 MiB，本课固定使用上面的 v1。两课都保留版本信息，每份回答应对照其任务指定的合同，避免把版本变化算成回答错误。
 
 ## 解决方案
 
-先跑一组正常流程，再一次打开一个故障开关。每次都保存改动前后的内容。
+做故障定位时，先固定任务、查询词和参考版本，然后每次只改变一个位置：
 
-本课固定相同任务与相同查询，真实重跑六组 Agent：
+| 实验组 | 唯一干预位置 | 改动 |
+|---|---|---|
+| `baseline` | 无 | 保留正常流程 |
+| `drop_doc` | 文档 | 从临时资料副本移除限额文档 |
+| `drop_hit` | 检索 | 文档仍在，但从返回命中移除 |
+| `add_old` | 检索 | 追加明确过期的旧规范 |
+| `add_noise` | 检索 | 追加无关的办公室说明 |
+| `bad_prompt` | 生成 | 只给生成模型加入错误的旧限额指令 |
 
-| 组 | 唯一干预 |
-|---|---|
-| `baseline` | 不干预 |
-| `drop_doc` | 从临时资料副本移除限额文档 |
-| `drop_hit` | 保留文档，但从检索命中中移除 |
-| `add_old` | 在命中中追加过期旧规范 |
-| `add_noise` | 在命中中追加无关办公文档 |
-| `bad_prompt` | 只改变宿主机上的生成指令 |
+`cases.jsonl` 中的 `expected_observation` 是作者事先写下的人工预期，不是实测结论。实际发生了什么，只能查看保存的运行记录和 [实测记录](run_summary.md)。本轮是教材重写，没有重新运行 Agent 或裁判；已有数值都是保留下来的历史记录，不能称为本轮新测量。
 
-`cases.jsonl` 中的 `expected_observation` 是实验前写下的人工预期，不是实测结论。真实发生了什么，只能查看运行记录中的资料快照、检索前后结果、实际文件和事件轨迹。
+完整实现见 [code.py](code.py)，评分实现见 [eval.py](eval.py)。下面只摘取与数据流有关的短片段，并省略日志、异常处理和外围组装代码；这些片段不是可独立运行的入口。
 
 ## 工作原理
 
-### 1. 先把任务、查询和标准固定下来
+**第1步：固定任务、查询和业务合同**
 
-我们要看故障开关的影响，就先把任务和查询固定下来。三项字段仍然是认证头、限额和超限状态码：
+要比较不同故障位置，首先不能让任务本身变化。本课固定三个正确字段和一条查询词：
 
 ```python
 QUERY = "POST upload API token size limit"
@@ -47,16 +54,15 @@ EXPECTED = {
 REQUIRED = {"e04/auth.md", "e04/limits.md"}
 ```
 
-后续各组实验都使用这里的 `EXPECTED` 和 `QUERY`。任务还明确要求写出 `upload_notes.json`，证据缺失时填 `null`，不能猜测，并在结束前重新读取文件。
+输入是 synthetic v1 的两份资料，输出目标是 `upload_notes.json`。任务要求模型先用完全相同的 `QUERY` 检索，只写四个键：三个业务字段和 `sources`。证据缺失时必须写 JSON 的 `null`，不能猜。
 
-前面已经有工具调用和知识检索了。这一课继续用它们，把故障前后发生了什么记下来。`null` 的含义是“当前检索证据无法确定”，不是“系统确定没有限制”。
+这里没有增加新工具。读者已经学过文件工具和 `search_knowledge`，本课只在已有流程中记录故障发生的位置。固定查询也很重要：如果一组实验偷偷换了查询词，我们就无法判断差异来自检索干预，还是来自查询改写。
 
-### 2. 在临时资料副本制造文档缺口
+**第2步：在临时资料副本中制造文档缺口**
 
-`drop_doc` 要模拟“资料本来就拿不到”。它在每组实验的临时副本中移除 `limits.md`，不会改动只读挂载的原始知识库：
+`drop_doc` 模拟“资料里就没有”。代码先根据实验组生成可用资料列表：
 
 ```python
-workspace = prepare_workspace({}, "e07-" + uuid.uuid4().hex)
 available = [
     d for d in documents
     if case["id"] != "drop_doc"
@@ -65,15 +71,15 @@ available = [
 retrievals = []
 ```
 
-两份原始资料按当前实验组筛选后，剩下的放进 `available`。随后代码把这些文档写入独立临时目录，让检索只搜索这个副本。
+输入是原始的 `documents`，输出是该组实际可见的 `available`。随后程序把这些文档写进独立临时目录，检索器只读取这个副本。
 
-运行结束后，程序再次读取原始挂载文档并核对 SHA-256。实测报告中的 `source_mount_unchanged` 用来确认原文没有被实验修改。
+原始知识挂载不会被修改。全部实验结束后，程序重新计算挂载文档的哈希；报告中的 `source_mount_unchanged` 用来确认原文仍然一致。这样，`drop_doc` 表示“Agent 拿不到这份资料”，而不是永久删掉课程资料。
 
-到这里，还没开始检索。文档若已被移除，后面再怎么调整查询也取不回来；文档还在却没被返回，就要继续往检索环节查。
+这也把两个常被混淆的情况分开了：`drop_doc` 是资料集合中没有，即“拿不到”；`drop_hit` 是资料集合中有，但检索结果没交出来，即“取不到”。
 
-### 3. 同时保存检索的 before 和 after
+**第3步：同时保存检索前后结果**
 
-检索干预集中在 `fault_dispatch`。它先执行真实检索并复制一份 `before`，然后才过滤或追加文档：
+`fault_dispatch` 只截获 `search_knowledge`。它先正常检索并保存 `before`，再实施过滤或追加，最后把 `after` 作为真正的工具结果交给模型：
 
 ```python
 hits = search_knowledge(QUERY, root=corpus)
@@ -85,66 +91,58 @@ if case_id in ("add_old", "add_noise"):
 retrievals.append({"query": QUERY, "before": before, "after": hits})
 ```
 
-分发器接到工具调用后，按当前实验组处理资料副本。`before` 留下检索器原本找到的内容，`after` 才作为 `tool_result` 交给模型。
+输入是固定查询和临时资料目录。输出有两份：`before` 表示检索器原本找到了什么，`after` 表示模型实际收到了什么。工具返回中的 `hits` 和 `output` 也都使用 `after`，所以保存的记录与模型实际收到的内容一致。
 
-`drop_hit` 的 `before` 有 `e04/limits.md`，`after` 没有。`add_old` 与 `add_noise` 则在 `after` 中分别追加一份明确标注为过期的旧规范或无关办公说明。
+其他工具仍交给原来的 `dispatch`。如果模型使用了不同查询，分发器会拒绝执行，并把错误留在 `events` 中。这能防止第二个变量悄悄混入实验。
 
-这个分发器还要求参数必须恰好是固定 `QUERY`。实测中，`drop_hit` 曾尝试换查询，被检查拒绝；这次拒绝也会留在 `events` 中。其他工具仍交给原来的 `dispatch`，所以文件读写和权限路径没有变化。
+**第4步：把故障开关接回原有 Agent 循环**
 
-### 4. 把故障分发器插回原有循环
-
-第4课的 Agent 循环增加 `tool_dispatch` 参数，默认值仍是原来的 `dispatch`。本课在 `run_case` 中把它换成刚才的故障分发器：
+本课复用第4课的 `agent_loop`。循环只增加一个参数，并把工具执行处改为调用这个参数：
 
 ```python
-result = agent_loop(
-    TASK, workspace,
-    model=model or (
-        lambda messages: call_model(messages, case["id"] == "bad_prompt")
-    ),
-    tool_dispatch=fault_dispatch(case["id"], corpus, retrievals),
-)
+def agent_loop(
+    task,
+    workspace,
+    model=call_model,
+    max_steps=8,
+    approve=lambda n, a: False,
+    tool_dispatch=dispatch,
+):
 ```
 
-循环中真正变化的只有工具执行这一行：
+真正接入循环的变化只有工具执行这一行：
 
 ```python
 policy, result = tool_dispatch(
-    call,
-    workspace,
-    approve,
+    call, workspace, approve
 )
 ```
 
-把本组的 `fault_dispatch` 传进去，循环仍然拿到原有的权限决定和工具结果。模型调用、权限检查、结果回填、停止判断与事件记录都沿用原流程。
+默认值仍是原来的 `dispatch`，所以普通调用保持原行为。模型调用、权限判断、工具结果回填、事件记录和停止条件都没有另写一套。
 
-生成阶段用 `bad_prompt` 打开另一个开关。课程代码把这个布尔值发给宿主机模型入口：
+`bad_prompt` 的干预发生在模型调用入口，它把 `faulty_generation=True` 传给宿主机模型入口；入口源码会给生成阶段加入错误的兼容限额 `524288`。检索资料仍然包含正确的 `1048576`。因此我们可以观察“证据完整，但生成结果不一致”的情况，同时保留模型真实写出的文件。
 
-```python
-data=json.dumps({
-    "lesson": "e07",
-    "messages": messages,
-    "faulty_generation": faulty_generation,
-}).encode()
-```
+**第5步：独立读取文件，再按证据定位**
 
-只有 `bad_prompt` 将该值设为真。宿主机入口才追加明确错误的兼容限额 `524288` 指令，模型仍需自己生成并写入文件。随后仍由原来的循环执行模型提出的写文件操作。
-
-### 5. 先看文件，再判断问题在哪
-
-循环结束后，我们再打开实际文件。`inspect_artifact` 检查文件里的键、JSON 类型和三个业务字段：
+Agent 说“已经完成”不代表文件正确。`inspect_artifact` 从工作区重新读取实际文件，校验 JSON 结构和字段类型，然后比较三个业务字段：
 
 ```python
 value = json.loads(raw) if raw is not None else None
 if not isinstance(value, dict) or set(value) != {*EXPECTED, "sources"}:
     raise ValueError("Expected three business fields and sources")
-for key in ("max_bytes", "over_limit_status"):
-    if value[key] is not None and type(value[key]) is not int:
-        raise ValueError("Numeric fields must be integers or null")
+return {
+    "status": "valid",
+    "raw": raw,
+    "value": value,
+    "field_matches": {
+        k: value[k] == v for k, v in EXPECTED.items()
+    },
+}
 ```
 
-这段摘自函数内部，省略了 `sources` 与认证头的类型检查、返回字典和异常记录；逐字段匹配在返回字典中计算，完整逻辑见 [code.py](code.py)。它读取实际的 `upload_notes.json`，把原文、解析值、有效状态和逐字段匹配结果一起返回。
+片段省略了各字段类型校验，完整实现见[产物检查代码](code.py)。这里的输入是磁盘上的 `upload_notes.json`，输出包括原文、解析值和逐字段匹配结果。`null` 是合法的“当前证据缺失”，不是程序异常，也不是“系统确定没有限制”。
 
-定位函数不读取 `case.id`，只看实际证据：
+定位函数不读取 `case.id`，而是按照实际留下的证据逐层判断：
 
 ```python
 if artifact["status"] != "valid":
@@ -158,62 +156,55 @@ if all(artifact["field_matches"].values()):
 return "generation_mismatch_requires_review"
 ```
 
-六组真实结果中，`drop_doc` 的资料与检索都缺限额，定位为 `knowledge_gap`；`drop_hit` 的资料和 `before` 有限额，只有 `after` 缺失，定位为 `retrieval_gap`。两组最终都诚实写了 `null`，但原因不同。
+`available_ids` 来自临时资料副本，`returned_ids` 来自最后一次检索的 `after`。资料缺了就是 `knowledge_gap`；资料在而返回缺了就是 `retrieval_gap`；两处都完整但字段不匹配，才进入 `generation_mismatch_requires_review`。
 
-`bad_prompt` 的 `after` 含有正确的 `1048576`，实际文件却写成 `524288`，因此标记为 `generation_mismatch_requires_review`。这个标签把问题留在生成阶段继续复核。一次受控运行可以帮助提出假设，还不足以证明所有类似失败都出于同一原因。
+这个结果把排查范围缩到生成阶段；接下来仍需复核指令、模型采用的依据和具体执行，不能自动认定提示词是唯一原因。模型抽样没有固定，单次结果只能支持当前观察和下一步假设，不能证明普遍因果。
 
-### 6. 看看评分器看到了什么
+**第6步：最后再用评分器补充观察**
 
-现在再看两个指标。评分程序把实际文件中的三个业务字段各写成一句话，`sources` 和 Agent 最后的完成回执不在这次评分范围内；原始文件和完整轨迹都保留。
+阶段证据看清后，才需要辅助评分。评分程序不评价 `sources`，也不评价 Agent 最后的完成回执，只把实际文件的三个业务字段投影成文字：
 
 ```python
+response = response_text(row["artifact"]["value"])
 contexts = [
     d["text"]
     for d in row["retrievals"][-1]["after"]
 ]
-response = response_text(row["artifact"]["value"])
-metric = ContextualRelevancyMetric(
-    model=DeepJudge(transport), eval_mode="llm",
-    async_mode=False, include_reason=False,
-)
 ```
 
-DeepEval 的上下文相关性越高越好，但高分只表示返回内容大多切题，不代表资料已经找全，也不代表模型使用正确。实测中 `bad_prompt` 的相关性为 1，文件限额仍然错误。
+DeepEval 的上下文相关性越高越好，但高分只说明返回内容大多切题，不保证资料找全，也不保证模型采用了正确值。
 
-Ragas 的 NoiseSensitivity 越低越好。它按照文档是否支持 `reference` 声明，把上下文分为 `relevant` 和 `irrelevant`，不是按话题是否相似分组。旧规范虽然也谈上传接口，却可能不支持当前合同中的任何事实。
+Ragas 的 NoiseSensitivity 越低越好。它按照“上下文是否支持 reference 中的事实”划分 `relevant` 与 `irrelevant`，不是按话题是否相似划分。一份过期上传说明可能很切题，却不支持当前合同；一份混合文档只要支持至少一条参考事实，就会进入相关组。若错误值没有被任何上下文支持，两个模式都可能是 0，因此 0 分也不能代替文件正确性检查。
 
-构造夹具中有三条回答声明：第一条正确；第二条错误且被两类上下文支持；第三条错误且只被无关组支持。两个模式都是 `1/3`。第二条已经由相关组覆盖，不会在无关组重复计算；分母是全部回答声明。这个手算只是测试夹具，不是 Agent 的实测成绩。
+测试夹具有一个构造演示：三条回答声明中，第一条正确；第二条错误且同时被两组上下文支持；第三条错误且只被无关组支持。两个模式都得到 `1/3`，分母是全部三条回答声明，而且第二条不会在无关模式重复计算。这只是手算夹具，不是 Agent 成绩。详细提示词、数据结构、支持矩阵和聚合过程见 [源码导读](source_walkthrough.md)。
 
-如果一个错误不受任何检索上下文支持，两个模式都可能是 0。实测 `bad_prompt` 正是如此，所以 NoiseSensitivity 为 0 不能宣布任务正确。详细提示词、支持矩阵和聚合过程见 [源码导读](source_walkthrough.md)，完整评分入口见 [eval.py](eval.py)。本课参考的上游章节与写作对应见 [Learn Claude Code 阅读记录](../../references/e07-teaching-pattern.md)。
+评分输入本身也可能出错。初版 reference 漏写 `POST /upload`，并把 `null` 直接投影成 `None`，曾造成不合预期的裁判结果。修订版补全端点，并把 `null` 明确写成“在本次检索证据中未知”。当时只重新评分，没有修改或重跑 Agent。两轮数值和保留证据见 [实测记录](run_summary.md)。
 
-`drop_doc` 在修订轮的 Noise relevant 仍为0.8。矩阵显示，两项“检索证据未知”被拆成四条声明：局部检索上下文支持这些缺信息说明，完整 reference 却给出了数值，裁判据此判为不支持。这个分数不能直接解释为“80%的内容被噪声带偏”；它提示我们检查指标如何处理缺项与拒答，再结合文件的 `null` 和阶段日志判断。
-
-评分输入本身也可能出错。初轮 `reference` 漏写 `POST /upload`，并把 JSON 的 `null` 直接投影成 `None`，导致裁判可能误解。修订协议补全端点，并把空值写成“在本次检索证据中未知”。这里只重新评分，没有修改或重跑六组 Agent；两轮数值与原始记录保留在 [实测记录](run_summary.md)。
-
-## 相对第6课的变更
+## 相对上一课的变更
 
 | 部分 | 第6课 | 本课 |
 |---|---|---|
-| 版本化参考答案 | 保留 | 保留，并明确使用合成 v1 |
-| 工具、权限与循环 | 使用既有流程 | 保留流程，增加分发接入参数 |
-| 实验对象 | 构造回答或评价旧产物 | 对真实 Agent 分阶段干预并重跑 |
-| 新增内容 | 回答质量评价 | 故障开关、阶段快照、噪声指标 |
-| 判断依据 | 结果与参考答案 | 资料、检索、产物三层证据 |
+| reference 方法 | 使用版本化参考答案 | 保留方法，但固定回到 synthetic v1 |
+| 工具、权限、循环 | 使用既有 Agent 流程 | 全部保留 |
+| 实验对象 | 构造回答或已有产物 | 在三个真实阶段实施干预并重新运行六组 Agent |
+| 新增机制 | 回答质量评测 | 故障开关、`before/after` 快照和噪声指标 |
+| 判断依据 | 结果与评分 | 资料、检索、产物三层证据共同判断 |
 
-`add_old` 和 `add_noise` 本次都没有造成业务字段错误，只能写“本次未观察到任务失败”。模型抽样没有固定，不能据此声称模型永远不受噪声影响；同样，一次失败也不能证明所有类似任务都会失败。
+历史制作时，六组 Agent 确实重新执行过，不是回放旧回答；当前文档重写则没有再执行它们。`add_old` 或 `add_noise` 在某一次运行中没有造成字段错误，只能写“本次未观察到任务失败”，不能说模型永远不受噪声影响。反过来，一次失败也不能证明同类干预必然失败。
 
 ## 试一下
 
-先在宿主机的两个终端分别启动桥接服务，并保持运行。已经运行着本课版本的服务可直接复用，登录凭据留在宿主机：
+在两个宿主机终端分别运行模型桥和裁判桥，并保持进程运行。已有登录凭据留在宿主机，不放入容器：
 
 ```bash
-# 终端1
 python3 tools/model_bridge.py
-# 终端2
+```
+
+```bash
 python3 tools/judge_bridge.py
 ```
 
-它们分别监听 `8766` 和 `8768`。另开终端构建并运行六组 Agent：
+模型桥接监听 `8766`，裁判桥接监听 `8768`。另开终端构建并运行六组 Agent：
 
 ```bash
 docker compose build
@@ -221,29 +212,29 @@ docker compose run --rm -T --entrypoint python course \
   -m lessons.e07_failure_diagnosis.code
 ```
 
-结果写入 `runs/e07-agents.json`。然后对这些实际产物评分：
+它会写入 `runs/e07-agents.json`。然后对这份记录评分：
 
 ```bash
 docker compose run --rm -T --entrypoint python course \
   -m lessons.e07_failure_diagnosis.eval
 ```
 
-评分写入 `runs/e07-evaluation.json`。重跑会覆盖这两个文件，需要比较多轮时请先另存。阅读课程页面可运行：
+评分结果写入 `runs/e07-evaluation.json`。两个文件重跑时都会覆盖；若要比较两轮实验，请先把旧文件另存。评测命令读取已保存的 Agent 记录，不会再次运行 Agent。
+
+启动课程页面：
 
 ```bash
 docker compose up -d
 ```
 
-打开 `http://localhost:8765/lesson7`。完整实验说明见 [实测记录](run_summary.md)，动手题见 [练习](exercises.md) 与 [参考答案](solutions.md)。
+浏览器打开 `http://localhost:8765/lesson7`。阅读报告时，试着回答三个问题：
 
-查看报告时，试着回答三个问题：
+1. 对比 `drop_doc` 和 `drop_hit`：哪一组的 `available_documents` 已经缺少 `e04/limits.md`？哪一组只在 `retrievals.before` 到 `after` 之间丢失它？
+2. 查看 `add_old` 与 `add_noise`：`after` 是否真的加入了合成文档？再检查 `artifact`，本次业务字段有没有随之变错？不要用干预意图代替实际结果。
+3. 查看 `bad_prompt`：正确限额是否仍存在于 `after`？`artifact.raw` 写了什么？再从 `events` 核对模型调用和工具结果，说明为什么这里只能定位为“生成不匹配，仍需复核”。
 
-1. 对比 `drop_doc` 与 `drop_hit`：`available_documents`、`retrievals.before` 和 `retrievals.after` 中，`e04/limits.md` 分别从哪里开始消失？
-2. 对比 `baseline`、`add_old` 与 `add_noise`：新增文档是否真的进入 `after`？`artifact` 的三个业务字段实际有没有变化？
-3. 查看 `drop_hit` 的 `events`：哪次工具调用因查询变化被拒绝？拒绝后 Agent 如何依据现有证据写出文件？
+完整六组历史实验、两轮裁判记录和边界说明分别保存在 [实测记录](run_summary.md) 与 [源码导读](source_walkthrough.md)，练习可继续查看[课后题](exercises.md)，完成后再对照[参考答案](solutions.md)。
 
 ## 接下来
 
-给一条待查案例保留 `available_documents`、检索 `before/after`、实际文件和事件轨迹。保持任务与查询不变，下次只恢复一个开关，就能继续核对当前的排查假设。
-
-下一课会把这些带有证据的案例整理成评测数据集，每条包含明确任务、版本化标准和故障依据。
+排查得到的坏案例还需要保存成可重复执行的测试。下一课把任务、参考版本、输入、验收标准和失败证据一起整理为评测数据集，让这次发现的问题能在以后改动时继续检查。

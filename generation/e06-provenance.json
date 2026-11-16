@@ -5,9 +5,9 @@
   "actual_model_calls": 1,
   "calls": [
     {
-      "prompt_sha256": "d0ca1fd1d5b5ffc3eaad728776fe5d03fda96d92cdd68d888ffd28ba842f87db",
-      "response_sha256": "f89804f254f0cacfe222248c48d3af0171c65ff9646a1d5a5bf73a598fc469c6",
-      "elapsed_seconds": 102.249
+      "prompt_sha256": "c8cad2ff927a81312475cc5ac6b969bb74962cbb749c261d0b2347b3b9cf33e7",
+      "response_sha256": "643e09a24f5557ba3edf096131e5eda582e4926f822a242f1bab4e2ec46894ec",
+      "elapsed_seconds": 71.754
     }
   ],
   "nodes_run": [
@@ -28,6 +28,10 @@
       "sha256": "940890c3876981a2273497e8d0d06da4a882d7e65cea6098f6217f87de498181"
     },
     {
+      "path": "references/textbook-writing-standard.md",
+      "sha256": "f5b37acb847f10b22c835e46865394eb1b12d0119af01aa030faab4a817f0109"
+    },
+    {
       "path": "references/versions.json",
       "sha256": "75831131b2e85e8f0edd2ddd4534642f169a6d0cd0d5ac89d47c5465581ce99c"
     },
@@ -37,7 +41,7 @@
     },
     {
       "path": "lessons/e06_answer_quality/run_summary.md",
-      "sha256": "48e75e469f1bc375c53a591a063f537643211747156d524248dbaa9bf38264a6"
+      "sha256": "d3647d333d0a4ef38e8d1fd6fa7e5ad41cc9d7fedf16e747af605b65e174c786"
     },
     {
       "path": "lessons/e06_answer_quality/exercises.md",
@@ -64,13 +68,25 @@
       "sha256": "432b341573472adba0d37a8e90267a73cee7c0dddbcfd1a7c73c570138b03744"
     }
   ],
-  "brief_sha256": "fad5e2f75a98162c4c10d551c3d271b09926d15ca53a47d251833d7b459c7da3",
+  "brief_sha256": "97ee973a9404deb1f9c61a2514c993f2cd0e26656edc189bb1a0e73d97f81311",
   "raw_output_directory": "generation/output/e06_answer_quality",
   "publication": {
     "path": "lessons/e06_answer_quality/README.zh.md",
-    "sha256": "6d4279ee85280059523734d21ddba207def96fa4a44adebec6c3ac768c092508",
-    "humanizer_reviewed_sections": 14,
+    "sha256": "fce742a3bf3fca7f11b43fdd38986abc9507a8e8f0d2725aaa387c426655d34b",
+    "review": "Current code and historical-result technical review, then full humanizer prose review; protected code/inline/commands/links unchanged during prose pass.",
+    "reviewed_sections": 12,
     "unreviewed_sections": 0,
-    "review": "Read entire current publication from disk. Full prose pass; code blocks, inline code and link targets unchanged during humanizer edits. Technical review separately corrects FP/FN wording, adds reference scope and runnable clarification command, removes generated footer."
+    "main_sections": 6,
+    "working_steps": 6,
+    "baseline": "references/full-course-revision-baseline.json",
+    "previous_generation_archive": "generation/archive/e06-before-course-revision",
+    "new_agent_or_judge_execution_for_rewrite": false,
+    "technical_review_sources": [
+      {
+        "path": "tools/e06_reference_repair.py",
+        "sha256": "64e8d167a39dc5544fdbe0a5e48a19fb3037bb3d83efab1c1dbca8621f122bfd",
+        "purpose": "Add the actual reference-clarification fragment to step 6; this source was read during technical review after generation."
+      }
+    ]
   }
 }

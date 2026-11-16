@@ -13,3 +13,5 @@ uv run python tools/generate_lesson.py --lesson e07
 [发布正文](../lessons/e07_failure_diagnosis/README.zh.md)采用问题、解决方案、工作原理、相对前课变更、试一下、接下来六部分；工作原理有六个短代码步骤。技术审校逐段核对实际实现，修正不完整的函数签名片段和产物校验片段，补充评分配置、缺信息分数的解释。随后humanizer通读并润色12个主节/步骤，未审校小节0，保持代码块、行内代码、命令和链接目标。
 
 原始生成稿不被审校覆盖。输入哈希、生成响应哈希、发布版哈希分开保存；完整prompt/response在Git忽略的generation/private/e07，凭据留宿主机。正文先讲问题和代码，详细实验、指标公式与验收放附页。
+
+本轮整套课程修订再次实际生成1次，旧原稿、brief与凭证在generation/archive/e07-before-course-revision，当前凭证单列本轮调用。原执行代码、样本及固定报告保持一致，本轮未新增Agent或裁判测量。六部分正文与六步代码均完成humanizer审校，详见[阶段验收](../docs/course-revision-validation.md)。

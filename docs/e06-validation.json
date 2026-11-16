@@ -21,5 +21,6 @@
     "original_factual_f1": 0,
     "clarified_factual_f1": 0.5
   },
-  "scope": "small development teaching set, not a held-out reliability estimate"
+  "scope": "small development teaching set, not a held-out reliability estimate",
+  "initial_ci_issue": "generation-page relative links; fixed by direct GitHub links, without widening reader file access"
 }

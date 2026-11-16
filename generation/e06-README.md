@@ -4,7 +4,7 @@
 
 输入是本课最小代码、八条受控回答、版本化reference、真实实测摘要、源码导读、练习/答案和共享记录合同。没有导入集成Agent或未来课程实现。主实验和reference澄清补测均先完成，再交给生成器。
 
-原稿在 [generation/output/e06_answer_quality](output/e06_answer_quality/index.md)，输入与响应哈希在 [生成凭证](e06-provenance.json)。实际命令：
+原稿在 [generation/output/e06_answer_quality](https://github.com/lovits/learn-agent-evaluation/blob/main/generation/output/e06_answer_quality/index.md)，输入与响应哈希在 [生成凭证](https://github.com/lovits/learn-agent-evaluation/blob/main/generation/e06-provenance.json)。实际命令：
 
 ```sh
 uv run python tools/generate_lesson.py --lesson e06

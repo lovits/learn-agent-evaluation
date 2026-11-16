@@ -66,7 +66,7 @@ python3 tools/run_e01.py
 ## 项目状态
 
 旧Faithfulness样章和专属回放实现已清理；该主题已在第5课以编程案例重新制作。
-当前已制作第1至6课，其余10课保留详细设计。DeepEval/Ragas用于评测方法和源码依据，
+当前已制作第1至7课，其余9课保留详细设计。DeepEval/Ragas用于评测方法和源码依据，
 第一课先用确定性任务合同判断文件、输出和退出码，后续再逐步引入框架接口与模型裁判。
 
 教材通过 [PocketFlow流程](generation/README.md)组织，来源与许可见 [第三方说明](THIRD_PARTY.md)。
@@ -127,3 +127,19 @@ docker compose run --rm -T --entrypoint python course tools/e06_reference_repair
 阅读地址：http://localhost:8765/lesson6 。本课复用旧Agent记录，不执行新Agent；默认混合公式做手算，原生AnswerCorrectness实测[1,0]，没有embedding模型调用。
 
 [第6课飞书完整教材](https://my.feishu.cn/docx/IrtXdlfrVoYPZcxNPkLccRzHn0b)。
+
+## 第7课：RAG故障定位
+
+[教材](lessons/e07_failure_diagnosis/README.zh.md)沿Learn Claude Code的问题、方案、分步代码、变更、试验与下一课组织，先追踪资料、检索与文件，再看评分。[源码导读](lessons/e07_failure_diagnosis/source_walkthrough.md)、[实验记录](lessons/e07_failure_diagnosis/run_summary.md)、[练习](lessons/e07_failure_diagnosis/exercises.md)、[验收](docs/e07-validation.md)。
+
+宿主机分别保持 `python3 tools/model_bridge.py` 和 `python3 tools/judge_bridge.py` 运行。构建后依次执行：
+
+```sh
+docker compose build
+docker compose run --rm -T --entrypoint python course -m lessons.e07_failure_diagnosis.code
+docker compose run --rm -T --entrypoint python course -m lessons.e07_failure_diagnosis.eval
+```
+
+本机阅读：http://localhost:8765/lesson7 。每次运行会覆盖同名runs报告，比较前先另存；教材里的固定记录保留。
+
+[第7课飞书完整教材](https://my.feishu.cn/docx/Yueedp2OAo3ljdxc5Fich78ZnWc)。

@@ -28,3 +28,5 @@ uv run python tools/generate_lesson.py
 [第4课生成与审校](e04-README.md)沿用已验证的PocketFlow节点，输入当前课代码、真实记录和资料。
 
 [第6课生成与审校](e06-README.md)以当前课代码、版本化reference、原生评测与参考措辞补测组织教材，并保留原稿与humanizer发布版。
+
+[第7课生成与审校](e07-README.md)先细读Learn Claude Code的正文与代码组织，再按同一带读方式生成，保留六组真实实验和12节审校记录。

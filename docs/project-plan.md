@@ -20,7 +20,7 @@ PocketFlow基于显式材料完成教学抽象、先修关系、顺序和课程�
 
 ## 当前与后续
 
-完整逐课制作要求见course-specification.md，并已写入飞书。当前已制作并验证第1至6课；其余10课的Agent增量、数据和真实模型评测仍需按批次实施，不能把计划标成已运行。
+完整逐课制作要求见course-specification.md，并已写入飞书。当前已制作并验证第1至7课；其余9课的Agent增量、数据和真实模型评测仍需按批次实施，不能把计划标成已运行。
 教材生成复用已确认的本机Codex登录；Agent、裁判、生成器、模拟用户分别记录模型配置。
 
 详见[教学方法](teaching-method.md)、[评测能力地图](evaluation-landscape.md)、

@@ -1,0 +1,26 @@
+{
+  "lesson": "e07",
+  "live_agent_cases": 6,
+  "agent_model_calls": 25,
+  "tool_calls": 19,
+  "tool_statuses": {
+    "ok": 18,
+    "error_fixed_query_rejection": 1
+  },
+  "initial_judge_calls": 54,
+  "revised_judge_calls": 54,
+  "judge_calls_total": 108,
+  "sdk_errors": 0,
+  "source_mount_unchanged": true,
+  "main_sections": 6,
+  "code_steps": 6,
+  "humanizer_reviewed_sections": 12,
+  "shared_implementation": {
+    "lessons/e04_retrieval/code.py": "783553ab81d348527c5585d6554dc95a0e303385fa0807fe4ade5ab6f288f53a",
+    "tools/model_bridge.py": "487bd552e794811ef7c8a14d7f06933dcf19974a57d917fd940651fa4f6a93c5"
+  },
+  "scope": "small controlled development experiment, not a general causal or reliability proof",
+  "local_tests": 75,
+  "docker_offline_tests": 75,
+  "all_reader_links_verified": true
+}

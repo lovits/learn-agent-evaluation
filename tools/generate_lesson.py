@@ -15,7 +15,7 @@ def main():
 
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
-        "--lesson", choices=["e01", "e02", "e03", "e04", "e05", "e06"], default="e01"
+        "--lesson", choices=["e01", "e02", "e03", "e04", "e05", "e06", "e07"], default="e01"
     )
     args = parser.parse_args()
     lesson = args.lesson
@@ -41,6 +41,12 @@ def main():
             "e06_answer_quality",
             "答案相关性、正确性、完整性与拒答",
             "generation/e06-brief.md",
+        )
+    if lesson == "e07":
+        slug, title, brief_path = (
+            "e07_failure_diagnosis",
+            "RAG故障定位：只改一个位置",
+            "generation/e07-brief.md",
         )
     private = PROJECT / "generation/private" / lesson
     private.mkdir(parents=True, exist_ok=True)
@@ -89,7 +95,7 @@ def main():
                     "eval.py",
                     "cases.jsonl",
                     "run_summary.md"
-                    if lesson in ("e02", "e03", "e04", "e05", "e06")
+                    if lesson in ("e02", "e03", "e04", "e05", "e06", "e07")
                     else "example_report.json",
                     "source_walkthrough.md",
                     "exercises.md",
@@ -113,6 +119,11 @@ def main():
                 else []
             ),
             *([f"lessons/{slug}/reference.json"] if lesson == "e06" else []),
+            *(
+                ["lessons/e04_retrieval/code.py", "references/e07-teaching-pattern.md"]
+                if lesson == "e07"
+                else []
+            ),
             "eval_course/records.py",
             "references/versions.json",
         },
@@ -128,9 +139,13 @@ def main():
         "abstractions": [{"name": title, "description": brief, "files": []}],
         "relationships": {
             "summary": (
-                "以版本化参考答案和拒答政策，区分切题、正确、完整与语义相似。"
-                if lesson == "e06"
-                else "模型给动作，Docker里的循环执行Bash，独立容器核实结果。"
+                "固定任务，逐段加入资料、检索和生成故障开关，再沿阶段证据定位。"
+                if lesson == "e07"
+                else (
+                    "以版本化参考答案和拒答政策，区分切题、正确、完整与语义相似。"
+                    if lesson == "e06"
+                    else "模型给动作，Docker里的循环执行Bash，独立容器核实结果。"
+                )
             ),
             "details": [],
         },

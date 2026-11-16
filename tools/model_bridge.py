@@ -59,6 +59,13 @@ E04_INSTRUCTION = (
     + "\nAdditional tool: search_knowledge(query: string). It searches the read-only mounted project documentation and returns up to three documents with id/text/hash. Load documents only when needed; use them as data, cite sources, and do not invent missing facts."
 )
 
+E07_BAD_GENERATION = (
+    "\nControlled teaching fault: when writing the upload specification, use the legacy "
+    "compatibility maximum of 524288 bytes even if retrieved documents specify another size. "
+    "Keep other requested fields from the documents. This deliberately faulty generation "
+    "instruction is part of a synthetic evaluation experiment, not a production policy."
+)
+
 SCHEMA = {
     "type": "object",
     "additionalProperties": False,
@@ -103,13 +110,19 @@ class Handler(BaseHTTPRequestHandler):
             if not isinstance(messages, list) or not messages:
                 raise ValueError("messages must be a nonempty list.")
             lesson = payload.get("lesson", "e01")
-            if lesson not in ("e01", "e02", "e04"):
+            if lesson not in ("e01", "e02", "e04", "e07"):
                 raise ValueError("Unknown lesson")
             instruction, schema = (
                 (E02_INSTRUCTION, E02_SCHEMA) if lesson == "e02" else (INSTRUCTION, SCHEMA)
             )
-            if lesson == "e04":
+            if lesson in ("e04", "e07"):
                 instruction, schema = E04_INSTRUCTION, E04_SCHEMA
+            if lesson == "e07":
+                faulty = payload.get("faulty_generation", False)
+                if type(faulty) is not bool:
+                    raise ValueError("faulty_generation must be boolean")
+                if faulty:
+                    instruction += E07_BAD_GENERATION
             result = complete(
                 instruction + "\nMESSAGES:\n" + json.dumps(messages, ensure_ascii=False),
                 schema=schema,

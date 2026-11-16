@@ -56,7 +56,14 @@ def call_model(messages):
         return json.load(response)
 
 
-def agent_loop(task, workspace, model=call_model, max_steps=8, approve=lambda n, a: False):
+def agent_loop(
+    task,
+    workspace,
+    model=call_model,
+    max_steps=8,
+    approve=lambda n, a: False,
+    tool_dispatch=dispatch,
+):
     messages = [{"role": "user", "content": task}]
     events, hooks = [], []
     hooks.append({"phase": "UserPromptSubmit", "span_id": "agent"})
@@ -91,7 +98,7 @@ def agent_loop(task, workspace, model=call_model, max_steps=8, approve=lambda n,
             call_id = f"{model_id}:tool-{index}"
             hooks.append({"phase": "PreToolUse", "span_id": call_id})
             start = time.monotonic()
-            policy, result = dispatch(call, workspace, approve)
+            policy, result = tool_dispatch(call, workspace, approve)
             events.append(
                 {
                     "type": "tool",

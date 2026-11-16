@@ -22,6 +22,7 @@ PAGES = {
     "/lesson4": ("第4课：知识库检索", "lessons/e04_retrieval/README.zh.md"),
     "/lesson5": ("第5课：Faithfulness", "lessons/e05_faithfulness/README.zh.md"),
     "/lesson6": ("第6课：答案质量与拒答", "lessons/e06_answer_quality/README.zh.md"),
+    "/lesson7": ("第7课：故障定位", "lessons/e07_failure_diagnosis/README.zh.md"),
     "/source": ("第1课源码", "lessons/e01_agent_baseline/source_walkthrough.md"),
     "/exercises": ("第1课练习", "lessons/e01_agent_baseline/exercises.md"),
     "/solutions": ("第1课答案", "lessons/e01_agent_baseline/solutions.md"),
@@ -30,6 +31,13 @@ PAGES = {
 }
 DOCUMENTS = {
     **PAGES,
+    "/source7": ("第7课源码", "lessons/e07_failure_diagnosis/source_walkthrough.md"),
+    "/exercises7": ("第7课练习", "lessons/e07_failure_diagnosis/exercises.md"),
+    "/solutions7": ("第7课答案", "lessons/e07_failure_diagnosis/solutions.md"),
+    "/e07-results": ("第7课实测", "lessons/e07_failure_diagnosis/run_summary.md"),
+    "/validation7": ("第7课验收", "docs/e07-validation.md"),
+    "/generation7": ("第7课生成与审校", "generation/e07-README.md"),
+    "/teaching7": ("第7课写作方式", "references/e07-teaching-pattern.md"),
     "/source6": ("第6课源码", "lessons/e06_answer_quality/source_walkthrough.md"),
     "/exercises6": ("第6课练习", "lessons/e06_answer_quality/exercises.md"),
     "/solutions6": ("第6课答案", "lessons/e06_answer_quality/solutions.md"),

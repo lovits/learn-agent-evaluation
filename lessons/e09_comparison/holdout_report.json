@@ -1,0 +1,2579 @@
+{
+  "lesson": "e09",
+  "phase": "holdout",
+  "mode": "live_agent",
+  "created_at": "2026-11-16T21:14:59.055543+00:00",
+  "manifest": {
+    "code_sha256": {
+      "lessons/e04_retrieval/code.py": "783553ab81d348527c5585d6554dc95a0e303385fa0807fe4ade5ab6f288f53a",
+      "eval_course/knowledge.py": "a268269f5f1abfaeb951149843c128533dc9b713b8c687bca7acc88ee3d0db76",
+      "tools/model_bridge.py": "487bd552e794811ef7c8a14d7f06933dcf19974a57d917fd940651fa4f6a93c5",
+      "lessons/e09_comparison/code.py": "504634acc3164a1f779410da0e86bd283ff8ae36d11c51ba05ac77214784557f",
+      "lessons/e09_comparison/statistics.py": "bc62f179ebb062b8bd5556d6eff08b5f5a30c2191e66e93f0ff2dd33bcc97630",
+      "lessons/e09_comparison/cases.jsonl": "20299b90ef1e2a4425377b0ea14a76462be536ab15370e4ebf8fe0381dadb82a",
+      "uv.lock": "93e0c1a94dcf33b0f1e02b76597ff15fdf5e83351176af0538ddd7b3d6cd9113"
+    },
+    "documents": {
+      "e04/auth.md": "c679cde9b3a727c786041a104888227dad4338379942276adeba9f3e211c335f",
+      "e04/limits.md": "a742717e40c3a2af1a7c2fee961c06ee9d91872b8d09b81089159a057af1d949",
+      "e09/archive/auth.md": "1adae93eee5709b2c286a34856bd138d7561aff85f3134f2e68a85781bc08d35",
+      "e09/archive/limits.md": "13d0fd6b345365b8f384581018aca258c4222741d6305a601f139eef1e86e827"
+    },
+    "only_changed_factor": "retrieval_limit_k",
+    "k_values": [
+      1,
+      2
+    ],
+    "repeats": 2,
+    "minimum_effect": 0.1,
+    "model_sampling_seed": null
+  },
+  "rows": [
+    {
+      "case_id": "archive-single_hop",
+      "family": "archive",
+      "split": "holdout",
+      "stratum": "single_hop",
+      "k": 1,
+      "repeat": 0,
+      "order": 0,
+      "run_id": "20c52581ba4b464795d0add4019829d6",
+      "elapsed_seconds": 21.455249,
+      "application_requests": 4,
+      "token_count": null,
+      "cost": null,
+      "artifact": {
+        "raw": "{\"max_bytes\":131072,\"sources\":[\"e09/archive/limits.md\"]}\n",
+        "value": {
+          "max_bytes": 131072,
+          "sources": [
+            "e09/archive/limits.md"
+          ]
+        },
+        "valid": true,
+        "field_matches": {
+          "max_bytes": true
+        },
+        "passed": true
+      },
+      "passed": true,
+      "retrievals": [
+        {
+          "query": "POST archive API token size limit",
+          "k": 1,
+          "hits": [
+            {
+              "path": "e09/archive/limits.md",
+              "text": "# Synthetic archive API size limit v1\nPOST /archive accepts files up to 131072 bytes. Larger requests return HTTP 422. Check the file size before sending.\n",
+              "sha256": "13d0fd6b345365b8f384581018aca258c4222741d6305a601f139eef1e86e827",
+              "matches": 5,
+              "id": "e09/archive/limits.md"
+            }
+          ]
+        }
+      ],
+      "deepeval_sample": {
+        "input": "First call search_knowledge with exactly this query: POST archive API token size limit. Using only returned evidence for POST /archive, write answer.json with exactly these keys: max_bytes, sources. Use null for unknown facts; sources is an array of source IDs actually used. Read the file back. Do not use network APIs or read the knowledge mount through Bash; use search_knowledge. Do not change the query or seek additional sources.",
+        "actual_output": "{\"max_bytes\":131072,\"sources\":[\"e09/archive/limits.md\"]}\n",
+        "expected_output": "{\"max_bytes\": 131072}",
+        "context": null,
+        "retrieval_context": [
+          "# Synthetic archive API size limit v1\nPOST /archive accepts files up to 131072 bytes. Larger requests return HTTP 422. Check the file size before sending.\n"
+        ],
+        "metadata": {
+          "case_id": "archive-single_hop",
+          "k": 1,
+          "repeat": 0,
+          "run_id": "20c52581ba4b464795d0add4019829d6"
+        },
+        "tools_called": null,
+        "comments": null,
+        "expected_tools": null,
+        "token_cost": null,
+        "input_token_count": null,
+        "output_token_count": null,
+        "completion_time": null,
+        "flaky": false,
+        "multimodal": false,
+        "name": null,
+        "tags": null,
+        "mcp_servers": null,
+        "mcp_tools_called": null,
+        "mcp_resources_called": null,
+        "mcp_prompts_called": null,
+        "custom_column_key_values": null,
+        "expectations": null,
+        "expected_labels": null
+      },
+      "status": "finished",
+      "final_answer": "Created and verified `answer.json`.",
+      "events": [
+        {
+          "type": "model",
+          "span_id": "model-1",
+          "parent_id": "agent",
+          "reply": {
+            "answer": "",
+            "tool_calls": [
+              {
+                "name": "search_knowledge",
+                "arguments_json": "{\"query\":\"POST archive API token size limit\"}"
+              }
+            ]
+          },
+          "model": {
+            "usage": [
+              {
+                "input_tokens": 15406,
+                "cached_input_tokens": 13440,
+                "cache_write_input_tokens": 0,
+                "output_tokens": 59,
+                "reasoning_output_tokens": 18
+              }
+            ],
+            "reported_model": null,
+            "model_selection": "Codex CLI default; user config ignored",
+            "elapsed_seconds": 5.858,
+            "transport_tool_events": 0,
+            "prompt_sha256": "f835b941e64dd1a010a1bbdc71d6214f492f7f2f2a615a4b933b959ba4a2ae62"
+          }
+        },
+        {
+          "type": "tool",
+          "span_id": "model-1:tool-0",
+          "parent_id": "model-1",
+          "call": {
+            "name": "search_knowledge",
+            "arguments_json": "{\"query\":\"POST archive API token size limit\"}"
+          },
+          "permission": {
+            "decision": "allow",
+            "reason": "controlled_retrieval_limit"
+          },
+          "result": {
+            "status": "ok",
+            "hits": [
+              {
+                "path": "e09/archive/limits.md",
+                "text": "# Synthetic archive API size limit v1\nPOST /archive accepts files up to 131072 bytes. Larger requests return HTTP 422. Check the file size before sending.\n",
+                "sha256": "13d0fd6b345365b8f384581018aca258c4222741d6305a601f139eef1e86e827",
+                "matches": 5,
+                "id": "e09/archive/limits.md"
+              }
+            ],
+            "output": "[{\"path\": \"e09/archive/limits.md\", \"text\": \"# Synthetic archive API size limit v1\\nPOST /archive accepts files up to 131072 bytes. Larger requests return HTTP 422. Check the file size before sending.\\n\", \"sha256\": \"13d0fd6b345365b8f384581018aca258c4222741d6305a601f139eef1e86e827\", \"matches\": 5, \"id\": \"e09/archive/limits.md\"}]"
+          },
+          "elapsed_seconds": 0.002015
+        },
+        {
+          "type": "model",
+          "span_id": "model-2",
+          "parent_id": "agent",
+          "reply": {
+            "answer": "",
+            "tool_calls": [
+              {
+                "name": "write_file",
+                "arguments_json": "{\"path\":\"answer.json\",\"content\":\"{\\\"max_bytes\\\":131072,\\\"sources\\\":[\\\"e09/archive/limits.md\\\"]}\\n\"}"
+              }
+            ]
+          },
+          "model": {
+            "usage": [
+              {
+                "input_tokens": 15700,
+                "cached_input_tokens": 13440,
+                "cache_write_input_tokens": 0,
+                "output_tokens": 107,
+                "reasoning_output_tokens": 40
+              }
+            ],
+            "reported_model": null,
+            "model_selection": "Codex CLI default; user config ignored",
+            "elapsed_seconds": 6.082,
+            "transport_tool_events": 0,
+            "prompt_sha256": "cf5abd6d6050bce585fb36178e520e2eae197c0d6c1cce01e8fefdffafaa5497"
+          }
+        },
+        {
+          "type": "tool",
+          "span_id": "model-2:tool-0",
+          "parent_id": "model-2",
+          "call": {
+            "name": "write_file",
+            "arguments_json": "{\"path\":\"answer.json\",\"content\":\"{\\\"max_bytes\\\":131072,\\\"sources\\\":[\\\"e09/archive/limits.md\\\"]}\\n\"}"
+          },
+          "permission": {
+            "decision": "allow",
+            "reason": "workspace_policy"
+          },
+          "result": {
+            "status": "ok",
+            "output": "Wrote answer.json",
+            "truncated": false
+          },
+          "elapsed_seconds": 0.003454
+        },
+        {
+          "type": "model",
+          "span_id": "model-3",
+          "parent_id": "agent",
+          "reply": {
+            "answer": "",
+            "tool_calls": [
+              {
+                "name": "read_file",
+                "arguments_json": "{\"path\":\"answer.json\"}"
+              }
+            ]
+          },
+          "model": {
+            "usage": [
+              {
+                "input_tokens": 15819,
+                "cached_input_tokens": 13440,
+                "cache_write_input_tokens": 0,
+                "output_tokens": 52,
+                "reasoning_output_tokens": 16
+              }
+            ],
+            "reported_model": null,
+            "model_selection": "Codex CLI default; user config ignored",
+            "elapsed_seconds": 5.114,
+            "transport_tool_events": 0,
+            "prompt_sha256": "964287dabcc5d0f47a7930c52aa5523beec1bf60933d3234c66c761e87b358a9"
+          }
+        },
+        {
+          "type": "tool",
+          "span_id": "model-3:tool-0",
+          "parent_id": "model-3",
+          "call": {
+            "name": "read_file",
+            "arguments_json": "{\"path\":\"answer.json\"}"
+          },
+          "permission": {
+            "decision": "allow",
+            "reason": "workspace_policy"
+          },
+          "result": {
+            "status": "ok",
+            "output": "{\"max_bytes\":131072,\"sources\":[\"e09/archive/limits.md\"]}\n",
+            "truncated": false
+          },
+          "elapsed_seconds": 0.003046
+        },
+        {
+          "type": "model",
+          "span_id": "model-4",
+          "parent_id": "agent",
+          "reply": {
+            "answer": "Created and verified `answer.json`.",
+            "tool_calls": []
+          },
+          "model": {
+            "usage": [
+              {
+                "input_tokens": 15914,
+                "cached_input_tokens": 13440,
+                "cache_write_input_tokens": 0,
+                "output_tokens": 25,
+                "reasoning_output_tokens": 0
+              }
+            ],
+            "reported_model": null,
+            "model_selection": "Codex CLI default; user config ignored",
+            "elapsed_seconds": 4.356,
+            "transport_tool_events": 0,
+            "prompt_sha256": "ce9fe22036beea13815e64e73fe6cec823fe92a329ec6802167b5546c851708b"
+          }
+        }
+      ],
+      "hooks": [
+        {
+          "phase": "UserPromptSubmit",
+          "span_id": "agent"
+        },
+        {
+          "phase": "PreToolUse",
+          "span_id": "model-1:tool-0"
+        },
+        {
+          "phase": "PostToolUse",
+          "span_id": "model-1:tool-0",
+          "status": "ok"
+        },
+        {
+          "phase": "PreToolUse",
+          "span_id": "model-2:tool-0"
+        },
+        {
+          "phase": "PostToolUse",
+          "span_id": "model-2:tool-0",
+          "status": "ok"
+        },
+        {
+          "phase": "PreToolUse",
+          "span_id": "model-3:tool-0"
+        },
+        {
+          "phase": "PostToolUse",
+          "span_id": "model-3:tool-0",
+          "status": "ok"
+        },
+        {
+          "phase": "Stop",
+          "span_id": "agent",
+          "status": "finished"
+        }
+      ]
+    },
+    {
+      "case_id": "archive-single_hop",
+      "family": "archive",
+      "split": "holdout",
+      "stratum": "single_hop",
+      "k": 2,
+      "repeat": 0,
+      "order": 1,
+      "run_id": "1ea73183145e49598c430a73696ea46d",
+      "elapsed_seconds": 18.666085,
+      "application_requests": 4,
+      "token_count": null,
+      "cost": null,
+      "artifact": {
+        "raw": "{\n  \"max_bytes\": 131072,\n  \"sources\": [\"e09/archive/limits.md\"]\n}\n",
+        "value": {
+          "max_bytes": 131072,
+          "sources": [
+            "e09/archive/limits.md"
+          ]
+        },
+        "valid": true,
+        "field_matches": {
+          "max_bytes": true
+        },
+        "passed": true
+      },
+      "passed": true,
+      "retrievals": [
+        {
+          "query": "POST archive API token size limit",
+          "k": 2,
+          "hits": [
+            {
+              "path": "e09/archive/limits.md",
+              "text": "# Synthetic archive API size limit v1\nPOST /archive accepts files up to 131072 bytes. Larger requests return HTTP 422. Check the file size before sending.\n",
+              "sha256": "13d0fd6b345365b8f384581018aca258c4222741d6305a601f139eef1e86e827",
+              "matches": 5,
+              "id": "e09/archive/limits.md"
+            },
+            {
+              "path": "e09/archive/auth.md",
+              "text": "# Synthetic archive API authentication v1\nFor POST /archive, send the API token in the X-Archive-Key header. This endpoint accepts archive uploads.\n",
+              "sha256": "1adae93eee5709b2c286a34856bd138d7561aff85f3134f2e68a85781bc08d35",
+              "matches": 4,
+              "id": "e09/archive/auth.md"
+            }
+          ]
+        }
+      ],
+      "deepeval_sample": {
+        "input": "First call search_knowledge with exactly this query: POST archive API token size limit. Using only returned evidence for POST /archive, write answer.json with exactly these keys: max_bytes, sources. Use null for unknown facts; sources is an array of source IDs actually used. Read the file back. Do not use network APIs or read the knowledge mount through Bash; use search_knowledge. Do not change the query or seek additional sources.",
+        "actual_output": "{\n  \"max_bytes\": 131072,\n  \"sources\": [\"e09/archive/limits.md\"]\n}\n",
+        "expected_output": "{\"max_bytes\": 131072}",
+        "context": null,
+        "retrieval_context": [
+          "# Synthetic archive API size limit v1\nPOST /archive accepts files up to 131072 bytes. Larger requests return HTTP 422. Check the file size before sending.\n",
+          "# Synthetic archive API authentication v1\nFor POST /archive, send the API token in the X-Archive-Key header. This endpoint accepts archive uploads.\n"
+        ],
+        "metadata": {
+          "case_id": "archive-single_hop",
+          "k": 2,
+          "repeat": 0,
+          "run_id": "1ea73183145e49598c430a73696ea46d"
+        },
+        "tools_called": null,
+        "comments": null,
+        "expected_tools": null,
+        "token_cost": null,
+        "input_token_count": null,
+        "output_token_count": null,
+        "completion_time": null,
+        "flaky": false,
+        "multimodal": false,
+        "name": null,
+        "tags": null,
+        "mcp_servers": null,
+        "mcp_tools_called": null,
+        "mcp_resources_called": null,
+        "mcp_prompts_called": null,
+        "custom_column_key_values": null,
+        "expectations": null,
+        "expected_labels": null
+      },
+      "status": "finished",
+      "final_answer": "Created and verified `answer.json`.",
+      "events": [
+        {
+          "type": "model",
+          "span_id": "model-1",
+          "parent_id": "agent",
+          "reply": {
+            "answer": "",
+            "tool_calls": [
+              {
+                "name": "search_knowledge",
+                "arguments_json": "{\"query\":\"POST archive API token size limit\"}"
+              }
+            ]
+          },
+          "model": {
+            "usage": [
+              {
+                "input_tokens": 15404,
+                "cached_input_tokens": 13440,
+                "cache_write_input_tokens": 0,
+                "output_tokens": 56,
+                "reasoning_output_tokens": 15
+              }
+            ],
+            "reported_model": null,
+            "model_selection": "Codex CLI default; user config ignored",
+            "elapsed_seconds": 4.561,
+            "transport_tool_events": 0,
+            "prompt_sha256": "f835b941e64dd1a010a1bbdc71d6214f492f7f2f2a615a4b933b959ba4a2ae62"
+          }
+        },
+        {
+          "type": "tool",
+          "span_id": "model-1:tool-0",
+          "parent_id": "model-1",
+          "call": {
+            "name": "search_knowledge",
+            "arguments_json": "{\"query\":\"POST archive API token size limit\"}"
+          },
+          "permission": {
+            "decision": "allow",
+            "reason": "controlled_retrieval_limit"
+          },
+          "result": {
+            "status": "ok",
+            "hits": [
+              {
+                "path": "e09/archive/limits.md",
+                "text": "# Synthetic archive API size limit v1\nPOST /archive accepts files up to 131072 bytes. Larger requests return HTTP 422. Check the file size before sending.\n",
+                "sha256": "13d0fd6b345365b8f384581018aca258c4222741d6305a601f139eef1e86e827",
+                "matches": 5,
+                "id": "e09/archive/limits.md"
+              },
+              {
+                "path": "e09/archive/auth.md",
+                "text": "# Synthetic archive API authentication v1\nFor POST /archive, send the API token in the X-Archive-Key header. This endpoint accepts archive uploads.\n",
+                "sha256": "1adae93eee5709b2c286a34856bd138d7561aff85f3134f2e68a85781bc08d35",
+                "matches": 4,
+                "id": "e09/archive/auth.md"
+              }
+            ],
+            "output": "[{\"path\": \"e09/archive/limits.md\", \"text\": \"# Synthetic archive API size limit v1\\nPOST /archive accepts files up to 131072 bytes. Larger requests return HTTP 422. Check the file size before sending.\\n\", \"sha256\": \"13d0fd6b345365b8f384581018aca258c4222741d6305a601f139eef1e86e827\", \"matches\": 5, \"id\": \"e09/archive/limits.md\"}, {\"path\": \"e09/archive/auth.md\", \"text\": \"# Synthetic archive API authentication v1\\nFor POST /archive, send the API token in the X-Archive-Key header. This endpoint accepts archive uploads.\\n\", \"sha256\": \"1adae93eee5709b2c286a34856bd138d7561aff85f3134f2e68a85781bc08d35\", \"matches\": 4, \"id\": \"e09/archive/auth.md\"}]"
+          },
+          "elapsed_seconds": 0.000726
+        },
+        {
+          "type": "model",
+          "span_id": "model-2",
+          "parent_id": "agent",
+          "reply": {
+            "answer": "",
+            "tool_calls": [
+              {
+                "name": "write_file",
+                "arguments_json": "{\"path\":\"answer.json\",\"content\":\"{\\n  \\\"max_bytes\\\": 131072,\\n  \\\"sources\\\": [\\\"e09/archive/limits.md\\\"]\\n}\\n\"}"
+              }
+            ]
+          },
+          "model": {
+            "usage": [
+              {
+                "input_tokens": 15917,
+                "cached_input_tokens": 13440,
+                "cache_write_input_tokens": 0,
+                "output_tokens": 109,
+                "reasoning_output_tokens": 33
+              }
+            ],
+            "reported_model": null,
+            "model_selection": "Codex CLI default; user config ignored",
+            "elapsed_seconds": 5.285,
+            "transport_tool_events": 0,
+            "prompt_sha256": "76b7c87d04867cbb1a7625ecef6b632e2913c77e7555a042ee7665d59c47c4e9"
+          }
+        },
+        {
+          "type": "tool",
+          "span_id": "model-2:tool-0",
+          "parent_id": "model-2",
+          "call": {
+            "name": "write_file",
+            "arguments_json": "{\"path\":\"answer.json\",\"content\":\"{\\n  \\\"max_bytes\\\": 131072,\\n  \\\"sources\\\": [\\\"e09/archive/limits.md\\\"]\\n}\\n\"}"
+          },
+          "permission": {
+            "decision": "allow",
+            "reason": "workspace_policy"
+          },
+          "result": {
+            "status": "ok",
+            "output": "Wrote answer.json",
+            "truncated": false
+          },
+          "elapsed_seconds": 0.004455
+        },
+        {
+          "type": "model",
+          "span_id": "model-3",
+          "parent_id": "agent",
+          "reply": {
+            "answer": "",
+            "tool_calls": [
+              {
+                "name": "read_file",
+                "arguments_json": "{\"path\":\"answer.json\"}"
+              }
+            ]
+          },
+          "model": {
+            "usage": [
+              {
+                "input_tokens": 16041,
+                "cached_input_tokens": 13440,
+                "cache_write_input_tokens": 0,
+                "output_tokens": 52,
+                "reasoning_output_tokens": 16
+              }
+            ],
+            "reported_model": null,
+            "model_selection": "Codex CLI default; user config ignored",
+            "elapsed_seconds": 4.797,
+            "transport_tool_events": 0,
+            "prompt_sha256": "f9a12c36c9c52c9b1f7f3633a19a12113d012f2788d0e09046386ebb70684eef"
+          }
+        },
+        {
+          "type": "tool",
+          "span_id": "model-3:tool-0",
+          "parent_id": "model-3",
+          "call": {
+            "name": "read_file",
+            "arguments_json": "{\"path\":\"answer.json\"}"
+          },
+          "permission": {
+            "decision": "allow",
+            "reason": "workspace_policy"
+          },
+          "result": {
+            "status": "ok",
+            "output": "{\n  \"max_bytes\": 131072,\n  \"sources\": [\"e09/archive/limits.md\"]\n}\n",
+            "truncated": false
+          },
+          "elapsed_seconds": 0.001007
+        },
+        {
+          "type": "model",
+          "span_id": "model-4",
+          "parent_id": "agent",
+          "reply": {
+            "answer": "Created and verified `answer.json`.",
+            "tool_calls": []
+          },
+          "model": {
+            "usage": [
+              {
+                "input_tokens": 16148,
+                "cached_input_tokens": 13440,
+                "cache_write_input_tokens": 0,
+                "output_tokens": 25,
+                "reasoning_output_tokens": 0
+              }
+            ],
+            "reported_model": null,
+            "model_selection": "Codex CLI default; user config ignored",
+            "elapsed_seconds": 3.986,
+            "transport_tool_events": 0,
+            "prompt_sha256": "a0743b1f181bf88af191d406288b801c6a662b69fddf356af87fe3bc2a940bdd"
+          }
+        }
+      ],
+      "hooks": [
+        {
+          "phase": "UserPromptSubmit",
+          "span_id": "agent"
+        },
+        {
+          "phase": "PreToolUse",
+          "span_id": "model-1:tool-0"
+        },
+        {
+          "phase": "PostToolUse",
+          "span_id": "model-1:tool-0",
+          "status": "ok"
+        },
+        {
+          "phase": "PreToolUse",
+          "span_id": "model-2:tool-0"
+        },
+        {
+          "phase": "PostToolUse",
+          "span_id": "model-2:tool-0",
+          "status": "ok"
+        },
+        {
+          "phase": "PreToolUse",
+          "span_id": "model-3:tool-0"
+        },
+        {
+          "phase": "PostToolUse",
+          "span_id": "model-3:tool-0",
+          "status": "ok"
+        },
+        {
+          "phase": "Stop",
+          "span_id": "agent",
+          "status": "finished"
+        }
+      ]
+    },
+    {
+      "case_id": "archive-single_hop",
+      "family": "archive",
+      "split": "holdout",
+      "stratum": "single_hop",
+      "k": 2,
+      "repeat": 1,
+      "order": 2,
+      "run_id": "0b133494ed144e6bb11b445cb2d2e683",
+      "elapsed_seconds": 23.337401,
+      "application_requests": 4,
+      "token_count": null,
+      "cost": null,
+      "artifact": {
+        "raw": "{\n  \"max_bytes\": 131072,\n  \"sources\": [\"e09/archive/limits.md\"]\n}\n",
+        "value": {
+          "max_bytes": 131072,
+          "sources": [
+            "e09/archive/limits.md"
+          ]
+        },
+        "valid": true,
+        "field_matches": {
+          "max_bytes": true
+        },
+        "passed": true
+      },
+      "passed": true,
+      "retrievals": [
+        {
+          "query": "POST archive API token size limit",
+          "k": 2,
+          "hits": [
+            {
+              "path": "e09/archive/limits.md",
+              "text": "# Synthetic archive API size limit v1\nPOST /archive accepts files up to 131072 bytes. Larger requests return HTTP 422. Check the file size before sending.\n",
+              "sha256": "13d0fd6b345365b8f384581018aca258c4222741d6305a601f139eef1e86e827",
+              "matches": 5,
+              "id": "e09/archive/limits.md"
+            },
+            {
+              "path": "e09/archive/auth.md",
+              "text": "# Synthetic archive API authentication v1\nFor POST /archive, send the API token in the X-Archive-Key header. This endpoint accepts archive uploads.\n",
+              "sha256": "1adae93eee5709b2c286a34856bd138d7561aff85f3134f2e68a85781bc08d35",
+              "matches": 4,
+              "id": "e09/archive/auth.md"
+            }
+          ]
+        }
+      ],
+      "deepeval_sample": {
+        "input": "First call search_knowledge with exactly this query: POST archive API token size limit. Using only returned evidence for POST /archive, write answer.json with exactly these keys: max_bytes, sources. Use null for unknown facts; sources is an array of source IDs actually used. Read the file back. Do not use network APIs or read the knowledge mount through Bash; use search_knowledge. Do not change the query or seek additional sources.",
+        "actual_output": "{\n  \"max_bytes\": 131072,\n  \"sources\": [\"e09/archive/limits.md\"]\n}\n",
+        "expected_output": "{\"max_bytes\": 131072}",
+        "context": null,
+        "retrieval_context": [
+          "# Synthetic archive API size limit v1\nPOST /archive accepts files up to 131072 bytes. Larger requests return HTTP 422. Check the file size before sending.\n",
+          "# Synthetic archive API authentication v1\nFor POST /archive, send the API token in the X-Archive-Key header. This endpoint accepts archive uploads.\n"
+        ],
+        "metadata": {
+          "case_id": "archive-single_hop",
+          "k": 2,
+          "repeat": 1,
+          "run_id": "0b133494ed144e6bb11b445cb2d2e683"
+        },
+        "tools_called": null,
+        "comments": null,
+        "expected_tools": null,
+        "token_cost": null,
+        "input_token_count": null,
+        "output_token_count": null,
+        "completion_time": null,
+        "flaky": false,
+        "multimodal": false,
+        "name": null,
+        "tags": null,
+        "mcp_servers": null,
+        "mcp_tools_called": null,
+        "mcp_resources_called": null,
+        "mcp_prompts_called": null,
+        "custom_column_key_values": null,
+        "expectations": null,
+        "expected_labels": null
+      },
+      "status": "finished",
+      "final_answer": "Created and verified `answer.json`.",
+      "events": [
+        {
+          "type": "model",
+          "span_id": "model-1",
+          "parent_id": "agent",
+          "reply": {
+            "answer": "",
+            "tool_calls": [
+              {
+                "name": "search_knowledge",
+                "arguments_json": "{\"query\":\"POST archive API token size limit\"}"
+              }
+            ]
+          },
+          "model": {
+            "usage": [
+              {
+                "input_tokens": 15404,
+                "cached_input_tokens": 13440,
+                "cache_write_input_tokens": 0,
+                "output_tokens": 54,
+                "reasoning_output_tokens": 13
+              }
+            ],
+            "reported_model": null,
+            "model_selection": "Codex CLI default; user config ignored",
+            "elapsed_seconds": 6.609,
+            "transport_tool_events": 0,
+            "prompt_sha256": "f835b941e64dd1a010a1bbdc71d6214f492f7f2f2a615a4b933b959ba4a2ae62"
+          }
+        },
+        {
+          "type": "tool",
+          "span_id": "model-1:tool-0",
+          "parent_id": "model-1",
+          "call": {
+            "name": "search_knowledge",
+            "arguments_json": "{\"query\":\"POST archive API token size limit\"}"
+          },
+          "permission": {
+            "decision": "allow",
+            "reason": "controlled_retrieval_limit"
+          },
+          "result": {
+            "status": "ok",
+            "hits": [
+              {
+                "path": "e09/archive/limits.md",
+                "text": "# Synthetic archive API size limit v1\nPOST /archive accepts files up to 131072 bytes. Larger requests return HTTP 422. Check the file size before sending.\n",
+                "sha256": "13d0fd6b345365b8f384581018aca258c4222741d6305a601f139eef1e86e827",
+                "matches": 5,
+                "id": "e09/archive/limits.md"
+              },
+              {
+                "path": "e09/archive/auth.md",
+                "text": "# Synthetic archive API authentication v1\nFor POST /archive, send the API token in the X-Archive-Key header. This endpoint accepts archive uploads.\n",
+                "sha256": "1adae93eee5709b2c286a34856bd138d7561aff85f3134f2e68a85781bc08d35",
+                "matches": 4,
+                "id": "e09/archive/auth.md"
+              }
+            ],
+            "output": "[{\"path\": \"e09/archive/limits.md\", \"text\": \"# Synthetic archive API size limit v1\\nPOST /archive accepts files up to 131072 bytes. Larger requests return HTTP 422. Check the file size before sending.\\n\", \"sha256\": \"13d0fd6b345365b8f384581018aca258c4222741d6305a601f139eef1e86e827\", \"matches\": 5, \"id\": \"e09/archive/limits.md\"}, {\"path\": \"e09/archive/auth.md\", \"text\": \"# Synthetic archive API authentication v1\\nFor POST /archive, send the API token in the X-Archive-Key header. This endpoint accepts archive uploads.\\n\", \"sha256\": \"1adae93eee5709b2c286a34856bd138d7561aff85f3134f2e68a85781bc08d35\", \"matches\": 4, \"id\": \"e09/archive/auth.md\"}]"
+          },
+          "elapsed_seconds": 0.001006
+        },
+        {
+          "type": "model",
+          "span_id": "model-2",
+          "parent_id": "agent",
+          "reply": {
+            "answer": "",
+            "tool_calls": [
+              {
+                "name": "write_file",
+                "arguments_json": "{\"path\":\"answer.json\",\"content\":\"{\\n  \\\"max_bytes\\\": 131072,\\n  \\\"sources\\\": [\\\"e09/archive/limits.md\\\"]\\n}\\n\"}"
+              }
+            ]
+          },
+          "model": {
+            "usage": [
+              {
+                "input_tokens": 15917,
+                "cached_input_tokens": 13440,
+                "cache_write_input_tokens": 0,
+                "output_tokens": 102,
+                "reasoning_output_tokens": 26
+              }
+            ],
+            "reported_model": null,
+            "model_selection": "Codex CLI default; user config ignored",
+            "elapsed_seconds": 5.599,
+            "transport_tool_events": 0,
+            "prompt_sha256": "76b7c87d04867cbb1a7625ecef6b632e2913c77e7555a042ee7665d59c47c4e9"
+          }
+        },
+        {
+          "type": "tool",
+          "span_id": "model-2:tool-0",
+          "parent_id": "model-2",
+          "call": {
+            "name": "write_file",
+            "arguments_json": "{\"path\":\"answer.json\",\"content\":\"{\\n  \\\"max_bytes\\\": 131072,\\n  \\\"sources\\\": [\\\"e09/archive/limits.md\\\"]\\n}\\n\"}"
+          },
+          "permission": {
+            "decision": "allow",
+            "reason": "workspace_policy"
+          },
+          "result": {
+            "status": "ok",
+            "output": "Wrote answer.json",
+            "truncated": false
+          },
+          "elapsed_seconds": 0.001555
+        },
+        {
+          "type": "model",
+          "span_id": "model-3",
+          "parent_id": "agent",
+          "reply": {
+            "answer": "",
+            "tool_calls": [
+              {
+                "name": "read_file",
+                "arguments_json": "{\"path\":\"answer.json\"}"
+              }
+            ]
+          },
+          "model": {
+            "usage": [
+              {
+                "input_tokens": 16037,
+                "cached_input_tokens": 13440,
+                "cache_write_input_tokens": 0,
+                "output_tokens": 54,
+                "reasoning_output_tokens": 18
+              }
+            ],
+            "reported_model": null,
+            "model_selection": "Codex CLI default; user config ignored",
+            "elapsed_seconds": 5.844,
+            "transport_tool_events": 0,
+            "prompt_sha256": "f9a12c36c9c52c9b1f7f3633a19a12113d012f2788d0e09046386ebb70684eef"
+          }
+        },
+        {
+          "type": "tool",
+          "span_id": "model-3:tool-0",
+          "parent_id": "model-3",
+          "call": {
+            "name": "read_file",
+            "arguments_json": "{\"path\":\"answer.json\"}"
+          },
+          "permission": {
+            "decision": "allow",
+            "reason": "workspace_policy"
+          },
+          "result": {
+            "status": "ok",
+            "output": "{\n  \"max_bytes\": 131072,\n  \"sources\": [\"e09/archive/limits.md\"]\n}\n",
+            "truncated": false
+          },
+          "elapsed_seconds": 0.001659
+        },
+        {
+          "type": "model",
+          "span_id": "model-4",
+          "parent_id": "agent",
+          "reply": {
+            "answer": "Created and verified `answer.json`.",
+            "tool_calls": []
+          },
+          "model": {
+            "usage": [
+              {
+                "input_tokens": 16144,
+                "cached_input_tokens": 13440,
+                "cache_write_input_tokens": 0,
+                "output_tokens": 25,
+                "reasoning_output_tokens": 0
+              }
+            ],
+            "reported_model": null,
+            "model_selection": "Codex CLI default; user config ignored",
+            "elapsed_seconds": 5.253,
+            "transport_tool_events": 0,
+            "prompt_sha256": "a0743b1f181bf88af191d406288b801c6a662b69fddf356af87fe3bc2a940bdd"
+          }
+        }
+      ],
+      "hooks": [
+        {
+          "phase": "UserPromptSubmit",
+          "span_id": "agent"
+        },
+        {
+          "phase": "PreToolUse",
+          "span_id": "model-1:tool-0"
+        },
+        {
+          "phase": "PostToolUse",
+          "span_id": "model-1:tool-0",
+          "status": "ok"
+        },
+        {
+          "phase": "PreToolUse",
+          "span_id": "model-2:tool-0"
+        },
+        {
+          "phase": "PostToolUse",
+          "span_id": "model-2:tool-0",
+          "status": "ok"
+        },
+        {
+          "phase": "PreToolUse",
+          "span_id": "model-3:tool-0"
+        },
+        {
+          "phase": "PostToolUse",
+          "span_id": "model-3:tool-0",
+          "status": "ok"
+        },
+        {
+          "phase": "Stop",
+          "span_id": "agent",
+          "status": "finished"
+        }
+      ]
+    },
+    {
+      "case_id": "archive-single_hop",
+      "family": "archive",
+      "split": "holdout",
+      "stratum": "single_hop",
+      "k": 1,
+      "repeat": 1,
+      "order": 3,
+      "run_id": "fd7c3897989f496d9f97d3fa35088bdf",
+      "elapsed_seconds": 22.067173,
+      "application_requests": 4,
+      "token_count": null,
+      "cost": null,
+      "artifact": {
+        "raw": "{\n  \"max_bytes\": 131072,\n  \"sources\": [\"e09/archive/limits.md\"]\n}\n",
+        "value": {
+          "max_bytes": 131072,
+          "sources": [
+            "e09/archive/limits.md"
+          ]
+        },
+        "valid": true,
+        "field_matches": {
+          "max_bytes": true
+        },
+        "passed": true
+      },
+      "passed": true,
+      "retrievals": [
+        {
+          "query": "POST archive API token size limit",
+          "k": 1,
+          "hits": [
+            {
+              "path": "e09/archive/limits.md",
+              "text": "# Synthetic archive API size limit v1\nPOST /archive accepts files up to 131072 bytes. Larger requests return HTTP 422. Check the file size before sending.\n",
+              "sha256": "13d0fd6b345365b8f384581018aca258c4222741d6305a601f139eef1e86e827",
+              "matches": 5,
+              "id": "e09/archive/limits.md"
+            }
+          ]
+        }
+      ],
+      "deepeval_sample": {
+        "input": "First call search_knowledge with exactly this query: POST archive API token size limit. Using only returned evidence for POST /archive, write answer.json with exactly these keys: max_bytes, sources. Use null for unknown facts; sources is an array of source IDs actually used. Read the file back. Do not use network APIs or read the knowledge mount through Bash; use search_knowledge. Do not change the query or seek additional sources.",
+        "actual_output": "{\n  \"max_bytes\": 131072,\n  \"sources\": [\"e09/archive/limits.md\"]\n}\n",
+        "expected_output": "{\"max_bytes\": 131072}",
+        "context": null,
+        "retrieval_context": [
+          "# Synthetic archive API size limit v1\nPOST /archive accepts files up to 131072 bytes. Larger requests return HTTP 422. Check the file size before sending.\n"
+        ],
+        "metadata": {
+          "case_id": "archive-single_hop",
+          "k": 1,
+          "repeat": 1,
+          "run_id": "fd7c3897989f496d9f97d3fa35088bdf"
+        },
+        "tools_called": null,
+        "comments": null,
+        "expected_tools": null,
+        "token_cost": null,
+        "input_token_count": null,
+        "output_token_count": null,
+        "completion_time": null,
+        "flaky": false,
+        "multimodal": false,
+        "name": null,
+        "tags": null,
+        "mcp_servers": null,
+        "mcp_tools_called": null,
+        "mcp_resources_called": null,
+        "mcp_prompts_called": null,
+        "custom_column_key_values": null,
+        "expectations": null,
+        "expected_labels": null
+      },
+      "status": "finished",
+      "final_answer": "Created and verified `answer.json` with the documented POST `/archive` size limit and source ID.",
+      "events": [
+        {
+          "type": "model",
+          "span_id": "model-1",
+          "parent_id": "agent",
+          "reply": {
+            "answer": "",
+            "tool_calls": [
+              {
+                "name": "search_knowledge",
+                "arguments_json": "{\"query\":\"POST archive API token size limit\"}"
+              }
+            ]
+          },
+          "model": {
+            "usage": [
+              {
+                "input_tokens": 15404,
+                "cached_input_tokens": 13440,
+                "cache_write_input_tokens": 0,
+                "output_tokens": 58,
+                "reasoning_output_tokens": 17
+              }
+            ],
+            "reported_model": null,
+            "model_selection": "Codex CLI default; user config ignored",
+            "elapsed_seconds": 6.452,
+            "transport_tool_events": 0,
+            "prompt_sha256": "f835b941e64dd1a010a1bbdc71d6214f492f7f2f2a615a4b933b959ba4a2ae62"
+          }
+        },
+        {
+          "type": "tool",
+          "span_id": "model-1:tool-0",
+          "parent_id": "model-1",
+          "call": {
+            "name": "search_knowledge",
+            "arguments_json": "{\"query\":\"POST archive API token size limit\"}"
+          },
+          "permission": {
+            "decision": "allow",
+            "reason": "controlled_retrieval_limit"
+          },
+          "result": {
+            "status": "ok",
+            "hits": [
+              {
+                "path": "e09/archive/limits.md",
+                "text": "# Synthetic archive API size limit v1\nPOST /archive accepts files up to 131072 bytes. Larger requests return HTTP 422. Check the file size before sending.\n",
+                "sha256": "13d0fd6b345365b8f384581018aca258c4222741d6305a601f139eef1e86e827",
+                "matches": 5,
+                "id": "e09/archive/limits.md"
+              }
+            ],
+            "output": "[{\"path\": \"e09/archive/limits.md\", \"text\": \"# Synthetic archive API size limit v1\\nPOST /archive accepts files up to 131072 bytes. Larger requests return HTTP 422. Check the file size before sending.\\n\", \"sha256\": \"13d0fd6b345365b8f384581018aca258c4222741d6305a601f139eef1e86e827\", \"matches\": 5, \"id\": \"e09/archive/limits.md\"}]"
+          },
+          "elapsed_seconds": 0.003044
+        },
+        {
+          "type": "model",
+          "span_id": "model-2",
+          "parent_id": "agent",
+          "reply": {
+            "answer": "",
+            "tool_calls": [
+              {
+                "name": "write_file",
+                "arguments_json": "{\"path\":\"answer.json\",\"content\":\"{\\n  \\\"max_bytes\\\": 131072,\\n  \\\"sources\\\": [\\\"e09/archive/limits.md\\\"]\\n}\\n\"}"
+              }
+            ]
+          },
+          "model": {
+            "usage": [
+              {
+                "input_tokens": 15704,
+                "cached_input_tokens": 13440,
+                "cache_write_input_tokens": 0,
+                "output_tokens": 102,
+                "reasoning_output_tokens": 26
+              }
+            ],
+            "reported_model": null,
+            "model_selection": "Codex CLI default; user config ignored",
+            "elapsed_seconds": 5.967,
+            "transport_tool_events": 0,
+            "prompt_sha256": "cf5abd6d6050bce585fb36178e520e2eae197c0d6c1cce01e8fefdffafaa5497"
+          }
+        },
+        {
+          "type": "tool",
+          "span_id": "model-2:tool-0",
+          "parent_id": "model-2",
+          "call": {
+            "name": "write_file",
+            "arguments_json": "{\"path\":\"answer.json\",\"content\":\"{\\n  \\\"max_bytes\\\": 131072,\\n  \\\"sources\\\": [\\\"e09/archive/limits.md\\\"]\\n}\\n\"}"
+          },
+          "permission": {
+            "decision": "allow",
+            "reason": "workspace_policy"
+          },
+          "result": {
+            "status": "ok",
+            "output": "Wrote answer.json",
+            "truncated": false
+          },
+          "elapsed_seconds": 0.001611
+        },
+        {
+          "type": "model",
+          "span_id": "model-3",
+          "parent_id": "agent",
+          "reply": {
+            "answer": "",
+            "tool_calls": [
+              {
+                "name": "read_file",
+                "arguments_json": "{\"path\":\"answer.json\"}"
+              }
+            ]
+          },
+          "model": {
+            "usage": [
+              {
+                "input_tokens": 15828,
+                "cached_input_tokens": 13440,
+                "cache_write_input_tokens": 0,
+                "output_tokens": 54,
+                "reasoning_output_tokens": 18
+              }
+            ],
+            "reported_model": null,
+            "model_selection": "Codex CLI default; user config ignored",
+            "elapsed_seconds": 4.849,
+            "transport_tool_events": 0,
+            "prompt_sha256": "dfba15e0f6fbb170477d7ab0d3e9d2a814c94e6a4441fa20198e59ab2da9565b"
+          }
+        },
+        {
+          "type": "tool",
+          "span_id": "model-3:tool-0",
+          "parent_id": "model-3",
+          "call": {
+            "name": "read_file",
+            "arguments_json": "{\"path\":\"answer.json\"}"
+          },
+          "permission": {
+            "decision": "allow",
+            "reason": "workspace_policy"
+          },
+          "result": {
+            "status": "ok",
+            "output": "{\n  \"max_bytes\": 131072,\n  \"sources\": [\"e09/archive/limits.md\"]\n}\n",
+            "truncated": false
+          },
+          "elapsed_seconds": 0.00302
+        },
+        {
+          "type": "model",
+          "span_id": "model-4",
+          "parent_id": "agent",
+          "reply": {
+            "answer": "Created and verified `answer.json` with the documented POST `/archive` size limit and source ID.",
+            "tool_calls": []
+          },
+          "model": {
+            "usage": [
+              {
+                "input_tokens": 15933,
+                "cached_input_tokens": 13440,
+                "cache_write_input_tokens": 0,
+                "output_tokens": 37,
+                "reasoning_output_tokens": 0
+              }
+            ],
+            "reported_model": null,
+            "model_selection": "Codex CLI default; user config ignored",
+            "elapsed_seconds": 4.749,
+            "transport_tool_events": 0,
+            "prompt_sha256": "f4d5fedb640ceb517f8fd0a1092a53b8d1acce60024021fc6328f1e063a12733"
+          }
+        }
+      ],
+      "hooks": [
+        {
+          "phase": "UserPromptSubmit",
+          "span_id": "agent"
+        },
+        {
+          "phase": "PreToolUse",
+          "span_id": "model-1:tool-0"
+        },
+        {
+          "phase": "PostToolUse",
+          "span_id": "model-1:tool-0",
+          "status": "ok"
+        },
+        {
+          "phase": "PreToolUse",
+          "span_id": "model-2:tool-0"
+        },
+        {
+          "phase": "PostToolUse",
+          "span_id": "model-2:tool-0",
+          "status": "ok"
+        },
+        {
+          "phase": "PreToolUse",
+          "span_id": "model-3:tool-0"
+        },
+        {
+          "phase": "PostToolUse",
+          "span_id": "model-3:tool-0",
+          "status": "ok"
+        },
+        {
+          "phase": "Stop",
+          "span_id": "agent",
+          "status": "finished"
+        }
+      ]
+    },
+    {
+      "case_id": "archive-multi_hop",
+      "family": "archive",
+      "split": "holdout",
+      "stratum": "multi_hop",
+      "k": 1,
+      "repeat": 0,
+      "order": 4,
+      "run_id": "7cb14a5248e44bd2b7c8ea98ac722cd8",
+      "elapsed_seconds": 21.160811,
+      "application_requests": 4,
+      "token_count": null,
+      "cost": null,
+      "artifact": {
+        "raw": "{\n  \"auth_header\": null,\n  \"max_bytes\": 131072,\n  \"over_limit_status\": 422,\n  \"sources\": [\"e09/archive/limits.md\"]\n}\n",
+        "value": {
+          "auth_header": null,
+          "max_bytes": 131072,
+          "over_limit_status": 422,
+          "sources": [
+            "e09/archive/limits.md"
+          ]
+        },
+        "valid": true,
+        "field_matches": {
+          "auth_header": false,
+          "max_bytes": true,
+          "over_limit_status": true
+        },
+        "passed": false
+      },
+      "passed": false,
+      "retrievals": [
+        {
+          "query": "POST archive API token size limit",
+          "k": 1,
+          "hits": [
+            {
+              "path": "e09/archive/limits.md",
+              "text": "# Synthetic archive API size limit v1\nPOST /archive accepts files up to 131072 bytes. Larger requests return HTTP 422. Check the file size before sending.\n",
+              "sha256": "13d0fd6b345365b8f384581018aca258c4222741d6305a601f139eef1e86e827",
+              "matches": 5,
+              "id": "e09/archive/limits.md"
+            }
+          ]
+        }
+      ],
+      "deepeval_sample": {
+        "input": "First call search_knowledge with exactly this query: POST archive API token size limit. Using only returned evidence for POST /archive, write answer.json with exactly these keys: auth_header, max_bytes, over_limit_status, sources. Use null for unknown facts; sources is an array of source IDs actually used. Read the file back. Do not use network APIs or read the knowledge mount through Bash; use search_knowledge. Do not change the query or seek additional sources.",
+        "actual_output": "{\n  \"auth_header\": null,\n  \"max_bytes\": 131072,\n  \"over_limit_status\": 422,\n  \"sources\": [\"e09/archive/limits.md\"]\n}\n",
+        "expected_output": "{\"auth_header\": \"X-Archive-Key\", \"max_bytes\": 131072, \"over_limit_status\": 422}",
+        "context": null,
+        "retrieval_context": [
+          "# Synthetic archive API size limit v1\nPOST /archive accepts files up to 131072 bytes. Larger requests return HTTP 422. Check the file size before sending.\n"
+        ],
+        "metadata": {
+          "case_id": "archive-multi_hop",
+          "k": 1,
+          "repeat": 0,
+          "run_id": "7cb14a5248e44bd2b7c8ea98ac722cd8"
+        },
+        "tools_called": null,
+        "comments": null,
+        "expected_tools": null,
+        "token_cost": null,
+        "input_token_count": null,
+        "output_token_count": null,
+        "completion_time": null,
+        "flaky": false,
+        "multimodal": false,
+        "name": null,
+        "tags": null,
+        "mcp_servers": null,
+        "mcp_tools_called": null,
+        "mcp_resources_called": null,
+        "mcp_prompts_called": null,
+        "custom_column_key_values": null,
+        "expectations": null,
+        "expected_labels": null
+      },
+      "status": "finished",
+      "final_answer": "Created and verified `answer.json` with the requested evidence-backed values.",
+      "events": [
+        {
+          "type": "model",
+          "span_id": "model-1",
+          "parent_id": "agent",
+          "reply": {
+            "answer": "",
+            "tool_calls": [
+              {
+                "name": "search_knowledge",
+                "arguments_json": "{\"query\":\"POST archive API token size limit\"}"
+              }
+            ]
+          },
+          "model": {
+            "usage": [
+              {
+                "input_tokens": 15415,
+                "cached_input_tokens": 13440,
+                "cache_write_input_tokens": 0,
+                "output_tokens": 63,
+                "reasoning_output_tokens": 22
+              }
+            ],
+            "reported_model": null,
+            "model_selection": "Codex CLI default; user config ignored",
+            "elapsed_seconds": 4.899,
+            "transport_tool_events": 0,
+            "prompt_sha256": "544e4f30ed17fa59ecd8c44509f637519037a8cb271deb74548ca5b10d0a3a14"
+          }
+        },
+        {
+          "type": "tool",
+          "span_id": "model-1:tool-0",
+          "parent_id": "model-1",
+          "call": {
+            "name": "search_knowledge",
+            "arguments_json": "{\"query\":\"POST archive API token size limit\"}"
+          },
+          "permission": {
+            "decision": "allow",
+            "reason": "controlled_retrieval_limit"
+          },
+          "result": {
+            "status": "ok",
+            "hits": [
+              {
+                "path": "e09/archive/limits.md",
+                "text": "# Synthetic archive API size limit v1\nPOST /archive accepts files up to 131072 bytes. Larger requests return HTTP 422. Check the file size before sending.\n",
+                "sha256": "13d0fd6b345365b8f384581018aca258c4222741d6305a601f139eef1e86e827",
+                "matches": 5,
+                "id": "e09/archive/limits.md"
+              }
+            ],
+            "output": "[{\"path\": \"e09/archive/limits.md\", \"text\": \"# Synthetic archive API size limit v1\\nPOST /archive accepts files up to 131072 bytes. Larger requests return HTTP 422. Check the file size before sending.\\n\", \"sha256\": \"13d0fd6b345365b8f384581018aca258c4222741d6305a601f139eef1e86e827\", \"matches\": 5, \"id\": \"e09/archive/limits.md\"}]"
+          },
+          "elapsed_seconds": 0.00041
+        },
+        {
+          "type": "model",
+          "span_id": "model-2",
+          "parent_id": "agent",
+          "reply": {
+            "answer": "",
+            "tool_calls": [
+              {
+                "name": "write_file",
+                "arguments_json": "{\"path\":\"answer.json\",\"content\":\"{\\n  \\\"auth_header\\\": null,\\n  \\\"max_bytes\\\": 131072,\\n  \\\"over_limit_status\\\": 422,\\n  \\\"sources\\\": [\\\"e09/archive/limits.md\\\"]\\n}\\n\"}"
+              }
+            ]
+          },
+          "model": {
+            "usage": [
+              {
+                "input_tokens": 15711,
+                "cached_input_tokens": 13440,
+                "cache_write_input_tokens": 0,
+                "output_tokens": 129,
+                "reasoning_output_tokens": 29
+              }
+            ],
+            "reported_model": null,
+            "model_selection": "Codex CLI default; user config ignored",
+            "elapsed_seconds": 6.049,
+            "transport_tool_events": 0,
+            "prompt_sha256": "1d3c9f69da5b4ecb5bb5a10006992d33139d10137e546a48beeafc19f1a5b615"
+          }
+        },
+        {
+          "type": "tool",
+          "span_id": "model-2:tool-0",
+          "parent_id": "model-2",
+          "call": {
+            "name": "write_file",
+            "arguments_json": "{\"path\":\"answer.json\",\"content\":\"{\\n  \\\"auth_header\\\": null,\\n  \\\"max_bytes\\\": 131072,\\n  \\\"over_limit_status\\\": 422,\\n  \\\"sources\\\": [\\\"e09/archive/limits.md\\\"]\\n}\\n\"}"
+          },
+          "permission": {
+            "decision": "allow",
+            "reason": "workspace_policy"
+          },
+          "result": {
+            "status": "ok",
+            "output": "Wrote answer.json",
+            "truncated": false
+          },
+          "elapsed_seconds": 0.003608
+        },
+        {
+          "type": "model",
+          "span_id": "model-3",
+          "parent_id": "agent",
+          "reply": {
+            "answer": "",
+            "tool_calls": [
+              {
+                "name": "read_file",
+                "arguments_json": "{\"path\":\"answer.json\"}"
+              }
+            ]
+          },
+          "model": {
+            "usage": [
+              {
+                "input_tokens": 15861,
+                "cached_input_tokens": 13440,
+                "cache_write_input_tokens": 0,
+                "output_tokens": 51,
+                "reasoning_output_tokens": 15
+              }
+            ],
+            "reported_model": null,
+            "model_selection": "Codex CLI default; user config ignored",
+            "elapsed_seconds": 5.38,
+            "transport_tool_events": 0,
+            "prompt_sha256": "13fa08cbb3a382b888e6c713aa34ba248ceb7043c769c52ab5fea99a14d26af7"
+          }
+        },
+        {
+          "type": "tool",
+          "span_id": "model-3:tool-0",
+          "parent_id": "model-3",
+          "call": {
+            "name": "read_file",
+            "arguments_json": "{\"path\":\"answer.json\"}"
+          },
+          "permission": {
+            "decision": "allow",
+            "reason": "workspace_policy"
+          },
+          "result": {
+            "status": "ok",
+            "output": "{\n  \"auth_header\": null,\n  \"max_bytes\": 131072,\n  \"over_limit_status\": 422,\n  \"sources\": [\"e09/archive/limits.md\"]\n}\n",
+            "truncated": false
+          },
+          "elapsed_seconds": 0.002587
+        },
+        {
+          "type": "model",
+          "span_id": "model-4",
+          "parent_id": "agent",
+          "reply": {
+            "answer": "Created and verified `answer.json` with the requested evidence-backed values.",
+            "tool_calls": []
+          },
+          "model": {
+            "usage": [
+              {
+                "input_tokens": 15984,
+                "cached_input_tokens": 13440,
+                "cache_write_input_tokens": 0,
+                "output_tokens": 31,
+                "reasoning_output_tokens": 0
+              }
+            ],
+            "reported_model": null,
+            "model_selection": "Codex CLI default; user config ignored",
+            "elapsed_seconds": 4.78,
+            "transport_tool_events": 0,
+            "prompt_sha256": "f26d24659c21ccbd20cffb8ba7284fbf5e036d3248a674317fe97413df33885d"
+          }
+        }
+      ],
+      "hooks": [
+        {
+          "phase": "UserPromptSubmit",
+          "span_id": "agent"
+        },
+        {
+          "phase": "PreToolUse",
+          "span_id": "model-1:tool-0"
+        },
+        {
+          "phase": "PostToolUse",
+          "span_id": "model-1:tool-0",
+          "status": "ok"
+        },
+        {
+          "phase": "PreToolUse",
+          "span_id": "model-2:tool-0"
+        },
+        {
+          "phase": "PostToolUse",
+          "span_id": "model-2:tool-0",
+          "status": "ok"
+        },
+        {
+          "phase": "PreToolUse",
+          "span_id": "model-3:tool-0"
+        },
+        {
+          "phase": "PostToolUse",
+          "span_id": "model-3:tool-0",
+          "status": "ok"
+        },
+        {
+          "phase": "Stop",
+          "span_id": "agent",
+          "status": "finished"
+        }
+      ]
+    },
+    {
+      "case_id": "archive-multi_hop",
+      "family": "archive",
+      "split": "holdout",
+      "stratum": "multi_hop",
+      "k": 2,
+      "repeat": 0,
+      "order": 5,
+      "run_id": "06a2cc8038394f2a9e96152f732b9c24",
+      "elapsed_seconds": 24.069669,
+      "application_requests": 4,
+      "token_count": null,
+      "cost": null,
+      "artifact": {
+        "raw": "{\n  \"auth_header\": \"X-Archive-Key\",\n  \"max_bytes\": 131072,\n  \"over_limit_status\": 422,\n  \"sources\": [\n    \"e09/archive/auth.md\",\n    \"e09/archive/limits.md\"\n  ]\n}\n",
+        "value": {
+          "auth_header": "X-Archive-Key",
+          "max_bytes": 131072,
+          "over_limit_status": 422,
+          "sources": [
+            "e09/archive/auth.md",
+            "e09/archive/limits.md"
+          ]
+        },
+        "valid": true,
+        "field_matches": {
+          "auth_header": true,
+          "max_bytes": true,
+          "over_limit_status": true
+        },
+        "passed": true
+      },
+      "passed": true,
+      "retrievals": [
+        {
+          "query": "POST archive API token size limit",
+          "k": 2,
+          "hits": [
+            {
+              "path": "e09/archive/limits.md",
+              "text": "# Synthetic archive API size limit v1\nPOST /archive accepts files up to 131072 bytes. Larger requests return HTTP 422. Check the file size before sending.\n",
+              "sha256": "13d0fd6b345365b8f384581018aca258c4222741d6305a601f139eef1e86e827",
+              "matches": 5,
+              "id": "e09/archive/limits.md"
+            },
+            {
+              "path": "e09/archive/auth.md",
+              "text": "# Synthetic archive API authentication v1\nFor POST /archive, send the API token in the X-Archive-Key header. This endpoint accepts archive uploads.\n",
+              "sha256": "1adae93eee5709b2c286a34856bd138d7561aff85f3134f2e68a85781bc08d35",
+              "matches": 4,
+              "id": "e09/archive/auth.md"
+            }
+          ]
+        }
+      ],
+      "deepeval_sample": {
+        "input": "First call search_knowledge with exactly this query: POST archive API token size limit. Using only returned evidence for POST /archive, write answer.json with exactly these keys: auth_header, max_bytes, over_limit_status, sources. Use null for unknown facts; sources is an array of source IDs actually used. Read the file back. Do not use network APIs or read the knowledge mount through Bash; use search_knowledge. Do not change the query or seek additional sources.",
+        "actual_output": "{\n  \"auth_header\": \"X-Archive-Key\",\n  \"max_bytes\": 131072,\n  \"over_limit_status\": 422,\n  \"sources\": [\n    \"e09/archive/auth.md\",\n    \"e09/archive/limits.md\"\n  ]\n}\n",
+        "expected_output": "{\"auth_header\": \"X-Archive-Key\", \"max_bytes\": 131072, \"over_limit_status\": 422}",
+        "context": null,
+        "retrieval_context": [
+          "# Synthetic archive API size limit v1\nPOST /archive accepts files up to 131072 bytes. Larger requests return HTTP 422. Check the file size before sending.\n",
+          "# Synthetic archive API authentication v1\nFor POST /archive, send the API token in the X-Archive-Key header. This endpoint accepts archive uploads.\n"
+        ],
+        "metadata": {
+          "case_id": "archive-multi_hop",
+          "k": 2,
+          "repeat": 0,
+          "run_id": "06a2cc8038394f2a9e96152f732b9c24"
+        },
+        "tools_called": null,
+        "comments": null,
+        "expected_tools": null,
+        "token_cost": null,
+        "input_token_count": null,
+        "output_token_count": null,
+        "completion_time": null,
+        "flaky": false,
+        "multimodal": false,
+        "name": null,
+        "tags": null,
+        "mcp_servers": null,
+        "mcp_tools_called": null,
+        "mcp_resources_called": null,
+        "mcp_prompts_called": null,
+        "custom_column_key_values": null,
+        "expectations": null,
+        "expected_labels": null
+      },
+      "status": "finished",
+      "final_answer": "Created and verified `answer.json`.",
+      "events": [
+        {
+          "type": "model",
+          "span_id": "model-1",
+          "parent_id": "agent",
+          "reply": {
+            "answer": "",
+            "tool_calls": [
+              {
+                "name": "search_knowledge",
+                "arguments_json": "{\"query\":\"POST archive API token size limit\"}"
+              }
+            ]
+          },
+          "model": {
+            "usage": [
+              {
+                "input_tokens": 15415,
+                "cached_input_tokens": 13440,
+                "cache_write_input_tokens": 0,
+                "output_tokens": 58,
+                "reasoning_output_tokens": 17
+              }
+            ],
+            "reported_model": null,
+            "model_selection": "Codex CLI default; user config ignored",
+            "elapsed_seconds": 4.794,
+            "transport_tool_events": 0,
+            "prompt_sha256": "544e4f30ed17fa59ecd8c44509f637519037a8cb271deb74548ca5b10d0a3a14"
+          }
+        },
+        {
+          "type": "tool",
+          "span_id": "model-1:tool-0",
+          "parent_id": "model-1",
+          "call": {
+            "name": "search_knowledge",
+            "arguments_json": "{\"query\":\"POST archive API token size limit\"}"
+          },
+          "permission": {
+            "decision": "allow",
+            "reason": "controlled_retrieval_limit"
+          },
+          "result": {
+            "status": "ok",
+            "hits": [
+              {
+                "path": "e09/archive/limits.md",
+                "text": "# Synthetic archive API size limit v1\nPOST /archive accepts files up to 131072 bytes. Larger requests return HTTP 422. Check the file size before sending.\n",
+                "sha256": "13d0fd6b345365b8f384581018aca258c4222741d6305a601f139eef1e86e827",
+                "matches": 5,
+                "id": "e09/archive/limits.md"
+              },
+              {
+                "path": "e09/archive/auth.md",
+                "text": "# Synthetic archive API authentication v1\nFor POST /archive, send the API token in the X-Archive-Key header. This endpoint accepts archive uploads.\n",
+                "sha256": "1adae93eee5709b2c286a34856bd138d7561aff85f3134f2e68a85781bc08d35",
+                "matches": 4,
+                "id": "e09/archive/auth.md"
+              }
+            ],
+            "output": "[{\"path\": \"e09/archive/limits.md\", \"text\": \"# Synthetic archive API size limit v1\\nPOST /archive accepts files up to 131072 bytes. Larger requests return HTTP 422. Check the file size before sending.\\n\", \"sha256\": \"13d0fd6b345365b8f384581018aca258c4222741d6305a601f139eef1e86e827\", \"matches\": 5, \"id\": \"e09/archive/limits.md\"}, {\"path\": \"e09/archive/auth.md\", \"text\": \"# Synthetic archive API authentication v1\\nFor POST /archive, send the API token in the X-Archive-Key header. This endpoint accepts archive uploads.\\n\", \"sha256\": \"1adae93eee5709b2c286a34856bd138d7561aff85f3134f2e68a85781bc08d35\", \"matches\": 4, \"id\": \"e09/archive/auth.md\"}]"
+          },
+          "elapsed_seconds": 0.002226
+        },
+        {
+          "type": "model",
+          "span_id": "model-2",
+          "parent_id": "agent",
+          "reply": {
+            "answer": "",
+            "tool_calls": [
+              {
+                "name": "write_file",
+                "arguments_json": "{\"path\":\"answer.json\",\"content\":\"{\\n  \\\"auth_header\\\": \\\"X-Archive-Key\\\",\\n  \\\"max_bytes\\\": 131072,\\n  \\\"over_limit_status\\\": 422,\\n  \\\"sources\\\": [\\n    \\\"e09/archive/auth.md\\\",\\n    \\\"e09/archive/limits.md\\\"\\n  ]\\n}\\n\"}"
+              }
+            ]
+          },
+          "model": {
+            "usage": [
+              {
+                "input_tokens": 15922,
+                "cached_input_tokens": 13440,
+                "cache_write_input_tokens": 0,
+                "output_tokens": 154,
+                "reasoning_output_tokens": 29
+              }
+            ],
+            "reported_model": null,
+            "model_selection": "Codex CLI default; user config ignored",
+            "elapsed_seconds": 7.226,
+            "transport_tool_events": 0,
+            "prompt_sha256": "37e4951eece92be860ac58fb260438be58ef4d98b685deb87b01f85126f7a7f5"
+          }
+        },
+        {
+          "type": "tool",
+          "span_id": "model-2:tool-0",
+          "parent_id": "model-2",
+          "call": {
+            "name": "write_file",
+            "arguments_json": "{\"path\":\"answer.json\",\"content\":\"{\\n  \\\"auth_header\\\": \\\"X-Archive-Key\\\",\\n  \\\"max_bytes\\\": 131072,\\n  \\\"over_limit_status\\\": 422,\\n  \\\"sources\\\": [\\n    \\\"e09/archive/auth.md\\\",\\n    \\\"e09/archive/limits.md\\\"\\n  ]\\n}\\n\"}"
+          },
+          "permission": {
+            "decision": "allow",
+            "reason": "workspace_policy"
+          },
+          "result": {
+            "status": "ok",
+            "output": "Wrote answer.json",
+            "truncated": false
+          },
+          "elapsed_seconds": 0.002301
+        },
+        {
+          "type": "model",
+          "span_id": "model-3",
+          "parent_id": "agent",
+          "reply": {
+            "answer": "",
+            "tool_calls": [
+              {
+                "name": "read_file",
+                "arguments_json": "{\"path\":\"answer.json\"}"
+              }
+            ]
+          },
+          "model": {
+            "usage": [
+              {
+                "input_tokens": 16097,
+                "cached_input_tokens": 13440,
+                "cache_write_input_tokens": 0,
+                "output_tokens": 51,
+                "reasoning_output_tokens": 15
+              }
+            ],
+            "reported_model": null,
+            "model_selection": "Codex CLI default; user config ignored",
+            "elapsed_seconds": 5.151,
+            "transport_tool_events": 0,
+            "prompt_sha256": "e6d66af7c6f981ea06295df158692fbf790bdf96f45b193164d0d3120f4b709c"
+          }
+        },
+        {
+          "type": "tool",
+          "span_id": "model-3:tool-0",
+          "parent_id": "model-3",
+          "call": {
+            "name": "read_file",
+            "arguments_json": "{\"path\":\"answer.json\"}"
+          },
+          "permission": {
+            "decision": "allow",
+            "reason": "workspace_policy"
+          },
+          "result": {
+            "status": "ok",
+            "output": "{\n  \"auth_header\": \"X-Archive-Key\",\n  \"max_bytes\": 131072,\n  \"over_limit_status\": 422,\n  \"sources\": [\n    \"e09/archive/auth.md\",\n    \"e09/archive/limits.md\"\n  ]\n}\n",
+            "truncated": false
+          },
+          "elapsed_seconds": 0.001461
+        },
+        {
+          "type": "model",
+          "span_id": "model-4",
+          "parent_id": "agent",
+          "reply": {
+            "answer": "Created and verified `answer.json`.",
+            "tool_calls": []
+          },
+          "model": {
+            "usage": [
+              {
+                "input_tokens": 16239,
+                "cached_input_tokens": 13440,
+                "cache_write_input_tokens": 0,
+                "output_tokens": 25,
+                "reasoning_output_tokens": 0
+              }
+            ],
+            "reported_model": null,
+            "model_selection": "Codex CLI default; user config ignored",
+            "elapsed_seconds": 6.845,
+            "transport_tool_events": 0,
+            "prompt_sha256": "2c30a2d4a12cf4ba49108c56be0fe20f398f334fd078cde7f38a3aa938f0dfb6"
+          }
+        }
+      ],
+      "hooks": [
+        {
+          "phase": "UserPromptSubmit",
+          "span_id": "agent"
+        },
+        {
+          "phase": "PreToolUse",
+          "span_id": "model-1:tool-0"
+        },
+        {
+          "phase": "PostToolUse",
+          "span_id": "model-1:tool-0",
+          "status": "ok"
+        },
+        {
+          "phase": "PreToolUse",
+          "span_id": "model-2:tool-0"
+        },
+        {
+          "phase": "PostToolUse",
+          "span_id": "model-2:tool-0",
+          "status": "ok"
+        },
+        {
+          "phase": "PreToolUse",
+          "span_id": "model-3:tool-0"
+        },
+        {
+          "phase": "PostToolUse",
+          "span_id": "model-3:tool-0",
+          "status": "ok"
+        },
+        {
+          "phase": "Stop",
+          "span_id": "agent",
+          "status": "finished"
+        }
+      ]
+    },
+    {
+      "case_id": "archive-multi_hop",
+      "family": "archive",
+      "split": "holdout",
+      "stratum": "multi_hop",
+      "k": 2,
+      "repeat": 1,
+      "order": 6,
+      "run_id": "3cae39dcbe3c421a898dbbacac93b8ac",
+      "elapsed_seconds": 23.170046,
+      "application_requests": 4,
+      "token_count": null,
+      "cost": null,
+      "artifact": {
+        "raw": "{\n  \"auth_header\": \"X-Archive-Key\",\n  \"max_bytes\": 131072,\n  \"over_limit_status\": 422,\n  \"sources\": [\n    \"e09/archive/auth.md\",\n    \"e09/archive/limits.md\"\n  ]\n}\n",
+        "value": {
+          "auth_header": "X-Archive-Key",
+          "max_bytes": 131072,
+          "over_limit_status": 422,
+          "sources": [
+            "e09/archive/auth.md",
+            "e09/archive/limits.md"
+          ]
+        },
+        "valid": true,
+        "field_matches": {
+          "auth_header": true,
+          "max_bytes": true,
+          "over_limit_status": true
+        },
+        "passed": true
+      },
+      "passed": true,
+      "retrievals": [
+        {
+          "query": "POST archive API token size limit",
+          "k": 2,
+          "hits": [
+            {
+              "path": "e09/archive/limits.md",
+              "text": "# Synthetic archive API size limit v1\nPOST /archive accepts files up to 131072 bytes. Larger requests return HTTP 422. Check the file size before sending.\n",
+              "sha256": "13d0fd6b345365b8f384581018aca258c4222741d6305a601f139eef1e86e827",
+              "matches": 5,
+              "id": "e09/archive/limits.md"
+            },
+            {
+              "path": "e09/archive/auth.md",
+              "text": "# Synthetic archive API authentication v1\nFor POST /archive, send the API token in the X-Archive-Key header. This endpoint accepts archive uploads.\n",
+              "sha256": "1adae93eee5709b2c286a34856bd138d7561aff85f3134f2e68a85781bc08d35",
+              "matches": 4,
+              "id": "e09/archive/auth.md"
+            }
+          ]
+        }
+      ],
+      "deepeval_sample": {
+        "input": "First call search_knowledge with exactly this query: POST archive API token size limit. Using only returned evidence for POST /archive, write answer.json with exactly these keys: auth_header, max_bytes, over_limit_status, sources. Use null for unknown facts; sources is an array of source IDs actually used. Read the file back. Do not use network APIs or read the knowledge mount through Bash; use search_knowledge. Do not change the query or seek additional sources.",
+        "actual_output": "{\n  \"auth_header\": \"X-Archive-Key\",\n  \"max_bytes\": 131072,\n  \"over_limit_status\": 422,\n  \"sources\": [\n    \"e09/archive/auth.md\",\n    \"e09/archive/limits.md\"\n  ]\n}\n",
+        "expected_output": "{\"auth_header\": \"X-Archive-Key\", \"max_bytes\": 131072, \"over_limit_status\": 422}",
+        "context": null,
+        "retrieval_context": [
+          "# Synthetic archive API size limit v1\nPOST /archive accepts files up to 131072 bytes. Larger requests return HTTP 422. Check the file size before sending.\n",
+          "# Synthetic archive API authentication v1\nFor POST /archive, send the API token in the X-Archive-Key header. This endpoint accepts archive uploads.\n"
+        ],
+        "metadata": {
+          "case_id": "archive-multi_hop",
+          "k": 2,
+          "repeat": 1,
+          "run_id": "3cae39dcbe3c421a898dbbacac93b8ac"
+        },
+        "tools_called": null,
+        "comments": null,
+        "expected_tools": null,
+        "token_cost": null,
+        "input_token_count": null,
+        "output_token_count": null,
+        "completion_time": null,
+        "flaky": false,
+        "multimodal": false,
+        "name": null,
+        "tags": null,
+        "mcp_servers": null,
+        "mcp_tools_called": null,
+        "mcp_resources_called": null,
+        "mcp_prompts_called": null,
+        "custom_column_key_values": null,
+        "expectations": null,
+        "expected_labels": null
+      },
+      "status": "finished",
+      "final_answer": "Created and verified `answer.json` with the requested POST `/archive` details.",
+      "events": [
+        {
+          "type": "model",
+          "span_id": "model-1",
+          "parent_id": "agent",
+          "reply": {
+            "answer": "",
+            "tool_calls": [
+              {
+                "name": "search_knowledge",
+                "arguments_json": "{\"query\":\"POST archive API token size limit\"}"
+              }
+            ]
+          },
+          "model": {
+            "usage": [
+              {
+                "input_tokens": 15413,
+                "cached_input_tokens": 13440,
+                "cache_write_input_tokens": 0,
+                "output_tokens": 60,
+                "reasoning_output_tokens": 19
+              }
+            ],
+            "reported_model": null,
+            "model_selection": "Codex CLI default; user config ignored",
+            "elapsed_seconds": 4.714,
+            "transport_tool_events": 0,
+            "prompt_sha256": "544e4f30ed17fa59ecd8c44509f637519037a8cb271deb74548ca5b10d0a3a14"
+          }
+        },
+        {
+          "type": "tool",
+          "span_id": "model-1:tool-0",
+          "parent_id": "model-1",
+          "call": {
+            "name": "search_knowledge",
+            "arguments_json": "{\"query\":\"POST archive API token size limit\"}"
+          },
+          "permission": {
+            "decision": "allow",
+            "reason": "controlled_retrieval_limit"
+          },
+          "result": {
+            "status": "ok",
+            "hits": [
+              {
+                "path": "e09/archive/limits.md",
+                "text": "# Synthetic archive API size limit v1\nPOST /archive accepts files up to 131072 bytes. Larger requests return HTTP 422. Check the file size before sending.\n",
+                "sha256": "13d0fd6b345365b8f384581018aca258c4222741d6305a601f139eef1e86e827",
+                "matches": 5,
+                "id": "e09/archive/limits.md"
+              },
+              {
+                "path": "e09/archive/auth.md",
+                "text": "# Synthetic archive API authentication v1\nFor POST /archive, send the API token in the X-Archive-Key header. This endpoint accepts archive uploads.\n",
+                "sha256": "1adae93eee5709b2c286a34856bd138d7561aff85f3134f2e68a85781bc08d35",
+                "matches": 4,
+                "id": "e09/archive/auth.md"
+              }
+            ],
+            "output": "[{\"path\": \"e09/archive/limits.md\", \"text\": \"# Synthetic archive API size limit v1\\nPOST /archive accepts files up to 131072 bytes. Larger requests return HTTP 422. Check the file size before sending.\\n\", \"sha256\": \"13d0fd6b345365b8f384581018aca258c4222741d6305a601f139eef1e86e827\", \"matches\": 5, \"id\": \"e09/archive/limits.md\"}, {\"path\": \"e09/archive/auth.md\", \"text\": \"# Synthetic archive API authentication v1\\nFor POST /archive, send the API token in the X-Archive-Key header. This endpoint accepts archive uploads.\\n\", \"sha256\": \"1adae93eee5709b2c286a34856bd138d7561aff85f3134f2e68a85781bc08d35\", \"matches\": 4, \"id\": \"e09/archive/auth.md\"}]"
+          },
+          "elapsed_seconds": 0.000936
+        },
+        {
+          "type": "model",
+          "span_id": "model-2",
+          "parent_id": "agent",
+          "reply": {
+            "answer": "",
+            "tool_calls": [
+              {
+                "name": "write_file",
+                "arguments_json": "{\"path\":\"answer.json\",\"content\":\"{\\n  \\\"auth_header\\\": \\\"X-Archive-Key\\\",\\n  \\\"max_bytes\\\": 131072,\\n  \\\"over_limit_status\\\": 422,\\n  \\\"sources\\\": [\\n    \\\"e09/archive/auth.md\\\",\\n    \\\"e09/archive/limits.md\\\"\\n  ]\\n}\\n\"}"
+              }
+            ]
+          },
+          "model": {
+            "usage": [
+              {
+                "input_tokens": 15926,
+                "cached_input_tokens": 13440,
+                "cache_write_input_tokens": 0,
+                "output_tokens": 159,
+                "reasoning_output_tokens": 34
+              }
+            ],
+            "reported_model": null,
+            "model_selection": "Codex CLI default; user config ignored",
+            "elapsed_seconds": 7.601,
+            "transport_tool_events": 0,
+            "prompt_sha256": "37e4951eece92be860ac58fb260438be58ef4d98b685deb87b01f85126f7a7f5"
+          }
+        },
+        {
+          "type": "tool",
+          "span_id": "model-2:tool-0",
+          "parent_id": "model-2",
+          "call": {
+            "name": "write_file",
+            "arguments_json": "{\"path\":\"answer.json\",\"content\":\"{\\n  \\\"auth_header\\\": \\\"X-Archive-Key\\\",\\n  \\\"max_bytes\\\": 131072,\\n  \\\"over_limit_status\\\": 422,\\n  \\\"sources\\\": [\\n    \\\"e09/archive/auth.md\\\",\\n    \\\"e09/archive/limits.md\\\"\\n  ]\\n}\\n\"}"
+          },
+          "permission": {
+            "decision": "allow",
+            "reason": "workspace_policy"
+          },
+          "result": {
+            "status": "ok",
+            "output": "Wrote answer.json",
+            "truncated": false
+          },
+          "elapsed_seconds": 0.003768
+        },
+        {
+          "type": "model",
+          "span_id": "model-3",
+          "parent_id": "agent",
+          "reply": {
+            "answer": "",
+            "tool_calls": [
+              {
+                "name": "read_file",
+                "arguments_json": "{\"path\":\"answer.json\"}"
+              }
+            ]
+          },
+          "model": {
+            "usage": [
+              {
+                "input_tokens": 16095,
+                "cached_input_tokens": 13440,
+                "cache_write_input_tokens": 0,
+                "output_tokens": 54,
+                "reasoning_output_tokens": 18
+              }
+            ],
+            "reported_model": null,
+            "model_selection": "Codex CLI default; user config ignored",
+            "elapsed_seconds": 6.466,
+            "transport_tool_events": 0,
+            "prompt_sha256": "e6d66af7c6f981ea06295df158692fbf790bdf96f45b193164d0d3120f4b709c"
+          }
+        },
+        {
+          "type": "tool",
+          "span_id": "model-3:tool-0",
+          "parent_id": "model-3",
+          "call": {
+            "name": "read_file",
+            "arguments_json": "{\"path\":\"answer.json\"}"
+          },
+          "permission": {
+            "decision": "allow",
+            "reason": "workspace_policy"
+          },
+          "result": {
+            "status": "ok",
+            "output": "{\n  \"auth_header\": \"X-Archive-Key\",\n  \"max_bytes\": 131072,\n  \"over_limit_status\": 422,\n  \"sources\": [\n    \"e09/archive/auth.md\",\n    \"e09/archive/limits.md\"\n  ]\n}\n",
+            "truncated": false
+          },
+          "elapsed_seconds": 0.002322
+        },
+        {
+          "type": "model",
+          "span_id": "model-4",
+          "parent_id": "agent",
+          "reply": {
+            "answer": "Created and verified `answer.json` with the requested POST `/archive` details.",
+            "tool_calls": []
+          },
+          "model": {
+            "usage": [
+              {
+                "input_tokens": 16237,
+                "cached_input_tokens": 13440,
+                "cache_write_input_tokens": 0,
+                "output_tokens": 33,
+                "reasoning_output_tokens": 0
+              }
+            ],
+            "reported_model": null,
+            "model_selection": "Codex CLI default; user config ignored",
+            "elapsed_seconds": 4.329,
+            "transport_tool_events": 0,
+            "prompt_sha256": "2c30a2d4a12cf4ba49108c56be0fe20f398f334fd078cde7f38a3aa938f0dfb6"
+          }
+        }
+      ],
+      "hooks": [
+        {
+          "phase": "UserPromptSubmit",
+          "span_id": "agent"
+        },
+        {
+          "phase": "PreToolUse",
+          "span_id": "model-1:tool-0"
+        },
+        {
+          "phase": "PostToolUse",
+          "span_id": "model-1:tool-0",
+          "status": "ok"
+        },
+        {
+          "phase": "PreToolUse",
+          "span_id": "model-2:tool-0"
+        },
+        {
+          "phase": "PostToolUse",
+          "span_id": "model-2:tool-0",
+          "status": "ok"
+        },
+        {
+          "phase": "PreToolUse",
+          "span_id": "model-3:tool-0"
+        },
+        {
+          "phase": "PostToolUse",
+          "span_id": "model-3:tool-0",
+          "status": "ok"
+        },
+        {
+          "phase": "Stop",
+          "span_id": "agent",
+          "status": "finished"
+        }
+      ]
+    },
+    {
+      "case_id": "archive-multi_hop",
+      "family": "archive",
+      "split": "holdout",
+      "stratum": "multi_hop",
+      "k": 1,
+      "repeat": 1,
+      "order": 7,
+      "run_id": "20252010c6c940029fd4c7a065aecd54",
+      "elapsed_seconds": 20.701821,
+      "application_requests": 4,
+      "token_count": null,
+      "cost": null,
+      "artifact": {
+        "raw": "{\n  \"auth_header\": null,\n  \"max_bytes\": 131072,\n  \"over_limit_status\": 422,\n  \"sources\": [\"e09/archive/limits.md\"]\n}\n",
+        "value": {
+          "auth_header": null,
+          "max_bytes": 131072,
+          "over_limit_status": 422,
+          "sources": [
+            "e09/archive/limits.md"
+          ]
+        },
+        "valid": true,
+        "field_matches": {
+          "auth_header": false,
+          "max_bytes": true,
+          "over_limit_status": true
+        },
+        "passed": false
+      },
+      "passed": false,
+      "retrievals": [
+        {
+          "query": "POST archive API token size limit",
+          "k": 1,
+          "hits": [
+            {
+              "path": "e09/archive/limits.md",
+              "text": "# Synthetic archive API size limit v1\nPOST /archive accepts files up to 131072 bytes. Larger requests return HTTP 422. Check the file size before sending.\n",
+              "sha256": "13d0fd6b345365b8f384581018aca258c4222741d6305a601f139eef1e86e827",
+              "matches": 5,
+              "id": "e09/archive/limits.md"
+            }
+          ]
+        }
+      ],
+      "deepeval_sample": {
+        "input": "First call search_knowledge with exactly this query: POST archive API token size limit. Using only returned evidence for POST /archive, write answer.json with exactly these keys: auth_header, max_bytes, over_limit_status, sources. Use null for unknown facts; sources is an array of source IDs actually used. Read the file back. Do not use network APIs or read the knowledge mount through Bash; use search_knowledge. Do not change the query or seek additional sources.",
+        "actual_output": "{\n  \"auth_header\": null,\n  \"max_bytes\": 131072,\n  \"over_limit_status\": 422,\n  \"sources\": [\"e09/archive/limits.md\"]\n}\n",
+        "expected_output": "{\"auth_header\": \"X-Archive-Key\", \"max_bytes\": 131072, \"over_limit_status\": 422}",
+        "context": null,
+        "retrieval_context": [
+          "# Synthetic archive API size limit v1\nPOST /archive accepts files up to 131072 bytes. Larger requests return HTTP 422. Check the file size before sending.\n"
+        ],
+        "metadata": {
+          "case_id": "archive-multi_hop",
+          "k": 1,
+          "repeat": 1,
+          "run_id": "20252010c6c940029fd4c7a065aecd54"
+        },
+        "tools_called": null,
+        "comments": null,
+        "expected_tools": null,
+        "token_cost": null,
+        "input_token_count": null,
+        "output_token_count": null,
+        "completion_time": null,
+        "flaky": false,
+        "multimodal": false,
+        "name": null,
+        "tags": null,
+        "mcp_servers": null,
+        "mcp_tools_called": null,
+        "mcp_resources_called": null,
+        "mcp_prompts_called": null,
+        "custom_column_key_values": null,
+        "expectations": null,
+        "expected_labels": null
+      },
+      "status": "finished",
+      "final_answer": "Created and verified `answer.json` with the requested evidence-backed values.",
+      "events": [
+        {
+          "type": "model",
+          "span_id": "model-1",
+          "parent_id": "agent",
+          "reply": {
+            "answer": "",
+            "tool_calls": [
+              {
+                "name": "search_knowledge",
+                "arguments_json": "{\"query\":\"POST archive API token size limit\"}"
+              }
+            ]
+          },
+          "model": {
+            "usage": [
+              {
+                "input_tokens": 15411,
+                "cached_input_tokens": 13440,
+                "cache_write_input_tokens": 0,
+                "output_tokens": 56,
+                "reasoning_output_tokens": 15
+              }
+            ],
+            "reported_model": null,
+            "model_selection": "Codex CLI default; user config ignored",
+            "elapsed_seconds": 5.335,
+            "transport_tool_events": 0,
+            "prompt_sha256": "544e4f30ed17fa59ecd8c44509f637519037a8cb271deb74548ca5b10d0a3a14"
+          }
+        },
+        {
+          "type": "tool",
+          "span_id": "model-1:tool-0",
+          "parent_id": "model-1",
+          "call": {
+            "name": "search_knowledge",
+            "arguments_json": "{\"query\":\"POST archive API token size limit\"}"
+          },
+          "permission": {
+            "decision": "allow",
+            "reason": "controlled_retrieval_limit"
+          },
+          "result": {
+            "status": "ok",
+            "hits": [
+              {
+                "path": "e09/archive/limits.md",
+                "text": "# Synthetic archive API size limit v1\nPOST /archive accepts files up to 131072 bytes. Larger requests return HTTP 422. Check the file size before sending.\n",
+                "sha256": "13d0fd6b345365b8f384581018aca258c4222741d6305a601f139eef1e86e827",
+                "matches": 5,
+                "id": "e09/archive/limits.md"
+              }
+            ],
+            "output": "[{\"path\": \"e09/archive/limits.md\", \"text\": \"# Synthetic archive API size limit v1\\nPOST /archive accepts files up to 131072 bytes. Larger requests return HTTP 422. Check the file size before sending.\\n\", \"sha256\": \"13d0fd6b345365b8f384581018aca258c4222741d6305a601f139eef1e86e827\", \"matches\": 5, \"id\": \"e09/archive/limits.md\"}]"
+          },
+          "elapsed_seconds": 0.002221
+        },
+        {
+          "type": "model",
+          "span_id": "model-2",
+          "parent_id": "agent",
+          "reply": {
+            "answer": "",
+            "tool_calls": [
+              {
+                "name": "write_file",
+                "arguments_json": "{\"path\":\"answer.json\",\"content\":\"{\\n  \\\"auth_header\\\": null,\\n  \\\"max_bytes\\\": 131072,\\n  \\\"over_limit_status\\\": 422,\\n  \\\"sources\\\": [\\\"e09/archive/limits.md\\\"]\\n}\\n\"}"
+              }
+            ]
+          },
+          "model": {
+            "usage": [
+              {
+                "input_tokens": 15713,
+                "cached_input_tokens": 13440,
+                "cache_write_input_tokens": 0,
+                "output_tokens": 138,
+                "reasoning_output_tokens": 38
+              }
+            ],
+            "reported_model": null,
+            "model_selection": "Codex CLI default; user config ignored",
+            "elapsed_seconds": 6.505,
+            "transport_tool_events": 0,
+            "prompt_sha256": "1d3c9f69da5b4ecb5bb5a10006992d33139d10137e546a48beeafc19f1a5b615"
+          }
+        },
+        {
+          "type": "tool",
+          "span_id": "model-2:tool-0",
+          "parent_id": "model-2",
+          "call": {
+            "name": "write_file",
+            "arguments_json": "{\"path\":\"answer.json\",\"content\":\"{\\n  \\\"auth_header\\\": null,\\n  \\\"max_bytes\\\": 131072,\\n  \\\"over_limit_status\\\": 422,\\n  \\\"sources\\\": [\\\"e09/archive/limits.md\\\"]\\n}\\n\"}"
+          },
+          "permission": {
+            "decision": "allow",
+            "reason": "workspace_policy"
+          },
+          "result": {
+            "status": "ok",
+            "output": "Wrote answer.json",
+            "truncated": false
+          },
+          "elapsed_seconds": 0.001349
+        },
+        {
+          "type": "model",
+          "span_id": "model-3",
+          "parent_id": "agent",
+          "reply": {
+            "answer": "",
+            "tool_calls": [
+              {
+                "name": "read_file",
+                "arguments_json": "{\"path\":\"answer.json\"}"
+              }
+            ]
+          },
+          "model": {
+            "usage": [
+              {
+                "input_tokens": 15857,
+                "cached_input_tokens": 13440,
+                "cache_write_input_tokens": 0,
+                "output_tokens": 51,
+                "reasoning_output_tokens": 15
+              }
+            ],
+            "reported_model": null,
+            "model_selection": "Codex CLI default; user config ignored",
+            "elapsed_seconds": 4.791,
+            "transport_tool_events": 0,
+            "prompt_sha256": "13fa08cbb3a382b888e6c713aa34ba248ceb7043c769c52ab5fea99a14d26af7"
+          }
+        },
+        {
+          "type": "tool",
+          "span_id": "model-3:tool-0",
+          "parent_id": "model-3",
+          "call": {
+            "name": "read_file",
+            "arguments_json": "{\"path\":\"answer.json\"}"
+          },
+          "permission": {
+            "decision": "allow",
+            "reason": "workspace_policy"
+          },
+          "result": {
+            "status": "ok",
+            "output": "{\n  \"auth_header\": null,\n  \"max_bytes\": 131072,\n  \"over_limit_status\": 422,\n  \"sources\": [\"e09/archive/limits.md\"]\n}\n",
+            "truncated": false
+          },
+          "elapsed_seconds": 0.002577
+        },
+        {
+          "type": "model",
+          "span_id": "model-4",
+          "parent_id": "agent",
+          "reply": {
+            "answer": "Created and verified `answer.json` with the requested evidence-backed values.",
+            "tool_calls": []
+          },
+          "model": {
+            "usage": [
+              {
+                "input_tokens": 15984,
+                "cached_input_tokens": 13440,
+                "cache_write_input_tokens": 0,
+                "output_tokens": 31,
+                "reasoning_output_tokens": 0
+              }
+            ],
+            "reported_model": null,
+            "model_selection": "Codex CLI default; user config ignored",
+            "elapsed_seconds": 4.039,
+            "transport_tool_events": 0,
+            "prompt_sha256": "f26d24659c21ccbd20cffb8ba7284fbf5e036d3248a674317fe97413df33885d"
+          }
+        }
+      ],
+      "hooks": [
+        {
+          "phase": "UserPromptSubmit",
+          "span_id": "agent"
+        },
+        {
+          "phase": "PreToolUse",
+          "span_id": "model-1:tool-0"
+        },
+        {
+          "phase": "PostToolUse",
+          "span_id": "model-1:tool-0",
+          "status": "ok"
+        },
+        {
+          "phase": "PreToolUse",
+          "span_id": "model-2:tool-0"
+        },
+        {
+          "phase": "PostToolUse",
+          "span_id": "model-2:tool-0",
+          "status": "ok"
+        },
+        {
+          "phase": "PreToolUse",
+          "span_id": "model-3:tool-0"
+        },
+        {
+          "phase": "PostToolUse",
+          "span_id": "model-3:tool-0",
+          "status": "ok"
+        },
+        {
+          "phase": "Stop",
+          "span_id": "agent",
+          "status": "finished"
+        }
+      ]
+    }
+  ],
+  "native_ragas_experiments": 8,
+  "decision": {
+    "selected_k": 2,
+    "minimum_effect": 0.1,
+    "rule": "development task success delta >= minimum_effect; no observed stratum regression; otherwise prefer baseline",
+    "development_summary": {
+      "pairs": [
+        {
+          "case_id": "upload-multi_hop",
+          "family": "upload",
+          "stratum": "multi_hop",
+          "baseline": 0,
+          "candidate": 1,
+          "delta": 1,
+          "latency_delta_seconds": 0.03772550000000052,
+          "application_requests_delta": 0,
+          "repeats_per_version": 2
+        },
+        {
+          "case_id": "upload-single_hop",
+          "family": "upload",
+          "stratum": "single_hop",
+          "baseline": 1,
+          "candidate": 1,
+          "delta": 0,
+          "latency_delta_seconds": -0.017727499999999452,
+          "application_requests_delta": 0,
+          "repeats_per_version": 2
+        }
+      ],
+      "mean_task_delta": 0.5,
+      "strata_delta": {
+        "multi_hop": 1,
+        "single_hop": 0
+      },
+      "family_bootstrap": {
+        "low": null,
+        "high": null,
+        "families": 1,
+        "reason": "fewer than two independent family units"
+      },
+      "failure_rate": {
+        "1": 0.5,
+        "2": 0
+      }
+    },
+    "holdout_used_for_selection": false,
+    "manifest": {
+      "code_sha256": {
+        "lessons/e04_retrieval/code.py": "783553ab81d348527c5585d6554dc95a0e303385fa0807fe4ade5ab6f288f53a",
+        "eval_course/knowledge.py": "a268269f5f1abfaeb951149843c128533dc9b713b8c687bca7acc88ee3d0db76",
+        "tools/model_bridge.py": "487bd552e794811ef7c8a14d7f06933dcf19974a57d917fd940651fa4f6a93c5",
+        "lessons/e09_comparison/code.py": "504634acc3164a1f779410da0e86bd283ff8ae36d11c51ba05ac77214784557f",
+        "lessons/e09_comparison/statistics.py": "bc62f179ebb062b8bd5556d6eff08b5f5a30c2191e66e93f0ff2dd33bcc97630",
+        "lessons/e09_comparison/cases.jsonl": "20299b90ef1e2a4425377b0ea14a76462be536ab15370e4ebf8fe0381dadb82a",
+        "uv.lock": "93e0c1a94dcf33b0f1e02b76597ff15fdf5e83351176af0538ddd7b3d6cd9113"
+      },
+      "documents": {
+        "e04/auth.md": "c679cde9b3a727c786041a104888227dad4338379942276adeba9f3e211c335f",
+        "e04/limits.md": "a742717e40c3a2af1a7c2fee961c06ee9d91872b8d09b81089159a057af1d949",
+        "e09/archive/auth.md": "1adae93eee5709b2c286a34856bd138d7561aff85f3134f2e68a85781bc08d35",
+        "e09/archive/limits.md": "13d0fd6b345365b8f384581018aca258c4222741d6305a601f139eef1e86e827"
+      },
+      "only_changed_factor": "retrieval_limit_k",
+      "k_values": [
+        1,
+        2
+      ],
+      "repeats": 2,
+      "minimum_effect": 0.1,
+      "model_sampling_seed": null
+    },
+    "development_report_sha256": "2f836b82dfc680a5114e15b556c022bc9da0224ee248a8f8fe119ce77aa5e288",
+    "frozen_before_holdout": "2026-11-16T21:11:04.470461+00:00"
+  },
+  "scope": "public synthetic family split; not a production blind benchmark"
+}

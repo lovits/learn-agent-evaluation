@@ -1,0 +1,36 @@
+{
+  "lesson": "e09",
+  "scope": "selected official docs and pinned source; no claim of exhaustive framework reading",
+  "official_documents": [
+    "https://deepeval.com/tutorials/rag-qa-agent/improvement",
+    "https://deepeval.com/guides/guides-optimizing-hyperparameters",
+    "https://docs.ragas.io/en/stable/concepts/experimentation/",
+    "https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.bootstrap.html"
+  ],
+  "sources": [
+    {
+      "repository": "ragas",
+      "path": "src/ragas/experiment.py",
+      "sha256": "b9178f330a190b44018ffc06aafd3774877495add93b7b771f43f9e50024a83c",
+      "access": "CodeGraph verbatim source"
+    },
+    {
+      "repository": "ragas",
+      "path": "src/ragas/dataset.py",
+      "sha256": "4060f532bf10542661464fba7b0d14b63d1aef9655fe8dcd8849ec385c460827",
+      "access": "CodeGraph verbatim source"
+    },
+    {
+      "repository": "ragas",
+      "path": "src/ragas/backends/inmemory.py",
+      "sha256": "9d6bc66786ca60fd6b9dc80e6fbd872db0e28b89a0b4e7081ba62df451fb8df2",
+      "access": "CodeGraph verbatim source"
+    },
+    {
+      "repository": "deepeval",
+      "path": "deepeval/evaluate/evaluate.py",
+      "sha256": "f24619b8114ebab4c755a884a2321f9070b3c9beb93b5cb13b33cbfd07cc8afc",
+      "access": "CodeGraph verbatim source"
+    }
+  ]
+}

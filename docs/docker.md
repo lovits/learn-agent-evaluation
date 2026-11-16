@@ -92,3 +92,15 @@ docker compose --profile verify run --rm -T --entrypoint python verifier -m less
 知识库继续只读挂载；生成读取e04/auth.md与e04/limits.md，记录当前内容哈希。报告写runs/e08-dataset.json；断网验收写runs/e08-dataset-grade.json，重跑前请另存需要比较的记录。本课不运行目标Agent。阅读器更新后打开 /lesson8，候选样本仍待人工确认。
 
 `.env`可分别覆盖GENERATION_BRIDGE_URL与JUDGE_BRIDGE_URL；不要把服务端登录凭据写进环境文件或镜像。教材生成仍在宿主机使用`uv run python tools/generate_lesson.py --lesson e08`，原稿与发布正文分开保存。
+
+## 第9课：有顺序的版本比较
+
+先运行development，保存开发报告、冻结决定与manifest；再运行holdout。代码、任务、文档或协议哈希不一致时会拒绝沿用旧决定。每次真实运行使用独立workspace；断网verifier从只读挂载目录重读产物。
+
+```sh
+docker compose run --rm -T --entrypoint python course -m lessons.e09_comparison.code --phase development
+docker compose run --rm -T --entrypoint python course -m lessons.e09_comparison.code --phase holdout
+docker compose --profile verify run --rm -T --entrypoint python verifier -m lessons.e09_comparison.eval
+```
+
+应用使用8766入口；`eval --repeat-judge`是可选联网裁判阶段，使用8768入口。默认eval不调用模型，只分析真实报告和文件。partial文件在每个完成运行后更新，不能作为完整实验；同名报告会覆盖，保留旧对照前先另存。

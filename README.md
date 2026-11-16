@@ -66,7 +66,7 @@ python3 tools/run_e01.py
 ## 项目状态
 
 旧Faithfulness样章和专属回放实现已清理；该主题已在第5课以编程案例重新制作。
-当前第1至8课已制作，第1至7课按统一正文标准完成重写与复核，第8课沿同一写法制作，其余8课保留详细设计。DeepEval/Ragas用于评测方法和源码依据，
+当前第1至9课已制作，第1至7课按统一正文标准完成重写与复核，第8、9课沿同一写法制作，其余7课保留详细设计。DeepEval/Ragas用于评测方法和源码依据，
 第一课先用确定性任务合同判断文件、输出和退出码，后续再逐步引入框架接口与模型裁判。
 
 教材通过 [PocketFlow流程](generation/README.md)组织，来源与许可见 [第三方说明](THIRD_PARTY.md)。
@@ -161,3 +161,21 @@ docker compose --profile verify run --rm -T --entrypoint python verifier -m less
 阅读地址：http://localhost:8765/lesson8 。报告写runs/e08-dataset.json与runs/e08-dataset-grade.json，重跑覆盖，比较前先另存。此课没有执行目标Agent；7条候选仍待人工确认，公开种子分组不构成盲测。
 
 [第8课飞书完整教材](https://my.feishu.cn/docx/MxtCd79nEojnljxIBc4cwhCon9f)。
+
+## 第9课：版本比较，先配对再看均值
+
+[教材](lessons/e09_comparison/README.zh.md)、[源码导读](lessons/e09_comparison/source_walkthrough.md)、[真实结果](lessons/e09_comparison/run_summary.md)、[练习](lessons/e09_comparison/exercises.md)、[验收](docs/e09-validation.md)。只改变检索返回数量，保留编程Agent与真实文件验收，先开发选择再留出验证。
+
+宿主机保持`python3 tools/model_bridge.py`运行；可选重复裁判另启动`python3 tools/judge_bridge.py`。顺序执行：
+
+```sh
+docker compose build
+docker compose run --rm -T --entrypoint python course -m lessons.e09_comparison.code --phase development
+docker compose run --rm -T --entrypoint python course -m lessons.e09_comparison.code --phase holdout
+docker compose run --rm -T --entrypoint python course -m lessons.e09_comparison.eval --repeat-judge
+docker compose --profile verify run --rm -T --entrypoint python verifier -m lessons.e09_comparison.eval
+```
+
+阅读地址：http://localhost:8765/lesson9 。runs/e09-*同名文件重跑覆盖；比较前另存。协议或数据改变后须重新开发阶段，不能改旧manifest继续留出。公开合成题只演示方法，四次执行不等于四个独立任务，零宽bootstrap区间也不能保证总体效果。
+
+[第9课飞书完整教材](https://my.feishu.cn/docx/P3iUd8PkyoI1BixVVuCcUqsRnOg)。

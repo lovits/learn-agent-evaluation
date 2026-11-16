@@ -1,0 +1,219 @@
+{
+  "lesson": "e09",
+  "passed": true,
+  "checks": {
+    "complete_unique_paired_matrix": true,
+    "same_frozen_manifest": true,
+    "holdout_uses_frozen_decision": true,
+    "development_selection_recomputes": true,
+    "families_are_split": true,
+    "case_metadata_matches_contract": true,
+    "actual_files_regraded": true,
+    "deepeval_version_metadata_preserved": true,
+    "retrieved_versions_match": true,
+    "only_k_and_balanced_order": true,
+    "native_experiment_rows_retained": true,
+    "unknown_cost_not_invented": true
+  },
+  "development": {
+    "pairs": [
+      {
+        "case_id": "upload-multi_hop",
+        "family": "upload",
+        "stratum": "multi_hop",
+        "baseline": 0,
+        "candidate": 1,
+        "delta": 1,
+        "latency_delta_seconds": 0.03772550000000052,
+        "application_requests_delta": 0,
+        "repeats_per_version": 2
+      },
+      {
+        "case_id": "upload-single_hop",
+        "family": "upload",
+        "stratum": "single_hop",
+        "baseline": 1,
+        "candidate": 1,
+        "delta": 0,
+        "latency_delta_seconds": -0.017727499999999452,
+        "application_requests_delta": 0,
+        "repeats_per_version": 2
+      }
+    ],
+    "mean_task_delta": 0.5,
+    "strata_delta": {
+      "multi_hop": 1,
+      "single_hop": 0
+    },
+    "family_bootstrap": {
+      "low": null,
+      "high": null,
+      "families": 1,
+      "reason": "fewer than two independent family units"
+    },
+    "failure_rate": {
+      "1": 0.5,
+      "2": 0
+    }
+  },
+  "holdout": {
+    "pairs": [
+      {
+        "case_id": "archive-multi_hop",
+        "family": "archive",
+        "stratum": "multi_hop",
+        "baseline": 0,
+        "candidate": 1,
+        "delta": 1,
+        "latency_delta_seconds": 2.688541500000003,
+        "application_requests_delta": 0,
+        "repeats_per_version": 2
+      },
+      {
+        "case_id": "archive-single_hop",
+        "family": "archive",
+        "stratum": "single_hop",
+        "baseline": 1,
+        "candidate": 1,
+        "delta": 0,
+        "latency_delta_seconds": -0.7594680000000018,
+        "application_requests_delta": 0,
+        "repeats_per_version": 2
+      }
+    ],
+    "mean_task_delta": 0.5,
+    "strata_delta": {
+      "multi_hop": 1,
+      "single_hop": 0
+    },
+    "family_bootstrap": {
+      "low": null,
+      "high": null,
+      "families": 1,
+      "reason": "fewer than two independent family units"
+    },
+    "failure_rate": {
+      "1": 0.5,
+      "2": 0
+    }
+  },
+  "all_public_synthetic_tasks": {
+    "pairs": [
+      {
+        "case_id": "archive-multi_hop",
+        "family": "archive",
+        "stratum": "multi_hop",
+        "baseline": 0,
+        "candidate": 1,
+        "delta": 1,
+        "latency_delta_seconds": 2.688541500000003,
+        "application_requests_delta": 0,
+        "repeats_per_version": 2
+      },
+      {
+        "case_id": "archive-single_hop",
+        "family": "archive",
+        "stratum": "single_hop",
+        "baseline": 1,
+        "candidate": 1,
+        "delta": 0,
+        "latency_delta_seconds": -0.7594680000000018,
+        "application_requests_delta": 0,
+        "repeats_per_version": 2
+      },
+      {
+        "case_id": "upload-multi_hop",
+        "family": "upload",
+        "stratum": "multi_hop",
+        "baseline": 0,
+        "candidate": 1,
+        "delta": 1,
+        "latency_delta_seconds": 0.03772550000000052,
+        "application_requests_delta": 0,
+        "repeats_per_version": 2
+      },
+      {
+        "case_id": "upload-single_hop",
+        "family": "upload",
+        "stratum": "single_hop",
+        "baseline": 1,
+        "candidate": 1,
+        "delta": 0,
+        "latency_delta_seconds": -0.017727499999999452,
+        "application_requests_delta": 0,
+        "repeats_per_version": 2
+      }
+    ],
+    "mean_task_delta": 0.5,
+    "strata_delta": {
+      "multi_hop": 1,
+      "single_hop": 0
+    },
+    "family_bootstrap": {
+      "low": 0.5,
+      "high": 0.5,
+      "families": 2,
+      "method": "percentile family-cluster bootstrap",
+      "seed": 9,
+      "resamples": 2000,
+      "scope": "teaching illustration; two public synthetic families do not support population claims"
+    },
+    "failure_rate": {
+      "1": 0.5,
+      "2": 0
+    }
+  },
+  "selected_k": 2,
+  "application_resources": {
+    "1": {
+      "mean_elapsed_seconds": 21.283213,
+      "mean_application_requests": 4,
+      "reported_usage_entries": 32,
+      "responses_without_usage": 0,
+      "reported_token_fields": {
+        "input_tokens": {
+          "sum": 503450,
+          "unreported_entries": 0
+        },
+        "output_tokens": {
+          "sum": 2049,
+          "unreported_entries": 0
+        },
+        "cached_input_tokens": {
+          "sum": 416640,
+          "unreported_entries": 0
+        }
+      },
+      "cost": null,
+      "note": "Raw CLI usage fields; cache counts are not added again; no inferred pricing."
+    },
+    "2": {
+      "mean_elapsed_seconds": 21.770480875,
+      "mean_application_requests": 4,
+      "reported_usage_entries": 32,
+      "responses_without_usage": 0,
+      "reported_token_fields": {
+        "input_tokens": {
+          "sum": 508600,
+          "unreported_entries": 0
+        },
+        "output_tokens": {
+          "sum": 2138,
+          "unreported_entries": 0
+        },
+        "cached_input_tokens": {
+          "sum": 430080,
+          "unreported_entries": 0
+        }
+      },
+      "cost": null,
+      "note": "Raw CLI usage fields; cache counts are not added again; no inferred pricing."
+    }
+  },
+  "scope": "Pipeline correctness and descriptive paired results; four public synthetic tasks in two families are not a population performance claim.",
+  "source_sha256": {
+    "e09-development.json": "2f836b82dfc680a5114e15b556c022bc9da0224ee248a8f8fe119ce77aa5e288",
+    "e09-holdout.json": "25689dc0bff14db9519491ad891ad615424fdf196011cd3854a9a1b6a7888c3d",
+    "e09-decision.json": "87678884d453bf971ed9a8a05ceb15a55621e6bd4d19caab09387042762f2e24"
+  }
+}

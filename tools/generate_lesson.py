@@ -15,7 +15,9 @@ def main():
 
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
-        "--lesson", choices=["e01", "e02", "e03", "e04", "e05", "e06", "e07", "e08"], default="e01"
+        "--lesson",
+        choices=["e01", "e02", "e03", "e04", "e05", "e06", "e07", "e08", "e09"],
+        default="e01",
     )
     args = parser.parse_args()
     lesson = args.lesson
@@ -53,6 +55,12 @@ def main():
             "e08_datasets",
             "评测数据集：从候选题到可审核样本",
             "generation/e08-brief.md",
+        )
+    if lesson == "e09":
+        slug, title, brief_path = (
+            "e09_comparison",
+            "版本比较：先配对再看均值",
+            "generation/e09-brief.md",
         )
     private = PROJECT / "generation/private" / lesson
     private.mkdir(parents=True, exist_ok=True)
@@ -100,9 +108,7 @@ def main():
                     "code.py",
                     "eval.py",
                     "cases.jsonl",
-                    "run_summary.md"
-                    if lesson in ("e02", "e03", "e04", "e05", "e06", "e07", "e08")
-                    else "example_report.json",
+                    "run_summary.md" if lesson != "e01" else "example_report.json",
                     "source_walkthrough.md",
                     "exercises.md",
                     "solutions.md",
@@ -135,6 +141,11 @@ def main():
             *(
                 [f"lessons/{slug}/dataset.py", "references/e08-reading.json"]
                 if lesson == "e08"
+                else []
+            ),
+            *(
+                [f"lessons/{slug}/statistics.py", "references/e09-reading.json"]
+                if lesson == "e09"
                 else []
             ),
             "eval_course/records.py",

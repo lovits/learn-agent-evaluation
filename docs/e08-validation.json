@@ -23,5 +23,11 @@
   "dataset_contract_checks_passed": 14,
   "textbook_review_units": 12,
   "textbook_unreviewed_units": 0,
-  "scope": "data-pipeline acceptance, not Agent benchmark; public seed split demonstration"
+  "scope": "data-pipeline acceptance, not Agent benchmark; public seed split demonstration",
+  "github_ci": {
+    "commit": "b576c0202147fdc703c92435c7b0b35edf1158ce",
+    "run_id": 43955305586,
+    "conclusion": "success",
+    "url": "https://github.com/lovits/learn-agent-evaluation/actions/runs/43955305586"
+  }
 }

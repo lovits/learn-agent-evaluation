@@ -14,7 +14,9 @@ def main():
     from pocketflow import Flow, Node
 
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--lesson", choices=["e01", "e02", "e03", "e04", "e05"], default="e01")
+    parser.add_argument(
+        "--lesson", choices=["e01", "e02", "e03", "e04", "e05", "e06"], default="e01"
+    )
     args = parser.parse_args()
     lesson = args.lesson
     slug = "e01_agent_baseline" if lesson == "e01" else "e02_tools_traces"
@@ -33,6 +35,12 @@ def main():
             "e05_faithfulness",
             "Faithfulness：回答是否忠于证据",
             "generation/e05-brief.md",
+        )
+    if lesson == "e06":
+        slug, title, brief_path = (
+            "e06_answer_quality",
+            "答案相关性、正确性、完整性与拒答",
+            "generation/e06-brief.md",
         )
     private = PROJECT / "generation/private" / lesson
     private.mkdir(parents=True, exist_ok=True)
@@ -81,7 +89,7 @@ def main():
                     "eval.py",
                     "cases.jsonl",
                     "run_summary.md"
-                    if lesson in ("e02", "e03", "e04", "e05")
+                    if lesson in ("e02", "e03", "e04", "e05", "e06")
                     else "example_report.json",
                     "source_walkthrough.md",
                     "exercises.md",
@@ -104,6 +112,7 @@ def main():
                 if lesson == "e04"
                 else []
             ),
+            *([f"lessons/{slug}/reference.json"] if lesson == "e06" else []),
             "eval_course/records.py",
             "references/versions.json",
         },
@@ -118,7 +127,11 @@ def main():
         },
         "abstractions": [{"name": title, "description": brief, "files": []}],
         "relationships": {
-            "summary": "模型给动作，Docker里的循环执行Bash，独立容器核实结果。",
+            "summary": (
+                "以版本化参考答案和拒答政策，区分切题、正确、完整与语义相似。"
+                if lesson == "e06"
+                else "模型给动作，Docker里的循环执行Bash，独立容器核实结果。"
+            ),
             "details": [],
         },
         "chapter_order": [0],

@@ -66,7 +66,7 @@ python3 tools/run_e01.py
 ## 项目状态
 
 旧Faithfulness样章和专属回放实现已清理；该主题已在第5课以编程案例重新制作。
-当前已制作第1至5课，其余11课保留详细设计。DeepEval/Ragas用于评测方法和源码依据，
+当前已制作第1至6课，其余10课保留详细设计。DeepEval/Ragas用于评测方法和源码依据，
 第一课先用确定性任务合同判断文件、输出和退出码，后续再逐步引入框架接口与模型裁判。
 
 教材通过 [PocketFlow流程](generation/README.md)组织，来源与许可见 [第三方说明](THIRD_PARTY.md)。
@@ -111,3 +111,19 @@ docker compose run --rm -T --entrypoint python course -m lessons.e04_retrieval.e
 [教材](lessons/e05_faithfulness/README.zh.md)、[源码导读](lessons/e05_faithfulness/source_walkthrough.md)、[实验结果](lessons/e05_faithfulness/run_summary.md)、[验收记录](docs/e05-validation.md)。宿主机保持 `python3 tools/judge_bridge.py` 运行，容器执行 `docker compose run --rm -T --entrypoint python course -m lessons.e05_faithfulness.eval`。阅读地址：http://localhost:8765/lesson5 。
 
 [第5课飞书完整教材](https://my.feishu.cn/docx/VnU4dKOOHoMJhEx55jpcQ83fn4e)。
+
+## 第6课：答案质量与拒答
+
+[教材](lessons/e06_answer_quality/README.zh.md)、[源码导读](lessons/e06_answer_quality/source_walkthrough.md)、[实验结果](lessons/e06_answer_quality/run_summary.md)、[练习与解答](lessons/e06_answer_quality/exercises.md)、[验收记录](docs/e06-validation.md)。从只答对认证头开始，区分切题、正确、完整与适当拒答；数字用于理解原理。人工计算演示与真实裁判结果分别标注。
+
+宿主机保持 `python3 tools/judge_bridge.py` 运行；容器执行：
+
+```sh
+docker compose build
+docker compose run --rm -T --entrypoint python course -m lessons.e06_answer_quality.eval
+docker compose run --rm -T --entrypoint python course tools/e06_reference_repair.py
+```
+
+阅读地址：http://localhost:8765/lesson6 。本课复用旧Agent记录，不执行新Agent；默认混合公式做手算，原生AnswerCorrectness实测[1,0]，没有embedding模型调用。
+
+[第6课飞书完整教材](https://my.feishu.cn/docx/IrtXdlfrVoYPZcxNPkLccRzHn0b)。

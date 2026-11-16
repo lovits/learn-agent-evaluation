@@ -1,0 +1,76 @@
+{
+  "generator": "The-Pocket/PocketFlow-Tutorial-Codebase-Knowledge",
+  "upstream_commit": "05b24cbbb0fe409c5e23c9791f0342f07524ffdc",
+  "backend": "local authenticated Codex CLI with tools disabled",
+  "actual_model_calls": 1,
+  "calls": [
+    {
+      "prompt_sha256": "d0ca1fd1d5b5ffc3eaad728776fe5d03fda96d92cdd68d888ffd28ba842f87db",
+      "response_sha256": "f89804f254f0cacfe222248c48d3af0171c65ff9646a1d5a5bf73a598fc469c6",
+      "elapsed_seconds": 102.249
+    }
+  ],
+  "nodes_run": [
+    "FetchRepo",
+    "BindLesson (fixed lesson adapter)",
+    "WriteChapters",
+    "CombineTutorial"
+  ],
+  "not_run": [
+    "IdentifyAbstractions",
+    "AnalyzeRelationships",
+    "OrderChapters"
+  ],
+  "reason": "The sixteen-lesson outline and current lesson are already fixed.",
+  "input_manifest": [
+    {
+      "path": "eval_course/records.py",
+      "sha256": "940890c3876981a2273497e8d0d06da4a882d7e65cea6098f6217f87de498181"
+    },
+    {
+      "path": "references/versions.json",
+      "sha256": "75831131b2e85e8f0edd2ddd4534642f169a6d0cd0d5ac89d47c5465581ce99c"
+    },
+    {
+      "path": "lessons/e06_answer_quality/solutions.md",
+      "sha256": "558bad0632bed263a11b341242597655d516dfebdf7c383f8001d3465158f857"
+    },
+    {
+      "path": "lessons/e06_answer_quality/run_summary.md",
+      "sha256": "48e75e469f1bc375c53a591a063f537643211747156d524248dbaa9bf38264a6"
+    },
+    {
+      "path": "lessons/e06_answer_quality/exercises.md",
+      "sha256": "b1f6fcfc2ce01f58ac7fe0e3ac6c67d634298ba9023692ad5fd3ed7871950983"
+    },
+    {
+      "path": "lessons/e06_answer_quality/code.py",
+      "sha256": "2cf0e5d5234289d9a17e167b965ad41b491246016d26aadc502909a872c2a2ae"
+    },
+    {
+      "path": "lessons/e06_answer_quality/cases.jsonl",
+      "sha256": "4e4de47716dbfb9ce4764edc474a9fd4947b8197fb4007ca239ddd19e7d96605"
+    },
+    {
+      "path": "lessons/e06_answer_quality/reference.json",
+      "sha256": "963236e5174cc2b0146793f717974a12b7f6890e2c88b7ead5809c3b96940869"
+    },
+    {
+      "path": "lessons/e06_answer_quality/source_walkthrough.md",
+      "sha256": "260fe52d5df60d8b5c1a2caa03f86ab47cce77c678049f3a5af78ac55eaea1b3"
+    },
+    {
+      "path": "lessons/e06_answer_quality/eval.py",
+      "sha256": "432b341573472adba0d37a8e90267a73cee7c0dddbcfd1a7c73c570138b03744"
+    }
+  ],
+  "brief_sha256": "fad5e2f75a98162c4c10d551c3d271b09926d15ca53a47d251833d7b459c7da3",
+  "raw_output_directory": "generation/output/e06_answer_quality",
+  "publication": {
+    "path": "lessons/e06_answer_quality/README.zh.md",
+    "sha256": "6d4279ee85280059523734d21ddba207def96fa4a44adebec6c3ac768c092508",
+    "humanizer_reviewed_sections": 14,
+    "unreviewed_sections": 0,
+    "review": "Read entire current publication from disk. Full prose pass; code blocks, inline code and link targets unchanged during humanizer edits. Technical review separately corrects FP/FN wording, adds reference scope and runnable clarification command, removes generated footer."
+  }
+}

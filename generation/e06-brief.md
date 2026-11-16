@@ -1,0 +1,23 @@
+# 第6课写作要求
+
+为会Python、完成前五课的读者写《答案相关性、正确性、完整性与拒答》。重点是知识与原理，数字只服务理解。沿Learn Claude Code每次加一点的组织方式：本课不扩展Agent，不新增工具，不再执行Agent，只增加版本化reference、不可回答问题和评测入口。从“只答对认证头，为什么还不合格”引入，逐个分清指标比较的两个对象。正文约4500至6000中文字，自然、有耐心，具体解释困惑，不用宣传语或机械总结，不编造个人经历。
+
+必须覆盖：
+- question/response/retrieved_contexts/reference/需求清单/answerable/policy各自用途；给一张指标输入对照表。切题不等于正确；事实precision不等于完整；忠于过时证据不等于符合当前合同；拒答按信息可得性和业务政策评价。
+- reference.json为独立编写的课程合成系统v2合同，2MiB不代表生产配置。受控回答可构造、标注清楚；实际SDK分数以run_summary为准。真实旧Agent记录取e04原始notes，使用自己的v1 reference，不能按v2偷偷重标。controlled stale_v1专门模拟当前v2任务查到旧文档。
+- DeepEval AnswerRelevancyMetric(llm模式)先statements再yes/no/borderline；yes和borderline计通过，空列表默认1。需要question+response，不校验数字；实际拆分与裁决照实呈现。
+- DeepEval正确性指南使用GEval，复用第3课，明确expected_output里的版本化reference、answerability、policy。讲清业务完整性是所问需求是否覆盖，不等于覆盖所有百科事实。不把GEval分数当独立外部真值或工具任务完成。
+- Ragas FactualCorrectness双向拆解与NLI。TP来自回答被reference支持数，FP来自回答不支持，FN来自reference未被回答支持。precision=TP/(TP+FP)，recall=TP/(TP+FN)，Fbeta公式用易读纯文本和手算。源码加epsilon、两位小数。正向[1,1,1]反向[1,0]其recall=3/4而非1/2，提示拆解粒度差异。本课原生只跑f1，P/R对同一实际裁决重聚合；原生三种mode由固定裁决断网测试校验。
+- Ragas AnswerCorrectness分别抽response/reference，分类TP/FP/FN，不同于前一个算法。默认权重[0.75,0.25]混合事实Fbeta和embedding余弦。本课原生实测[1.0,0.0]，无embedding服务。人工向量[1,0]与[0.8,0.6]余弦0.8；预设事实0.5混合0.575，全标计算演示，不能冒充embedding实测。任一侧无statements时该固定版本factuality直接1，由原生离线边界测试检查，不能推断拒答合格。
+- Ragas Response Relevancy概念在固定collections API是AnswerRelevancy：回答反推多个问题，与原问题做平均余弦；该版本全部noncommittal才乘0。不同于DeepEval声明比例。SemanticSimilarity直接比较回答与reference的嵌入；相似不保证限额、否定词或事实正确。两项只做源码原理分析，未实际运行embedding模型，写明。
+- 八条受控回答和一条旧Agent真实产物，共九条。四类核心：相关但错、忠于旧文档、真实却答偏、信息不足编造；另有全对、缺项、适当拒答和不必要拒答。off_topic的健康接口事实存在于合成config，却不在上传reference内：reference不支持不代表外部虚假，评测要检查标准覆盖范围。
+- 拒答对照必须解释证据没说次数不等于0；合理限定信息范围、请求配置可以合格；可回答问题无理由拒答要扣分。通用事实或相关性指标不替代拒答政策。
+- 构造样例、手算演示、真实裁判结果三类标明；实际模型拆分可能不符合人工预期，保留分歧，不能把预期改成实测。本课数值不是排行榜或泛化结论，不强求所有案例过阈值。
+
+必要代码给短片段并链接完整文件，不要贴集成Agent、未来课程代码或Mermaid。实际代码和源码导读是依据；run_summary中的精确事实必须保留。源码细节和版本链接放相邻段落，完整导读/练习/答案/报告放文末。
+
+运行：宿主机保持python3 tools/judge_bridge.py（已有Codex登录，凭据不进容器）；另开终端docker compose build，然后docker compose run --rm -T --entrypoint python course -m lessons.e06_answer_quality.eval。写runs/e06-evaluation.json，重跑覆盖，需先另存。固定example_report.json不覆盖。教材服务docker compose up -d，http://localhost:8765/lesson6。
+
+不要用请求数、测试数充当正文主线；结果表后选择2到3个具体分歧回到中间声明解释，不只报成绩。用TP=1、FP=0、FN=2手算precision=1、recall=1/3、F1=0.5、F2=5/13。最后给动手练习和适用边界，下一课进入故障注入与定位。
+
+重点解释实测partial案例：人工预期认证头可支持，但FactualCorrectness的NLI只见到未明写authentication的reference，把“用于认证”判为不支持而得0；另一个AnswerCorrectness用问题生成reference声明，得到TP=1/FN=2、0.5。分清输入差异与reference措辞，不把预期的precision=1写成原生实测。单独补测只把reference首句加For authentication，保留原报告和同一回答；补测结果以run_summary为准。真实旧回答的来源路径在FactualCorrectness中被拆出、reference未包含路径，另一个分类器把路径并入复合声明并接受，不能据分数选赢家。

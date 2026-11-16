@@ -21,6 +21,7 @@ PAGES = {
     "/lesson3": ("第3课：规则与裁判", "lessons/e03_judges/README.zh.md"),
     "/lesson4": ("第4课：知识库检索", "lessons/e04_retrieval/README.zh.md"),
     "/lesson5": ("第5课：Faithfulness", "lessons/e05_faithfulness/README.zh.md"),
+    "/lesson6": ("第6课：答案质量与拒答", "lessons/e06_answer_quality/README.zh.md"),
     "/source": ("第1课源码", "lessons/e01_agent_baseline/source_walkthrough.md"),
     "/exercises": ("第1课练习", "lessons/e01_agent_baseline/exercises.md"),
     "/solutions": ("第1课答案", "lessons/e01_agent_baseline/solutions.md"),
@@ -29,6 +30,12 @@ PAGES = {
 }
 DOCUMENTS = {
     **PAGES,
+    "/source6": ("第6课源码", "lessons/e06_answer_quality/source_walkthrough.md"),
+    "/exercises6": ("第6课练习", "lessons/e06_answer_quality/exercises.md"),
+    "/solutions6": ("第6课答案", "lessons/e06_answer_quality/solutions.md"),
+    "/e06-results": ("第6课实测", "lessons/e06_answer_quality/run_summary.md"),
+    "/validation6": ("第6课验收", "docs/e06-validation.md"),
+    "/generation6": ("第6课生成与审校", "generation/e06-README.md"),
     "/generation4": ("第4课生成记录", "generation/e04-README.md"),
     "/source5": ("第5课源码", "lessons/e05_faithfulness/source_walkthrough.md"),
     "/exercises5": ("第5课练习", "lessons/e05_faithfulness/exercises.md"),

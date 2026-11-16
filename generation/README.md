@@ -26,3 +26,5 @@ uv run python tools/generate_lesson.py
 第3课使用同一FetchRepo → BindLesson → WriteChapters → CombineTutorial流程，实际一次生成调用；凭证见generation/e03-provenance.json。运行 `uv run python tools/generate_lesson.py --lesson e03`。原稿与humanizer审校版分别保留；生成后追加的v2校准证据单独注明。
 
 [第4课生成与审校](e04-README.md)沿用已验证的PocketFlow节点，输入当前课代码、真实记录和资料。
+
+[第6课生成与审校](e06-README.md)以当前课代码、版本化reference、原生评测与参考措辞补测组织教材，并保留原稿与humanizer发布版。

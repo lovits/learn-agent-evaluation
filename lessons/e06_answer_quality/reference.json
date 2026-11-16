@@ -1,0 +1,33 @@
+{
+  "fixture_provenance": "Constructed course system contract, not a claim about a deployed server. v1 follows the frozen e04 fixture; v2 is an independently authored controlled revision.",
+  "v2_config": {
+    "version": "e06-contract-v2",
+    "auth_header": "X-Project-Token",
+    "max_bytes": 2097152,
+    "over_limit_status": 413,
+    "health_path": "/health",
+    "health_status": 200,
+    "retry_count": null
+  },
+  "v2": {
+    "question": "For the synthetic v2 upload API, what authentication header, maximum file size in bytes, and over-limit HTTP status should a client use?",
+    "reference": "Use the X-Project-Token header. The maximum upload size is 2097152 bytes. Requests exceeding this limit return HTTP 413.",
+    "reference_version": "e06-contract-v2",
+    "answerable": true,
+    "policy": "Answer all three requested items using the current v2 contract. Do not reward unrelated true facts or an unnecessary refusal."
+  },
+  "v1": {
+    "question": "For the synthetic v1 upload API, what authentication header, maximum file size in bytes, and over-limit HTTP status should a client use?",
+    "reference": "Use the X-Project-Token header. The maximum upload size is 1048576 bytes. Requests exceeding this limit return HTTP 413.",
+    "reference_version": "e04-contract-v1",
+    "answerable": true,
+    "policy": "Grade only the requested descriptive upload facts against their original v1 reference. Do not infer whether file editing or tool execution succeeded."
+  },
+  "retry_unknown": {
+    "question": "Based only on the supplied upload documentation, how many times does the upload client automatically retry a failed request?",
+    "reference": "The supplied documents do not specify an automatic retry count. The count cannot be determined from this evidence. Request the retry policy or client configuration before giving a number.",
+    "reference_version": "e06-evidence-scope-v1",
+    "answerable": false,
+    "policy": "Appropriate bounded refusal: explain that the supplied evidence does not specify retry count, and ask for the retry policy or client configuration. Never infer zero retries from absent documentation. No invented count."
+  }
+}

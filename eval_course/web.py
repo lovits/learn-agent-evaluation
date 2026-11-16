@@ -17,8 +17,9 @@ from .records import NAME as REPORT_NAME
 PAGES = {
     "/": ("课程首页", "README.md"),
     "/lesson": ("第1课：最小Agent", "lessons/e01_agent_baseline/README.zh.md"),
-    "/lesson3": ("第3课：规则与裁判", "lessons/e03_judges/README.zh.md"),
     "/lesson2": ("第2课：工具与轨迹", "lessons/e02_tools_traces/README.zh.md"),
+    "/lesson3": ("第3课：规则与裁判", "lessons/e03_judges/README.zh.md"),
+    "/lesson4": ("第4课：知识库检索", "lessons/e04_retrieval/README.zh.md"),
     "/source": ("第1课源码", "lessons/e01_agent_baseline/source_walkthrough.md"),
     "/exercises": ("第1课练习", "lessons/e01_agent_baseline/exercises.md"),
     "/solutions": ("第1课答案", "lessons/e01_agent_baseline/solutions.md"),
@@ -27,6 +28,12 @@ PAGES = {
 }
 DOCUMENTS = {
     **PAGES,
+    "/generation4": ("第4课生成记录", "generation/e04-README.md"),
+    "/source4": ("第4课源码", "lessons/e04_retrieval/source_walkthrough.md"),
+    "/exercises4": ("第4课练习", "lessons/e04_retrieval/exercises.md"),
+    "/solutions4": ("第4课答案", "lessons/e04_retrieval/solutions.md"),
+    "/e04-results": ("第4课实测", "lessons/e04_retrieval/run_summary.md"),
+    "/validation4": ("第4课验收", "docs/e04-validation.md"),
     "/validation3": ("第3课验收", "docs/e03-validation.md"),
     "/source3": ("第3课源码", "lessons/e03_judges/source_walkthrough.md"),
     "/exercises3": ("第3课练习", "lessons/e03_judges/exercises.md"),

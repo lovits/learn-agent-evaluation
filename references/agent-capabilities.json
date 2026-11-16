@@ -49,7 +49,8 @@
     "source_path": "learn-claude-code/s07_skill_loading/code.py",
     "sha256": "0246964af87bfcc0494e9330f54ae808797ba20dd3906ff412c91711f0d93280",
     "introduced_in": "e04",
-    "status": "planned_not_implemented_or_validated"
+    "status": "e04_on_demand_document_loading_adaptation_verified",
+    "adaptations": "search_knowledge over mounted documents; SkillLoader full frontmatter/registry contract not claimed"
   },
   {
     "upstream_lesson": "s08_context_compact",

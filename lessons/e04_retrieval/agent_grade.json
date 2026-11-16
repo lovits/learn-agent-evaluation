@@ -1,0 +1,12 @@
+{
+  "run_id": "0bac799b14cd4e3baee0aaa54f599079",
+  "checks": {
+    "finished": true,
+    "trace_valid": true,
+    "artifact_contents": true,
+    "required_documents_loaded": true,
+    "artifact_matches_record": true
+  },
+  "passed": true,
+  "scope": "fixed fixture output and retrieval trace; not general answer faithfulness"
+}

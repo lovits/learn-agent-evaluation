@@ -1,0 +1,27 @@
+{
+  "lesson": "e04",
+  "final_agent_requests": 4,
+  "agent_requests_including_initial": 8,
+  "final_sdk_requests": 23,
+  "sdk_requests_including_initial": 46,
+  "final_metric_errors": 0,
+  "initial_metric_serialization_errors": 3,
+  "controlled_variants": 4,
+  "sdk_nonempty_variants": 3,
+  "empty_sdk_skipped": true,
+  "native_sdk_metrics": 5,
+  "agent_independent_checks_passed": 5,
+  "local_tests": 51,
+  "docker_offline_tests": 51,
+  "replacement_mount_verified": true,
+  "knowledge_read_only": true,
+  "agent_auth_and_verifier_criteria_absent": true,
+  "pocketflow_actual_generation_calls": 1,
+  "humanizer_main_sections": 11,
+  "not_evaluated": [
+    "Faithfulness",
+    "generalization",
+    "throughput",
+    "strict blind evaluation"
+  ]
+}

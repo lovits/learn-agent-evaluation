@@ -1,0 +1,737 @@
+{
+  "lesson": "e04",
+  "mode": "live_sdk_judges_controlled_retrieval_perturbations",
+  "question": "For POST /upload, what authentication header, maximum file size in bytes, and over-limit status code should the client use?",
+  "reference": "Use the X-Project-Token header. The maximum file size is 1048576 bytes. Larger requests return HTTP 413.",
+  "required_ids": [
+    "e04/auth.md",
+    "e04/limits.md"
+  ],
+  "baseline_retrieval": [
+    {
+      "id": "e04/limits.md",
+      "text": "# Upload API size limit\nPOST /upload accepts files up to 1048576 bytes (1 MiB). Larger requests return HTTP 413. Check the file size before sending.\n",
+      "sha256": "a742717e40c3a2af1a7c2fee961c06ee9d91872b8d09b81089159a057af1d949",
+      "matches": 5
+    },
+    {
+      "id": "e04/auth.md",
+      "text": "# Upload API authentication\nFor POST /upload, send the API token in the X-Project-Token header. This endpoint accepts file uploads.\n",
+      "sha256": "c679cde9b3a727c786041a104888227dad4338379942276adeba9f3e211c335f",
+      "matches": 4
+    }
+  ],
+  "baseline_rules": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "ap_retrieved": 1.0,
+    "ap_reference": 1.0,
+    "mrr": 1.0,
+    "ndcg": 1.0,
+    "relevance": [
+      1,
+      1
+    ],
+    "deduplication": "first occurrence by document ID"
+  },
+  "rows": [
+    {
+      "name": "good",
+      "documents": [
+        {
+          "id": "e04/auth.md",
+          "text": "# Upload API authentication\nFor POST /upload, send the API token in the X-Project-Token header. This endpoint accepts file uploads.\n",
+          "sha256": "c679cde9b3a727c786041a104888227dad4338379942276adeba9f3e211c335f"
+        },
+        {
+          "id": "e04/limits.md",
+          "text": "# Upload API size limit\nPOST /upload accepts files up to 1048576 bytes (1 MiB). Larger requests return HTTP 413. Check the file size before sending.\n",
+          "sha256": "a742717e40c3a2af1a7c2fee961c06ee9d91872b8d09b81089159a057af1d949"
+        },
+        {
+          "id": "e04/noise.md",
+          "text": "# Project theme\nThe editor theme is dark green. This is a UI preference and does not configure server requests.\n",
+          "sha256": "66ae3f3dd49daf1f20ef141b27cda4e068b99258e677cb5956f437da04e27017"
+        }
+      ],
+      "rules": {
+        "precision": 0.6666666666666666,
+        "recall": 1.0,
+        "ap_retrieved": 1.0,
+        "ap_reference": 1.0,
+        "mrr": 1.0,
+        "ndcg": 1.0,
+        "relevance": [
+          1,
+          1,
+          0
+        ],
+        "deduplication": "first occurrence by document ID"
+      },
+      "sdk": {
+        "ContextualPrecisionMetric": {
+          "score": 1.0,
+          "passed": true,
+          "verdicts": [
+            {
+              "verdict": "yes",
+              "reason": "It directly provides the authentication requirement: \"send the API token in the X-Project-Token header.\""
+            },
+            {
+              "verdict": "yes",
+              "reason": "It directly states both the maximum size and over-limit response: \"up to 1048576 bytes\" and \"Larger requests return HTTP 413.\""
+            },
+            {
+              "verdict": "no",
+              "reason": "The \"dark green\" editor theme is a UI preference and provides no information about upload authentication, file-size limits, or status codes."
+            }
+          ]
+        },
+        "ContextualRecallMetric": {
+          "score": 1.0,
+          "passed": true,
+          "verdicts": [
+            {
+              "verdict": "yes",
+              "reason": "The 1st node says to send the API token in the “X-Project-Token header.”",
+              "expected_output": "Use the X-Project-Token header. The maximum file size is 1048576 bytes. Larger requests return HTTP 413."
+            },
+            {
+              "verdict": "yes",
+              "reason": "The 2nd node states files are accepted “up to 1048576 bytes...”",
+              "expected_output": "Use the X-Project-Token header. The maximum file size is 1048576 bytes. Larger requests return HTTP 413."
+            },
+            {
+              "verdict": "yes",
+              "reason": "The 2nd node explicitly says, “Larger requests return HTTP 413.”",
+              "expected_output": "Use the X-Project-Token header. The maximum file size is 1048576 bytes. Larger requests return HTTP 413."
+            }
+          ]
+        },
+        "ContextualRelevancyMetric": {
+          "score": null,
+          "error": "'ContextualRelevancyMetric' object has no attribute 'verdicts'"
+        },
+        "RagasContextPrecisionWithReference": {
+          "score": 0.99999999995,
+          "passed": true
+        },
+        "RagasContextRecall": {
+          "score": 1.0,
+          "passed": true
+        }
+      },
+      "calls": [
+        {
+          "prompt": "Given the input, expected output, and retrieval context, please generate a list of JSON objects to determine whether each node in the retrieval context was remotely useful in arriving at the expected output.\n\n**\nIMPORTANT: Please make sure to only return in JSON format, with the 'verdicts' key as a list of JSON. These JSON only contain the `verdict` key that outputs only 'yes' or 'no', and a `reason` key to justify the verdict. In your reason, you should aim to quote parts of the context .\nExample Retrieval Context: [\"Einstein won the Nobel Prize for his discovery of the photoelectric effect\", \"He won the Nobel Prize in 1968.\", \"There was a cat.\"]\nExample Input: \"Who won the Nobel Prize in 1968 and for what?\"\nExample Expected Output: \"Einstein won the Nobel Prize in 1968 for his discovery of the photoelectric effect.\"\n\nExample:\n{\n  \"verdicts\": [\n    {\n      \"reason\": \"It clearly addresses the question by stating that 'Einstein won the Nobel Prize for his discovery of the photoelectric effect.'\",\n      \"verdict\": \"yes\"\n    },\n    {\n      \"reason\": \"The text verifies that the prize was indeed won in 1968.\",\n      \"verdict\": \"yes\"\n    },\n    {\n      \"reason\": \"'There was a cat' is not at all relevant to the topic of winning a Nobel Prize.\",\n      \"verdict\": \"no\"\n    }\n  ]  \n}\nSince you are going to generate a verdict for each context, the number of 'verdicts' SHOULD BE STRICTLY EQUAL to that of the contexts.\n**\n\nInput:\nFor POST /upload, what authentication header, maximum file size in bytes, and over-limit status code should the client use?\n\nExpected output:\nUse the X-Project-Token header. The maximum file size is 1048576 bytes. Larger requests return HTTP 413.\n\nRetrieval Context  (3 documents):\n['# Upload API authentication\\nFor POST /upload, send the API token in the X-Project-Token header. This endpoint accepts file uploads.\\n', '# Upload API size limit\\nPOST /upload accepts files up to 1048576 bytes (1 MiB). Larger requests return HTTP 413. Check the file size before sending.\\n', '# Project theme\\nThe editor theme is dark green. This is a UI preference and does not configure server requests.\\n']\n\nJSON:",
+          "text": "{\"verdicts\":[{\"verdict\":\"yes\",\"reason\":\"It directly provides the authentication requirement: \\\"send the API token in the X-Project-Token header.\\\"\"},{\"verdict\":\"yes\",\"reason\":\"It directly states both the maximum size and over-limit response: \\\"up to 1048576 bytes\\\" and \\\"Larger requests return HTTP 413.\\\"\"},{\"verdict\":\"no\",\"reason\":\"The \\\"dark green\\\" editor theme is a UI preference and provides no information about upload authentication, file-size limits, or status codes.\"}]}",
+          "usage": [
+            {
+              "input_tokens": 15533,
+              "cached_input_tokens": 13440,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 114,
+              "reasoning_output_tokens": 0
+            }
+          ],
+          "reported_model": null,
+          "model_selection": "Codex CLI default; user config ignored",
+          "elapsed_seconds": 7.455,
+          "transport_tool_events": 0,
+          "prompt_sha256": "c7aef21e720e21b9454d2a892c26a69b6257471d538791f009fb36106bfd8985"
+        },
+        {
+          "prompt": "For EACH sentence in the given expected output below, determine whether the sentence can be attributed to the nodes of retrieval contexts. Please generate a list of JSON with two keys: `verdict` and `reason`.\nThe `verdict` key should STRICTLY be either a 'yes' or 'no'. Answer 'yes' if the sentence can be attributed to any parts of the retrieval context, else answer 'no'.\nThe `reason` key should provide a reason why to the verdict. In the reason, you should aim to include the node(s) count in the retrieval context (eg., 1st node, and 2nd node in the retrieval context) that is attributed to said sentence. You should also aim to quote the specific part of the retrieval context to justify your verdict, but keep it extremely concise and cut short the quote with an ellipsis if possible. \n\n**\nIMPORTANT: Please make sure to only return in JSON format, with the 'verdicts' key as a list of JSON objects, each with two keys: `verdict` and `reason`.\n\n{\n  \"verdicts\": [\n    {\n      \"reason\": \"...\",\n      \"verdict\": \"yes\"\n    },\n    ...\n  ]  \n}\n\nSince you are going to generate a verdict for each sentence, the number of 'verdicts' SHOULD BE STRICTLY EQUAL to the number of sentences in `expected output`.\n**\n\nExpected Output:\nUse the X-Project-Token header. The maximum file size is 1048576 bytes. Larger requests return HTTP 413.\n\nRetrieval Context:\n['# Upload API authentication\\nFor POST /upload, send the API token in the X-Project-Token header. This endpoint accepts file uploads.\\n', '# Upload API size limit\\nPOST /upload accepts files up to 1048576 bytes (1 MiB). Larger requests return HTTP 413. Check the file size before sending.\\n', '# Project theme\\nThe editor theme is dark green. This is a UI preference and does not configure server requests.\\n']\n\nJSON:",
+          "text": "{\"verdicts\":[{\"verdict\":\"yes\",\"reason\":\"The 1st node says to send the API token in the “X-Project-Token header.”\"},{\"verdict\":\"yes\",\"reason\":\"The 2nd node states files are accepted “up to 1048576 bytes...”\"},{\"verdict\":\"yes\",\"reason\":\"The 2nd node explicitly says, “Larger requests return HTTP 413.”\"}]}",
+          "usage": [
+            {
+              "input_tokens": 15444,
+              "cached_input_tokens": 13440,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 91,
+              "reasoning_output_tokens": 0
+            }
+          ],
+          "reported_model": null,
+          "model_selection": "Codex CLI default; user config ignored",
+          "elapsed_seconds": 6.686,
+          "transport_tool_events": 0,
+          "prompt_sha256": "ebb779d79bba557774c13fd24b04a2899b4f938d6343ceb62b10cd5164d1d7f1"
+        },
+        {
+          "prompt": "Based on the input and context, please generate a JSON object to indicate whether each statement found in the context is relevant to the provided input. The JSON will be a list of 'verdicts', with 2 mandatory fields: 'verdict' and 'statement', and 1 optional field: 'reason'.\nYou should first extract statements found in the context, which are high level information found in the context, before deciding on a verdict and optionally a reason for each statement.\nThe 'verdict' key should STRICTLY be either 'yes' or 'no', and states whether the statement is relevant to the input.\nProvide a 'reason' ONLY IF verdict is no. You MUST quote the irrelevant parts of the statement to back up your reason.\nIf provided context contains no actual content or statements then: give \"no\" as a \"verdict\",\nput context into \"statement\", and \"No statements found in provided context.\" into \"reason\".\n**\nIMPORTANT: Please make sure to only return in JSON format.\nExample Context: \"Einstein won the Nobel Prize for his discovery of the photoelectric effect. He won the Nobel Prize in 1968. There was a cat.\"\nExample Input: \"What were some of Einstein's achievements?\"\n\nExample:\n{\n  \"verdicts\": [\n    {\n      \"statement\": \"Einstein won the Nobel Prize for his discovery of the photoelectric effect in 1968\",\n      \"verdict\": \"yes\"\n    },\n    {\n      \"statement\": \"There was a cat.\",\n      \"reason\": \"The retrieval context contained the information 'There was a cat' when it has nothing to do with Einstein's achievements.\",\n      \"verdict\": \"no\"\n    }\n  ]\n}\n**\n\nInput:\nFor POST /upload, what authentication header, maximum file size in bytes, and over-limit status code should the client use?\n\nContext:\n# Upload API authentication\nFor POST /upload, send the API token in the X-Project-Token header. This endpoint accepts file uploads.\n\n\nJSON:",
+          "text": "{\"verdicts\":[{\"statement\":\"For POST /upload, send the API token in the X-Project-Token header.\",\"verdict\":\"yes\"},{\"statement\":\"POST /upload accepts file uploads.\",\"verdict\":\"yes\"}]}",
+          "usage": [
+            {
+              "input_tokens": 15437,
+              "cached_input_tokens": 13440,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 50,
+              "reasoning_output_tokens": 0
+            }
+          ],
+          "reported_model": null,
+          "model_selection": "Codex CLI default; user config ignored",
+          "elapsed_seconds": 5.191,
+          "transport_tool_events": 0,
+          "prompt_sha256": "9532e9505eb0df9a53d1532cf34e65f3cbebdd4375bce68419c8f8e6e60ca392"
+        },
+        {
+          "prompt": "Based on the input and context, please generate a JSON object to indicate whether each statement found in the context is relevant to the provided input. The JSON will be a list of 'verdicts', with 2 mandatory fields: 'verdict' and 'statement', and 1 optional field: 'reason'.\nYou should first extract statements found in the context, which are high level information found in the context, before deciding on a verdict and optionally a reason for each statement.\nThe 'verdict' key should STRICTLY be either 'yes' or 'no', and states whether the statement is relevant to the input.\nProvide a 'reason' ONLY IF verdict is no. You MUST quote the irrelevant parts of the statement to back up your reason.\nIf provided context contains no actual content or statements then: give \"no\" as a \"verdict\",\nput context into \"statement\", and \"No statements found in provided context.\" into \"reason\".\n**\nIMPORTANT: Please make sure to only return in JSON format.\nExample Context: \"Einstein won the Nobel Prize for his discovery of the photoelectric effect. He won the Nobel Prize in 1968. There was a cat.\"\nExample Input: \"What were some of Einstein's achievements?\"\n\nExample:\n{\n  \"verdicts\": [\n    {\n      \"statement\": \"Einstein won the Nobel Prize for his discovery of the photoelectric effect in 1968\",\n      \"verdict\": \"yes\"\n    },\n    {\n      \"statement\": \"There was a cat.\",\n      \"reason\": \"The retrieval context contained the information 'There was a cat' when it has nothing to do with Einstein's achievements.\",\n      \"verdict\": \"no\"\n    }\n  ]\n}\n**\n\nInput:\nFor POST /upload, what authentication header, maximum file size in bytes, and over-limit status code should the client use?\n\nContext:\n# Upload API size limit\nPOST /upload accepts files up to 1048576 bytes (1 MiB). Larger requests return HTTP 413. Check the file size before sending.\n\n\nJSON:",
+          "text": "{\"verdicts\":[{\"statement\":\"POST /upload accepts files up to 1048576 bytes (1 MiB).\",\"verdict\":\"yes\"},{\"statement\":\"Larger requests return HTTP 413.\",\"verdict\":\"yes\"},{\"statement\":\"Check the file size before sending.\",\"verdict\":\"yes\"}]}",
+          "usage": [
+            {
+              "input_tokens": 15443,
+              "cached_input_tokens": 13440,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 110,
+              "reasoning_output_tokens": 43
+            }
+          ],
+          "reported_model": null,
+          "model_selection": "Codex CLI default; user config ignored",
+          "elapsed_seconds": 6.113,
+          "transport_tool_events": 0,
+          "prompt_sha256": "9a1dadd75bb4de23428b9f3eb6afaf237c9512f506126bfc8bb11e199d528214"
+        },
+        {
+          "prompt": "Based on the input and context, please generate a JSON object to indicate whether each statement found in the context is relevant to the provided input. The JSON will be a list of 'verdicts', with 2 mandatory fields: 'verdict' and 'statement', and 1 optional field: 'reason'.\nYou should first extract statements found in the context, which are high level information found in the context, before deciding on a verdict and optionally a reason for each statement.\nThe 'verdict' key should STRICTLY be either 'yes' or 'no', and states whether the statement is relevant to the input.\nProvide a 'reason' ONLY IF verdict is no. You MUST quote the irrelevant parts of the statement to back up your reason.\nIf provided context contains no actual content or statements then: give \"no\" as a \"verdict\",\nput context into \"statement\", and \"No statements found in provided context.\" into \"reason\".\n**\nIMPORTANT: Please make sure to only return in JSON format.\nExample Context: \"Einstein won the Nobel Prize for his discovery of the photoelectric effect. He won the Nobel Prize in 1968. There was a cat.\"\nExample Input: \"What were some of Einstein's achievements?\"\n\nExample:\n{\n  \"verdicts\": [\n    {\n      \"statement\": \"Einstein won the Nobel Prize for his discovery of the photoelectric effect in 1968\",\n      \"verdict\": \"yes\"\n    },\n    {\n      \"statement\": \"There was a cat.\",\n      \"reason\": \"The retrieval context contained the information 'There was a cat' when it has nothing to do with Einstein's achievements.\",\n      \"verdict\": \"no\"\n    }\n  ]\n}\n**\n\nInput:\nFor POST /upload, what authentication header, maximum file size in bytes, and over-limit status code should the client use?\n\nContext:\n# Project theme\nThe editor theme is dark green. This is a UI preference and does not configure server requests.\n\n\nJSON:",
+          "text": "{\"verdicts\":[{\"statement\":\"The editor theme is dark green.\",\"verdict\":\"no\",\"reason\":\"The context states \\\"The editor theme is dark green,\\\" which is unrelated to the authentication header, maximum file size, or over-limit status code for POST /upload.\"},{\"statement\":\"The UI preference does not configure server requests.\",\"verdict\":\"no\",\"reason\":\"The statement \\\"does not configure server requests\\\" explicitly indicates that this information cannot answer the question about POST /upload.\"}]}",
+          "usage": [
+            {
+              "input_tokens": 15433,
+              "cached_input_tokens": 13440,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 103,
+              "reasoning_output_tokens": 0
+            }
+          ],
+          "reported_model": null,
+          "model_selection": "Codex CLI default; user config ignored",
+          "elapsed_seconds": 5.656,
+          "transport_tool_events": 0,
+          "prompt_sha256": "a1a6f26235c5c0cc7e956f7cca4f42f69017f105e11ce1c0fe8bd89c03c2fefa"
+        },
+        {
+          "prompt": "Given question, answer and context verify if the context was useful in arriving at the given answer. Give verdict as \"1\" if useful and \"0\" if not with json output.\nPlease return the output in a JSON format that complies with the following schema as specified in JSON Schema:\n{\"description\": \"Structured output for context precision evaluation.\", \"properties\": {\"reason\": {\"description\": \"Reason for verification\", \"title\": \"Reason\", \"type\": \"string\"}, \"verdict\": {\"description\": \"Binary (0/1) verdict of verification\", \"title\": \"Verdict\", \"type\": \"integer\"}}, \"required\": [\"reason\", \"verdict\"], \"title\": \"ContextPrecisionOutput\", \"type\": \"object\"}Do not use single quotes in your response but double quotes,properly escaped with a backslash.\n\n--------EXAMPLES-----------\nExample 1\nInput: {\n    \"question\": \"What can you tell me about Albert Einstein?\",\n    \"context\": \"Albert Einstein (14 March 1879 – 18 April 1955) was a German-born theoretical physicist, widely held to be one of the greatest and most influential scientists of all time. Best known for developing the theory of relativity, he also made important contributions to quantum mechanics, and was thus a central figure in the revolutionary reshaping of the scientific understanding of nature that modern physics accomplished in the first decades of the twentieth century. His mass–energy equivalence formula E = mc2, which arises from relativity theory, has been called 'the world's most famous equation'. He received the 1921 Nobel Prize in Physics 'for his services to theoretical physics, and especially for his discovery of the law of the photoelectric effect', a pivotal step in the development of quantum theory. His work is also known for its influence on the philosophy of science. In a 1999 poll of 130 leading physicists worldwide by the British journal Physics World, Einstein was ranked the greatest physicist of all time. His intellectual achievements and originality have made Einstein synonymous with genius.\",\n    \"answer\": \"Albert Einstein, born on 14 March 1879, was a German-born theoretical physicist, widely held to be one of the greatest and most influential scientists of all time. He received the 1921 Nobel Prize in Physics for his services to theoretical physics.\"\n}\nOutput: {\n    \"reason\": \"The provided context was indeed useful in arriving at the given answer. The context includes key information about Albert Einstein's life and contributions, which are reflected in the answer.\",\n    \"verdict\": 1\n}\n\nExample 2\nInput: {\n    \"question\": \"who won 2020 icc world cup?\",\n    \"context\": \"The 2022 ICC Men's T20 World Cup, held from October 16 to November 13, 2022, in Australia, was the eighth edition of the tournament. Originally scheduled for 2020, it was postponed due to the COVID-19 pandemic. England emerged victorious, defeating Pakistan by five wickets in the final to clinch their second ICC Men's T20 World Cup title.\",\n    \"answer\": \"England\"\n}\nOutput: {\n    \"reason\": \"the context was useful in clarifying the situation regarding the 2020 ICC World Cup and indicating that England was the winner of the tournament that was intended to be held in 2020 but actually took place in 2022.\",\n    \"verdict\": 1\n}\n\nExample 3\nInput: {\n    \"question\": \"What is the tallest mountain in the world?\",\n    \"context\": \"The Andes is the longest continental mountain range in the world, located in South America. It stretches across seven countries and features many of the highest peaks in the Western Hemisphere. The range is known for its diverse ecosystems, including the high-altitude Andean Plateau and the Amazon rainforest.\",\n    \"answer\": \"Mount Everest.\"\n}\nOutput: {\n    \"reason\": \"the provided context discusses the Andes mountain range, which, while impressive, does not include Mount Everest or directly relate to the question about the world's tallest mountain.\",\n    \"verdict\": 0\n}\n-----------------------------\n\nNow perform the same with the following input\ninput: {\n    \"question\": \"For POST /upload, what authentication header, maximum file size in bytes, and over-limit status code should the client use?\",\n    \"context\": \"# Upload API authentication\\nFor POST /upload, send the API token in the X-Project-Token header. This endpoint accepts file uploads.\\n\",\n    \"answer\": \"Use the X-Project-Token header. The maximum file size is 1048576 bytes. Larger requests return HTTP 413.\"\n}\nOutput: \nReturn JSON matching this schema:\n{\"description\": \"Structured output for context precision evaluation.\", \"properties\": {\"reason\": {\"description\": \"Reason for verification\", \"title\": \"Reason\", \"type\": \"string\"}, \"verdict\": {\"description\": \"Binary (0/1) verdict of verification\", \"title\": \"Verdict\", \"type\": \"integer\"}}, \"required\": [\"reason\", \"verdict\"], \"title\": \"ContextPrecisionOutput\", \"type\": \"object\"}",
+          "text": "{\"reason\":\"The context was partially useful because it directly supports using the X-Project-Token header for POST /upload. However, it does not provide the maximum file size or the HTTP 413 over-limit status code stated in the answer.\",\"verdict\":1}",
+          "usage": [
+            {
+              "input_tokens": 16084,
+              "cached_input_tokens": 13440,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 58,
+              "reasoning_output_tokens": 0
+            }
+          ],
+          "reported_model": null,
+          "model_selection": "Codex CLI default; user config ignored",
+          "elapsed_seconds": 10.84,
+          "transport_tool_events": 0,
+          "prompt_sha256": "6585d6c0db1a9939ee76dd57e00c02911236dd33d9a0597c98a71a6adf1099d1"
+        },
+        {
+          "prompt": "Given question, answer and context verify if the context was useful in arriving at the given answer. Give verdict as \"1\" if useful and \"0\" if not with json output.\nPlease return the output in a JSON format that complies with the following schema as specified in JSON Schema:\n{\"description\": \"Structured output for context precision evaluation.\", \"properties\": {\"reason\": {\"description\": \"Reason for verification\", \"title\": \"Reason\", \"type\": \"string\"}, \"verdict\": {\"description\": \"Binary (0/1) verdict of verification\", \"title\": \"Verdict\", \"type\": \"integer\"}}, \"required\": [\"reason\", \"verdict\"], \"title\": \"ContextPrecisionOutput\", \"type\": \"object\"}Do not use single quotes in your response but double quotes,properly escaped with a backslash.\n\n--------EXAMPLES-----------\nExample 1\nInput: {\n    \"question\": \"What can you tell me about Albert Einstein?\",\n    \"context\": \"Albert Einstein (14 March 1879 – 18 April 1955) was a German-born theoretical physicist, widely held to be one of the greatest and most influential scientists of all time. Best known for developing the theory of relativity, he also made important contributions to quantum mechanics, and was thus a central figure in the revolutionary reshaping of the scientific understanding of nature that modern physics accomplished in the first decades of the twentieth century. His mass–energy equivalence formula E = mc2, which arises from relativity theory, has been called 'the world's most famous equation'. He received the 1921 Nobel Prize in Physics 'for his services to theoretical physics, and especially for his discovery of the law of the photoelectric effect', a pivotal step in the development of quantum theory. His work is also known for its influence on the philosophy of science. In a 1999 poll of 130 leading physicists worldwide by the British journal Physics World, Einstein was ranked the greatest physicist of all time. His intellectual achievements and originality have made Einstein synonymous with genius.\",\n    \"answer\": \"Albert Einstein, born on 14 March 1879, was a German-born theoretical physicist, widely held to be one of the greatest and most influential scientists of all time. He received the 1921 Nobel Prize in Physics for his services to theoretical physics.\"\n}\nOutput: {\n    \"reason\": \"The provided context was indeed useful in arriving at the given answer. The context includes key information about Albert Einstein's life and contributions, which are reflected in the answer.\",\n    \"verdict\": 1\n}\n\nExample 2\nInput: {\n    \"question\": \"who won 2020 icc world cup?\",\n    \"context\": \"The 2022 ICC Men's T20 World Cup, held from October 16 to November 13, 2022, in Australia, was the eighth edition of the tournament. Originally scheduled for 2020, it was postponed due to the COVID-19 pandemic. England emerged victorious, defeating Pakistan by five wickets in the final to clinch their second ICC Men's T20 World Cup title.\",\n    \"answer\": \"England\"\n}\nOutput: {\n    \"reason\": \"the context was useful in clarifying the situation regarding the 2020 ICC World Cup and indicating that England was the winner of the tournament that was intended to be held in 2020 but actually took place in 2022.\",\n    \"verdict\": 1\n}\n\nExample 3\nInput: {\n    \"question\": \"What is the tallest mountain in the world?\",\n    \"context\": \"The Andes is the longest continental mountain range in the world, located in South America. It stretches across seven countries and features many of the highest peaks in the Western Hemisphere. The range is known for its diverse ecosystems, including the high-altitude Andean Plateau and the Amazon rainforest.\",\n    \"answer\": \"Mount Everest.\"\n}\nOutput: {\n    \"reason\": \"the provided context discusses the Andes mountain range, which, while impressive, does not include Mount Everest or directly relate to the question about the world's tallest mountain.\",\n    \"verdict\": 0\n}\n-----------------------------\n\nNow perform the same with the following input\ninput: {\n    \"question\": \"For POST /upload, what authentication header, maximum file size in bytes, and over-limit status code should the client use?\",\n    \"context\": \"# Upload API size limit\\nPOST /upload accepts files up to 1048576 bytes (1 MiB). Larger requests return HTTP 413. Check the file size before sending.\\n\",\n    \"answer\": \"Use the X-Project-Token header. The maximum file size is 1048576 bytes. Larger requests return HTTP 413.\"\n}\nOutput: \nReturn JSON matching this schema:\n{\"description\": \"Structured output for context precision evaluation.\", \"properties\": {\"reason\": {\"description\": \"Reason for verification\", \"title\": \"Reason\", \"type\": \"string\"}, \"verdict\": {\"description\": \"Binary (0/1) verdict of verification\", \"title\": \"Verdict\", \"type\": \"integer\"}}, \"required\": [\"reason\", \"verdict\"], \"title\": \"ContextPrecisionOutput\", \"type\": \"object\"}",
+          "text": "{\"reason\":\"The context supports the maximum file size of 1048576 bytes and the HTTP 413 over-limit status code, but it does not provide the X-Project-Token authentication header. Therefore, it was only partially useful in arriving at the complete answer.\",\"verdict\":1}",
+          "usage": [
+            {
+              "input_tokens": 16092,
+              "cached_input_tokens": 13440,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 63,
+              "reasoning_output_tokens": 0
+            }
+          ],
+          "reported_model": null,
+          "model_selection": "Codex CLI default; user config ignored",
+          "elapsed_seconds": 16.552,
+          "transport_tool_events": 0,
+          "prompt_sha256": "09a8954d0da021718e34862d612c19a6f0f02ef02fff933bc0a6f053184026de"
+        },
+        {
+          "prompt": "Given question, answer and context verify if the context was useful in arriving at the given answer. Give verdict as \"1\" if useful and \"0\" if not with json output.\nPlease return the output in a JSON format that complies with the following schema as specified in JSON Schema:\n{\"description\": \"Structured output for context precision evaluation.\", \"properties\": {\"reason\": {\"description\": \"Reason for verification\", \"title\": \"Reason\", \"type\": \"string\"}, \"verdict\": {\"description\": \"Binary (0/1) verdict of verification\", \"title\": \"Verdict\", \"type\": \"integer\"}}, \"required\": [\"reason\", \"verdict\"], \"title\": \"ContextPrecisionOutput\", \"type\": \"object\"}Do not use single quotes in your response but double quotes,properly escaped with a backslash.\n\n--------EXAMPLES-----------\nExample 1\nInput: {\n    \"question\": \"What can you tell me about Albert Einstein?\",\n    \"context\": \"Albert Einstein (14 March 1879 – 18 April 1955) was a German-born theoretical physicist, widely held to be one of the greatest and most influential scientists of all time. Best known for developing the theory of relativity, he also made important contributions to quantum mechanics, and was thus a central figure in the revolutionary reshaping of the scientific understanding of nature that modern physics accomplished in the first decades of the twentieth century. His mass–energy equivalence formula E = mc2, which arises from relativity theory, has been called 'the world's most famous equation'. He received the 1921 Nobel Prize in Physics 'for his services to theoretical physics, and especially for his discovery of the law of the photoelectric effect', a pivotal step in the development of quantum theory. His work is also known for its influence on the philosophy of science. In a 1999 poll of 130 leading physicists worldwide by the British journal Physics World, Einstein was ranked the greatest physicist of all time. His intellectual achievements and originality have made Einstein synonymous with genius.\",\n    \"answer\": \"Albert Einstein, born on 14 March 1879, was a German-born theoretical physicist, widely held to be one of the greatest and most influential scientists of all time. He received the 1921 Nobel Prize in Physics for his services to theoretical physics.\"\n}\nOutput: {\n    \"reason\": \"The provided context was indeed useful in arriving at the given answer. The context includes key information about Albert Einstein's life and contributions, which are reflected in the answer.\",\n    \"verdict\": 1\n}\n\nExample 2\nInput: {\n    \"question\": \"who won 2020 icc world cup?\",\n    \"context\": \"The 2022 ICC Men's T20 World Cup, held from October 16 to November 13, 2022, in Australia, was the eighth edition of the tournament. Originally scheduled for 2020, it was postponed due to the COVID-19 pandemic. England emerged victorious, defeating Pakistan by five wickets in the final to clinch their second ICC Men's T20 World Cup title.\",\n    \"answer\": \"England\"\n}\nOutput: {\n    \"reason\": \"the context was useful in clarifying the situation regarding the 2020 ICC World Cup and indicating that England was the winner of the tournament that was intended to be held in 2020 but actually took place in 2022.\",\n    \"verdict\": 1\n}\n\nExample 3\nInput: {\n    \"question\": \"What is the tallest mountain in the world?\",\n    \"context\": \"The Andes is the longest continental mountain range in the world, located in South America. It stretches across seven countries and features many of the highest peaks in the Western Hemisphere. The range is known for its diverse ecosystems, including the high-altitude Andean Plateau and the Amazon rainforest.\",\n    \"answer\": \"Mount Everest.\"\n}\nOutput: {\n    \"reason\": \"the provided context discusses the Andes mountain range, which, while impressive, does not include Mount Everest or directly relate to the question about the world's tallest mountain.\",\n    \"verdict\": 0\n}\n-----------------------------\n\nNow perform the same with the following input\ninput: {\n    \"question\": \"For POST /upload, what authentication header, maximum file size in bytes, and over-limit status code should the client use?\",\n    \"context\": \"# Project theme\\nThe editor theme is dark green. This is a UI preference and does not configure server requests.\\n\",\n    \"answer\": \"Use the X-Project-Token header. The maximum file size is 1048576 bytes. Larger requests return HTTP 413.\"\n}\nOutput: \nReturn JSON matching this schema:\n{\"description\": \"Structured output for context precision evaluation.\", \"properties\": {\"reason\": {\"description\": \"Reason for verification\", \"title\": \"Reason\", \"type\": \"string\"}, \"verdict\": {\"description\": \"Binary (0/1) verdict of verification\", \"title\": \"Verdict\", \"type\": \"integer\"}}, \"required\": [\"reason\", \"verdict\"], \"title\": \"ContextPrecisionOutput\", \"type\": \"object\"}",
+          "text": "{\"reason\":\"The context only describes a UI theme and explicitly does not configure server requests. It provides none of the authentication header, file-size limit, or HTTP status information stated in the answer.\",\"verdict\":0}",
+          "usage": [
+            {
+              "input_tokens": 16078,
+              "cached_input_tokens": 13440,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 48,
+              "reasoning_output_tokens": 0
+            }
+          ],
+          "reported_model": null,
+          "model_selection": "Codex CLI default; user config ignored",
+          "elapsed_seconds": 6.722,
+          "transport_tool_events": 0,
+          "prompt_sha256": "6d233d8d42c1f3716c09b6dd4c32a638f3cd4cc905230573d507c61bbff35220"
+        },
+        {
+          "prompt": "Given a context and an answer, analyze each statement in the answer and classify if the statement can be attributed to the given context or not.\nUse only binary classification: 1 if the statement can be attributed to the context, 0 if it cannot.\nProvide detailed reasoning for each classification.\nPlease return the output in a JSON format that complies with the following schema as specified in JSON Schema:\n{\"$defs\": {\"ContextRecallClassification\": {\"description\": \"Classification of a single statement.\", \"properties\": {\"statement\": {\"description\": \"Individual statement extracted from the answer\", \"title\": \"Statement\", \"type\": \"string\"}, \"reason\": {\"description\": \"Reasoning for why the statement is or isn't attributable to context\", \"title\": \"Reason\", \"type\": \"string\"}, \"attributed\": {\"description\": \"Binary classification: 1 if the statement can be attributed to context, 0 otherwise\", \"title\": \"Attributed\", \"type\": \"integer\"}}, \"required\": [\"statement\", \"reason\", \"attributed\"], \"title\": \"ContextRecallClassification\", \"type\": \"object\"}}, \"description\": \"Structured output for context recall classifications.\", \"properties\": {\"classifications\": {\"description\": \"List of statement classifications\", \"items\": {\"$ref\": \"#/$defs/ContextRecallClassification\"}, \"title\": \"Classifications\", \"type\": \"array\"}}, \"required\": [\"classifications\"], \"title\": \"ContextRecallOutput\", \"type\": \"object\"}Do not use single quotes in your response but double quotes,properly escaped with a backslash.\n\n--------EXAMPLES-----------\nExample 1\nInput: {\n    \"question\": \"What can you tell me about Albert Einstein?\",\n    \"context\": \"Albert Einstein (14 March 1879 - 18 April 1955) was a German-born theoretical physicist, widely held to be one of the greatest and most influential scientists of all time. Best known for developing the theory of relativity, he also made important contributions to quantum mechanics, and was thus a central figure in the revolutionary reshaping of the scientific understanding of nature that modern physics accomplished in the first decades of the twentieth century. His mass-energy equivalence formula E = mc2, which arises from relativity theory, has been called 'the world's most famous equation'. He received the 1921 Nobel Prize in Physics 'for his services to theoretical physics, and especially for his discovery of the law of the photoelectric effect', a pivotal step in the development of quantum theory. His work is also known for its influence on the philosophy of science. In a 1999 poll of 130 leading physicists worldwide by the British journal Physics World, Einstein was ranked the greatest physicist of all time. His intellectual achievements and originality have made Einstein synonymous with genius.\",\n    \"answer\": \"Albert Einstein, born on 14 March 1879, was a German-born theoretical physicist, widely held to be one of the greatest and most influential scientists of all time. He received the 1921 Nobel Prize in Physics for his services to theoretical physics. He published 4 papers in 1905. Einstein moved to Switzerland in 1895.\"\n}\nOutput: {\n    \"classifications\": [\n        {\n            \"statement\": \"Albert Einstein, born on 14 March 1879, was a German-born theoretical physicist, widely held to be one of the greatest and most influential scientists of all time.\",\n            \"reason\": \"The date of birth of Einstein is mentioned clearly in the context.\",\n            \"attributed\": 1\n        },\n        {\n            \"statement\": \"He received the 1921 Nobel Prize in Physics for his services to theoretical physics.\",\n            \"reason\": \"The exact sentence is present in the given context.\",\n            \"attributed\": 1\n        },\n        {\n            \"statement\": \"He published 4 papers in 1905.\",\n            \"reason\": \"There is no mention about papers he wrote in the given context.\",\n            \"attributed\": 0\n        },\n        {\n            \"statement\": \"Einstein moved to Switzerland in 1895.\",\n            \"reason\": \"There is no supporting evidence for this in the given context.\",\n            \"attributed\": 0\n        }\n    ]\n}\n\nExample 2\nInput: {\n    \"question\": \"who won 2020 icc world cup?\",\n    \"context\": \"The 2022 ICC Men's T20 World Cup, held from October 16 to November 13, 2022, in Australia, was the eighth edition of the tournament. Originally scheduled for 2020, it was postponed due to the COVID-19 pandemic. England emerged victorious, defeating Pakistan by five wickets in the final to clinch their second ICC Men's T20 World Cup title.\",\n    \"answer\": \"England\"\n}\nOutput: {\n    \"classifications\": [\n        {\n            \"statement\": \"England\",\n            \"reason\": \"The context clarifies that England won the 2022 edition (which was originally scheduled for 2020).\",\n            \"attributed\": 1\n        }\n    ]\n}\n\nExample 3\nInput: {\n    \"question\": \"What is the tallest mountain in the world?\",\n    \"context\": \"The Andes is the longest continental mountain range in the world, located in South America. It stretches across seven countries and features many of the highest peaks in the Western Hemisphere. The range is known for its diverse ecosystems, including the high-altitude Andean Plateau and the Amazon rainforest.\",\n    \"answer\": \"Mount Everest.\"\n}\nOutput: {\n    \"classifications\": [\n        {\n            \"statement\": \"Mount Everest.\",\n            \"reason\": \"The provided context discusses the Andes mountain range, which does not include Mount Everest or directly relate to the world's tallest mountain.\",\n            \"attributed\": 0\n        }\n    ]\n}\n-----------------------------\n\nNow perform the same with the following input\ninput: {\n    \"question\": \"For POST /upload, what authentication header, maximum file size in bytes, and over-limit status code should the client use?\",\n    \"context\": \"# Upload API authentication\\nFor POST /upload, send the API token in the X-Project-Token header. This endpoint accepts file uploads.\\n\\n# Upload API size limit\\nPOST /upload accepts files up to 1048576 bytes (1 MiB). Larger requests return HTTP 413. Check the file size before sending.\\n\\n# Project theme\\nThe editor theme is dark green. This is a UI preference and does not configure server requests.\\n\",\n    \"answer\": \"Use the X-Project-Token header. The maximum file size is 1048576 bytes. Larger requests return HTTP 413.\"\n}\nOutput: \nReturn JSON matching this schema:\n{\"$defs\": {\"ContextRecallClassification\": {\"description\": \"Classification of a single statement.\", \"properties\": {\"statement\": {\"description\": \"Individual statement extracted from the answer\", \"title\": \"Statement\", \"type\": \"string\"}, \"reason\": {\"description\": \"Reasoning for why the statement is or isn't attributable to context\", \"title\": \"Reason\", \"type\": \"string\"}, \"attributed\": {\"description\": \"Binary classification: 1 if the statement can be attributed to context, 0 otherwise\", \"title\": \"Attributed\", \"type\": \"integer\"}}, \"required\": [\"statement\", \"reason\", \"attributed\"], \"title\": \"ContextRecallClassification\", \"type\": \"object\"}}, \"description\": \"Structured output for context recall classifications.\", \"properties\": {\"classifications\": {\"description\": \"List of statement classifications\", \"items\": {\"$ref\": \"#/$defs/ContextRecallClassification\"}, \"title\": \"Classifications\", \"type\": \"array\"}}, \"required\": [\"classifications\"], \"title\": \"ContextRecallOutput\", \"type\": \"object\"}",
+          "text": "{\"classifications\":[{\"statement\":\"Use the X-Project-Token header.\",\"reason\":\"The context explicitly states that POST /upload requires the API token in the X-Project-Token header.\",\"attributed\":1},{\"statement\":\"The maximum file size is 1048576 bytes.\",\"reason\":\"The context explicitly states that POST /upload accepts files up to 1048576 bytes.\",\"attributed\":1},{\"statement\":\"Larger requests return HTTP 413.\",\"reason\":\"The context explicitly states that requests exceeding the file-size limit return HTTP 413.\",\"attributed\":1}]}",
+          "usage": [
+            {
+              "input_tokens": 16629,
+              "cached_input_tokens": 13440,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 120,
+              "reasoning_output_tokens": 0
+            }
+          ],
+          "reported_model": null,
+          "model_selection": "Codex CLI default; user config ignored",
+          "elapsed_seconds": 8.401,
+          "transport_tool_events": 0,
+          "prompt_sha256": "4c710416ae07a21ff7b781299d4f594e2e3369140cde4b423dafd53295ef51a3"
+        }
+      ]
+    },
+    {
+      "name": "late",
+      "documents": [
+        {
+          "id": "e04/noise.md",
+          "text": "# Project theme\nThe editor theme is dark green. This is a UI preference and does not configure server requests.\n",
+          "sha256": "66ae3f3dd49daf1f20ef141b27cda4e068b99258e677cb5956f437da04e27017"
+        },
+        {
+          "id": "e04/auth.md",
+          "text": "# Upload API authentication\nFor POST /upload, send the API token in the X-Project-Token header. This endpoint accepts file uploads.\n",
+          "sha256": "c679cde9b3a727c786041a104888227dad4338379942276adeba9f3e211c335f"
+        },
+        {
+          "id": "e04/limits.md",
+          "text": "# Upload API size limit\nPOST /upload accepts files up to 1048576 bytes (1 MiB). Larger requests return HTTP 413. Check the file size before sending.\n",
+          "sha256": "a742717e40c3a2af1a7c2fee961c06ee9d91872b8d09b81089159a057af1d949"
+        }
+      ],
+      "rules": {
+        "precision": 0.6666666666666666,
+        "recall": 1.0,
+        "ap_retrieved": 0.5833333333333333,
+        "ap_reference": 0.5833333333333333,
+        "mrr": 0.5,
+        "ndcg": 0.6934264036172708,
+        "relevance": [
+          0,
+          1,
+          1
+        ],
+        "deduplication": "first occurrence by document ID"
+      },
+      "sdk": {
+        "ContextualPrecisionMetric": {
+          "score": 0.5833333333333333,
+          "passed": false,
+          "verdicts": [
+            {
+              "verdict": "no",
+              "reason": "The context says the editor theme is a \"UI preference\" and \"does not configure server requests,\" so it does not help answer the upload authentication or size-limit question."
+            },
+            {
+              "verdict": "yes",
+              "reason": "It directly states that for \"POST /upload,\" the client should send the API token in the \"X-Project-Token header.\""
+            },
+            {
+              "verdict": "yes",
+              "reason": "It directly provides both remaining details: files are accepted \"up to 1048576 bytes\" and \"Larger requests return HTTP 413.\""
+            }
+          ]
+        },
+        "ContextualRecallMetric": {
+          "score": 1.0,
+          "passed": true,
+          "verdicts": [
+            {
+              "verdict": "yes",
+              "reason": "The 2nd node states: “send the API token in the X-Project-Token header.”",
+              "expected_output": "Use the X-Project-Token header. The maximum file size is 1048576 bytes. Larger requests return HTTP 413."
+            },
+            {
+              "verdict": "yes",
+              "reason": "The 3rd node states: “accepts files up to 1048576 bytes...”",
+              "expected_output": "Use the X-Project-Token header. The maximum file size is 1048576 bytes. Larger requests return HTTP 413."
+            },
+            {
+              "verdict": "yes",
+              "reason": "The 3rd node states: “Larger requests return HTTP 413.”",
+              "expected_output": "Use the X-Project-Token header. The maximum file size is 1048576 bytes. Larger requests return HTTP 413."
+            }
+          ]
+        },
+        "ContextualRelevancyMetric": {
+          "score": null,
+          "error": "'ContextualRelevancyMetric' object has no attribute 'verdicts'"
+        },
+        "RagasContextPrecisionWithReference": {
+          "score": 0.5833333333041666,
+          "passed": false
+        },
+        "RagasContextRecall": {
+          "score": 1.0,
+          "passed": true
+        }
+      },
+      "calls": [
+        {
+          "prompt": "Given the input, expected output, and retrieval context, please generate a list of JSON objects to determine whether each node in the retrieval context was remotely useful in arriving at the expected output.\n\n**\nIMPORTANT: Please make sure to only return in JSON format, with the 'verdicts' key as a list of JSON. These JSON only contain the `verdict` key that outputs only 'yes' or 'no', and a `reason` key to justify the verdict. In your reason, you should aim to quote parts of the context .\nExample Retrieval Context: [\"Einstein won the Nobel Prize for his discovery of the photoelectric effect\", \"He won the Nobel Prize in 1968.\", \"There was a cat.\"]\nExample Input: \"Who won the Nobel Prize in 1968 and for what?\"\nExample Expected Output: \"Einstein won the Nobel Prize in 1968 for his discovery of the photoelectric effect.\"\n\nExample:\n{\n  \"verdicts\": [\n    {\n      \"reason\": \"It clearly addresses the question by stating that 'Einstein won the Nobel Prize for his discovery of the photoelectric effect.'\",\n      \"verdict\": \"yes\"\n    },\n    {\n      \"reason\": \"The text verifies that the prize was indeed won in 1968.\",\n      \"verdict\": \"yes\"\n    },\n    {\n      \"reason\": \"'There was a cat' is not at all relevant to the topic of winning a Nobel Prize.\",\n      \"verdict\": \"no\"\n    }\n  ]  \n}\nSince you are going to generate a verdict for each context, the number of 'verdicts' SHOULD BE STRICTLY EQUAL to that of the contexts.\n**\n\nInput:\nFor POST /upload, what authentication header, maximum file size in bytes, and over-limit status code should the client use?\n\nExpected output:\nUse the X-Project-Token header. The maximum file size is 1048576 bytes. Larger requests return HTTP 413.\n\nRetrieval Context  (3 documents):\n['# Project theme\\nThe editor theme is dark green. This is a UI preference and does not configure server requests.\\n', '# Upload API authentication\\nFor POST /upload, send the API token in the X-Project-Token header. This endpoint accepts file uploads.\\n', '# Upload API size limit\\nPOST /upload accepts files up to 1048576 bytes (1 MiB). Larger requests return HTTP 413. Check the file size before sending.\\n']\n\nJSON:",
+          "text": "{\"verdicts\":[{\"verdict\":\"no\",\"reason\":\"The context says the editor theme is a \\\"UI preference\\\" and \\\"does not configure server requests,\\\" so it does not help answer the upload authentication or size-limit question.\"},{\"verdict\":\"yes\",\"reason\":\"It directly states that for \\\"POST /upload,\\\" the client should send the API token in the \\\"X-Project-Token header.\\\"\"},{\"verdict\":\"yes\",\"reason\":\"It directly provides both remaining details: files are accepted \\\"up to 1048576 bytes\\\" and \\\"Larger requests return HTTP 413.\\\"\"}]}",
+          "usage": [
+            {
+              "input_tokens": 15533,
+              "cached_input_tokens": 13440,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 125,
+              "reasoning_output_tokens": 0
+            }
+          ],
+          "reported_model": null,
+          "model_selection": "Codex CLI default; user config ignored",
+          "elapsed_seconds": 7.362,
+          "transport_tool_events": 0,
+          "prompt_sha256": "5f87b9af6a299f25abb5ec8e5810ad38d64b1aafb58ff1c2e8e43af2918694a7"
+        },
+        {
+          "prompt": "For EACH sentence in the given expected output below, determine whether the sentence can be attributed to the nodes of retrieval contexts. Please generate a list of JSON with two keys: `verdict` and `reason`.\nThe `verdict` key should STRICTLY be either a 'yes' or 'no'. Answer 'yes' if the sentence can be attributed to any parts of the retrieval context, else answer 'no'.\nThe `reason` key should provide a reason why to the verdict. In the reason, you should aim to include the node(s) count in the retrieval context (eg., 1st node, and 2nd node in the retrieval context) that is attributed to said sentence. You should also aim to quote the specific part of the retrieval context to justify your verdict, but keep it extremely concise and cut short the quote with an ellipsis if possible. \n\n**\nIMPORTANT: Please make sure to only return in JSON format, with the 'verdicts' key as a list of JSON objects, each with two keys: `verdict` and `reason`.\n\n{\n  \"verdicts\": [\n    {\n      \"reason\": \"...\",\n      \"verdict\": \"yes\"\n    },\n    ...\n  ]  \n}\n\nSince you are going to generate a verdict for each sentence, the number of 'verdicts' SHOULD BE STRICTLY EQUAL to the number of sentences in `expected output`.\n**\n\nExpected Output:\nUse the X-Project-Token header. The maximum file size is 1048576 bytes. Larger requests return HTTP 413.\n\nRetrieval Context:\n['# Project theme\\nThe editor theme is dark green. This is a UI preference and does not configure server requests.\\n', '# Upload API authentication\\nFor POST /upload, send the API token in the X-Project-Token header. This endpoint accepts file uploads.\\n', '# Upload API size limit\\nPOST /upload accepts files up to 1048576 bytes (1 MiB). Larger requests return HTTP 413. Check the file size before sending.\\n']\n\nJSON:",
+          "text": "{\"verdicts\":[{\"verdict\":\"yes\",\"reason\":\"The 2nd node states: “send the API token in the X-Project-Token header.”\"},{\"verdict\":\"yes\",\"reason\":\"The 3rd node states: “accepts files up to 1048576 bytes...”\"},{\"verdict\":\"yes\",\"reason\":\"The 3rd node states: “Larger requests return HTTP 413.”\"}]}",
+          "usage": [
+            {
+              "input_tokens": 15446,
+              "cached_input_tokens": 13440,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 91,
+              "reasoning_output_tokens": 0
+            }
+          ],
+          "reported_model": null,
+          "model_selection": "Codex CLI default; user config ignored",
+          "elapsed_seconds": 7.658,
+          "transport_tool_events": 0,
+          "prompt_sha256": "251fe45339e702dbe8e835d93518e4b00deb5640494b46a20f160d8fcd2513aa"
+        },
+        {
+          "prompt": "Based on the input and context, please generate a JSON object to indicate whether each statement found in the context is relevant to the provided input. The JSON will be a list of 'verdicts', with 2 mandatory fields: 'verdict' and 'statement', and 1 optional field: 'reason'.\nYou should first extract statements found in the context, which are high level information found in the context, before deciding on a verdict and optionally a reason for each statement.\nThe 'verdict' key should STRICTLY be either 'yes' or 'no', and states whether the statement is relevant to the input.\nProvide a 'reason' ONLY IF verdict is no. You MUST quote the irrelevant parts of the statement to back up your reason.\nIf provided context contains no actual content or statements then: give \"no\" as a \"verdict\",\nput context into \"statement\", and \"No statements found in provided context.\" into \"reason\".\n**\nIMPORTANT: Please make sure to only return in JSON format.\nExample Context: \"Einstein won the Nobel Prize for his discovery of the photoelectric effect. He won the Nobel Prize in 1968. There was a cat.\"\nExample Input: \"What were some of Einstein's achievements?\"\n\nExample:\n{\n  \"verdicts\": [\n    {\n      \"statement\": \"Einstein won the Nobel Prize for his discovery of the photoelectric effect in 1968\",\n      \"verdict\": \"yes\"\n    },\n    {\n      \"statement\": \"There was a cat.\",\n      \"reason\": \"The retrieval context contained the information 'There was a cat' when it has nothing to do with Einstein's achievements.\",\n      \"verdict\": \"no\"\n    }\n  ]\n}\n**\n\nInput:\nFor POST /upload, what authentication header, maximum file size in bytes, and over-limit status code should the client use?\n\nContext:\n# Project theme\nThe editor theme is dark green. This is a UI preference and does not configure server requests.\n\n\nJSON:",
+          "text": "{\"verdicts\":[{\"statement\":\"The editor theme is dark green.\",\"verdict\":\"no\",\"reason\":\"The information 'editor theme is dark green' is unrelated to the authentication header, maximum file size, or over-limit status code for POST /upload.\"},{\"statement\":\"The dark green editor theme is a UI preference and does not configure server requests.\",\"verdict\":\"no\",\"reason\":\"The statement describes a 'UI preference' and provides none of the requested POST /upload configuration details.\"}]}",
+          "usage": [
+            {
+              "input_tokens": 15429,
+              "cached_input_tokens": 13440,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 104,
+              "reasoning_output_tokens": 0
+            }
+          ],
+          "reported_model": null,
+          "model_selection": "Codex CLI default; user config ignored",
+          "elapsed_seconds": 6.629,
+          "transport_tool_events": 0,
+          "prompt_sha256": "a1a6f26235c5c0cc7e956f7cca4f42f69017f105e11ce1c0fe8bd89c03c2fefa"
+        },
+        {
+          "prompt": "Based on the input and context, please generate a JSON object to indicate whether each statement found in the context is relevant to the provided input. The JSON will be a list of 'verdicts', with 2 mandatory fields: 'verdict' and 'statement', and 1 optional field: 'reason'.\nYou should first extract statements found in the context, which are high level information found in the context, before deciding on a verdict and optionally a reason for each statement.\nThe 'verdict' key should STRICTLY be either 'yes' or 'no', and states whether the statement is relevant to the input.\nProvide a 'reason' ONLY IF verdict is no. You MUST quote the irrelevant parts of the statement to back up your reason.\nIf provided context contains no actual content or statements then: give \"no\" as a \"verdict\",\nput context into \"statement\", and \"No statements found in provided context.\" into \"reason\".\n**\nIMPORTANT: Please make sure to only return in JSON format.\nExample Context: \"Einstein won the Nobel Prize for his discovery of the photoelectric effect. He won the Nobel Prize in 1968. There was a cat.\"\nExample Input: \"What were some of Einstein's achievements?\"\n\nExample:\n{\n  \"verdicts\": [\n    {\n      \"statement\": \"Einstein won the Nobel Prize for his discovery of the photoelectric effect in 1968\",\n      \"verdict\": \"yes\"\n    },\n    {\n      \"statement\": \"There was a cat.\",\n      \"reason\": \"The retrieval context contained the information 'There was a cat' when it has nothing to do with Einstein's achievements.\",\n      \"verdict\": \"no\"\n    }\n  ]\n}\n**\n\nInput:\nFor POST /upload, what authentication header, maximum file size in bytes, and over-limit status code should the client use?\n\nContext:\n# Upload API authentication\nFor POST /upload, send the API token in the X-Project-Token header. This endpoint accepts file uploads.\n\n\nJSON:",
+          "text": "{\"verdicts\":[{\"statement\":\"For POST /upload, send the API token in the X-Project-Token header.\",\"verdict\":\"yes\"},{\"statement\":\"POST /upload accepts file uploads.\",\"verdict\":\"yes\"}]}",
+          "usage": [
+            {
+              "input_tokens": 15439,
+              "cached_input_tokens": 13440,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 50,
+              "reasoning_output_tokens": 0
+            }
+          ],
+          "reported_model": null,
+          "model_selection": "Codex CLI default; user config ignored",
+          "elapsed_seconds": 5.368,
+          "transport_tool_events": 0,
+          "prompt_sha256": "9532e9505eb0df9a53d1532cf34e65f3cbebdd4375bce68419c8f8e6e60ca392"
+        },
+        {
+          "prompt": "Based on the input and context, please generate a JSON object to indicate whether each statement found in the context is relevant to the provided input. The JSON will be a list of 'verdicts', with 2 mandatory fields: 'verdict' and 'statement', and 1 optional field: 'reason'.\nYou should first extract statements found in the context, which are high level information found in the context, before deciding on a verdict and optionally a reason for each statement.\nThe 'verdict' key should STRICTLY be either 'yes' or 'no', and states whether the statement is relevant to the input.\nProvide a 'reason' ONLY IF verdict is no. You MUST quote the irrelevant parts of the statement to back up your reason.\nIf provided context contains no actual content or statements then: give \"no\" as a \"verdict\",\nput context into \"statement\", and \"No statements found in provided context.\" into \"reason\".\n**\nIMPORTANT: Please make sure to only return in JSON format.\nExample Context: \"Einstein won the Nobel Prize for his discovery of the photoelectric effect. He won the Nobel Prize in 1968. There was a cat.\"\nExample Input: \"What were some of Einstein's achievements?\"\n\nExample:\n{\n  \"verdicts\": [\n    {\n      \"statement\": \"Einstein won the Nobel Prize for his discovery of the photoelectric effect in 1968\",\n      \"verdict\": \"yes\"\n    },\n    {\n      \"statement\": \"There was a cat.\",\n      \"reason\": \"The retrieval context contained the information 'There was a cat' when it has nothing to do with Einstein's achievements.\",\n      \"verdict\": \"no\"\n    }\n  ]\n}\n**\n\nInput:\nFor POST /upload, what authentication header, maximum file size in bytes, and over-limit status code should the client use?\n\nContext:\n# Upload API size limit\nPOST /upload accepts files up to 1048576 bytes (1 MiB). Larger requests return HTTP 413. Check the file size before sending.\n\n\nJSON:",
+          "text": "{\"verdicts\":[{\"statement\":\"POST /upload accepts files up to 1048576 bytes (1 MiB).\",\"verdict\":\"yes\"},{\"statement\":\"Requests larger than the maximum file size return HTTP 413.\",\"verdict\":\"yes\"},{\"statement\":\"The client should check the file size before sending.\",\"verdict\":\"yes\"}]}",
+          "usage": [
+            {
+              "input_tokens": 15445,
+              "cached_input_tokens": 13440,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 121,
+              "reasoning_output_tokens": 47
+            }
+          ],
+          "reported_model": null,
+          "model_selection": "Codex CLI default; user config ignored",
+          "elapsed_seconds": 7.332,
+          "transport_tool_events": 0,
+          "prompt_sha256": "9a1dadd75bb4de23428b9f3eb6afaf237c9512f506126bfc8bb11e199d528214"
+        },
+        {
+          "prompt": "Given question, answer and context verify if the context was useful in arriving at the given answer. Give verdict as \"1\" if useful and \"0\" if not with json output.\nPlease return the output in a JSON format that complies with the following schema as specified in JSON Schema:\n{\"description\": \"Structured output for context precision evaluation.\", \"properties\": {\"reason\": {\"description\": \"Reason for verification\", \"title\": \"Reason\", \"type\": \"string\"}, \"verdict\": {\"description\": \"Binary (0/1) verdict of verification\", \"title\": \"Verdict\", \"type\": \"integer\"}}, \"required\": [\"reason\", \"verdict\"], \"title\": \"ContextPrecisionOutput\", \"type\": \"object\"}Do not use single quotes in your response but double quotes,properly escaped with a backslash.\n\n--------EXAMPLES-----------\nExample 1\nInput: {\n    \"question\": \"What can you tell me about Albert Einstein?\",\n    \"context\": \"Albert Einstein (14 March 1879 – 18 April 1955) was a German-born theoretical physicist, widely held to be one of the greatest and most influential scientists of all time. Best known for developing the theory of relativity, he also made important contributions to quantum mechanics, and was thus a central figure in the revolutionary reshaping of the scientific understanding of nature that modern physics accomplished in the first decades of the twentieth century. His mass–energy equivalence formula E = mc2, which arises from relativity theory, has been called 'the world's most famous equation'. He received the 1921 Nobel Prize in Physics 'for his services to theoretical physics, and especially for his discovery of the law of the photoelectric effect', a pivotal step in the development of quantum theory. His work is also known for its influence on the philosophy of science. In a 1999 poll of 130 leading physicists worldwide by the British journal Physics World, Einstein was ranked the greatest physicist of all time. His intellectual achievements and originality have made Einstein synonymous with genius.\",\n    \"answer\": \"Albert Einstein, born on 14 March 1879, was a German-born theoretical physicist, widely held to be one of the greatest and most influential scientists of all time. He received the 1921 Nobel Prize in Physics for his services to theoretical physics.\"\n}\nOutput: {\n    \"reason\": \"The provided context was indeed useful in arriving at the given answer. The context includes key information about Albert Einstein's life and contributions, which are reflected in the answer.\",\n    \"verdict\": 1\n}\n\nExample 2\nInput: {\n    \"question\": \"who won 2020 icc world cup?\",\n    \"context\": \"The 2022 ICC Men's T20 World Cup, held from October 16 to November 13, 2022, in Australia, was the eighth edition of the tournament. Originally scheduled for 2020, it was postponed due to the COVID-19 pandemic. England emerged victorious, defeating Pakistan by five wickets in the final to clinch their second ICC Men's T20 World Cup title.\",\n    \"answer\": \"England\"\n}\nOutput: {\n    \"reason\": \"the context was useful in clarifying the situation regarding the 2020 ICC World Cup and indicating that England was the winner of the tournament that was intended to be held in 2020 but actually took place in 2022.\",\n    \"verdict\": 1\n}\n\nExample 3\nInput: {\n    \"question\": \"What is the tallest mountain in the world?\",\n    \"context\": \"The Andes is the longest continental mountain range in the world, located in South America. It stretches across seven countries and features many of the highest peaks in the Western Hemisphere. The range is known for its diverse ecosystems, including the high-altitude Andean Plateau and the Amazon rainforest.\",\n    \"answer\": \"Mount Everest.\"\n}\nOutput: {\n    \"reason\": \"the provided context discusses the Andes mountain range, which, while impressive, does not include Mount Everest or directly relate to the question about the world's tallest mountain.\",\n    \"verdict\": 0\n}\n-----------------------------\n\nNow perform the same with the following input\ninput: {\n    \"question\": \"For POST /upload, what authentication header, maximum file size in bytes, and over-limit status code should the client use?\",\n    \"context\": \"# Project theme\\nThe editor theme is dark green. This is a UI preference and does not configure server requests.\\n\",\n    \"answer\": \"Use the X-Project-Token header. The maximum file size is 1048576 bytes. Larger requests return HTTP 413.\"\n}\nOutput: \nReturn JSON matching this schema:\n{\"description\": \"Structured output for context precision evaluation.\", \"properties\": {\"reason\": {\"description\": \"Reason for verification\", \"title\": \"Reason\", \"type\": \"string\"}, \"verdict\": {\"description\": \"Binary (0/1) verdict of verification\", \"title\": \"Verdict\", \"type\": \"integer\"}}, \"required\": [\"reason\", \"verdict\"], \"title\": \"ContextPrecisionOutput\", \"type\": \"object\"}",
+          "text": "{\"reason\":\"The context only describes a UI theme and explicitly states that it does not configure server requests. It provides none of the authentication header, file-size limit, or HTTP status code given in the answer.\",\"verdict\":0}",
+          "usage": [
+            {
+              "input_tokens": 16076,
+              "cached_input_tokens": 13440,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 51,
+              "reasoning_output_tokens": 0
+            }
+          ],
+          "reported_model": null,
+          "model_selection": "Codex CLI default; user config ignored",
+          "elapsed_seconds": 7.997,
+          "transport_tool_events": 0,
+          "prompt_sha256": "6d233d8d42c1f3716c09b6dd4c32a638f3cd4cc905230573d507c61bbff35220"
+        },
+        {
+          "prompt": "Given question, answer and context verify if the context was useful in arriving at the given answer. Give verdict as \"1\" if useful and \"0\" if not with json output.\nPlease return the output in a JSON format that complies with the following schema as specified in JSON Schema:\n{\"description\": \"Structured output for context precision evaluation.\", \"properties\": {\"reason\": {\"description\": \"Reason for verification\", \"title\": \"Reason\", \"type\": \"string\"}, \"verdict\": {\"description\": \"Binary (0/1) verdict of verification\", \"title\": \"Verdict\", \"type\": \"integer\"}}, \"required\": [\"reason\", \"verdict\"], \"title\": \"ContextPrecisionOutput\", \"type\": \"object\"}Do not use single quotes in your response but double quotes,properly escaped with a backslash.\n\n--------EXAMPLES-----------\nExample 1\nInput: {\n    \"question\": \"What can you tell me about Albert Einstein?\",\n    \"context\": \"Albert Einstein (14 March 1879 – 18 April 1955) was a German-born theoretical physicist, widely held to be one of the greatest and most influential scientists of all time. Best known for developing the theory of relativity, he also made important contributions to quantum mechanics, and was thus a central figure in the revolutionary reshaping of the scientific understanding of nature that modern physics accomplished in the first decades of the twentieth century. His mass–energy equivalence formula E = mc2, which arises from relativity theory, has been called 'the world's most famous equation'. He received the 1921 Nobel Prize in Physics 'for his services to theoretical physics, and especially for his discovery of the law of the photoelectric effect', a pivotal step in the development of quantum theory. His work is also known for its influence on the philosophy of science. In a 1999 poll of 130 leading physicists worldwide by the British journal Physics World, Einstein was ranked the greatest physicist of all time. His intellectual achievements and originality have made Einstein synonymous with genius.\",\n    \"answer\": \"Albert Einstein, born on 14 March 1879, was a German-born theoretical physicist, widely held to be one of the greatest and most influential scientists of all time. He received the 1921 Nobel Prize in Physics for his services to theoretical physics.\"\n}\nOutput: {\n    \"reason\": \"The provided context was indeed useful in arriving at the given answer. The context includes key information about Albert Einstein's life and contributions, which are reflected in the answer.\",\n    \"verdict\": 1\n}\n\nExample 2\nInput: {\n    \"question\": \"who won 2020 icc world cup?\",\n    \"context\": \"The 2022 ICC Men's T20 World Cup, held from October 16 to November 13, 2022, in Australia, was the eighth edition of the tournament. Originally scheduled for 2020, it was postponed due to the COVID-19 pandemic. England emerged victorious, defeating Pakistan by five wickets in the final to clinch their second ICC Men's T20 World Cup title.\",\n    \"answer\": \"England\"\n}\nOutput: {\n    \"reason\": \"the context was useful in clarifying the situation regarding the 2020 ICC World Cup and indicating that England was the winner of the tournament that was intended to be held in 2020 but actually took place in 2022.\",\n    \"verdict\": 1\n}\n\nExample 3\nInput: {\n    \"question\": \"What is the tallest mountain in the world?\",\n    \"context\": \"The Andes is the longest continental mountain range in the world, located in South America. It stretches across seven countries and features many of the highest peaks in the Western Hemisphere. The range is known for its diverse ecosystems, including the high-altitude Andean Plateau and the Amazon rainforest.\",\n    \"answer\": \"Mount Everest.\"\n}\nOutput: {\n    \"reason\": \"the provided context discusses the Andes mountain range, which, while impressive, does not include Mount Everest or directly relate to the question about the world's tallest mountain.\",\n    \"verdict\": 0\n}\n-----------------------------\n\nNow perform the same with the following input\ninput: {\n    \"question\": \"For POST /upload, what authentication header, maximum file size in bytes, and over-limit status code should the client use?\",\n    \"context\": \"# Upload API authentication\\nFor POST /upload, send the API token in the X-Project-Token header. This endpoint accepts file uploads.\\n\",\n    \"answer\": \"Use the X-Project-Token header. The maximum file size is 1048576 bytes. Larger requests return HTTP 413.\"\n}\nOutput: \nReturn JSON matching this schema:\n{\"description\": \"Structured output for context precision evaluation.\", \"properties\": {\"reason\": {\"description\": \"Reason for verification\", \"title\": \"Reason\", \"type\": \"string\"}, \"verdict\": {\"description\": \"Binary (0/1) verdict of verification\", \"title\": \"Verdict\", \"type\": \"integer\"}}, \"required\": [\"reason\", \"verdict\"], \"title\": \"ContextPrecisionOutput\", \"type\": \"object\"}",
+          "text": "{\"reason\":\"The context was only partially useful: it supports the X-Project-Token header, but it provides neither the 1048576-byte maximum file size nor the HTTP 413 over-limit status code stated in the answer.\",\"verdict\":1}",
+          "usage": [
+            {
+              "input_tokens": 16084,
+              "cached_input_tokens": 13440,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 56,
+              "reasoning_output_tokens": 0
+            }
+          ],
+          "reported_model": null,
+          "model_selection": "Codex CLI default; user config ignored",
+          "elapsed_seconds": 7.089,
+          "transport_tool_events": 0,
+          "prompt_sha256": "6585d6c0db1a9939ee76dd57e00c02911236dd33d9a0597c98a71a6adf1099d1"
+        },
+        {
+          "prompt": "Given question, answer and context verify if the context was useful in arriving at the given answer. Give verdict as \"1\" if useful and \"0\" if not with json output.\nPlease return the output in a JSON format that complies with the following schema as specified in JSON Schema:\n{\"description\": \"Structured output for context precision evaluation.\", \"properties\": {\"reason\": {\"description\": \"Reason for verification\", \"title\": \"Reason\", \"type\": \"string\"}, \"verdict\": {\"description\": \"Binary (0/1) verdict of verification\", \"title\": \"Verdict\", \"type\": \"integer\"}}, \"required\": [\"reason\", \"verdict\"], \"title\": \"ContextPrecisionOutput\", \"type\": \"object\"}Do not use single quotes in your response but double quotes,properly escaped with a backslash.\n\n--------EXAMPLES-----------\nExample 1\nInput: {\n    \"question\": \"What can you tell me about Albert Einstein?\",\n    \"context\": \"Albert Einstein (14 March 1879 – 18 April 1955) was a German-born theoretical physicist, widely held to be one of the greatest and most influential scientists of all time. Best known for developing the theory of relativity, he also made important contributions to quantum mechanics, and was thus a central figure in the revolutionary reshaping of the scientific understanding of nature that modern physics accomplished in the first decades of the twentieth century. His mass–energy equivalence formula E = mc2, which arises from relativity theory, has been called 'the world's most famous equation'. He received the 1921 Nobel Prize in Physics 'for his services to theoretical physics, and especially for his discovery of the law of the photoelectric effect', a pivotal step in the development of quantum theory. His work is also known for its influence on the philosophy of science. In a 1999 poll of 130 leading physicists worldwide by the British journal Physics World, Einstein was ranked the greatest physicist of all time. His intellectual achievements and originality have made Einstein synonymous with genius.\",\n    \"answer\": \"Albert Einstein, born on 14 March 1879, was a German-born theoretical physicist, widely held to be one of the greatest and most influential scientists of all time. He received the 1921 Nobel Prize in Physics for his services to theoretical physics.\"\n}\nOutput: {\n    \"reason\": \"The provided context was indeed useful in arriving at the given answer. The context includes key information about Albert Einstein's life and contributions, which are reflected in the answer.\",\n    \"verdict\": 1\n}\n\nExample 2\nInput: {\n    \"question\": \"who won 2020 icc world cup?\",\n    \"context\": \"The 2022 ICC Men's T20 World Cup, held from October 16 to November 13, 2022, in Australia, was the eighth edition of the tournament. Originally scheduled for 2020, it was postponed due to the COVID-19 pandemic. England emerged victorious, defeating Pakistan by five wickets in the final to clinch their second ICC Men's T20 World Cup title.\",\n    \"answer\": \"England\"\n}\nOutput: {\n    \"reason\": \"the context was useful in clarifying the situation regarding the 2020 ICC World Cup and indicating that England was the winner of the tournament that was intended to be held in 2020 but actually took place in 2022.\",\n    \"verdict\": 1\n}\n\nExample 3\nInput: {\n    \"question\": \"What is the tallest mountain in the world?\",\n    \"context\": \"The Andes is the longest continental mountain range in the world, located in South America. It stretches across seven countries and features many of the highest peaks in the Western Hemisphere. The range is known for its diverse ecosystems, including the high-altitude Andean Plateau and the Amazon rainforest.\",\n    \"answer\": \"Mount Everest.\"\n}\nOutput: {\n    \"reason\": \"the provided context discusses the Andes mountain range, which, while impressive, does not include Mount Everest or directly relate to the question about the world's tallest mountain.\",\n    \"verdict\": 0\n}\n-----------------------------\n\nNow perform the same with the following input\ninput: {\n    \"question\": \"For POST /upload, what authentication header, maximum file size in bytes, and over-limit status code should the client use?\",\n    \"context\": \"# Upload API size limit\\nPOST /upload accepts files up to 1048576 bytes (1 MiB). Larger requests return HTTP 413. Check the file size before sending.\\n\",\n    \"answer\": \"Use the X-Project-Token header. The maximum file size is 1048576 bytes. Larger requests return HTTP 413.\"\n}\nOutput: \nReturn JSON matching this schema:\n{\"description\": \"Structured output for context precision evaluation.\", \"properties\": {\"reason\": {\"description\": \"Reason for verification\", \"title\": \"Reason\", \"type\": \"string\"}, \"verdict\": {\"description\": \"Binary (0/1) verdict of verification\", \"title\": \"Verdict\", \"type\": \"integer\"}}, \"required\": [\"reason\", \"verdict\"], \"title\": \"ContextPrecisionOutput\", \"type\": \"object\"}",
+          "text": "{\"reason\":\"The context supports the maximum file size of 1048576 bytes and the HTTP 413 over-limit status code, but it does not mention or support the X-Project-Token authentication header.\",\"verdict\":1}",
+          "usage": [
+            {
+              "input_tokens": 16092,
+              "cached_input_tokens": 13440,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 51,
+              "reasoning_output_tokens": 0
+            }
+          ],
+          "reported_model": null,
+          "model_selection": "Codex CLI default; user config ignored",
+          "elapsed_seconds": 6.961,
+          "transport_tool_events": 0,
+          "prompt_sha256": "09a8954d0da021718e34862d612c19a6f0f02ef02fff933bc0a6f053184026de"
+        },
+        {
+          "prompt": "Given a context and an answer, analyze each statement in the answer and classify if the statement can be attributed to the given context or not.\nUse only binary classification: 1 if the statement can be attributed to the context, 0 if it cannot.\nProvide detailed reasoning for each classification.\nPlease return the output in a JSON format that complies with the following schema as specified in JSON Schema:\n{\"$defs\": {\"ContextRecallClassification\": {\"description\": \"Classification of a single statement.\", \"properties\": {\"statement\": {\"description\": \"Individual statement extracted from the answer\", \"title\": \"Statement\", \"type\": \"string\"}, \"reason\": {\"description\": \"Reasoning for why the statement is or isn't attributable to context\", \"title\": \"Reason\", \"type\": \"string\"}, \"attributed\": {\"description\": \"Binary classification: 1 if the statement can be attributed to context, 0 otherwise\", \"title\": \"Attributed\", \"type\": \"integer\"}}, \"required\": [\"statement\", \"reason\", \"attributed\"], \"title\": \"ContextRecallClassification\", \"type\": \"object\"}}, \"description\": \"Structured output for context recall classifications.\", \"properties\": {\"classifications\": {\"description\": \"List of statement classifications\", \"items\": {\"$ref\": \"#/$defs/ContextRecallClassification\"}, \"title\": \"Classifications\", \"type\": \"array\"}}, \"required\": [\"classifications\"], \"title\": \"ContextRecallOutput\", \"type\": \"object\"}Do not use single quotes in your response but double quotes,properly escaped with a backslash.\n\n--------EXAMPLES-----------\nExample 1\nInput: {\n    \"question\": \"What can you tell me about Albert Einstein?\",\n    \"context\": \"Albert Einstein (14 March 1879 - 18 April 1955) was a German-born theoretical physicist, widely held to be one of the greatest and most influential scientists of all time. Best known for developing the theory of relativity, he also made important contributions to quantum mechanics, and was thus a central figure in the revolutionary reshaping of the scientific understanding of nature that modern physics accomplished in the first decades of the twentieth century. His mass-energy equivalence formula E = mc2, which arises from relativity theory, has been called 'the world's most famous equation'. He received the 1921 Nobel Prize in Physics 'for his services to theoretical physics, and especially for his discovery of the law of the photoelectric effect', a pivotal step in the development of quantum theory. His work is also known for its influence on the philosophy of science. In a 1999 poll of 130 leading physicists worldwide by the British journal Physics World, Einstein was ranked the greatest physicist of all time. His intellectual achievements and originality have made Einstein synonymous with genius.\",\n    \"answer\": \"Albert Einstein, born on 14 March 1879, was a German-born theoretical physicist, widely held to be one of the greatest and most influential scientists of all time. He received the 1921 Nobel Prize in Physics for his services to theoretical physics. He published 4 papers in 1905. Einstein moved to Switzerland in 1895.\"\n}\nOutput: {\n    \"classifications\": [\n        {\n            \"statement\": \"Albert Einstein, born on 14 March 1879, was a German-born theoretical physicist, widely held to be one of the greatest and most influential scientists of all time.\",\n            \"reason\": \"The date of birth of Einstein is mentioned clearly in the context.\",\n            \"attributed\": 1\n        },\n        {\n            \"statement\": \"He received the 1921 Nobel Prize in Physics for his services to theoretical physics.\",\n            \"reason\": \"The exact sentence is present in the given context.\",\n            \"attributed\": 1\n        },\n        {\n            \"statement\": \"He published 4 papers in 1905.\",\n            \"reason\": \"There is no mention about papers he wrote in the given context.\",\n            \"attributed\": 0\n        },\n        {\n            \"statement\": \"Einstein moved to Switzerland in 1895.\",\n            \"reason\": \"There is no supporting evidence for this in the given context.\",\n            \"attributed\": 0\n        }\n    ]\n}\n\nExample 2\nInput: {\n    \"question\": \"who won 2020 icc world cup?\",\n    \"context\": \"The 2022 ICC Men's T20 World Cup, held from October 16 to November 13, 2022, in Australia, was the eighth edition of the tournament. Originally scheduled for 2020, it was postponed due to the COVID-19 pandemic. England emerged victorious, defeating Pakistan by five wickets in the final to clinch their second ICC Men's T20 World Cup title.\",\n    \"answer\": \"England\"\n}\nOutput: {\n    \"classifications\": [\n        {\n            \"statement\": \"England\",\n            \"reason\": \"The context clarifies that England won the 2022 edition (which was originally scheduled for 2020).\",\n            \"attributed\": 1\n        }\n    ]\n}\n\nExample 3\nInput: {\n    \"question\": \"What is the tallest mountain in the world?\",\n    \"context\": \"The Andes is the longest continental mountain range in the world, located in South America. It stretches across seven countries and features many of the highest peaks in the Western Hemisphere. The range is known for its diverse ecosystems, including the high-altitude Andean Plateau and the Amazon rainforest.\",\n    \"answer\": \"Mount Everest.\"\n}\nOutput: {\n    \"classifications\": [\n        {\n            \"statement\": \"Mount Everest.\",\n            \"reason\": \"The provided context discusses the Andes mountain range, which does not include Mount Everest or directly relate to the world's tallest mountain.\",\n            \"attributed\": 0\n        }\n    ]\n}\n-----------------------------\n\nNow perform the same with the following input\ninput: {\n    \"question\": \"For POST /upload, what authentication header, maximum file size in bytes, and over-limit status code should the client use?\",\n    \"context\": \"# Project theme\\nThe editor theme is dark green. This is a UI preference and does not configure server requests.\\n\\n# Upload API authentication\\nFor POST /upload, send the API token in the X-Project-Token header. This endpoint accepts file uploads.\\n\\n# Upload API size limit\\nPOST /upload accepts files up to 1048576 bytes (1 MiB). Larger requests return HTTP 413. Check the file size before sending.\\n\",\n    \"answer\": \"Use the X-Project-Token header. The maximum file size is 1048576 bytes. Larger requests return HTTP 413.\"\n}\nOutput: \nReturn JSON matching this schema:\n{\"$defs\": {\"ContextRecallClassification\": {\"description\": \"Classification of a single statement.\", \"properties\": {\"statement\": {\"description\": \"Individual statement extracted from the answer\", \"title\": \"Statement\", \"type\": \"string\"}, \"reason\": {\"description\": \"Reasoning for why the statement is or isn't attributable to context\", \"title\": \"Reason\", \"type\": \"string\"}, \"attributed\": {\"description\": \"Binary classification: 1 if the statement can be attributed to context, 0 otherwise\", \"title\": \"Attributed\", \"type\": \"integer\"}}, \"required\": [\"statement\", \"reason\", \"attributed\"], \"title\": \"ContextRecallClassification\", \"type\": \"object\"}}, \"description\": \"Structured output for context recall classifications.\", \"properties\": {\"classifications\": {\"description\": \"List of statement classifications\", \"items\": {\"$ref\": \"#/$defs/ContextRecallClassification\"}, \"title\": \"Classifications\", \"type\": \"array\"}}, \"required\": [\"classifications\"], \"title\": \"ContextRecallOutput\", \"type\": \"object\"}",
+          "text": "{\"classifications\":[{\"statement\":\"Use the X-Project-Token header.\",\"reason\":\"The context explicitly states that POST /upload requires the API token in the X-Project-Token header.\",\"attributed\":1},{\"statement\":\"The maximum file size is 1048576 bytes.\",\"reason\":\"The context explicitly states that POST /upload accepts files up to 1048576 bytes.\",\"attributed\":1},{\"statement\":\"Larger requests return HTTP 413.\",\"reason\":\"The context explicitly states that requests exceeding the size limit return HTTP 413.\",\"attributed\":1}]}",
+          "usage": [
+            {
+              "input_tokens": 16631,
+              "cached_input_tokens": 13440,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 119,
+              "reasoning_output_tokens": 0
+            }
+          ],
+          "reported_model": null,
+          "model_selection": "Codex CLI default; user config ignored",
+          "elapsed_seconds": 9.758,
+          "transport_tool_events": 0,
+          "prompt_sha256": "033954fcf390faedf983858363f88deebcdc5c3ef55f9b7f0372a14a928766cd"
+        }
+      ]
+    },
+    {
+      "name": "missing",
+      "documents": [
+        {
+          "id": "e04/auth.md",
+          "text": "# Upload API authentication\nFor POST /upload, send the API token in the X-Project-Token header. This endpoint accepts file uploads.\n",
+          "sha256": "c679cde9b3a727c786041a104888227dad4338379942276adeba9f3e211c335f"
+        }
+      ],
+      "rules": {
+        "precision": 1.0,
+        "recall": 0.5,
+        "ap_retrieved": 1.0,
+        "ap_reference": 0.5,
+        "mrr": 1.0,
+        "ndcg": 1.0,
+        "relevance": [
+          1
+        ],
+        "deduplication": "first occurrence by document ID"
+      },
+      "sdk": {
+        "ContextualPrecisionMetric": {
+          "score": 1.0,
+          "passed": true,
+          "verdicts": [
+            {
+              "verdict": "yes",
+              "reason": "The context directly provides one required part of the expected output: \"For POST /upload, send the API token in the X-Project-Token header.\" Although it does not provide the size limit or status code, it is still useful."
+            }
+          ]
+        },
+        "ContextualRecallMetric": {
+          "score": 0.3333333333333333,
+          "passed": false,
+          "verdicts": [
+            {
+              "verdict": "yes",
+              "reason": "The 1st node says, \"send the API token in the X-Project-Token header.\"",
+              "expected_output": "Use the X-Project-Token header. The maximum file size is 1048576 bytes. Larger requests return HTTP 413."
+            },
+            {
+              "verdict": "no",
+              "reason": "The 1st node does not specify a maximum file size.",
+              "expected_output": "Use the X-Project-Token header. The maximum file size is 1048576 bytes. Larger requests return HTTP 413."
+            },
+            {
+              "verdict": "no",
+              "reason": "The 1st node does not mention larger requests or HTTP 413.",
+              "expected_output": "Use the X-Project-Token header. The maximum file size is 1048576 bytes. Larger requests return HTTP 413."
+            }
+          ]
+        },
+        "ContextualRelevancyMetric": {
+          "score": null,
+          "error": "'ContextualRelevancyMetric' object has no attribute 'verdicts'"
+        },
+        "RagasContextPrecisionWithReference": {
+          "score": 0.9999999999,
+          "passed": true
+        },
+        "RagasContextRecall": {
+          "score": 0.3333333333333333,
+          "passed": false
+        }
+      },
+      "calls": [
+        {
+          "prompt": "Given the input, expected output, and retrieval context, please generate a list of JSON objects to determine whether each node in the retrieval context was remotely useful in arriving at the expected output.\n\n**\nIMPORTANT: Please make sure to only return in JSON format, with the 'verdicts' key as a list of JSON. These JSON only contain the `verdict` key that outputs only 'yes' or 'no', and a `reason` key to justify the verdict. In your reason, you should aim to quote parts of the context .\nExample Retrieval Context: [\"Einstein won the Nobel Prize for his discovery of the photoelectric effect\", \"He won the Nobel Prize in 1968.\", \"There was a cat.\"]\nExample Input: \"Who won the Nobel Prize in 1968 and for what?\"\nExample Expected Output: \"Einstein won the Nobel Prize in 1968 for his discovery of the photoelectric effect.\"\n\nExample:\n{\n  \"verdicts\": [\n    {\n      \"reason\": \"It clearly addresses the question by stating that 'Einstein won the Nobel Prize for his discovery of the photoelectric effect.'\",\n      \"verdict\": \"yes\"\n    },\n    {\n      \"reason\": \"The text verifies that the prize was indeed won in 1968.\",\n      \"verdict\": \"yes\"\n    },\n    {\n      \"reason\": \"'There was a cat' is not at all relevant to the topic of winning a Nobel Prize.\",\n      \"verdict\": \"no\"\n    }\n  ]  \n}\nSince you are going to generate a verdict for each context, the number of 'verdicts' SHOULD BE STRICTLY EQUAL to that of the contexts.\n**\n\nInput:\nFor POST /upload, what authentication header, maximum file size in bytes, and over-limit status code should the client use?\n\nExpected output:\nUse the X-Project-Token header. The maximum file size is 1048576 bytes. Larger requests return HTTP 413.\n\nRetrieval Context  (1 document):\n['# Upload API authentication\\nFor POST /upload, send the API token in the X-Project-Token header. This endpoint accepts file uploads.\\n']\n\nJSON:",
+          "text": "{\"verdicts\":[{\"verdict\":\"yes\",\"reason\":\"The context directly provides one required part of the expected output: \\\"For POST /upload, send the API token in the X-Project-Token header.\\\" Although it does not provide the size limit or status code, it is still useful.\"}]}",
+          "usage": [
+            {
+              "input_tokens": 15469,
+              "cached_input_tokens": 13440,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 67,
+              "reasoning_output_tokens": 0
+            }
+          ],
+          "reported_model": null,
+          "model_selection": "Codex CLI default; user config ignored",
+          "elapsed_seconds": 6.658,
+          "transport_tool_events": 0,
+          "prompt_sha256": "5a0631bf7b5b2fe9234f3e46e000d203c015e99d5a0ec0fcfd626d3ce42b04e7"
+        },
+        {
+          "prompt": "For EACH sentence in the given expected output below, determine whether the sentence can be attributed to the nodes of retrieval contexts. Please generate a list of JSON with two keys: `verdict` and `reason`.\nThe `verdict` key should STRICTLY be either a 'yes' or 'no'. Answer 'yes' if the sentence can be attributed to any parts of the retrieval context, else answer 'no'.\nThe `reason` key should provide a reason why to the verdict. In the reason, you should aim to include the node(s) count in the retrieval context (eg., 1st node, and 2nd node in the retrieval context) that is attributed to said sentence. You should also aim to quote the specific part of the retrieval context to justify your verdict, but keep it extremely concise and cut short the quote with an ellipsis if possible. \n\n**\nIMPORTANT: Please make sure to only return in JSON format, with the 'verdicts' key as a list of JSON objects, each with two keys: `verdict` and `reason`.\n\n{\n  \"verdicts\": [\n    {\n      \"reason\": \"...\",\n      \"verdict\": \"yes\"\n    },\n    ...\n  ]  \n}\n\nSince you are going to generate a verdict for each sentence, the number of 'verdicts' SHOULD BE STRICTLY EQUAL to the number of sentences in `expected output`.\n**\n\nExpected Output:\nUse the X-Project-Token header. The maximum file size is 1048576 bytes. Larger requests return HTTP 413.\n\nRetrieval Context:\n['# Upload API authentication\\nFor POST /upload, send the API token in the X-Project-Token header. This endpoint accepts file uploads.\\n']\n\nJSON:",
+          "text": "{\"verdicts\":[{\"verdict\":\"yes\",\"reason\":\"The 1st node says, \\\"send the API token in the X-Project-Token header.\\\"\"},{\"verdict\":\"no\",\"reason\":\"The 1st node does not specify a maximum file size.\"},{\"verdict\":\"no\",\"reason\":\"The 1st node does not mention larger requests or HTTP 413.\"}]}",
+          "usage": [
+            {
+              "input_tokens": 15382,
+              "cached_input_tokens": 0,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 84,
+              "reasoning_output_tokens": 0
+            }
+          ],
+          "reported_model": null,
+          "model_selection": "Codex CLI default; user config ignored",
+          "elapsed_seconds": 5.884,
+          "transport_tool_events": 0,
+          "prompt_sha256": "0a5d53f91477849d231aafb6b88acef6ce73e1f74bb9ab00c226d97fc9b59ee7"
+        },
+        {
+          "prompt": "Based on the input and context, please generate a JSON object to indicate whether each statement found in the context is relevant to the provided input. The JSON will be a list of 'verdicts', with 2 mandatory fields: 'verdict' and 'statement', and 1 optional field: 'reason'.\nYou should first extract statements found in the context, which are high level information found in the context, before deciding on a verdict and optionally a reason for each statement.\nThe 'verdict' key should STRICTLY be either 'yes' or 'no', and states whether the statement is relevant to the input.\nProvide a 'reason' ONLY IF verdict is no. You MUST quote the irrelevant parts of the statement to back up your reason.\nIf provided context contains no actual content or statements then: give \"no\" as a \"verdict\",\nput context into \"statement\", and \"No statements found in provided context.\" into \"reason\".\n**\nIMPORTANT: Please make sure to only return in JSON format.\nExample Context: \"Einstein won the Nobel Prize for his discovery of the photoelectric effect. He won the Nobel Prize in 1968. There was a cat.\"\nExample Input: \"What were some of Einstein's achievements?\"\n\nExample:\n{\n  \"verdicts\": [\n    {\n      \"statement\": \"Einstein won the Nobel Prize for his discovery of the photoelectric effect in 1968\",\n      \"verdict\": \"yes\"\n    },\n    {\n      \"statement\": \"There was a cat.\",\n      \"reason\": \"The retrieval context contained the information 'There was a cat' when it has nothing to do with Einstein's achievements.\",\n      \"verdict\": \"no\"\n    }\n  ]\n}\n**\n\nInput:\nFor POST /upload, what authentication header, maximum file size in bytes, and over-limit status code should the client use?\n\nContext:\n# Upload API authentication\nFor POST /upload, send the API token in the X-Project-Token header. This endpoint accepts file uploads.\n\n\nJSON:",
+          "text": "{\"verdicts\":[{\"statement\":\"For POST /upload, send the API token in the X-Project-Token header.\",\"verdict\":\"yes\"},{\"statement\":\"POST /upload accepts file uploads.\",\"verdict\":\"yes\"}]}",
+          "usage": [
+            {
+              "input_tokens": 15439,
+              "cached_input_tokens": 13440,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 50,
+              "reasoning_output_tokens": 0
+            }
+          ],
+          "reported_model": null,
+          "model_selection": "Codex CLI default; user config ignored",
+          "elapsed_seconds": 5.699,
+          "transport_tool_events": 0,
+          "prompt_sha256": "9532e9505eb0df9a53d1532cf34e65f3cbebdd4375bce68419c8f8e6e60ca392"
+        },
+        {
+          "prompt": "Given question, answer and context verify if the context was useful in arriving at the given answer. Give verdict as \"1\" if useful and \"0\" if not with json output.\nPlease return the output in a JSON format that complies with the following schema as specified in JSON Schema:\n{\"description\": \"Structured output for context precision evaluation.\", \"properties\": {\"reason\": {\"description\": \"Reason for verification\", \"title\": \"Reason\", \"type\": \"string\"}, \"verdict\": {\"description\": \"Binary (0/1) verdict of verification\", \"title\": \"Verdict\", \"type\": \"integer\"}}, \"required\": [\"reason\", \"verdict\"], \"title\": \"ContextPrecisionOutput\", \"type\": \"object\"}Do not use single quotes in your response but double quotes,properly escaped with a backslash.\n\n--------EXAMPLES-----------\nExample 1\nInput: {\n    \"question\": \"What can you tell me about Albert Einstein?\",\n    \"context\": \"Albert Einstein (14 March 1879 – 18 April 1955) was a German-born theoretical physicist, widely held to be one of the greatest and most influential scientists of all time. Best known for developing the theory of relativity, he also made important contributions to quantum mechanics, and was thus a central figure in the revolutionary reshaping of the scientific understanding of nature that modern physics accomplished in the first decades of the twentieth century. His mass–energy equivalence formula E = mc2, which arises from relativity theory, has been called 'the world's most famous equation'. He received the 1921 Nobel Prize in Physics 'for his services to theoretical physics, and especially for his discovery of the law of the photoelectric effect', a pivotal step in the development of quantum theory. His work is also known for its influence on the philosophy of science. In a 1999 poll of 130 leading physicists worldwide by the British journal Physics World, Einstein was ranked the greatest physicist of all time. His intellectual achievements and originality have made Einstein synonymous with genius.\",\n    \"answer\": \"Albert Einstein, born on 14 March 1879, was a German-born theoretical physicist, widely held to be one of the greatest and most influential scientists of all time. He received the 1921 Nobel Prize in Physics for his services to theoretical physics.\"\n}\nOutput: {\n    \"reason\": \"The provided context was indeed useful in arriving at the given answer. The context includes key information about Albert Einstein's life and contributions, which are reflected in the answer.\",\n    \"verdict\": 1\n}\n\nExample 2\nInput: {\n    \"question\": \"who won 2020 icc world cup?\",\n    \"context\": \"The 2022 ICC Men's T20 World Cup, held from October 16 to November 13, 2022, in Australia, was the eighth edition of the tournament. Originally scheduled for 2020, it was postponed due to the COVID-19 pandemic. England emerged victorious, defeating Pakistan by five wickets in the final to clinch their second ICC Men's T20 World Cup title.\",\n    \"answer\": \"England\"\n}\nOutput: {\n    \"reason\": \"the context was useful in clarifying the situation regarding the 2020 ICC World Cup and indicating that England was the winner of the tournament that was intended to be held in 2020 but actually took place in 2022.\",\n    \"verdict\": 1\n}\n\nExample 3\nInput: {\n    \"question\": \"What is the tallest mountain in the world?\",\n    \"context\": \"The Andes is the longest continental mountain range in the world, located in South America. It stretches across seven countries and features many of the highest peaks in the Western Hemisphere. The range is known for its diverse ecosystems, including the high-altitude Andean Plateau and the Amazon rainforest.\",\n    \"answer\": \"Mount Everest.\"\n}\nOutput: {\n    \"reason\": \"the provided context discusses the Andes mountain range, which, while impressive, does not include Mount Everest or directly relate to the question about the world's tallest mountain.\",\n    \"verdict\": 0\n}\n-----------------------------\n\nNow perform the same with the following input\ninput: {\n    \"question\": \"For POST /upload, what authentication header, maximum file size in bytes, and over-limit status code should the client use?\",\n    \"context\": \"# Upload API authentication\\nFor POST /upload, send the API token in the X-Project-Token header. This endpoint accepts file uploads.\\n\",\n    \"answer\": \"Use the X-Project-Token header. The maximum file size is 1048576 bytes. Larger requests return HTTP 413.\"\n}\nOutput: \nReturn JSON matching this schema:\n{\"description\": \"Structured output for context precision evaluation.\", \"properties\": {\"reason\": {\"description\": \"Reason for verification\", \"title\": \"Reason\", \"type\": \"string\"}, \"verdict\": {\"description\": \"Binary (0/1) verdict of verification\", \"title\": \"Verdict\", \"type\": \"integer\"}}, \"required\": [\"reason\", \"verdict\"], \"title\": \"ContextPrecisionOutput\", \"type\": \"object\"}",
+          "text": "{\"reason\":\"The context was partially useful because it directly supports using the X-Project-Token header for POST /upload. However, it does not provide the 1048576-byte maximum file size or the HTTP 413 over-limit status code stated in the answer.\",\"verdict\":1}",
+          "usage": [
+            {
+              "input_tokens": 16084,
+              "cached_input_tokens": 13440,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 63,
+              "reasoning_output_tokens": 0
+            }
+          ],
+          "reported_model": null,
+          "model_selection": "Codex CLI default; user config ignored",
+          "elapsed_seconds": 5.362,
+          "transport_tool_events": 0,
+          "prompt_sha256": "6585d6c0db1a9939ee76dd57e00c02911236dd33d9a0597c98a71a6adf1099d1"
+        },
+        {
+          "prompt": "Given a context and an answer, analyze each statement in the answer and classify if the statement can be attributed to the given context or not.\nUse only binary classification: 1 if the statement can be attributed to the context, 0 if it cannot.\nProvide detailed reasoning for each classification.\nPlease return the output in a JSON format that complies with the following schema as specified in JSON Schema:\n{\"$defs\": {\"ContextRecallClassification\": {\"description\": \"Classification of a single statement.\", \"properties\": {\"statement\": {\"description\": \"Individual statement extracted from the answer\", \"title\": \"Statement\", \"type\": \"string\"}, \"reason\": {\"description\": \"Reasoning for why the statement is or isn't attributable to context\", \"title\": \"Reason\", \"type\": \"string\"}, \"attributed\": {\"description\": \"Binary classification: 1 if the statement can be attributed to context, 0 otherwise\", \"title\": \"Attributed\", \"type\": \"integer\"}}, \"required\": [\"statement\", \"reason\", \"attributed\"], \"title\": \"ContextRecallClassification\", \"type\": \"object\"}}, \"description\": \"Structured output for context recall classifications.\", \"properties\": {\"classifications\": {\"description\": \"List of statement classifications\", \"items\": {\"$ref\": \"#/$defs/ContextRecallClassification\"}, \"title\": \"Classifications\", \"type\": \"array\"}}, \"required\": [\"classifications\"], \"title\": \"ContextRecallOutput\", \"type\": \"object\"}Do not use single quotes in your response but double quotes,properly escaped with a backslash.\n\n--------EXAMPLES-----------\nExample 1\nInput: {\n    \"question\": \"What can you tell me about Albert Einstein?\",\n    \"context\": \"Albert Einstein (14 March 1879 - 18 April 1955) was a German-born theoretical physicist, widely held to be one of the greatest and most influential scientists of all time. Best known for developing the theory of relativity, he also made important contributions to quantum mechanics, and was thus a central figure in the revolutionary reshaping of the scientific understanding of nature that modern physics accomplished in the first decades of the twentieth century. His mass-energy equivalence formula E = mc2, which arises from relativity theory, has been called 'the world's most famous equation'. He received the 1921 Nobel Prize in Physics 'for his services to theoretical physics, and especially for his discovery of the law of the photoelectric effect', a pivotal step in the development of quantum theory. His work is also known for its influence on the philosophy of science. In a 1999 poll of 130 leading physicists worldwide by the British journal Physics World, Einstein was ranked the greatest physicist of all time. His intellectual achievements and originality have made Einstein synonymous with genius.\",\n    \"answer\": \"Albert Einstein, born on 14 March 1879, was a German-born theoretical physicist, widely held to be one of the greatest and most influential scientists of all time. He received the 1921 Nobel Prize in Physics for his services to theoretical physics. He published 4 papers in 1905. Einstein moved to Switzerland in 1895.\"\n}\nOutput: {\n    \"classifications\": [\n        {\n            \"statement\": \"Albert Einstein, born on 14 March 1879, was a German-born theoretical physicist, widely held to be one of the greatest and most influential scientists of all time.\",\n            \"reason\": \"The date of birth of Einstein is mentioned clearly in the context.\",\n            \"attributed\": 1\n        },\n        {\n            \"statement\": \"He received the 1921 Nobel Prize in Physics for his services to theoretical physics.\",\n            \"reason\": \"The exact sentence is present in the given context.\",\n            \"attributed\": 1\n        },\n        {\n            \"statement\": \"He published 4 papers in 1905.\",\n            \"reason\": \"There is no mention about papers he wrote in the given context.\",\n            \"attributed\": 0\n        },\n        {\n            \"statement\": \"Einstein moved to Switzerland in 1895.\",\n            \"reason\": \"There is no supporting evidence for this in the given context.\",\n            \"attributed\": 0\n        }\n    ]\n}\n\nExample 2\nInput: {\n    \"question\": \"who won 2020 icc world cup?\",\n    \"context\": \"The 2022 ICC Men's T20 World Cup, held from October 16 to November 13, 2022, in Australia, was the eighth edition of the tournament. Originally scheduled for 2020, it was postponed due to the COVID-19 pandemic. England emerged victorious, defeating Pakistan by five wickets in the final to clinch their second ICC Men's T20 World Cup title.\",\n    \"answer\": \"England\"\n}\nOutput: {\n    \"classifications\": [\n        {\n            \"statement\": \"England\",\n            \"reason\": \"The context clarifies that England won the 2022 edition (which was originally scheduled for 2020).\",\n            \"attributed\": 1\n        }\n    ]\n}\n\nExample 3\nInput: {\n    \"question\": \"What is the tallest mountain in the world?\",\n    \"context\": \"The Andes is the longest continental mountain range in the world, located in South America. It stretches across seven countries and features many of the highest peaks in the Western Hemisphere. The range is known for its diverse ecosystems, including the high-altitude Andean Plateau and the Amazon rainforest.\",\n    \"answer\": \"Mount Everest.\"\n}\nOutput: {\n    \"classifications\": [\n        {\n            \"statement\": \"Mount Everest.\",\n            \"reason\": \"The provided context discusses the Andes mountain range, which does not include Mount Everest or directly relate to the world's tallest mountain.\",\n            \"attributed\": 0\n        }\n    ]\n}\n-----------------------------\n\nNow perform the same with the following input\ninput: {\n    \"question\": \"For POST /upload, what authentication header, maximum file size in bytes, and over-limit status code should the client use?\",\n    \"context\": \"# Upload API authentication\\nFor POST /upload, send the API token in the X-Project-Token header. This endpoint accepts file uploads.\\n\",\n    \"answer\": \"Use the X-Project-Token header. The maximum file size is 1048576 bytes. Larger requests return HTTP 413.\"\n}\nOutput: \nReturn JSON matching this schema:\n{\"$defs\": {\"ContextRecallClassification\": {\"description\": \"Classification of a single statement.\", \"properties\": {\"statement\": {\"description\": \"Individual statement extracted from the answer\", \"title\": \"Statement\", \"type\": \"string\"}, \"reason\": {\"description\": \"Reasoning for why the statement is or isn't attributable to context\", \"title\": \"Reason\", \"type\": \"string\"}, \"attributed\": {\"description\": \"Binary classification: 1 if the statement can be attributed to context, 0 otherwise\", \"title\": \"Attributed\", \"type\": \"integer\"}}, \"required\": [\"statement\", \"reason\", \"attributed\"], \"title\": \"ContextRecallClassification\", \"type\": \"object\"}}, \"description\": \"Structured output for context recall classifications.\", \"properties\": {\"classifications\": {\"description\": \"List of statement classifications\", \"items\": {\"$ref\": \"#/$defs/ContextRecallClassification\"}, \"title\": \"Classifications\", \"type\": \"array\"}}, \"required\": [\"classifications\"], \"title\": \"ContextRecallOutput\", \"type\": \"object\"}",
+          "text": "{\"classifications\":[{\"statement\":\"Use the X-Project-Token header.\",\"reason\":\"The context explicitly states that POST /upload requires the API token in the X-Project-Token header.\",\"attributed\":1},{\"statement\":\"The maximum file size is 1048576 bytes.\",\"reason\":\"The context does not specify a maximum file size.\",\"attributed\":0},{\"statement\":\"Larger requests return HTTP 413.\",\"reason\":\"The context does not state the status code returned for uploads exceeding a size limit.\",\"attributed\":0}]}",
+          "usage": [
+            {
+              "input_tokens": 16563,
+              "cached_input_tokens": 0,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 112,
+              "reasoning_output_tokens": 0
+            }
+          ],
+          "reported_model": null,
+          "model_selection": "Codex CLI default; user config ignored",
+          "elapsed_seconds": 6.95,
+          "transport_tool_events": 0,
+          "prompt_sha256": "78f06cd8a9dbe2e6d10637f6d2a881319699cd6d5a891768f28adaab144b4549"
+        }
+      ]
+    },
+    {
+      "name": "empty",
+      "documents": [],
+      "rules": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "ap_retrieved": 0.0,
+        "ap_reference": 0.0,
+        "mrr": 0.0,
+        "ndcg": 0.0,
+        "relevance": [],
+        "deduplication": "first occurrence by document ID"
+      },
+      "sdk": {
+        "status": "skipped",
+        "reason": "empty retrieval; modern ContextRecall rejects empty contexts"
+      },
+      "calls": []
+    }
+  ],
+  "incomplete_reference_demo": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "ap_retrieved": 1.0,
+    "ap_reference": 1.0,
+    "mrr": 1.0,
+    "ndcg": 1.0,
+    "relevance": [
+      1
+    ],
+    "deduplication": "first occurrence by document ID"
+  },
+  "model_calls": 23,
+  "implementation": {
+    "code.py": "2e5a6e4a2049eb852a687fe741739cb719396130b776f729fc653210515cf569",
+    "eval.py": "168c5a7cf709dac700716339425942543f6901bfe7bce21559615723f002f35d",
+    "cases.jsonl": "41872f267d3bbf7642e5b0144c2160913b9c6ec97cf819d61131b91f3e02d17f"
+  }
+}

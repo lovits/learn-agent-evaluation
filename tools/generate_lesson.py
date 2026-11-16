@@ -14,7 +14,7 @@ def main():
     from pocketflow import Flow, Node
 
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--lesson", choices=["e01", "e02", "e03"], default="e01")
+    parser.add_argument("--lesson", choices=["e01", "e02", "e03", "e04"], default="e01")
     args = parser.parse_args()
     lesson = args.lesson
     slug = "e01_agent_baseline" if lesson == "e01" else "e02_tools_traces"
@@ -22,6 +22,12 @@ def main():
     brief_path = "generation/lesson_brief.md" if lesson == "e01" else "generation/e02-brief.md"
     if lesson == "e03":
         slug, title, brief_path = "e03_judges", "规则评分与LLM裁判", "generation/e03-brief.md"
+    if lesson == "e04":
+        slug, title, brief_path = (
+            "e04_retrieval",
+            "知识库检索：精度、召回与排序",
+            "generation/e04-brief.md",
+        )
     private = PROJECT / "generation/private" / lesson
     private.mkdir(parents=True, exist_ok=True)
     brief = (PROJECT / brief_path).read_text()
@@ -68,7 +74,7 @@ def main():
                     "code.py",
                     "eval.py",
                     "cases.jsonl",
-                    "run_summary.md" if lesson in ("e02", "e03") else "example_report.json",
+                    "run_summary.md" if lesson in ("e02", "e03", "e04") else "example_report.json",
                     "source_walkthrough.md",
                     "exercises.md",
                     "solutions.md",
@@ -77,6 +83,17 @@ def main():
             *(
                 [f"lessons/{slug}/samples.py", f"lessons/{slug}/dataset_manifest.json"]
                 if lesson == "e02"
+                else []
+            ),
+            *(
+                [
+                    f"lessons/{slug}/verify.py",
+                    "eval_course/knowledge.py",
+                    "knowledge_base/e04/auth.md",
+                    "knowledge_base/e04/limits.md",
+                    "knowledge_base/e04/noise.md",
+                ]
+                if lesson == "e04"
                 else []
             ),
             "eval_course/records.py",

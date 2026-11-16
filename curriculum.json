@@ -123,7 +123,7 @@
     {
       "id": "e04",
       "title": "知识库检索：精度、召回与排序",
-      "status": "planned",
+      "status": "implemented_live_docker_retrieval_verified",
       "original_lessons": [
         "s05",
         "s06"
@@ -488,10 +488,11 @@
       "source_analysis": "按所选指标适用部分追踪输入校验、prompt/schema、模型调用、verdict、聚合、异步与结果对象；规则指标说明不适用项。"
     }
   ],
-  "runtime_status": "e01/e02 Agent and e03 independent judges implemented; e04-e16 planned",
+  "runtime_status": "e01-e04 implemented; e05-e16 planned",
   "implemented_lessons": [
     "e01",
     "e02",
-    "e03"
+    "e03",
+    "e04"
   ]
 }

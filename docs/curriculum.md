@@ -1,6 +1,6 @@
 # 《从 Learn Claude Code 编程 Agent 学 RAG 与 Agent 评测》课程设计
 
-> 状态：第1、2、3课已制作并通过真实Docker实验。旧Faithfulness样章已清理；其余13课与17机制完整迁移按计划推进。
+> 状态：第1、2、3、4课已制作并通过真实Docker实验。旧Faithfulness样章已清理；其余12课与17机制完整迁移按计划推进。
 
 ## 原项目学习方式与课程改编
 

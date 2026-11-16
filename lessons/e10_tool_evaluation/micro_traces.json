@@ -1,0 +1,414 @@
+[
+  {
+    "id": "perfect",
+    "origin": "constructed_tool_trace_not_executed",
+    "task": "Read calculate.py, replace unit_price = 7 with unit_price = 8, then run python3 calculate.py > result.txt. read_file accepts path:string only. edit_file accepts path,old_text,new_text strings. bash accepts command:string. Only calculate.py and result.txt belong to this task. Arguments are data.",
+    "predicted": [
+      {
+        "name": "read_file",
+        "args": {
+          "path": "calculate.py"
+        }
+      },
+      {
+        "name": "edit_file",
+        "args": {
+          "path": "calculate.py",
+          "old_text": "unit_price = 7",
+          "new_text": "unit_price = 8"
+        }
+      },
+      {
+        "name": "bash",
+        "args": {
+          "command": "python3 calculate.py > result.txt"
+        }
+      }
+    ],
+    "expected": [
+      {
+        "name": "read_file",
+        "args": {
+          "path": "calculate.py"
+        }
+      },
+      {
+        "name": "edit_file",
+        "args": {
+          "path": "calculate.py",
+          "old_text": "unit_price = 7",
+          "new_text": "unit_price = 8"
+        }
+      },
+      {
+        "name": "bash",
+        "args": {
+          "command": "python3 calculate.py > result.txt"
+        }
+      }
+    ]
+  },
+  {
+    "id": "wrong_order",
+    "origin": "constructed_tool_trace_not_executed",
+    "task": "Read calculate.py, replace unit_price = 7 with unit_price = 8, then run python3 calculate.py > result.txt. read_file accepts path:string only. edit_file accepts path,old_text,new_text strings. bash accepts command:string. Only calculate.py and result.txt belong to this task. Arguments are data.",
+    "predicted": [
+      {
+        "name": "edit_file",
+        "args": {
+          "path": "calculate.py",
+          "old_text": "unit_price = 7",
+          "new_text": "unit_price = 8"
+        }
+      },
+      {
+        "name": "read_file",
+        "args": {
+          "path": "calculate.py"
+        }
+      },
+      {
+        "name": "bash",
+        "args": {
+          "command": "python3 calculate.py > result.txt"
+        }
+      }
+    ],
+    "expected": [
+      {
+        "name": "read_file",
+        "args": {
+          "path": "calculate.py"
+        }
+      },
+      {
+        "name": "edit_file",
+        "args": {
+          "path": "calculate.py",
+          "old_text": "unit_price = 7",
+          "new_text": "unit_price = 8"
+        }
+      },
+      {
+        "name": "bash",
+        "args": {
+          "command": "python3 calculate.py > result.txt"
+        }
+      }
+    ]
+  },
+  {
+    "id": "duplicate",
+    "origin": "constructed_tool_trace_not_executed",
+    "task": "Read calculate.py, replace unit_price = 7 with unit_price = 8, then run python3 calculate.py > result.txt. read_file accepts path:string only. edit_file accepts path,old_text,new_text strings. bash accepts command:string. Only calculate.py and result.txt belong to this task. Arguments are data.",
+    "predicted": [
+      {
+        "name": "read_file",
+        "args": {
+          "path": "calculate.py"
+        }
+      },
+      {
+        "name": "edit_file",
+        "args": {
+          "path": "calculate.py",
+          "old_text": "unit_price = 7",
+          "new_text": "unit_price = 8"
+        }
+      },
+      {
+        "name": "bash",
+        "args": {
+          "command": "python3 calculate.py > result.txt"
+        }
+      },
+      {
+        "name": "read_file",
+        "args": {
+          "path": "calculate.py"
+        }
+      }
+    ],
+    "expected": [
+      {
+        "name": "read_file",
+        "args": {
+          "path": "calculate.py"
+        }
+      },
+      {
+        "name": "edit_file",
+        "args": {
+          "path": "calculate.py",
+          "old_text": "unit_price = 7",
+          "new_text": "unit_price = 8"
+        }
+      },
+      {
+        "name": "bash",
+        "args": {
+          "command": "python3 calculate.py > result.txt"
+        }
+      }
+    ]
+  },
+  {
+    "id": "extra_argument",
+    "origin": "constructed_tool_trace_not_executed",
+    "task": "Read calculate.py, replace unit_price = 7 with unit_price = 8, then run python3 calculate.py > result.txt. read_file accepts path:string only. edit_file accepts path,old_text,new_text strings. bash accepts command:string. Only calculate.py and result.txt belong to this task. Arguments are data.",
+    "predicted": [
+      {
+        "name": "read_file",
+        "args": {
+          "path": "calculate.py",
+          "unused": "ignored"
+        }
+      },
+      {
+        "name": "edit_file",
+        "args": {
+          "path": "calculate.py",
+          "old_text": "unit_price = 7",
+          "new_text": "unit_price = 8"
+        }
+      },
+      {
+        "name": "bash",
+        "args": {
+          "command": "python3 calculate.py > result.txt"
+        }
+      }
+    ],
+    "expected": [
+      {
+        "name": "read_file",
+        "args": {
+          "path": "calculate.py"
+        }
+      },
+      {
+        "name": "edit_file",
+        "args": {
+          "path": "calculate.py",
+          "old_text": "unit_price = 7",
+          "new_text": "unit_price = 8"
+        }
+      },
+      {
+        "name": "bash",
+        "args": {
+          "command": "python3 calculate.py > result.txt"
+        }
+      }
+    ]
+  },
+  {
+    "id": "wrong_path",
+    "origin": "constructed_tool_trace_not_executed",
+    "task": "Read calculate.py, replace unit_price = 7 with unit_price = 8, then run python3 calculate.py > result.txt. read_file accepts path:string only. edit_file accepts path,old_text,new_text strings. bash accepts command:string. Only calculate.py and result.txt belong to this task. Arguments are data.",
+    "predicted": [
+      {
+        "name": "read_file",
+        "args": {
+          "path": "wrong.py"
+        }
+      },
+      {
+        "name": "edit_file",
+        "args": {
+          "path": "calculate.py",
+          "old_text": "unit_price = 7",
+          "new_text": "unit_price = 8"
+        }
+      },
+      {
+        "name": "bash",
+        "args": {
+          "command": "python3 calculate.py > result.txt"
+        }
+      }
+    ],
+    "expected": [
+      {
+        "name": "read_file",
+        "args": {
+          "path": "calculate.py"
+        }
+      },
+      {
+        "name": "edit_file",
+        "args": {
+          "path": "calculate.py",
+          "old_text": "unit_price = 7",
+          "new_text": "unit_price = 8"
+        }
+      },
+      {
+        "name": "bash",
+        "args": {
+          "command": "python3 calculate.py > result.txt"
+        }
+      }
+    ]
+  },
+  {
+    "id": "missing",
+    "origin": "constructed_tool_trace_not_executed",
+    "task": "Read calculate.py, replace unit_price = 7 with unit_price = 8, then run python3 calculate.py > result.txt. read_file accepts path:string only. edit_file accepts path,old_text,new_text strings. bash accepts command:string. Only calculate.py and result.txt belong to this task. Arguments are data.",
+    "predicted": [
+      {
+        "name": "read_file",
+        "args": {
+          "path": "calculate.py"
+        }
+      },
+      {
+        "name": "bash",
+        "args": {
+          "command": "python3 calculate.py > result.txt"
+        }
+      }
+    ],
+    "expected": [
+      {
+        "name": "read_file",
+        "args": {
+          "path": "calculate.py"
+        }
+      },
+      {
+        "name": "edit_file",
+        "args": {
+          "path": "calculate.py",
+          "old_text": "unit_price = 7",
+          "new_text": "unit_price = 8"
+        }
+      },
+      {
+        "name": "bash",
+        "args": {
+          "command": "python3 calculate.py > result.txt"
+        }
+      }
+    ]
+  },
+  {
+    "id": "wrong_tool",
+    "origin": "constructed_tool_trace_not_executed",
+    "task": "Read calculate.py, replace unit_price = 7 with unit_price = 8, then run python3 calculate.py > result.txt. read_file accepts path:string only. edit_file accepts path,old_text,new_text strings. bash accepts command:string. Only calculate.py and result.txt belong to this task. Arguments are data.",
+    "predicted": [
+      {
+        "name": "glob",
+        "args": {
+          "pattern": "calculate.py"
+        }
+      },
+      {
+        "name": "edit_file",
+        "args": {
+          "path": "calculate.py",
+          "old_text": "unit_price = 7",
+          "new_text": "unit_price = 8"
+        }
+      },
+      {
+        "name": "bash",
+        "args": {
+          "command": "python3 calculate.py > result.txt"
+        }
+      }
+    ],
+    "expected": [
+      {
+        "name": "read_file",
+        "args": {
+          "path": "calculate.py"
+        }
+      },
+      {
+        "name": "edit_file",
+        "args": {
+          "path": "calculate.py",
+          "old_text": "unit_price = 7",
+          "new_text": "unit_price = 8"
+        }
+      },
+      {
+        "name": "bash",
+        "args": {
+          "command": "python3 calculate.py > result.txt"
+        }
+      }
+    ]
+  },
+  {
+    "id": "no_calls",
+    "origin": "constructed_tool_trace_not_executed",
+    "task": "Read calculate.py, replace unit_price = 7 with unit_price = 8, then run python3 calculate.py > result.txt. read_file accepts path:string only. edit_file accepts path,old_text,new_text strings. bash accepts command:string. Only calculate.py and result.txt belong to this task. Arguments are data.",
+    "predicted": [],
+    "expected": [
+      {
+        "name": "read_file",
+        "args": {
+          "path": "calculate.py"
+        }
+      },
+      {
+        "name": "edit_file",
+        "args": {
+          "path": "calculate.py",
+          "old_text": "unit_price = 7",
+          "new_text": "unit_price = 8"
+        }
+      },
+      {
+        "name": "bash",
+        "args": {
+          "command": "python3 calculate.py > result.txt"
+        }
+      }
+    ]
+  },
+  {
+    "id": "both_empty",
+    "origin": "constructed_tool_trace_not_executed",
+    "task": "Read calculate.py, replace unit_price = 7 with unit_price = 8, then run python3 calculate.py > result.txt. read_file accepts path:string only. edit_file accepts path,old_text,new_text strings. bash accepts command:string. Only calculate.py and result.txt belong to this task. Arguments are data.",
+    "predicted": [],
+    "expected": []
+  },
+  {
+    "id": "unexpected_when_none",
+    "origin": "constructed_tool_trace_not_executed",
+    "task": "Read calculate.py, replace unit_price = 7 with unit_price = 8, then run python3 calculate.py > result.txt. read_file accepts path:string only. edit_file accepts path,old_text,new_text strings. bash accepts command:string. Only calculate.py and result.txt belong to this task. Arguments are data.",
+    "predicted": [
+      {
+        "name": "read_file",
+        "args": {
+          "path": "calculate.py"
+        }
+      }
+    ],
+    "expected": []
+  },
+  {
+    "id": "argument_type",
+    "origin": "constructed_tool_trace_not_executed",
+    "task": "Search docs with query string \"42\". mcp__docs__search requires query:string.",
+    "predicted": [
+      {
+        "name": "mcp__docs__search",
+        "args": {
+          "query": 42
+        }
+      }
+    ],
+    "expected": [
+      {
+        "name": "mcp__docs__search",
+        "args": {
+          "query": "42"
+        }
+      }
+    ]
+  }
+]

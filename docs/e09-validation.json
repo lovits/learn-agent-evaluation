@@ -16,5 +16,11 @@
     "missing matched trial rejected"
   ],
   "human_labels_generated": 0,
-  "scope": "public synthetic protocol demonstration; two families; no population performance claim"
+  "scope": "public synthetic protocol demonstration; two families; no population performance claim",
+  "github_ci": {
+    "commit": "87bf701135f3d3e210d915c32e49036e62fc338a",
+    "run_id": 43959747005,
+    "conclusion": "success",
+    "url": "https://github.com/lovits/learn-agent-evaluation/actions/runs/43959747005"
+  }
 }

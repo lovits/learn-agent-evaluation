@@ -66,7 +66,7 @@ python3 tools/run_e01.py
 ## 项目状态
 
 旧Faithfulness样章和专属回放实现已清理；该主题已在第5课以编程案例重新制作。
-当前第1至9课已制作，第1至7课按统一正文标准完成重写与复核，第8、9课沿同一写法制作，其余7课保留详细设计。DeepEval/Ragas用于评测方法和源码依据，
+当前第1至10课已制作，第1至7课按统一正文标准完成重写与复核，第8至10课沿同一写法制作，其余6课保留详细设计。DeepEval/Ragas用于评测方法和源码依据，
 第一课先用确定性任务合同判断文件、输出和退出码，后续再逐步引入框架接口与模型裁判。
 
 教材通过 [PocketFlow流程](generation/README.md)组织，来源与许可见 [第三方说明](THIRD_PARTY.md)。
@@ -179,3 +179,20 @@ docker compose --profile verify run --rm -T --entrypoint python verifier -m less
 阅读地址：http://localhost:8765/lesson9 。runs/e09-*同名文件重跑覆盖；比较前另存。协议或数据改变后须重新开发阶段，不能改旧manifest继续留出。公开合成题只演示方法，四次执行不等于四个独立任务，零宽bootstrap区间也不能保证总体效果。
 
 [第9课飞书完整教材](https://my.feishu.cn/docx/P3iUd8PkyoI1BixVVuCcUqsRnOg)。
+
+## 第10课：工具、参数与MCP
+
+[教材](lessons/e10_tool_evaluation/README.zh.md)、[源码导读](lessons/e10_tool_evaluation/source_walkthrough.md)、[实际实验](lessons/e10_tool_evaluation/run_summary.md)、[练习](lessons/e10_tool_evaluation/exercises.md)、[验收](docs/e10-validation.md)。沿Learn Claude Code s14增加进程内模拟工具发现，继续真实检索、改文件与运行命令。工具名字、参数、顺序、权限与业务产物分别评价。
+
+宿主机运行最新`python3 tools/model_bridge.py`与`python3 tools/judge_bridge.py`；旧入口需停止后重启。随后执行：
+
+```sh
+docker compose build
+docker compose run --rm -T --entrypoint python course -m lessons.e10_tool_evaluation.code
+docker compose --profile verify run --rm -T --entrypoint python verifier -m lessons.e10_tool_evaluation.eval
+docker compose run --rm -T --entrypoint python course -m lessons.e10_tool_evaluation.eval --judge
+```
+
+阅读地址：http://localhost:8765/lesson10 。runs/e10-*重跑覆盖，比较前先另存。控制轨迹明确标为构造；MCP为进程内模拟；两轮评分协议与原始误判均保留。评分协议修订时没有重跑Agent或改动产物。
+
+[第10课飞书完整教材](https://my.feishu.cn/docx/YszVdRUrLoT6CpxsUIpcJJIgnQe)。

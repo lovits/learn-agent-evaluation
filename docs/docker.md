@@ -104,3 +104,15 @@ docker compose --profile verify run --rm -T --entrypoint python verifier -m less
 ```
 
 应用使用8766入口；`eval --repeat-judge`是可选联网裁判阶段，使用8768入口。默认eval不调用模型，只分析真实报告和文件。partial文件在每个完成运行后更新，不能作为完整实验；同名报告会覆盖，保留旧对照前先另存。
+
+## 第10课：动态工具池与独立判分
+
+模型桥增加e10当前工具池契约，需重启旧8766入口；8768裁判入口继续复用。MCP模拟server与真实知识库检索均在课程容器内，不需要部署另一个网络服务。
+
+```sh
+docker compose run --rm -T --entrypoint python course -m lessons.e10_tool_evaluation.code
+docker compose --profile verify run --rm -T --entrypoint python verifier -m lessons.e10_tool_evaluation.eval
+docker compose run --rm -T --entrypoint python course -m lessons.e10_tool_evaluation.eval --judge
+```
+
+断网阶段运行原生确定性指标并只读核对产物；--judge联网调用宿主机裁判，根据每次决策之前的消息构造输入，不重新执行Agent。只读知识库、可写工作目录与持久化报告继续使用相同挂载。自定义知识库时保留本课e10/billing.md或明确更新案例合同；不要把不同资料版本混作同一实验。

@@ -16,7 +16,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "--lesson",
-        choices=["e01", "e02", "e03", "e04", "e05", "e06", "e07", "e08", "e09"],
+        choices=["e01", "e02", "e03", "e04", "e05", "e06", "e07", "e08", "e09", "e10"],
         default="e01",
     )
     args = parser.parse_args()
@@ -61,6 +61,12 @@ def main():
             "e09_comparison",
             "版本比较：先配对再看均值",
             "generation/e09-brief.md",
+        )
+    if lesson == "e10":
+        slug, title, brief_path = (
+            "e10_tool_evaluation",
+            "工具、参数与MCP：分开看才评得准",
+            "generation/e10-brief.md",
         )
     private = PROJECT / "generation/private" / lesson
     private.mkdir(parents=True, exist_ok=True)
@@ -146,6 +152,15 @@ def main():
             *(
                 [f"lessons/{slug}/statistics.py", "references/e09-reading.json"]
                 if lesson == "e09"
+                else []
+            ),
+            *(
+                [
+                    f"lessons/{slug}/{name}"
+                    for name in ("mcp_tools.py", "metrics.py", "micro_traces.json")
+                ]
+                + ["references/e10-reading.json"]
+                if lesson == "e10"
                 else []
             ),
             "eval_course/records.py",

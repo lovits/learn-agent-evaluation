@@ -25,6 +25,7 @@ PAGES = {
     "/lesson7": ("第7课：故障定位", "lessons/e07_failure_diagnosis/README.zh.md"),
     "/lesson8": ("第8课：评测数据集", "lessons/e08_datasets/README.zh.md"),
     "/lesson9": ("第9课：版本比较", "lessons/e09_comparison/README.zh.md"),
+    "/lesson10": ("第10课：工具与MCP", "lessons/e10_tool_evaluation/README.zh.md"),
     "/source": ("第1课源码", "lessons/e01_agent_baseline/source_walkthrough.md"),
     "/exercises": ("第1课练习", "lessons/e01_agent_baseline/exercises.md"),
     "/solutions": ("第1课答案", "lessons/e01_agent_baseline/solutions.md"),
@@ -33,6 +34,12 @@ PAGES = {
 }
 DOCUMENTS = {
     **PAGES,
+    "/source10": ("第10课源码", "lessons/e10_tool_evaluation/source_walkthrough.md"),
+    "/exercises10": ("第10课练习", "lessons/e10_tool_evaluation/exercises.md"),
+    "/solutions10": ("第10课答案", "lessons/e10_tool_evaluation/solutions.md"),
+    "/e10-results": ("第10课实测", "lessons/e10_tool_evaluation/run_summary.md"),
+    "/validation10": ("第10课验收", "docs/e10-validation.md"),
+    "/generation10": ("第10课生成与审校", "generation/e10-README.md"),
     "/source9": ("第9课源码", "lessons/e09_comparison/source_walkthrough.md"),
     "/exercises9": ("第9课练习", "lessons/e09_comparison/exercises.md"),
     "/solutions9": ("第9课答案", "lessons/e09_comparison/solutions.md"),

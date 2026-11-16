@@ -1,0 +1,101 @@
+{
+  "generator": "The-Pocket/PocketFlow-Tutorial-Codebase-Knowledge",
+  "upstream_commit": "05b24cbbb0fe409c5e23c9791f0342f07524ffdc",
+  "backend": "local authenticated Codex CLI",
+  "actual_model_calls": 4,
+  "new_model_calls_in_this_attempt": 3,
+  "transport_normalization": "Valid bare YAML is wrapped in YAML fences for original node parsers; raw model replies are preserved.",
+  "calls": [
+    {
+      "prompt_sha256": "74828f502f99d8649b05d5a528d326134f5e6462a72aafa4badf5c164773825d",
+      "response_sha256": "e22a8ea544ca4b6836c20976597666d539f8115ce5525501eb81081eb2e4b68f",
+      "elapsed_seconds": 71.35,
+      "reused_from_checkpoint": true
+    },
+    {
+      "prompt_sha256": "124c45f8d9c54af467f2be69007b6d16e825c1e434ad9fbe13ceb75b99e15c6d",
+      "response_sha256": "c4e2cabd15c836271a0710d3699698ddc9b69808f2a884ccf51697447c1feb5c",
+      "elapsed_seconds": 41.46,
+      "reused_from_checkpoint": false
+    },
+    {
+      "prompt_sha256": "c7210e818245ac9f333cb1bb0e456ba6e8e1b2017f4545281a0af52a9b0a37c4",
+      "response_sha256": "d4dc8f54c12566669ef44af6fa62d9ed4414b769110602c0c693fd86747dfa9f",
+      "elapsed_seconds": 17.09,
+      "reused_from_checkpoint": false
+    },
+    {
+      "prompt_sha256": "54eb808a9fc420519d429a8ab5e9235843def49904e0539e8f7336dd78423eaa",
+      "response_sha256": "a35010711b944f71579d67554bc46b72d8246ae14bac4974ab1264ce5bd7168d",
+      "elapsed_seconds": 139.95,
+      "reused_from_checkpoint": false
+    }
+  ],
+  "nodes_run": [
+    "FetchRepo",
+    "IdentifyAbstractions",
+    "AnalyzeRelationships",
+    "OrderChapters",
+    "WriteCurriculumPlan (course adapter)"
+  ],
+  "not_run": [
+    "WriteChapters",
+    "CombineTutorial"
+  ],
+  "reason": "This request is course planning, not generation of all sixteen chapters.",
+  "input_manifest": [
+    {
+      "path": "generation/curriculum_inputs/evaluation-capabilities.json",
+      "sha256": "d6d20650d7ffd06fc56ade77722db54e02081deeecf7273155fe7d6db6c07743"
+    },
+    {
+      "path": "generation/curriculum_inputs/teaching-method.md",
+      "sha256": "42f38e801ab4c8bab68b24ff0ac8616b03ccd194aa049052f79ad0c80ee6df07"
+    },
+    {
+      "path": "generation/curriculum_inputs/versions.json",
+      "sha256": "75831131b2e85e8f0edd2ddd4534642f169a6d0cd0d5ac89d47c5465581ce99c"
+    },
+    {
+      "path": "generation/curriculum_inputs/lesson-contracts.json",
+      "sha256": "9d94e3f487d91534fdf6495fe260196eb55dd8be00371dbc1110cd8aacc697c3"
+    },
+    {
+      "path": "generation/curriculum_inputs/agent-capabilities.json",
+      "sha256": "054cd076a8840db2e656a8356270dac7f37c60fcf6d66ea0222cc209d232f786"
+    },
+    {
+      "path": "generation/curriculum_inputs/evaluation-landscape.md",
+      "sha256": "3b8db6f04bbc9a8b12059ce36b807c7adca6868092e18fdcbea4c33891deb6d8"
+    },
+    {
+      "path": "generation/curriculum_inputs/learn_claude_code/s01_agent_loop/README.zh.md",
+      "sha256": "00ce3791e20530d2e950c32fc9f62c9e3c182d78e44e0f2cb913acb8072ef572"
+    },
+    {
+      "path": "generation/curriculum_inputs/learn_claude_code/s01_agent_loop/code.py",
+      "sha256": "8feaf7f73da6f9a7f0f030a66ed017bdf13d9884c4537b0b5805a55b43dbfc00"
+    },
+    {
+      "path": "generation/curriculum_inputs/learn_claude_code/s02_tool_use/README.zh.md",
+      "sha256": "330277fcbc1a4cb4bec166154eece16d2eb0226bab2f64463dcc0527d9a1ae0a"
+    },
+    {
+      "path": "generation/curriculum_inputs/learn_claude_code/s02_tool_use/code.py",
+      "sha256": "fde1337c5a17bc2f8666e9adc36717f37ea8803dbf04fe8d73e2400ce812a9fb"
+    }
+  ],
+  "brief_sha256": "ff35a826f783b5367b971e79bd199ab800281800e9500f48f68b6bf935b02b9f",
+  "draft_sha256": "d5de8ed89b52852c4c827600bd49bcc6a93472d2c09518c22197b46f1cae4ff9",
+  "implementation_status": "planned; existing Faithfulness replay pilot remains separate",
+  "publication": {
+    "path": "docs/curriculum.md",
+    "sha256": "38e70955c31930dbc8a79171349fb71bd0c75c796e511535c2adffc0f171b742",
+    "review_notes": [
+      "保留原始生成稿；调整标题与现有目录命名一致",
+      "移除未传入的统计外链，保留统计为课程补充方法",
+      "上下文压缩代码只在e12引入，e09保留实验比较主题；发布能力清单区分引入点与旧课参考路径",
+      "明确新编程Agent回归尚未实现，已有SDK回放验证另行保留"
+    ]
+  }
+}

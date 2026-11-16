@@ -1,10 +1,16 @@
 # 从项目学会 RAG 与 Agent 评测
 
-以 DeepEval、Ragas 的真实实现学习评测，按 Learn Claude Code 的方式：
+以 **Learn Claude Code 的编程 Agent 为被测对象**，接入可挂载的项目/API/开发规范知识库，
+依据 DeepEval、Ragas 的文档与真实实现学习评测。按递进方式组织：
 **问题 → 最小实现 → 工作原理 → 源码 → 实验 → 验收**。
 
-本仓库的第一个可运行样章是 **s07 Faithfulness**。
-全课程规划为6单元24课，其余课程目前是教学路线，尚未实现。
+全课程由原24课合并为 **16课**，原知识点保留，每课只引入评测需要的Agent代码。
+当前已有 **s07 Faithfulness 固定回放样章**，将作为新第5课的评分机制素材；
+新的编程Agent逐课实现仍按课程计划推进，当前不把它们描述为已经完成。
+
+先看 [Learn Claude Code 怎样教](docs/teaching-method.md)、
+[DeepEval / Ragas 评测与数据能力](docs/evaluation-landscape.md)、
+[16课详细大纲](docs/curriculum.md)与 [具体制作计划](docs/course-production-plan.md)。
 
 ## 一条命令启动
 
@@ -38,7 +44,7 @@ docker compose exec course python s07_faithfulness/code.py
 上述数字来自固定教学判定；真实模型可能拆出不同声明或给出不同判定。
 知识库变更会让旧回放快照失效，程序会拒绝沿用旧分数。
 
-## 你会学到
+## 现有 Faithfulness 样章会学到
 
 - Faithfulness 测的是回答与检索证据的关系，如何与正确性、相关性区分。
 - supported / unsupported / contradicted 三类声明及其分母。
@@ -54,9 +60,11 @@ docker compose exec course python s07_faithfulness/code.py
 - [完整代码入口](s07_faithfulness/code.py) / [固定样本](s07_faithfulness/fixtures.json)
 - [容器断网运行生成的示例报告](s07_faithfulness/example_report.json)
 - [Docker、知识库挂载、结果持久化和真实裁判配置](docs/docker.md)
-- [24课路线](docs/curriculum.md)
+- [16课路线与逐课验收](docs/curriculum.md)
+- [原24课知识对照](docs/archive/curriculum-24.md)
 - [已确认需求与项目计划](docs/project-plan.md)
 - [PocketFlow 实际生成过程](generation/README.md)
+- [PocketFlow 课程规划生成记录](generation/curriculum-README.md)
 - [依赖与来源版本](references/versions.json)
 
 ## 知识库和实验结果

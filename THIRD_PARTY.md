@@ -7,7 +7,11 @@
 | vendor/pocketflow_tutorial | The-Pocket/PocketFlow-Tutorial-Codebase-Knowledge @ 05b24cbbb0fe409c5e23c9791f0342f07524ffdc | MIT，原文见vendor内LICENSE |
 | references/upstream/deepeval | confident-ai/deepeval @ 34db63dd005ebc9a905c8ef4741ae0687c93c14c | Apache-2.0 |
 | references/upstream/ragas | vibrantlabsai/ragas @ 8c63f10d500c44efbf24fdb9e2920de2104c321c | Apache-2.0 |
-| 教学组织形式参考 | shareAI-lab/learn-claude-code @ 448c75bb596917ad196cc1fb7558f459c5c50fdd | MIT；本项目没有复制其课程代码 |
+| 编程Agent与教学组织依据 | shareAI-lab/learn-claude-code @ 448c75bb596917ad196cc1fb7558f459c5c50fdd | MIT；规划输入含前两课原始样本及许可 |
+
+课程规划输入中新增了 Learn Claude Code 的 s01/s02 README.zh.md 和 code.py 原始样本，
+位于 generation/curriculum_inputs/learn_claude_code，附带原版MIT许可；仅用于核对教学方式，
+没有将集成Agent提前作为第1课的课程实现。
 
 Apache-2.0和参考项目许可原文在 references/licenses。
 源码快照保持原文件内容，SHA-256与固定commit的URL见references/sources.json。

@@ -1,387 +1,247 @@
-# 从项目学会 RAG 与 Agent 评测：学习路线与 24 课大纲
+# 《从 Learn Claude Code 编程 Agent 学 RAG 与 Agent 评测》课程设计
 
-这是24课的路线，其中s07已经提供可运行样章，其余课为后续规划。目标读者会 Python、了解 RAG/Agent；以实践能力和关键源码结合为主。贯穿项目为“知识库问答＋工具调用助理”。建议按先修关系推进，预计 40–60 小时，属于工作量估计。
+> 状态：仅课程设计。当前只有旧版 s07 Faithfulness 回放样章已实现；新的编程 Agent 课程、17项机制迁移及实验均尚未完成或验证。
 
-每课增加一个主要评测问题。先用小例子手算或复现，再运行框架，最后沿源码解释结果。DeepEval 与 Ragas 是相互对照的实现材料；相同名字不保证相同评分口径。课程安排是教学设计建议，不等同于官方文档顺序。
+## 原项目学习方式与课程改编
 
-| 单元 | 课程 | 学完能做什么 |
-|---|---|---|
-| 一、先把评测问题定义清楚 | s01–s04 | 从“看起来不错”走到一份可执行的评测协议。 |
-| 二、把 RAG 拆成可诊断的指标 | s05–s08 | 解释检索、证据和回答分别出了什么问题。 |
-| 三、用评测驱动 RAG 改进 | s09–s12 | 在同一数据集上建立基线、制造失败、扩充样本并做受控迭代。 |
-| 四、评测 Agent 的行动与结果 | s13–s16 | 把最终回答、工具行为、真实状态和多轮表现分别评清楚。 |
-| 五、让评测结论值得相信 | s17–s20 | 评估计划和效率，并检查裁判偏差、实验波动与结论边界。 |
-| 六、做成可以持续使用的评测工程 | s21–s24 | 实现自定义指标、回归门禁、源码对照，完成可复现的项目报告。 |
+Learn Claude Code 采用“遇到一个具体困难，只增加一个最小机制”的递进方式：从 `agent_loop + bash` 起步，逐步加入工具分发、权限、hooks、计划、子任务、skills、上下文压缩、记忆、任务图、后台任务、调度、团队、MCP、集成运行、流程续跑和目标闭环。
 
-## 一、先把评测问题定义清楚
+本课程沿用这种教学节奏，但每课改为：
 
-从“看起来不错”走到一份可执行的评测协议。
+评测问题 → 被测对象 → 最小 Agent 代码增量 → 数据与评分标准 → 故障或对照实验 → 结果解释 → 指标源码 → 外部验收。
 
-### s01 把“好用”写成评测协议
+第1课不会导入完整集成 Agent；正文只给当前评测问题必需的代码片段，完整可执行版本放入当课 `code.py`。集成视图、workflow journal 和17项机制总核对到第16课才出现。
 
-**要解决的问题：** 什么结果才算成功，哪些失败绝不能被平均分掩盖？
+知识库固定为项目、API、架构和开发规范文档。Docker 中知识库只读挂载；练习仓库和结果目录可写；留出验收数据独立保管，不暴露给被测 Agent。文件、diff、退出码和保留测试用于核实客观状态；模型裁判用于判断语义、计划或解释质量，两类结果分别报告。
 
-**知识点：** 任务、样本、判分器、数据集、阈值、运行配置；模型能力与应用质量；离线评测与线上观察。
+原项目依据：[s01 教材](https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s01_agent_loop/README.zh.md)、[s02 教材](https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s02_tool_use/README.zh.md)。
 
-**实验与本课产物：** 用知识库助理的 6 个示例建立初始 scorecard，记录成功、失败与暂时不可判定。
+## DeepEval 与 Ragas 能力分工
 
-**验收：** 提交一页评测协议：目标、对象、输入、成功证据、失败类型、分数方向都明确。
+| 能力 | DeepEval | Ragas | 课程用法 |
+|---|---|---|---|
+| 样本与运行 | LLMTestCase、ConversationalTestCase、EvaluationDataset、trace/span | SingleTurnSample、MultiTurnSample、EvaluationDataset、experiment | 先形成统一业务记录，再做框架适配 |
+| RAG | Contextual Precision/Recall/Relevancy、Faithfulness、Answer Relevancy | Context Precision/Recall、Faithfulness、Factual Correctness、Noise Sensitivity | 分开评检索排序、覆盖、证据忠实和答案质量 |
+| Agent | Tool、Argument、Task Completion、Plan、Step Efficiency | ToolCallAccuracy/F1、AgentGoalAccuracy | 轨迹语义评分不替代文件与测试验收 |
+| 数据生成 | Synthesizer、对话模拟 | TestsetGenerator、知识图谱、persona、单/多跳 | 只生成待审核候选，不冒充真实执行轨迹 |
+| 扩展与回归 | BaseMetric、异步、pytest/CI、tracing | collections、自定义指标、RunConfig、成本记录 | 固定版本，保存逐样本结果、错误和费用 |
+| 裁判校准 | rubric、G-Eval、DAG、阈值与理由 | Judge alignment、语言适配 | 校准集与留出集分开，分析偏差和分歧 |
 
-**官方阅读：** [资料 1](https://deepeval.com/docs/evaluation-introduction)、[资料 2](https://docs.ragas.io/en/stable/concepts/experimentation/)。
+统一数据记录至少包含：任务ID、输入、知识库及证据版本、reference或外部验收器、允许的工具约束、类别、难度、来源、审核状态和数据划分。运行后追加回答、检索结果、工具事件、退出码、diff、运行ID、模型配置、裁判配置、延迟和成本。
 
-**源码入口：** [deepeval/deepeval/evaluate/evaluate.py](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/evaluate/evaluate.py)、[ragas/src/ragas/experiment.py](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/experiment.py)。
+真实 SDK 配合预设输出只能验证评分管线，不能称为模型准确率实验。真实 Agent 与真实裁判分别配置接口；回放结果和真实调用结果不得混报。
 
-### s02 一条样本怎样进入两个框架
+官方入口：[DeepEval 指标](https://deepeval.com/docs/metrics-introduction)、[DeepEval Agent tracing](https://deepeval.com/docs/getting-started-agents)、[DeepEval Synthesizer](https://deepeval.com/docs/golden-synthesizer)、[Ragas 指标](https://docs.ragas.io/en/stable/concepts/metrics/overview/)、[Ragas Agent 指标](https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/agents/)、[Ragas 测试集生成](https://docs.ragas.io/en/stable/concepts/test_data_generation/rag/)。
 
-**要解决的问题：** 同一条业务记录如何适配 DeepEval 和 Ragas，而不改变评测问题？
+## e01 最小编程 Agent 与第一份评测协议
 
-**知识点：** input/actual_output/expected_output/retrieval_context；user_input/response/reference/retrieved_contexts；工具调用与多轮消息；必需字段；数据版本与开发/校准/留出集。
+- **评测对象：** `agent_loop`、`run_bash`、停止行为和任务是否真实完成。
+- **知识点：** 任务、样本、判分器、数据集、阈值、运行配置；模型能力与应用质量；离线评测、线上观察；RAG链路概览（检索代码在e04引入）、运行ID和scorecard。
+- **Agent代码增量：** 仅引入循环、bash执行和必要运行记录。
+- **实验：** 在临时练习仓库列目录、创建并运行 `hello.py`，再注入“未创建文件却宣称成功”的输出。
+- **验收：** 由文件内容和退出码确认完成；保存输入、输出、版本与轨迹；回放和真实调用分别标记。
+- **来源：** [Agent循环源码](https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s01_agent_loop/code.py)、[DeepEval evaluation](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/evaluate/evaluate.py)、[Ragas experimentation](https://docs.ragas.io/en/stable/concepts/experimentation/)。
 
-**实验与本课产物：** 建立统一 JSONL 样本和两份小适配器；加入缺字段、无参考答案、工具失败样本。
+## e02 工具、权限、轨迹与统一评测样本
 
-**验收：** 逐字段说明映射；对不兼容样本给出明确处理；区分 Ragas collections 新接口与旧 Sample/evaluate 路线。
+- **评测对象：** 工具选择与结果、权限拒绝、异常和两框架字段适配。
+- **知识点：** DeepEval与Ragas样本字段；多轮消息；trace、span、工具事件、异常；端到端、组件和完整轨迹；开发、校准、留出划分。
+- **Agent代码增量：** 加入 read/write/edit/glob 分发、权限检查和记录hook。
+- **实验：** 构造成功、缺参、权限拒绝和工具异常轨迹，转换成两框架样本。
+- **验收：** 字段逐项可追溯；拒绝不能记为成功；验收数据与开发数据隔离。
+- **来源：** [工具源码](https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s02_tool_use/code.py)、[权限源码](https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s03_permission/code.py)、[DeepEval test cases](https://deepeval.com/docs/evaluation-test-cases)、[Ragas EvalSample](https://docs.ragas.io/en/stable/concepts/components/eval_sample/)。
 
-**官方阅读：** [资料 1](https://deepeval.com/docs/evaluation-test-cases)、[资料 2](https://docs.ragas.io/en/stable/concepts/components/eval_sample/)、[资料 3](https://docs.ragas.io/en/stable/concepts/components/eval_dataset/)。
+## e03 规则评分与 LLM 裁判
 
-**源码入口：** [deepeval/deepeval/test_case/llm_test_case.py](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/test_case/llm_test_case.py)、[deepeval/deepeval/test_case/conversational_test_case.py](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/test_case/conversational_test_case.py)、[ragas/src/ragas/dataset_schema.py](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/dataset_schema.py)。
+- **评测对象：** 格式、精确结果、集合匹配和语义标准。
+- **知识点：** 精确匹配、precision/recall/F1、结构断言；G-Eval、Aspect Critic、DAG、rubric、结构化verdict与理由。
+- **Agent代码增量：** Agent不变，增加独立规则与模型裁判适配器。
+- **实验：** 手算集合F1；比较规则、G-Eval、Aspect类标准和DAG分支的边界案例。
+- **验收：** rubric与输入字段一致；保存verdict和理由；确定性评分与模型随机性分开报告。
+- **来源：** [DeepEval G-Eval源码](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/g_eval/g_eval.py)、[Ragas ToolCallF1源码](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/metrics/collections/tool_call_f1/metric.py)、[Aspect Critic](https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/aspect_critic/)。
 
-### s03 先做能精确判定的评测
+## e04 知识库检索：精度、召回与排序
 
-**要解决的问题：** 哪些问题用普通程序就能判，何时需要语义判断？
+- **评测对象：** API、架构和规范证据的相关性、排序及覆盖。
+- **知识点：** Context Precision、Context Recall、排序敏感性、claims覆盖；文档ID、reference和LLM判定口径；空结果与参考不完整。
+- **Agent代码增量：** 只读知识库挂载和 `search_knowledge`，参考SkillLoader的按需加载方式。
+- **实验：** 查询项目API文档，依次重排、加噪声和删除必需片段。
+- **验收：** 构造高precision低recall案例；保存文档ID与版本；三种评测口径分列。
+- **来源：** [Skill loading源码](https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s07_skill_loading/code.py)、[DeepEval Contextual Precision](https://deepeval.com/docs/metrics-contextual-precision)、[Ragas Context Recall](https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/context_recall/)。
 
-**知识点：** 精确匹配、集合 precision/recall/F1、结构校验、规则断言；规则覆盖范围；对语义等价的误判。
+## e05 Faithfulness：解释是否忠于检索证据
 
-**实验与本课产物：** 手算工具集合 F1；给有效 JSON、必需字段、工单真实状态写本地断言。
+- **评测对象：** 回答中的声明是否得到本次检索证据支持。
+- **知识点：** claim拆解、支持、矛盾、信息不足、NLI；证据内一致性与外部事实正确性的区别；两框架口径。
+- **Agent代码增量：** 复用检索Agent，增加逐声明SDK输入和评分记录。
+- **实验：** 将现有s07回放换成编程知识案例，覆盖支持、未支持、矛盾、混合、空声明；随后规划接入真实Agent输出。
+- **验收：** 对固定案例手算预期分数；解释borderline和NaN；证据版本改变后旧标注失效。预设输出阶段只验评分管线。
+- **来源：** [DeepEval Faithfulness源码](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/faithfulness/faithfulness.py)、[Ragas Faithfulness源码](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/metrics/collections/faithfulness/metric.py)。
 
-**验收：** 手算与程序结果一致；能解释“字符串不同但都正确”和“文字正确但状态未变”的反例。
+## e06 答案相关性、正确性、完整性与拒答
 
-**官方阅读：** [资料 1](https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/traditional/)、[资料 2](https://deepeval.com/guides/guides-building-custom-metrics)。
+- **评测对象：** 回答是否切题、正确、覆盖充分，并在证据不足时适当拒答。
+- **知识点：** Answer/Response Relevancy、Answer Correctness、Factual Correctness、语义相似度、reference依赖及precision/recall侧重。
+- **Agent代码增量：** 同一Agent增加reference和不可回答任务。
+- **实验：** 比较“相关但错、忠于旧文档、正确但答偏、证据不足却编造”。
+- **验收：** 核对reference和知识版本；用组合指标解释失败，不以Faithfulness概括全部质量。
+- **来源：** [DeepEval Answer Relevancy源码](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/answer_relevancy/answer_relevancy.py)、[Ragas Factual Correctness](https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/factual_correctness/)。
 
-**源码入口：** [ragas/src/ragas/metrics/collections/tool_call_f1/metric.py](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/metrics/collections/tool_call_f1/metric.py)、[ragas/src/ragas/metrics/collections/tool_call_f1/util.py](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/metrics/collections/tool_call_f1/util.py)。
+## e07 通过故障实验定位 RAG 失败
 
-### s04 让 LLM 按 rubric 判分
-
-**要解决的问题：** 怎样把“回答质量”写成裁判可以执行的标准？
-
-**知识点：** LLM-as-a-Judge、评分维度、rubric、G-Eval、Aspect Critic、结构化 verdict 与理由；DAG 评分分支。
-
-**实验与本课产物：** 为“答案是否覆盖用户所有要求”写 rubric，用正例、反例和边界例检查判分。
-
-**验收：** 标准能区分不同错误；保留每条理由；不把 LLM 裁判输出当作客观真值，也不把 DAG 当作完全确定的裁判。
-
-**官方阅读：** [资料 1](https://deepeval.com/docs/metrics-llm-evals)、[资料 2](https://deepeval.com/guides/guides-g-eval-examples)、[资料 3](https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/aspect_critic/)。
-
-**源码入口：** [deepeval/deepeval/metrics/g_eval/g_eval.py](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/g_eval/g_eval.py)、[deepeval/deepeval/metrics/dag/dag.py](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/dag/dag.py)。
-
-## 二、把 RAG 拆成可诊断的指标
-
-解释检索、证据和回答分别出了什么问题。
-
-### s05 检索结果有用而且排在前面吗
-
-**要解决的问题：** 为什么同样找到了证据，排序不同仍应得到不同分数？
-
-**知识点：** Context Precision、相关性判定、排序敏感性；基于标注 ID 与基于 LLM/参考答案的口径；分母与空结果。
-
-**实验与本课产物：** 固定问题和答案，将相同 chunks 重排、加入噪声，手算后再用框架评分。
-
-**验收：** 解释排名变化如何影响所选实现的分数；列清它需要哪些字段和参考信息。
-
-**官方阅读：** [资料 1](https://deepeval.com/docs/metrics-contextual-precision)、[资料 2](https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/context_precision/)。
-
-**源码入口：** [deepeval/deepeval/metrics/contextual_precision/contextual_precision.py](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/contextual_precision/contextual_precision.py)、[ragas/src/ragas/metrics/collections/context_precision/metric.py](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/metrics/collections/context_precision/metric.py)。
-
-### s06 检索是否漏掉完成回答的证据
-
-**要解决的问题：** 检索结果都相关，为什么仍然可能无法回答？
-
-**知识点：** Context Recall、参考答案中的 claims、标注证据集合；coverage 与 precision 的区别；参考不完整时的局限。
-
-**实验与本课产物：** 设计需要两段证据的问题，分别保留一段、两段和错误版本的证据。
-
-**验收：** 构造“高 precision、低 recall”样本；说明 claim recall 与基于 ID 的 recall 不能混作同一指标。
-
-**官方阅读：** [资料 1](https://deepeval.com/docs/metrics-contextual-recall)、[资料 2](https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/context_recall/)。
-
-**源码入口：** [deepeval/deepeval/metrics/contextual_recall/contextual_recall.py](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/contextual_recall/contextual_recall.py)、[ragas/src/ragas/metrics/collections/context_recall/metric.py](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/metrics/collections/context_recall/metric.py)。
-
-### s07 回答真的被证据支持吗
-
-**要解决的问题：** 一个听起来正确的回答，是否可能没有证据支持？
-
-**知识点：** Faithfulness、claim 拆解、支持/矛盾/信息不足、NLI；证据内一致性与外部事实正确性；不同框架的判定口径。
-
-**实验与本课产物：** 保持问题与证据不变，分别加入被支持、矛盾和证据未提及的陈述。
-
-**验收：** 逐 claim 解释 verdict；识别两个框架对于信息不足的不同处理，不直接平均它们的总分。
-
-**官方阅读：** [资料 1](https://deepeval.com/docs/metrics-faithfulness)、[资料 2](https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/faithfulness/)。
-
-**源码入口：** [deepeval/deepeval/metrics/faithfulness/faithfulness.py](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/faithfulness/faithfulness.py)、[ragas/src/ragas/metrics/collections/faithfulness/metric.py](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/metrics/collections/faithfulness/metric.py)。
-
-### s08 相关、正确和完整分别是什么
-
-**要解决的问题：** 为什么回答了问题，不代表答案事实正确或完整？
-
-**知识点：** Answer/Response Relevancy、Answer Correctness、Factual Correctness、语义相似度；reference 依赖；precision/recall 侧重；拒答与不可回答问题。
-
-**实验与本课产物：** 设计“相关但错误”“忠实但证据错误”“正确但答非所问”“应拒答却编造”四组样本。
-
-**验收：** 用指标组合而非一个总分解释四组样本；为不可回答问题另写验收标准。
-
-**官方阅读：** [资料 1](https://deepeval.com/docs/metrics-answer-relevancy)、[资料 2](https://deepeval.com/guides/guides-answer-correctness-metric)、[资料 3](https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/factual_correctness/)。
-
-**源码入口：** [deepeval/deepeval/metrics/answer_relevancy/answer_relevancy.py](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/answer_relevancy/answer_relevancy.py)、[ragas/src/ragas/metrics/collections/factual_correctness/metric.py](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/metrics/collections/factual_correctness/metric.py)、[ragas/src/ragas/metrics/collections/answer_correctness/metric.py](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/metrics/collections/answer_correctness/metric.py)。
-
-## 三、用评测驱动 RAG 改进
-
-在同一数据集上建立基线、制造失败、扩充样本并做受控迭代。
-
-### s09 给最小 RAG 建立可复现基线
-
-**要解决的问题：** 如何让一次实验完整留下输入、检索、输出和分数？
-
-**知识点：** 最小 RAG 链路、组件与端到端评测、运行 ID、模型/提示词/数据版本、scorecard。
-
-**实验与本课产物：** 接入固定文档的问答管线，先用缓存输出跑通，再选择真实模型运行；两框架评同一批记录。
-
-**验收：** 可以从保存的记录重放评分；能列出全部影响结果的配置；基线报告不包含编造的实测分数。
-
-**官方阅读：** [资料 1](https://deepeval.com/tutorials/rag-qa-agent/evaluation)、[资料 2](https://docs.ragas.io/en/stable/tutorials/rag/)。
-
-**源码入口：** [deepeval/deepeval/dataset/dataset.py](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/dataset/dataset.py)、[ragas/src/ragas/dataset.py](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/dataset.py)、[ragas/src/ragas/experiment.py](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/experiment.py)。
-
-### s10 通过失败实验定位 RAG 问题
-
-**要解决的问题：** 分数下降是检索、上下文还是生成出了问题？
-
-**知识点：** 故障注入、错误分类、Noise Sensitivity、检索/生成分离诊断、bad case 分析。
-
-**实验与本课产物：** 分别删证据、加无关段落、改错误文档、改生成提示词，保留其他条件。
-
-**验收：** 为每种注入给出预期受影响指标和实际差异；避免把所有失败都归因于提示词。
-
-**官方阅读：** [资料 1](https://deepeval.com/guides/guides-rag-evaluation)、[资料 2](https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/noise_sensitivity/)。
-
-**源码入口：** [deepeval/deepeval/metrics/contextual_relevancy/contextual_relevancy.py](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/contextual_relevancy/contextual_relevancy.py)、[ragas/src/ragas/metrics/collections/noise_sensitivity/metric.py](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/metrics/collections/noise_sensitivity/metric.py)。
-
-### s11 生成测试集，并验证它有没有价值
-
-**要解决的问题：** 合成问题怎样覆盖真实任务，又如何避免自问自答的偏差？
-
-**知识点：** DeepEval Synthesizer、Ragas TestsetGenerator、knowledge graph、personas、单跳/多跳、evolutions、质量过滤、重复与数据泄漏。
-
-**实验与本课产物：** 从小文档集扩充种子问题，按错误类型/任务类型分层，并抽样人工复核。
-
-**验收：** 每条样本可追溯到来源；合成与人工样本分开标记；留出集不参与优化；不把 Agent 测试集占位页当作现成功能。
-
-**官方阅读：** [资料 1](https://deepeval.com/guides/guides-using-synthesizer)、[资料 2](https://docs.ragas.io/en/stable/concepts/test_data_generation/rag/)、[资料 3](https://docs.ragas.io/en/stable/howtos/customizations/testgenerator/)。
-
-**源码入口：** [deepeval/deepeval/synthesizer/synthesizer.py](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/synthesizer/synthesizer.py)、[ragas/src/ragas/testset/synthesizers/generate.py](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/testset/synthesizers/generate.py)。
-
-### s12 改变一个因素，比较一个假设
-
-**要解决的问题：** 改 top-k、chunk 或模型后，怎样判断改进来自哪里？
-
-**知识点：** 受控实验、配对样本、提示词/检索参数迭代、质量/成本/延迟权衡；开发集选择与留出集验证。
-
-**实验与本课产物：** 在相同问题和评分配置下比较两个 RAG 版本，先只改一个因素。
-
-**验收：** 报告逐样本变化与分类结果；说明权衡和未改善类别；不根据教程中的示意表得出模型优劣结论。
-
-**官方阅读：** [资料 1](https://deepeval.com/tutorials/rag-qa-agent/improvement)、[资料 2](https://deepeval.com/guides/guides-optimizing-hyperparameters)、[资料 3](https://docs.ragas.io/en/stable/howtos/applications/evaluate-and-improve-rag/)。
-
-**源码入口：** [ragas/src/ragas/experiment.py](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/experiment.py)、[learn-claude-code/s08_context_compact/code.py](https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s08_context_compact/code.py)。
-
-## 四、评测 Agent 的行动与结果
-
-把最终回答、工具行为、真实状态和多轮表现分别评清楚。
-
-### s13 把 Agent 执行变成评测样本
-
-**要解决的问题：** 为什么最终回答看不到工具错误和多走的步骤？
-
-**知识点：** trace、span、轨迹、工具事件、输入输出、异常；端到端/完整轨迹/组件边界；trace 树和工具归属。
-
-**实验与本课产物：** 给助理记录一次完整工具调用；参考新版 s01/s02/s04，保存可重放事件。
-
-**验收：** 能指出失败发生在哪个 span；区分最终文本、LLM 工具决策与工具执行结果；正确记录工具参数和返回值。
-
-**官方阅读：** [资料 1](https://deepeval.com/guides/guides-tracing-ai-agents)、[资料 2](https://deepeval.com/docs/evaluation-trajectory-based-llm-evals)。
-
-**源码入口：** [deepeval/deepeval/tracing/tracing.py](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/tracing/tracing.py)、[learn-claude-code/s01_agent_loop/code.py](https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s01_agent_loop/code.py)、[learn-claude-code/s02_tool_use/code.py](https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s02_tool_use/code.py)、[learn-claude-code/s04_hooks/code.py](https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s04_hooks/code.py)。
-
-### s14 工具选对了，参数与顺序也对了吗
-
-**要解决的问题：** 调用过正确工具，为什么工具使用分数仍可能不同？
-
-**知识点：** ToolCorrectness、ToolCallAccuracy、ToolCallF1、ArgumentCorrectness；集合与序列；额外参数、重复调用、无调用边界。
-
-**实验与本课产物：** 构造正确、漏调、误调、错参、乱序、重复和无需工具的轨迹，手算并对照实现。
-
-**验收：** 解释 Accuracy 与 F1 的差异；识别文档 F1 勘误；证明集合 F1 无法惩罚完全重复的同一调用。
-
-**官方阅读：** [资料 1](https://deepeval.com/docs/metrics-tool-correctness)、[资料 2](https://deepeval.com/docs/metrics-argument-correctness)、[资料 3](https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/agents/)。
-
-**源码入口：** [deepeval/deepeval/metrics/tool_correctness/tool_correctness.py](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/tool_correctness/tool_correctness.py)、[ragas/src/ragas/metrics/collections/tool_call_accuracy/metric.py](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/metrics/collections/tool_call_accuracy/metric.py)、[ragas/src/ragas/metrics/collections/tool_call_f1/metric.py](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/metrics/collections/tool_call_f1/metric.py)。
-
-### s15 任务是否真的完成
-
-**要解决的问题：** Agent 说“已创建工单”，如何核实它确实做到了？
-
-**知识点：** Task Completion、AgentGoalAccuracy、reference outcome、外部状态断言；结果与路径；停止条件与证据。
-
-**实验与本课产物：** 在本地模拟工单系统制造“说成功但未写入”“重复创建”“正确完成”三类结果。
-
-**验收：** 用真实状态断言核实完成；将从对话推断的完成度与状态验证分别报告；不强制只有一条合法执行路径。
-
-**官方阅读：** [资料 1](https://deepeval.com/docs/metrics-task-completion)、[资料 2](https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/agents/)。
-
-**源码入口：** [deepeval/deepeval/metrics/task_completion/task_completion.py](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/task_completion/task_completion.py)、[ragas/src/ragas/metrics/collections/agent_goal_accuracy/metric.py](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/metrics/collections/agent_goal_accuracy/metric.py)、[learn-claude-code/s17_goal_loop/code.py](https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s17_goal_loop/code.py)。
-
-### s16 多轮对话、记忆和模拟用户怎样评
-
-**要解决的问题：** 单轮都正确，为什么整个对话还是失败？
-
-**知识点：** ConversationalTestCase、Turn、MultiTurnSample、上下文保持、指令变化、知识保留、对话完整性、模拟器终止与场景覆盖。
-
-**实验与本课产物：** 让用户补充或更改条件，加入记忆污染、漏记条件和过早结束场景。
-
-**验收：** 分别评每轮和整个会话；固定场景并检查模拟器自身；遵守当前 DeepEval 多轮执行接口边界。
-
-**官方阅读：** [资料 1](https://deepeval.com/guides/guides-multi-turn-evaluation)、[资料 2](https://deepeval.com/guides/guides-multi-turn-simulation)、[资料 3](https://docs.ragas.io/en/stable/howtos/applications/evaluating_multi_turn_conversations/)。
-
-**源码入口：** [deepeval/deepeval/test_case/conversational_test_case.py](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/test_case/conversational_test_case.py)、[deepeval/deepeval/simulator/conversation_simulator.py](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/simulator/conversation_simulator.py)、[learn-claude-code/s09_memory/code.py](https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s09_memory/code.py)。
-
-## 五、让评测结论值得相信
-
-评估计划和效率，并检查裁判偏差、实验波动与结论边界。
-
-### s17 计划质量与执行一致性怎样区分
-
-**要解决的问题：** 完成任务、计划合理、照计划行动是同一件事吗？
-
-**知识点：** Plan Quality、Plan Adherence、可观察计划与执行证据；任务依赖；多 Agent 的组件与整体评价。
-
-**实验与本课产物：** 给同一任务提供好/坏/缺失计划，比较执行轨迹；参考 s05/s10/s13/s16。
-
-**验收：** 区分计划质量与遵从度；对“无计划默认高分”单独标记；不要求读取或展示模型隐藏思维。
-
-**官方阅读：** [资料 1](https://deepeval.com/docs/metrics-plan-quality)、[资料 2](https://deepeval.com/docs/metrics-plan-adherence)、[资料 3](https://deepeval.com/guides/guides-ai-agent-evaluation-metrics)。
-
-**源码入口：** [deepeval/deepeval/metrics/plan_quality/plan_quality.py](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/plan_quality/plan_quality.py)、[deepeval/deepeval/metrics/plan_adherence/plan_adherence.py](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/plan_adherence/plan_adherence.py)、[learn-claude-code/s10_task_system/code.py](https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s10_task_system/code.py)、[learn-claude-code/s16_workflow_runtime/code.py](https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s16_workflow_runtime/code.py)。
-
-### s18 完成得高效且稳定吗
-
-**要解决的问题：** 同样成功，怎样发现重复、循环、超时和额外成本？
-
-**知识点：** Step Efficiency、步数/重试/异常、工具调用成本、token/延迟、预算、重复运行成功率；计划效率与实际效率。
-
-**实验与本课产物：** 注入重复检索、工具超时和失败恢复；对同一任务重复运行并记录成本。
-
-**验收：** 同时报告成功率、失败类型和资源消耗；分离评测成本与应用成本；不以更少步骤自动判更优。
-
-**官方阅读：** [资料 1](https://deepeval.com/docs/metrics-step-efficiency)、[资料 2](https://docs.ragas.io/en/stable/howtos/customizations/run_config/)、[资料 3](https://docs.ragas.io/en/stable/howtos/customizations/metrics/_cost/)。
-
-**源码入口：** [deepeval/deepeval/metrics/step_efficiency/step_efficiency.py](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/step_efficiency/step_efficiency.py)、[learn-claude-code/s11_background_tasks/code.py](https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s11_background_tasks/code.py)。
-
-### s19 你的裁判可靠吗
-
-**要解决的问题：** 框架给出分数之前，怎样检查评分标准是否对齐人类？
-
-**知识点：** 人工复核集、Judge alignment、位置/篇幅/自偏好、裁判提示词、中文适配、分歧分析；局部改进与留出验证。
-
-**实验与本课产物：** 建立小规模人工标注校准集，交换答案顺序、改写篇幅并对比分歧；为中文样本校准 rubric。
-
-**验收：** 保留人类标签与裁判理由；报告分歧和修订前后结果；校准材料与最终留出评估分开。
-
-**官方阅读：** [资料 1](https://docs.ragas.io/en/stable/howtos/applications/align-llm-as-judge/)、[资料 2](https://docs.ragas.io/en/stable/howtos/customizations/metrics/metrics_language_adaptation/)、[资料 3](https://arxiv.org/abs/2306.05685)。
-
-**源码入口：** [deepeval/deepeval/metrics/g_eval/g_eval.py](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/g_eval/g_eval.py)、[ragas/src/ragas/experiment.py](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/experiment.py)。
-
-### s20 平均分上升，结论能说多大
-
-**要解决的问题：** 怎样避免把抽样波动或某个类别退化写成全面改进？
-
-**知识点：** 逐样本配对差值、重复评分、分层报告、均值与失败率；bootstrap 区间入门、业务最小改进与统计不确定性。
-
-**实验与本课产物：** 复用 s12 的两个版本，输出配对差值和分层结果；用重采样展示区间变化。
-
-**验收：** 结论与样本规模匹配；不将区间跨零解释成已证明无差异；不将一次高分当成可靠生产结论。本课统计内容标为方法补充。
-
-**官方阅读：** [资料 1](https://docs.ragas.io/en/stable/concepts/experimentation/)、[资料 2](https://docs.ragas.io/en/stable/concepts/datasets/)、[资料 3](https://deepeval.com/guides/guides-regression-testing-in-cicd)、[统计实现参考](https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.bootstrap.html)。
-
-**源码入口：** [ragas/src/ragas/experiment.py](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/experiment.py)。
-
-## 六、做成可以持续使用的评测工程
-
-实现自定义指标、回归门禁、源码对照，完成可复现的项目报告。
-
-### s21 实现一个属于业务的指标
-
-**要解决的问题：** 怎样从业务失败类型推导出一个可审查的评分器？
-
-**知识点：** 规则/LLM/复合指标、BaseMetric、结构化输出、measure/a_measure/ascore、解释与错误状态；适用域。
-
-**实验与本课产物：** 实现“回答与工单真实状态一致”的业务指标，先用规则，再比较需要语义判定的扩展。
-
-**验收：** 给出正例、负例、边界例和适用范围；保持规则断言与语义裁判边界；不把官方有缺陷示例直接粘贴为答案。
-
-**官方阅读：** [资料 1](https://deepeval.com/guides/guides-building-custom-metrics)、[资料 2](https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/general_purpose/)。
-
-**源码入口：** [deepeval/deepeval/metrics/base_metric.py](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/base_metric.py)、[ragas/src/ragas/metrics/collections/base.py](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/metrics/collections/base.py)。
-
-### s22 把评测接入回归和生产反馈
-
-**要解决的问题：** 怎样让一次修复成为下次发布前能自动发现的回归？
-
-**知识点：** pytest/CI、质量门禁、关键失败单独拦截、夜间较重评测、生产 trace 转样本、版本与成本记录。
-
-**实验与本课产物：** 把一个已修复 bad case 加入回归集；模拟门禁失败；从匿名化轨迹补充候选样本。
-
-**验收：** 人为引入回归时能被发现；门禁遵循指标方向与校准结果；避开过时 in_ci=True 示例；云服务集成作为可选路径。
-
-**官方阅读：** [资料 1](https://deepeval.com/guides/guides-regression-testing-in-cicd)、[资料 2](https://deepeval.com/guides/guides-llm-observability)、[资料 3](https://docs.ragas.io/en/stable/howtos/applications/add_to_ci/)。
-
-**源码入口：** [deepeval/deepeval/evaluate/evaluate.py](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/evaluate/evaluate.py)、[ragas/src/ragas/evaluation.py](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/evaluation.py)。
-
-### s23 沿一次评分读懂关键源码
-
-**要解决的问题：** 从输入字段到 prompt、verdict、公式和结果，评分究竟在哪里发生？
-
-**知识点：** 指标基类、输入校验、prompt/schema、模型调用、聚合、异步；同名指标实现差异；文档、实现与测试三方对照。
-
-**实验与本课产物：** 完整跟踪 Faithfulness 和一个工具指标的调用链；对两个框架写同一份口径说明。
-
-**验收：** 用路径和符号定位每一步；指出哪些分数不可直接比较；源码片段固定 commit；不把整个仓库目录当教材目录。
-
-**官方阅读：** [资料 1](https://deepeval.com/docs/metrics-faithfulness)、[资料 2](https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/faithfulness/)、[资料 3](https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/agents/)。
-
-**源码入口：** [deepeval/deepeval/metrics/faithfulness/faithfulness.py](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/faithfulness/faithfulness.py)、[ragas/src/ragas/metrics/collections/faithfulness/metric.py](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/metrics/collections/faithfulness/metric.py)、[ragas/src/ragas/metrics/collections/tool_call_accuracy/metric.py](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/metrics/collections/tool_call_accuracy/metric.py)。
-
-### s24 完成一次可以被别人复核的评测
-
-**要解决的问题：** 你能否独立提出改进、验证它，并解释没有解决的问题？
-
-**知识点：** 评测协议、数据审计、指标选型、双框架复现、受控实验、错误分析、可靠性、成本、回归的完整闭环。
-
-**实验与本课产物：** 完成知识库问答＋工具调用助理的基线、改进版和最终报告；挑一项新版 Learn Claude Code 机制做迁移实验。
-
-**验收：** 交付数据、配置、代码、逐样本结果、失败分析和复现命令；明确假设与限制；至少包含检索失败、无依据生成、错参和虚假完成反例。
-
-**官方阅读：** [资料 1](https://deepeval.com/guides/guides-ai-agent-evaluation)、[资料 2](https://deepeval.com/guides/guides-rag-evaluation)、[资料 3](https://docs.ragas.io/en/stable/tutorials/agent/)。
-
-**源码入口：** [learn-claude-code/s15_integrated_harness/code.py](https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s15_integrated_harness/code.py)、[learn-claude-code/s16_workflow_runtime/code.py](https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s16_workflow_runtime/code.py)、[learn-claude-code/s17_goal_loop/code.py](https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s17_goal_loop/code.py)。
-
-## 完课后应具备的能力
-
-1. 根据业务失败类型设计评测协议、样本与 rubric，说明每个指标测什么和测不到什么。
-2. 区分检索缺失、证据不相关、无依据生成、事实错误、工具参数错误、轨迹低效与任务未完成。
-3. 为同一批数据正确适配 DeepEval 和 Ragas；解释新旧接口与同名指标差异。
-4. 阅读关键指标的输入校验、提示词、结构化判定与聚合公式；用反例检验实现。
-5. 在固定数据和配置下比较版本，报告逐样本变化、裁判分歧、不确定性及成本。
-6. 将失败案例变为回归样本，并交付别人可以复核的结果与运行记录。
-
-## 选读与附录
-
-官方目录中其余内容按需进入选读：多模态与语音、SQL 与摘要、基础模型 benchmarks、classifiers/Jev/Eval modes、各模型提供商和框架集成、完整配置/API 参考。资料全部登记并不意味着每个 API 都另开一课。主线不扩展为模型训练、从零开发 Agent 框架或所有第三方平台操作教程。
+- **评测对象：** 没找到、找错、受噪声干扰或生成阶段出错。
+- **知识点：** 故障注入、错误分类、Noise Sensitivity、检索/生成分离诊断和bad case分析。
+- **Agent代码增量：** 在文档、检索和生成三个位置加入可控故障开关。
+- **实验：** 分别删除API关键段、加入旧规范或噪声、修改生成提示词，每次只改变一项。
+- **验收：** 预期影响与实际结果分栏；每个bad case可定位到阶段和证据。
+- **来源：** [DeepEval Contextual Relevancy源码](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/contextual_relevancy/contextual_relevancy.py)、[Ragas Noise Sensitivity](https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/noise_sensitivity/)。
+
+## e08 构建、生成与审查评测数据集
+
+- **评测对象：** 任务覆盖、标注有效性、重复、泄漏和审核状态。
+- **知识点：** Synthesizer、TestsetGenerator、知识图谱、persona、单跳/多跳、evolution、质量过滤和数据划分。
+- **Agent代码增量：** 不修改被测Agent；建立独立离线生成与审核流程。
+- **实验：** 从规范文档生成候选题，补充编程种子、单/多跳和不可回答任务。
+- **验收：** 来源、类别、难度、去重、审核状态和划分齐全；候选题不得标为已执行轨迹。
+- **来源：** [DeepEval Synthesizer源码](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/synthesizer/synthesizer.py)、[Ragas生成器源码](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/testset/synthesizers/generate.py)。
+
+## e09 版本比较、实验控制与统计解释
+
+- **评测对象：** 改动是否带来可靠提升、分层退化及质量/成本/延迟权衡。
+- **知识点：** 受控实验、配对差值、重复评分、分层报告、bootstrap区间、最小业务改进和留出验证。
+- **Agent代码增量：** 每轮只改变一个提示词或检索因素，保持Agent能力可比。
+- **实验：** 在同一批配对任务上比较版本，重复裁判评分并计算分层bootstrap区间。
+- **验收：** 报告逐样本差值和区间；留出集不参与调参；统计方法标为课程补充。
+- **来源：** [Ragas experiment源码](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/experiment.py)。
+
+## e10 工具选择、参数、调用顺序与 MCP
+
+- **评测对象：** 工具选择、参数、顺序、漏调、误调和重复调用。
+- **知识点：** ToolCorrectness、ArgumentCorrectness、ToolCallAccuracy、ToolCallF1；集合与序列；额外参数、重复和空调用。
+- **Agent代码增量：** 在现有工具池中加入最小MCP片段和本地模拟服务。
+- **实验：** 执行“读文件→编辑→测试”，注入错路径、错参、乱序和重复，并比较接入前后。
+- **验收：** 接受多种合法路径；分别解释四类指标；不让集合F1承担重复惩罚。
+- **来源：** [MCP源码](https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s14_mcp_plugin/code.py)、[DeepEval Tool Correctness](https://deepeval.com/docs/metrics-tool-correctness)、[Ragas Agent指标](https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/agents/)。
+
+## e11 代码任务真实完成与自定义指标
+
+- **评测对象：** 代码是否真实修复，以及完成声明是否符合仓库状态。
+- **知识点：** Task Completion、AgentGoalAccuracy、reference outcome、外部状态断言；BaseMetric、`measure/a_measure/ascore`、结构化输出和适用域。
+- **Agent代码增量：** 加入目标状态、停止审查片段和独立外部验收器。
+- **实验：** 真实修复、只改说明、删除测试、假报成功和重复修改；实现一个业务复合指标。
+- **验收：** 文件、diff、退出码和保留测试报告事实；模型裁判单独报告语义判断；自定义指标含反例和适用域。
+- **来源：** [Goal loop源码](https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s17_goal_loop/code.py)、[DeepEval BaseMetric源码](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/base_metric.py)、[Ragas AgentGoalAccuracy源码](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/metrics/collections/agent_goal_accuracy/metric.py)。
+
+## e12 多轮、上下文压缩与持久记忆
+
+- **评测对象：** 跨轮约束、压缩损失和旧记忆污染。
+- **知识点：** ConversationalTestCase、Turn、MultiTurnSample、知识保持、指令变化、会话完整性、场景覆盖与模拟终止。
+- **Agent代码增量：** 加入ContextCompactor和记忆读写，保留工具与权限。
+- **实验：** 先要求保持函数签名，再追加约束和长输出，对比压缩前后及有无旧记忆。
+- **验收：** 轮级和会话级分别评分；检查约束证据；模拟用户输出单独复核。
+- **来源：** [Context compact源码](https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s08_context_compact/code.py)、[Memory源码](https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s09_memory/code.py)、[DeepEval多轮评测](https://deepeval.com/guides/guides-multi-turn-evaluation)。
+
+## e13 计划、任务依赖、子 Agent 与协作
+
+- **评测对象：** 计划质量、遵从、依赖处理、交接和组件/整体结果。
+- **知识点：** Plan Quality、Plan Adherence、显式计划与执行证据、任务依赖及多Agent评价。
+- **Agent代码增量：** 依次加入TodoManager、TaskStore、子任务隔离和最小协作接口。
+- **实验：** 跨文件bug；设置好计划、坏计划、无计划、未满足依赖、交接丢失和并行冲突。
+- **验收：** 只评可观察计划和事件；无计划单独标记；依赖与子任务可追溯，不要求唯一轨迹。
+- **来源：** [Todo源码](https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s05_todo_write/code.py)、[Subagent源码](https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s06_subagent/code.py)、[DeepEval Plan Quality](https://deepeval.com/docs/metrics-plan-quality)。
+
+## e14 后台任务、调度、效率、成本与稳定性
+
+- **评测对象：** 长命令、超时、重试、通知、定时触发、效率和重复运行稳定性。
+- **知识点：** Step Efficiency、步数、异常、工具成本、token、延迟、预算和成功率；计划效率与实际效率。
+- **Agent代码增量：** 加入后台通知、受控调度和既有协作记录。
+- **实验：** 模拟测试超时、重复检索、后台完成和定时触发，多次运行同一任务。
+- **验收：** 成功率、步数和延迟分报；应用模型与裁判成本分报；以受控时钟和状态验收。
+- **来源：** [后台任务源码](https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s11_background_tasks/code.py)、[调度源码](https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s12_cron_scheduler/code.py)、[DeepEval Step Efficiency](https://deepeval.com/docs/metrics-step-efficiency)。
+
+## e15 裁判校准、偏差与中文适配
+
+- **评测对象：** 裁判与人工标准的对齐，以及顺序、篇幅、措辞和语言偏差。
+- **知识点：** 人工复核集、Judge alignment、位置/篇幅/自偏好、提示词、中文适配和分歧分析。
+- **Agent代码增量：** 被测Agent不变，只调整裁判；校准集和留出复核集隔离。
+- **实验：** 打乱答案顺序、改变长度、进行中英双语改写；校准后在留出集检验。
+- **验收：** 保留人工标签、裁判版本和分歧；未审核样本明确标记；中文适配不得改变原评分标准。
+- **来源：** [DeepEval G-Eval源码](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/g_eval/g_eval.py)、[Ragas Judge alignment](https://docs.ragas.io/en/stable/howtos/applications/align-llm-as-judge/)。
+
+## e16 综合回归、完整调用链与结课评测
+
+- **评测对象：** 完整任务、功能保留、中断续跑、关键失败和版本回归。
+- **知识点：** pytest/CI、质量门禁、生产trace转样本、版本与成本；输入校验→prompt/schema→模型调用→verdict→聚合→异步→结果对象；同名指标差异。
+- **Agent代码增量：** 首次引入集成视图、workflow journal和续跑，核对全部17项机制。
+- **实验：** 将bad case加入CI；模拟流程中断续跑；追踪Faithfulness与工具指标调用链；规划基线/改进报告。
+- **验收：** 交付数据、配置、代码、逐样本结果和复现命令；关键失败单独门禁；能力清单记录归属、测试计划和真实状态。
+- **来源：** [集成源码](https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s15_integrated_harness/code.py)、[Workflow源码](https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s16_workflow_runtime/code.py)、[DeepEval回归指南](https://deepeval.com/guides/guides-regression-testing-in-cicd)、[Ragas evaluation源码](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/evaluation.py)。
+
+## 分阶段制作计划
+
+| 阶段 | 输入 | 产物 | 通过条件 |
+|---|---|---|---|
+| 0. 固定环境与协议 | 三个仓库固定commit、知识库、角色配置 | 版本锁、Docker挂载、统一样本schema、回放/真实模式说明 | 知识库只读；`workspaces/`与`runs/`可写；验收集独立；Agent、裁判、生成器分别配置 |
+| 1. 先行样章 | e01、e02、旧s07样章 | e01/e02及编程版e05 | 不导入集成Agent；回放管线与真实Agent接口分开；编程案例可由外部断言复核 |
+| 2. RAG评测批次 | e03–e08 | 规则/裁判、检索、回答、故障和数据集课程 | 每课可独立运行；证据有版本；生成数据有审核和划分 |
+| 3. Agent评测批次 | e09–e14 | 比较统计、工具、完成、多轮、协作、效率课程 | 逐样本与聚合报告齐全；事实验收和模型语义分报；成本和错误不遗漏 |
+| 4. 校准与结课 | e15–e16 | 校准报告、CI门禁、能力核对和结课评测 | 留出集未用于调参；17机制逐项标记计划/已实现/已验证，不能以归属代替验证 |
+| 5. GitHub回归 | 固定基线、bad cases、版本锁 | 轻量PR门禁、夜间重评测、可复现报告 | 固定依赖与commit；关键失败独立拦截；跳过、错误、成本和不确定性均可见 |
+
+## 每课文件结构
+
+```text
+lessons/eNN_topic/
+├── README.zh.md       # 问题、目标、关键片段、实验解释、来源
+├── code.py            # 本课可执行Agent增量
+├── eval.py            # 评分、外部验收与结果保存
+├── cases.jsonl        # 来源、证据、划分、审核状态
+├── exercises.md
+├── solutions.md
+└── reports/
+    ├── replay.example.json
+    └── real.example.schema.json
+```
+
+公共运行目录：
+
+```text
+knowledge_base/ # Docker只读挂载
+workspaces/     # 每次实验的可写临时练习仓库
+runs/           # 轨迹、逐样本结果、diff、成本和错误
+evaluation_private/holdout/ # 独立保管，不挂载给被测Agent
+config/      # Agent、裁判、生成器、模拟用户的独立配置
+```
+
+## 原24课到16课映射
+
+| 新课 | 保留的原课知识 |
+|---|---|
+| e01 | s01、s09 |
+| e02 | s02、s13 |
+| e03 | s03、s04 |
+| e04 | s05、s06 |
+| e05 | s07 |
+| e06 | s08 |
+| e07 | s10 |
+| e08 | s11 |
+| e09 | s12、s20 |
+| e10 | s14 |
+| e11 | s15、s21 |
+| e12 | s16 |
+| e13 | s17 |
+| e14 | s18 |
+| e15 | s19 |
+| e16 | s22、s23、s24 |
+
+安全、隐私、偏见、提示注入、SQL、摘要、图像、语音、多模态、传统文本指标、基础模型benchmark及供应商集成保留为能力索引与附录；其中权限、记忆污染和MCP等与编程Agent直接相关的内容进入主线实验。
+
+## 功能保留与未实现状态
+
+Learn Claude Code 的17项机制均已有课程归属：循环e01；工具、权限、hook e02；skill加载e04；上下文压缩e12；记忆e12；计划、子Agent、任务系统、团队协作e13；后台任务与调度e14；MCP e10；目标闭环e11；集成、workflow续跑和目标复核e16。
+
+这些归属只是制作与验证计划，不能解释为已完成迁移、功能等价或通过实验。目前唯一已实现内容是旧版s07 Faithfulness回放样章；它将作为e05评分机制素材，尚需改造成编程知识案例并连接真实Agent输出。其余课程、代码增量、数据、报告、17项机制迁移和新编程Agent的GitHub回归均为计划状态。已有SDK回放工程的验证记录单独保留。
+
+## 相关材料与生成记录
+
+[教学方式详解](teaching-method.md)、[评测与数据能力地图](evaluation-landscape.md)、[具体制作计划](course-production-plan.md)、[PocketFlow规划凭证](../generation/curriculum-README.md)、[原24课知识对照](archive/curriculum-24.md)。

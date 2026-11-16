@@ -30,6 +30,12 @@ DOCUMENTS = {
     "/plan": ("需求与项目计划", "docs/project-plan.md"),
     "/prompt": ("教材提示词", "generation/textbook_prompt.md"),
     "/brief": ("样章生成任务", "generation/lesson_brief.md"),
+    "/teaching": ("Learn Claude Code 教学方式", "docs/teaching-method.md"),
+    "/evaluation-map": ("评测与数据能力地图", "docs/evaluation-landscape.md"),
+    "/production-plan": ("课程制作计划", "docs/course-production-plan.md"),
+    "/curriculum-generation": ("课程规划生成记录", "generation/curriculum-README.md"),
+    "/archive-24": ("原24课知识对照", "docs/archive/curriculum-24.md"),
+    "/curriculum-validation": ("课程设计核验", "docs/curriculum-validation.md"),
 }
 RENDERER = MarkdownIt("commonmark", {"html": False}).enable("table")
 REPORT_NAME = re.compile(r"(?:replay|live)-[a-f0-9]{32}\.json")

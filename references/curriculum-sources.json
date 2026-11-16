@@ -1,0 +1,205 @@
+[
+  {
+    "repository": "shareAI-lab/learn-claude-code",
+    "commit": "448c75bb596917ad196cc1fb7558f459c5c50fdd",
+    "path": "s01_agent_loop/README.zh.md",
+    "sha256": "00ce3791e20530d2e950c32fc9f62c9e3c182d78e44e0f2cb913acb8072ef572",
+    "url": "https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s01_agent_loop/README.zh.md"
+  },
+  {
+    "repository": "shareAI-lab/learn-claude-code",
+    "commit": "448c75bb596917ad196cc1fb7558f459c5c50fdd",
+    "path": "s02_tool_use/README.zh.md",
+    "sha256": "330277fcbc1a4cb4bec166154eece16d2eb0226bab2f64463dcc0527d9a1ae0a",
+    "url": "https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s02_tool_use/README.zh.md"
+  },
+  {
+    "repository": "shareAI-lab/learn-claude-code",
+    "commit": "448c75bb596917ad196cc1fb7558f459c5c50fdd",
+    "path": "s01_agent_loop/code.py",
+    "sha256": "8feaf7f73da6f9a7f0f030a66ed017bdf13d9884c4537b0b5805a55b43dbfc00",
+    "url": "https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s01_agent_loop/code.py"
+  },
+  {
+    "repository": "confident-ai/deepeval",
+    "commit": "34db63dd005ebc9a905c8ef4741ae0687c93c14c",
+    "path": "deepeval/evaluate/evaluate.py",
+    "sha256": "f24619b8114ebab4c755a884a2321f9070b3c9beb93b5cb13b33cbfd07cc8afc",
+    "url": "https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/evaluate/evaluate.py"
+  },
+  {
+    "repository": "shareAI-lab/learn-claude-code",
+    "commit": "448c75bb596917ad196cc1fb7558f459c5c50fdd",
+    "path": "s02_tool_use/code.py",
+    "sha256": "fde1337c5a17bc2f8666e9adc36717f37ea8803dbf04fe8d73e2400ce812a9fb",
+    "url": "https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s02_tool_use/code.py"
+  },
+  {
+    "repository": "shareAI-lab/learn-claude-code",
+    "commit": "448c75bb596917ad196cc1fb7558f459c5c50fdd",
+    "path": "s03_permission/code.py",
+    "sha256": "97b42c55a782027517f365a379f17687f86444f38729772c1791105051a1ee2a",
+    "url": "https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s03_permission/code.py"
+  },
+  {
+    "repository": "confident-ai/deepeval",
+    "commit": "34db63dd005ebc9a905c8ef4741ae0687c93c14c",
+    "path": "deepeval/metrics/g_eval/g_eval.py",
+    "sha256": "80d43cc8f469d994b81715f02c0e7eb87f4bf1b6122664caaacdfdd66fa1695e",
+    "url": "https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/g_eval/g_eval.py"
+  },
+  {
+    "repository": "vibrantlabsai/ragas",
+    "commit": "8c63f10d500c44efbf24fdb9e2920de2104c321c",
+    "path": "src/ragas/metrics/collections/tool_call_f1/metric.py",
+    "sha256": "cc4ec6dd056e018aca7a0de8c326adf471a10a12fb14c26ed770ed73e1171263",
+    "url": "https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/metrics/collections/tool_call_f1/metric.py"
+  },
+  {
+    "repository": "shareAI-lab/learn-claude-code",
+    "commit": "448c75bb596917ad196cc1fb7558f459c5c50fdd",
+    "path": "s07_skill_loading/code.py",
+    "sha256": "0246964af87bfcc0494e9330f54ae808797ba20dd3906ff412c91711f0d93280",
+    "url": "https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s07_skill_loading/code.py"
+  },
+  {
+    "repository": "confident-ai/deepeval",
+    "commit": "34db63dd005ebc9a905c8ef4741ae0687c93c14c",
+    "path": "deepeval/metrics/faithfulness/faithfulness.py",
+    "sha256": "25125d543e3cd4b22121f1033daa8c561c59ec690325e4b15fadcb15de90763f",
+    "url": "https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/faithfulness/faithfulness.py"
+  },
+  {
+    "repository": "vibrantlabsai/ragas",
+    "commit": "8c63f10d500c44efbf24fdb9e2920de2104c321c",
+    "path": "src/ragas/metrics/collections/faithfulness/metric.py",
+    "sha256": "f3850ad76e173c932dff09464489934f7df7c499a8e43b178cd69f339511965d",
+    "url": "https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/metrics/collections/faithfulness/metric.py"
+  },
+  {
+    "repository": "confident-ai/deepeval",
+    "commit": "34db63dd005ebc9a905c8ef4741ae0687c93c14c",
+    "path": "deepeval/metrics/answer_relevancy/answer_relevancy.py",
+    "sha256": "2918a713dbccb446b31edc145a9467c5541572a90193cb81982fb5330db45d3c",
+    "url": "https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/answer_relevancy/answer_relevancy.py"
+  },
+  {
+    "repository": "confident-ai/deepeval",
+    "commit": "34db63dd005ebc9a905c8ef4741ae0687c93c14c",
+    "path": "deepeval/metrics/contextual_relevancy/contextual_relevancy.py",
+    "sha256": "82eaae0c746f7f572f61305f868d55afbfc69c87efa8bbfb0e1eb77e0fc10736",
+    "url": "https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/contextual_relevancy/contextual_relevancy.py"
+  },
+  {
+    "repository": "confident-ai/deepeval",
+    "commit": "34db63dd005ebc9a905c8ef4741ae0687c93c14c",
+    "path": "deepeval/synthesizer/synthesizer.py",
+    "sha256": "ac2a2ab0ad5c38e365c5197209b14d2af2519707e410c0c52cf14674c8db7a81",
+    "url": "https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/synthesizer/synthesizer.py"
+  },
+  {
+    "repository": "vibrantlabsai/ragas",
+    "commit": "8c63f10d500c44efbf24fdb9e2920de2104c321c",
+    "path": "src/ragas/testset/synthesizers/generate.py",
+    "sha256": "9126c74f636a6857e2ddc3f464bb00f430943e06c6e3b04cbf3dd38e3f758b15",
+    "url": "https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/testset/synthesizers/generate.py"
+  },
+  {
+    "repository": "vibrantlabsai/ragas",
+    "commit": "8c63f10d500c44efbf24fdb9e2920de2104c321c",
+    "path": "src/ragas/experiment.py",
+    "sha256": "b9178f330a190b44018ffc06aafd3774877495add93b7b771f43f9e50024a83c",
+    "url": "https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/experiment.py"
+  },
+  {
+    "repository": "shareAI-lab/learn-claude-code",
+    "commit": "448c75bb596917ad196cc1fb7558f459c5c50fdd",
+    "path": "s14_mcp_plugin/code.py",
+    "sha256": "b7db5a98a37f19d751e334f5309e16eae9185846ef7ba009a137d0d42250955d",
+    "url": "https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s14_mcp_plugin/code.py"
+  },
+  {
+    "repository": "shareAI-lab/learn-claude-code",
+    "commit": "448c75bb596917ad196cc1fb7558f459c5c50fdd",
+    "path": "s17_goal_loop/code.py",
+    "sha256": "ecce68f327aef9b564d41c50068d7a2a72a23ae780d81c32a0c00fd59a3d31f5",
+    "url": "https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s17_goal_loop/code.py"
+  },
+  {
+    "repository": "confident-ai/deepeval",
+    "commit": "34db63dd005ebc9a905c8ef4741ae0687c93c14c",
+    "path": "deepeval/metrics/base_metric.py",
+    "sha256": "b0533aa52abfd2d6172c6c592601044e88dc765372adbed1d090fbe0a9abd6cb",
+    "url": "https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/base_metric.py"
+  },
+  {
+    "repository": "vibrantlabsai/ragas",
+    "commit": "8c63f10d500c44efbf24fdb9e2920de2104c321c",
+    "path": "src/ragas/metrics/collections/agent_goal_accuracy/metric.py",
+    "sha256": "e7958d417a30eec2b7e962d334371c6773c342ce10aecdc26a1a5409022a468e",
+    "url": "https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/metrics/collections/agent_goal_accuracy/metric.py"
+  },
+  {
+    "repository": "shareAI-lab/learn-claude-code",
+    "commit": "448c75bb596917ad196cc1fb7558f459c5c50fdd",
+    "path": "s08_context_compact/code.py",
+    "sha256": "33e9c1fff23e0170dca742fc29cdb544e36572c4460ff8def8c485efe5ac2d5f",
+    "url": "https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s08_context_compact/code.py"
+  },
+  {
+    "repository": "shareAI-lab/learn-claude-code",
+    "commit": "448c75bb596917ad196cc1fb7558f459c5c50fdd",
+    "path": "s09_memory/code.py",
+    "sha256": "fdebc11921c7e9770664035838cc07bae8abb06e98266ab02343c37acdbe6888",
+    "url": "https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s09_memory/code.py"
+  },
+  {
+    "repository": "shareAI-lab/learn-claude-code",
+    "commit": "448c75bb596917ad196cc1fb7558f459c5c50fdd",
+    "path": "s05_todo_write/code.py",
+    "sha256": "4195fca02d7417f524fa31c591b4e2878fbd68e09ee5caf91c51a3a63f483581",
+    "url": "https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s05_todo_write/code.py"
+  },
+  {
+    "repository": "shareAI-lab/learn-claude-code",
+    "commit": "448c75bb596917ad196cc1fb7558f459c5c50fdd",
+    "path": "s06_subagent/code.py",
+    "sha256": "59f6adbfe81aa48c6b83341adb4b83de35236678039ea7a1042c5282afc1d0a5",
+    "url": "https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s06_subagent/code.py"
+  },
+  {
+    "repository": "shareAI-lab/learn-claude-code",
+    "commit": "448c75bb596917ad196cc1fb7558f459c5c50fdd",
+    "path": "s11_background_tasks/code.py",
+    "sha256": "78a1701d4a599d55e15aba89ff6bc2ed02cf61b528314dd9647b141b194f0b0f",
+    "url": "https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s11_background_tasks/code.py"
+  },
+  {
+    "repository": "shareAI-lab/learn-claude-code",
+    "commit": "448c75bb596917ad196cc1fb7558f459c5c50fdd",
+    "path": "s12_cron_scheduler/code.py",
+    "sha256": "3bda414240b1cd0e3a5d5f0f7b7989d2e506b961e408c0da1079b6dfe7897957",
+    "url": "https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s12_cron_scheduler/code.py"
+  },
+  {
+    "repository": "shareAI-lab/learn-claude-code",
+    "commit": "448c75bb596917ad196cc1fb7558f459c5c50fdd",
+    "path": "s15_integrated_harness/code.py",
+    "sha256": "8a50ce119d64881e4e8386dde831b5771dd2e097348a25798b4eab0574fb07bf",
+    "url": "https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s15_integrated_harness/code.py"
+  },
+  {
+    "repository": "shareAI-lab/learn-claude-code",
+    "commit": "448c75bb596917ad196cc1fb7558f459c5c50fdd",
+    "path": "s16_workflow_runtime/code.py",
+    "sha256": "0930f070d14a9eb93d2c57b26d0c7c081b754d04b85a4f0ba04538b9b2f2a66a",
+    "url": "https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s16_workflow_runtime/code.py"
+  },
+  {
+    "repository": "vibrantlabsai/ragas",
+    "commit": "8c63f10d500c44efbf24fdb9e2920de2104c321c",
+    "path": "src/ragas/evaluation.py",
+    "sha256": "79fdbacf1229e5cf1d0d17963ce00b7dd90f6f7e4692a683bc7b3845e2dd88f4",
+    "url": "https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/evaluation.py"
+  }
+]

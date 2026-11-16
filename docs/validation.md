@@ -1,5 +1,8 @@
 # 本次实际验证记录
 
+本页为已有Faithfulness回放工程的验证记录，哈希对应当次实现。新的课程设计核验见
+[课程设计核验](curriculum-validation.md)，不将规划中的编程Agent实验列作已完成。
+
 验证日期：2026-11-16。环境为 macOS Docker Desktop、Linux/arm64 容器、Python 3.11。
 SDK 固定版本：DeepEval 4.3.4、Ragas 0.4.4；源码 commit 见 references/versions.json。
 本页只记录实际完成的步骤。机器可读记录在 docs/validation.json，含代码与配置哈希。

@@ -40,7 +40,7 @@ def codex_completion(prompt):
             str(output),
             "-",
         ]
-        instruction = "Do not use tools or access files. Return only the requested chapter.\n"
+        instruction = "Do not use tools or access files. Return only the requested output.\n"
         result = subprocess.run(
             args,
             check=False,

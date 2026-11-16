@@ -1,0 +1,121 @@
+[
+  {
+    "upstream_lesson": "s01_agent_loop",
+    "source_path": "learn-claude-code/s01_agent_loop/code.py",
+    "sha256": "8feaf7f73da6f9a7f0f030a66ed017bdf13d9884c4537b0b5805a55b43dbfc00",
+    "introduced_in": "e01",
+    "status": "planned_not_implemented_or_validated"
+  },
+  {
+    "upstream_lesson": "s02_tool_use",
+    "source_path": "learn-claude-code/s02_tool_use/code.py",
+    "sha256": "fde1337c5a17bc2f8666e9adc36717f37ea8803dbf04fe8d73e2400ce812a9fb",
+    "introduced_in": "e02",
+    "status": "planned_not_implemented_or_validated"
+  },
+  {
+    "upstream_lesson": "s03_permission",
+    "source_path": "learn-claude-code/s03_permission/code.py",
+    "sha256": "97b42c55a782027517f365a379f17687f86444f38729772c1791105051a1ee2a",
+    "introduced_in": "e02",
+    "status": "planned_not_implemented_or_validated"
+  },
+  {
+    "upstream_lesson": "s04_hooks",
+    "source_path": "learn-claude-code/s04_hooks/code.py",
+    "sha256": "2ff90e604304083d0c4cda941c847420a338235482d318b70e7bd2edcf79505b",
+    "introduced_in": "e02",
+    "status": "planned_not_implemented_or_validated"
+  },
+  {
+    "upstream_lesson": "s05_todo_write",
+    "source_path": "learn-claude-code/s05_todo_write/code.py",
+    "sha256": "4195fca02d7417f524fa31c591b4e2878fbd68e09ee5caf91c51a3a63f483581",
+    "introduced_in": "e13",
+    "status": "planned_not_implemented_or_validated"
+  },
+  {
+    "upstream_lesson": "s06_subagent",
+    "source_path": "learn-claude-code/s06_subagent/code.py",
+    "sha256": "59f6adbfe81aa48c6b83341adb4b83de35236678039ea7a1042c5282afc1d0a5",
+    "introduced_in": "e13",
+    "status": "planned_not_implemented_or_validated"
+  },
+  {
+    "upstream_lesson": "s07_skill_loading",
+    "source_path": "learn-claude-code/s07_skill_loading/code.py",
+    "sha256": "0246964af87bfcc0494e9330f54ae808797ba20dd3906ff412c91711f0d93280",
+    "introduced_in": "e04",
+    "status": "planned_not_implemented_or_validated"
+  },
+  {
+    "upstream_lesson": "s08_context_compact",
+    "source_path": "learn-claude-code/s08_context_compact/code.py",
+    "sha256": "33e9c1fff23e0170dca742fc29cdb544e36572c4460ff8def8c485efe5ac2d5f",
+    "introduced_in": "e12",
+    "status": "planned_not_implemented_or_validated"
+  },
+  {
+    "upstream_lesson": "s09_memory",
+    "source_path": "learn-claude-code/s09_memory/code.py",
+    "sha256": "fdebc11921c7e9770664035838cc07bae8abb06e98266ab02343c37acdbe6888",
+    "introduced_in": "e12",
+    "status": "planned_not_implemented_or_validated"
+  },
+  {
+    "upstream_lesson": "s10_task_system",
+    "source_path": "learn-claude-code/s10_task_system/code.py",
+    "sha256": "4e88e100c7a41a17144f091fb59b35596074b841f20af29dedbb942b777b2f21",
+    "introduced_in": "e13",
+    "status": "planned_not_implemented_or_validated"
+  },
+  {
+    "upstream_lesson": "s11_background_tasks",
+    "source_path": "learn-claude-code/s11_background_tasks/code.py",
+    "sha256": "78a1701d4a599d55e15aba89ff6bc2ed02cf61b528314dd9647b141b194f0b0f",
+    "introduced_in": "e14",
+    "status": "planned_not_implemented_or_validated"
+  },
+  {
+    "upstream_lesson": "s12_cron_scheduler",
+    "source_path": "learn-claude-code/s12_cron_scheduler/code.py",
+    "sha256": "3bda414240b1cd0e3a5d5f0f7b7989d2e506b961e408c0da1079b6dfe7897957",
+    "introduced_in": "e14",
+    "status": "planned_not_implemented_or_validated"
+  },
+  {
+    "upstream_lesson": "s13_agent_teams",
+    "source_path": "learn-claude-code/s13_agent_teams/code.py",
+    "sha256": "7e3e56642cb973fc9ca56684130ddab1f3dcb4cfead530c9ac6c19bc9925cce3",
+    "introduced_in": "e13",
+    "status": "planned_not_implemented_or_validated"
+  },
+  {
+    "upstream_lesson": "s14_mcp_plugin",
+    "source_path": "learn-claude-code/s14_mcp_plugin/code.py",
+    "sha256": "b7db5a98a37f19d751e334f5309e16eae9185846ef7ba009a137d0d42250955d",
+    "introduced_in": "e10",
+    "status": "planned_not_implemented_or_validated"
+  },
+  {
+    "upstream_lesson": "s15_integrated_harness",
+    "source_path": "learn-claude-code/s15_integrated_harness/code.py",
+    "sha256": "8a50ce119d64881e4e8386dde831b5771dd2e097348a25798b4eab0574fb07bf",
+    "introduced_in": "e16",
+    "status": "planned_not_implemented_or_validated"
+  },
+  {
+    "upstream_lesson": "s16_workflow_runtime",
+    "source_path": "learn-claude-code/s16_workflow_runtime/code.py",
+    "sha256": "0930f070d14a9eb93d2c57b26d0c7c081b754d04b85a4f0ba04538b9b2f2a66a",
+    "introduced_in": "e16",
+    "status": "planned_not_implemented_or_validated"
+  },
+  {
+    "upstream_lesson": "s17_goal_loop",
+    "source_path": "learn-claude-code/s17_goal_loop/code.py",
+    "sha256": "ecce68f327aef9b564d41c50068d7a2a72a23ae780d81c32a0c00fd59a3d31f5",
+    "introduced_in": "e11",
+    "status": "planned_not_implemented_or_validated"
+  }
+]

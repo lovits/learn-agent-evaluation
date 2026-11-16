@@ -5,9 +5,9 @@
   "actual_model_calls": 1,
   "calls": [
     {
-      "prompt_sha256": "190e253f4fed191d42f644b0490be6df33a56d56a178c1813c1d8de6c43f629b",
-      "response_sha256": "5e67f6570d7515b38bc623831d0c9e122f5a1063b1ebfd88b5f8ae8c96a35ba4",
-      "elapsed_seconds": 83.797
+      "prompt_sha256": "c84cd416ac9916251392b36709ad0a2525abf63fe6c1d015ed2965d3d26cfc9e",
+      "response_sha256": "2f6672a56fbefbbaf0ff6549363a4b1f9f19eec67e03cabe3c8ac87d33d948f2",
+      "elapsed_seconds": 84.796
     }
   ],
   "nodes_run": [
@@ -26,6 +26,10 @@
     {
       "path": "eval_course/records.py",
       "sha256": "940890c3876981a2273497e8d0d06da4a882d7e65cea6098f6217f87de498181"
+    },
+    {
+      "path": "references/textbook-writing-standard.md",
+      "sha256": "f5b37acb847f10b22c835e46865394eb1b12d0119af01aa030faab4a817f0109"
     },
     {
       "path": "references/versions.json",
@@ -68,27 +72,18 @@
       "sha256": "153910a05894a427701e4937276842d884f3e4c42585816598f7b46d772c1fa2"
     }
   ],
-  "brief_sha256": "2e49cd3f2d521c0b16d5c0cf1f45b5e279a7b6df81595c35f677403c305d8150",
+  "brief_sha256": "6f7fa5a9490ec2724361683867bafc758542aa1c7fc7247f455becbf222d7d2c",
   "raw_output_directory": "generation/output/e02_tools_traces",
   "publication": {
     "path": "lessons/e02_tools_traces/README.zh.md",
-    "sha256": "99b51802baf79542df7e542773c8613b0ac44f03c9901af0f912b65adbc7c569",
-    "review": "Technical source/result review followed by full humanizer prose pass; code fences, commands and link targets preserved during prose pass.",
-    "reviewed_sections": 11,
+    "sha256": "7956a19cd73f76812f3313143b305c875cc6f677974e761c7083be70e1ae326f",
+    "review": "Technical review against current code, followed by full humanizer prose review; code fences, inline code, commands and link targets unchanged during prose pass.",
+    "reviewed_sections": 12,
     "unreviewed_sections": 0,
-    "technical_edits": [
-      "Corrected chapter title and multi-mechanism scope",
-      "Removed redundant unrendered diagram and generator footer",
-      "Labeled abridged parameter-check snippet"
-    ],
-    "supporting_prose_review": {
-      "files": [
-        "source_walkthrough.md",
-        "exercises.md",
-        "solutions.md"
-      ],
-      "scope": "all sections reviewed; factual wording retained",
-      "unreviewed_sections": 0
-    }
+    "main_sections": 6,
+    "working_steps": 6,
+    "baseline": "references/full-course-revision-baseline.json",
+    "previous_generation_archive": "generation/archive/e02-before-course-revision",
+    "new_agent_or_judge_execution_for_rewrite": false
   }
 }

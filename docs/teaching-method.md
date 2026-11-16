@@ -44,8 +44,8 @@
 来源：[s01 教材](https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s01_agent_loop/README.zh.md)、
 [s02 教材](https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s02_tool_use/README.zh.md)。
 
-## 已落实到第1、7课的正文写法
+## 统一正文写法与落实进度
 
 采用Learn Claude Code实际正文的带读方式：问题、解决方案、工作原理、相对前课变更、试一下、接下来。工作原理将一次机制变化拆成短步骤，每步先说明遇到什么问题，再解释一段真实代码，交代输入、输出和接入位置。主文不以指标清单、测试数字或完成报告为主线；详细源码、实验记录和验收放附页。
 
-第7课的[逐项对应与上游阅读记录](../references/e07-teaching-pattern.md)列出实际参考的章节、代码段与正文标准。第1课现已按同一标准重写，补入最小循环和独立验收两张结构图，详见[改写计划](../references/e01-rewrite-plan.md)。第2至6课尚未按此标准全面重写。
+第7课的[逐项对应与上游阅读记录](../references/e07-teaching-pattern.md)列出实际参考的章节、代码段与正文标准。第1课现已按同一标准重写，补入最小循环和独立验收两张结构图，详见[改写计划](../references/e01-rewrite-plan.md)。第2、3课已按同样的六部分正文与六步代码完成重写和审校；第4至6课尚待重写，第7课继续纳入统一复核。见[整套制作计划](course-production-plan.md)与[正文标准](../references/textbook-writing-standard.md)。

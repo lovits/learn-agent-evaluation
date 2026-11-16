@@ -8,7 +8,7 @@
 - [飞书云文档](https://my.feishu.cn/docx/V8CPdL3Y8oMZt4xJ8RCc4HfNnfb)
 - [16课大纲](docs/curriculum.md)
 - [第1课教材：已按 Learn Claude Code 方式改写，含两张关键结构图](lessons/e01_agent_baseline/README.zh.md) / [飞书版](https://my.feishu.cn/docx/ZIlFdoY5EoFvaExYY9dcvQnnnce) / [图文改写验收](docs/e01-rewrite-validation.md)
-- [第2课教材](lessons/e02_tools_traces/README.zh.md) / [飞书版](https://my.feishu.cn/docx/KVAkdoPHlofNEOxSPQqcfXuenfn) / [源码导读](lessons/e02_tools_traces/source_walkthrough.md)
+- [第2课教材（已按统一标准重写）](lessons/e02_tools_traces/README.zh.md) / [飞书版](https://my.feishu.cn/docx/KVAkdoPHlofNEOxSPQqcfXuenfn) / [源码导读](lessons/e02_tools_traces/source_walkthrough.md)
 - [第2课运行结果](lessons/e02_tools_traces/run_summary.md) / [验收记录](docs/e02-validation.md)
 - [第1课源码导读](lessons/e01_agent_baseline/source_walkthrough.md)
 - [练习](lessons/e01_agent_baseline/exercises.md) / [参考答案](lessons/e01_agent_baseline/solutions.md)
@@ -84,6 +84,8 @@ python3 tools/run_e02.py
 阅读页面：http://localhost:8765/lesson2 。[五组实验及结果](lessons/e02_tools_traces/run_summary.md)中区分正常任务与故障注入。
 
 ## 第3课：规则评分与LLM裁判
+
+正文已按六部分与六步关键代码重写，[阶段验收](docs/course-revision-validation.md)。
 
 [教材](lessons/e03_judges/README.zh.md)、[源码导读](lessons/e03_judges/source_walkthrough.md)、[实验与校准](lessons/e03_judges/run_summary.md)。先启动 `python3 tools/judge_bridge.py`，再运行 `docker compose run --rm -T --entrypoint python course -m lessons.e03_judges.eval`。阅读地址：http://localhost:8765/lesson3 。
 

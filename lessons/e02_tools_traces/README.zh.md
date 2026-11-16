@@ -1,47 +1,64 @@
-# 第2课：工具、权限、轨迹与统一评测样本
+# 第2课：给动作命名，再把每次调用记清楚
 
-上一课，你已经让 Agent 在练习目录里执行过 Bash。这次要改一个 Python 文件：先找到它，读清内容，改一处，再运行看看。我们沿着这条操作过程，逐步加上文件工具、权限检查和执行记录，最后把记录交给 DeepEval 和 Ragas。第1课的代码继续保留。
+## 问题
 
-本课不会加入检索、记忆、计划、子 Agent 或模型裁判。目标很具体：让 Agent 修改 `calculate.py`，运行程序，再判断整条操作过程是否符合任务合同。
+第1课已经把模型提出的 Bash 动作交给执行器运行。这一课继续复用其中两个函数：
 
-完整实现见 [code.py](code.py)，完整任务见 [cases.jsonl](cases.jsonl)。
+- `prepare_workspace`：为每次实验准备独立工作目录；
+- `run_bash`：在工作目录中执行命令，保留 `stdout`、`stderr`、`exit_code` 和超时状态。
 
-## 1. 从修改 `calculate.py` 开始
-
-第一条任务 `edit_and_run` 的初始文件是：
+这一课换成修改现有程序。工作目录里有一个 `calculate.py`：
 
 ```python
 print(6 * 7)
 ```
 
-任务要求 Agent：
-
-1. 用 `glob` 找到 Python 文件；
-2. 用 `read_file` 读取 `calculate.py`；
-3. 用 `edit_file` 把 `6 * 7` 改成 `6 * 8`；
-4. 用 `bash` 运行 `python3 calculate.py`；
-5. 用 `write_file` 把实际输出写入 `result.txt`。
-
-期望程序输出为 `48`，最终文件内容为：
+我们希望 Agent 找到这个文件，把 `6 * 7` 改成 `6 * 8`，运行程序，再把实际输出写入 `result.txt`。完成后应当得到：
 
 ```text
 48
 ```
 
-第1课的 Bash 其实可以完成全部工作，例如用 shell 命令查找、读取和改写文件。这里仍然增加具名工具，是因为评测不能只看最后有没有得到 `48`。我们还想知道：Agent 是否先读后改，改了哪个文件，编辑是否成功，以及它有没有用 Bash 绕过指定操作。
+只用 Bash 当然也能完成，例如调用 `sed`、`python3` 和重定向。但这样留下的记录只是一串命令。评测程序很难直接回答：模型是否先读了文件？修改的是哪一处？写文件和执行程序分别成功了吗？
 
-看到 `read_file`，你就知道这一步准备读取文件；看到 `edit_file`，就能直接核对旧文本和新文本。换成一长串 Bash，评测器还得先解析 shell，才知道它准备读写什么，权限判断也会更复杂。
+我们给读、写、修改和查找各加一个具名工具，让参数直接表达操作意图；运行程序继续交给 Bash。这样可以分别检查读取、修改和执行的结果。
 
-本课只从第1课复用两个函数：
+工具一多，还会出现两个新问题。第一，某些动作不应直接执行，例如读取工作目录外的 `/etc/hostname`。第二，同一轮可能连续调用两次 `read_file`，仅凭工具名无法知道哪个返回值属于哪个请求。我们需要在执行前判断权限，并为每次调用分配唯一的关联标识。
 
-- `prepare_workspace`：为任务准备独立工作目录；
-- `run_bash`：执行 Bash，并保留标准输出、标准错误、退出码和超时信息。
+完整实现见 [code.py](code.py)，五条任务见 [cases.jsonl](cases.jsonl)。
 
-其余工具分发、权限和轨迹均在本课实现，没有提前引入未来课程的 Agent 代码。
+## 解决方案
 
-## 2. 五种工具与参数校验
+本课把一次动作拆成四层：
 
-工具声明保存在 `TOOL_SPEC` 中：
+```text
+模型给出调用
+    → 参数校验
+    → 权限判断
+    → 工具执行
+    → 记录结果
+```
+
+例如，修改 `calculate.py` 时，模型给出工具名和一组 JSON 参数：
+
+```json
+{
+  "name": "edit_file",
+  "arguments_json": "{\"path\":\"calculate.py\",\"old_text\":\"6 * 7\",\"new_text\":\"6 * 8\"}"
+}
+```
+
+运行时先检查三个必需参数是否齐全、是否都是字符串。随后解析路径，确认它仍在本次工作目录内。只有参数和权限都通过，才会真正读取并改写文件。
+
+同一轮的每个工具请求还会分配一个 `call_id`，结果返回时带上相同标识。执行前后各记一条 hook 事件，之后就能追查：这个结果属于哪次模型响应、哪个工具请求，以及动作停在了哪一步。
+
+## 工作原理
+
+下面沿着“把42改成48”这条数据流读代码。片段均有省略，用来说明接入点，不能单独作为程序入口运行。
+
+**第1步：声明工具及必需参数**
+
+运行时需要先知道每个工具接受哪些参数：
 
 ```python
 TOOL_SPEC = {
@@ -53,155 +70,166 @@ TOOL_SPEC = {
 }
 ```
 
-五种工具的必需参数如下：
-
-| 工具 | 必需参数 | 本课行为 |
-|---|---|---|
-| `bash` | `command` | 调用第1课执行器 |
-| `read_file` | `path` | 读取 UTF-8 文本 |
-| `write_file` | `path`、`content` | 创建父目录并写入文本 |
-| `edit_file` | `path`、`old_text`、`new_text` | 只替换第一处匹配 |
-| `glob` | `pattern` | 排序后最多返回200项 |
-
-`edit_file` 使用替换次数为 `1`，所以同一段文字出现多次时不会全部修改。`glob` 即使匹配了更多文件，也只展示前200项。这里没有加入原版 `read_file` 的可选读取行数。
-
-模型传来的 `arguments_json` 先由 `validate_call` 解析。参数集合必须与声明完全一致，所有参数值都必须是字符串。下面摘出参数集合检查，完整函数还检查工具名、对象类型和参数值类型：
-
-```python
-args = json.loads(call["arguments_json"])
-if set(args) != set(TOOL_SPEC[name]):
-    raise ValueError("Expected arguments")
-```
-
-`missing_argument` 故意调用：
+`validate_call` 解析 `arguments_json`，要求参数集合与声明完全一致，并要求所有值都是字符串。假如 `read_file` 收到 `{}`，它不会进入权限检查或文件读取，而是在执行前返回：
 
 ```json
-{"name":"read_file","arguments_json":"{}"}
+{
+  "status": "invalid_arguments",
+  "output": "Expected arguments: path"
+}
 ```
 
-由于缺少 `path`，分发器在执行工具前返回 `invalid_arguments`。它不会读取文件，也不会进入权限判断。多传参数、参数不是字符串或 JSON 无法解析，同样属于参数错误。
+`None`、漏参和多传参数都会在这一层被识别。之后再查工具错误时，就能先区分参数是否有效。
 
-## 3. 执行前权限：允许、拒绝与请求批准
+**第2步：由 dispatch 分发到本地实现**
 
-参数有效后，`permission` 才检查权限。读报告时要同时看 decision 和 reason。三条权限分支分别是：
+本课的本地 `execute` 按工具名使用条件分支：
 
-- `allow`：允许进入工具执行函数；
-- `deny`：直接拒绝；
-- `approval_required`：该规则要求批准，最终仍要由批准回调决定允许或拒绝。
+```python
+if name == "bash":
+    result = run_bash(args["command"], workspace)
+    return {**result, "output": result["stdout"] + result["stderr"]}
+if name == "glob":
+    paths = sorted(
+        str(p.relative_to(workspace))
+        for p in workspace.glob(args["pattern"])
+        if p.resolve().is_relative_to(workspace)
+    )
+    return {"status": "ok", "output": "\n".join(paths[:200])}
+```
 
-例如，文件工具会先解析真实路径：
+文件工具也在同一个函数中分支处理。`edit_file` 最关键的一行是：
+
+```python
+path.write_text(text.replace(args["old_text"], args["new_text"], 1), encoding="utf-8")
+```
+
+末尾的 `1` 表示只替换第一处。若 `old_text` 为空或根本不存在，工具抛出 `ValueError`，原文件不会被写入。`glob` 先排序，再截取前200项，避免一次结果无限增长。
+
+读上游时留意这一处实现差异。原版 s02 使用 `TOOL_HANDLERS` 查表；本课的 `execute` 是按 `name` 判断。两者的源码对应关系放在 [源码导读](source_walkthrough.md)。
+
+**第3步：执行前检查 permission**
+
+文件路径在真正访问前解析：
 
 ```python
 path = (workspace / args["path"]).resolve()
 if not path.is_relative_to(workspace):
     return "deny", "outside_workspace"
+return "allow", "workspace_policy"
 ```
 
-所以读取 `/etc/hostname` 会直接被拒绝。指向目录外的符号链接经过 `resolve` 后也会被拒绝。`glob` 的绝对路径或包含 `..` 的模式同样不允许。
+因此，直接填写 `/etc/hostname`，或通过符号链接绕向目录外，都会得到 `denied`。Bash 另有拒绝词和危险命令规则。普通动作返回 `decision="allow"`；命中硬拒绝规则时返回 `decision="deny"`。
 
-Bash 中的部分危险命令进入硬拒绝或批准分支。批量实验的批准回调固定返回 `False`，不会弹出确认框。因此 `rm notes.txt` 的原因是 `approval_required`，最终决定仍是 `deny`，工具结果状态为 `denied`。
-
-需要分清以下状态：
-
-| 状态 | 停在哪一层 | 是否进入工具执行 |
-|---|---|---|
-| `invalid_arguments` | 参数校验 | 否 |
-| `denied` | 权限判断 | 否 |
-| `error` | 工具执行 | 是 |
-| `timeout` | Bash 执行超时 | 是 |
-| `ok` | 执行完成 | 是 |
-
-`error` 不等于整个任务失败。例如读取不存在的 `missing.txt` 会产生 `FileNotFoundError`；运行 `fail.py` 会得到非零退出码和 `e02-demo-failure`。这些正是 `tool_error` 任务要求观察的结果。`timeout` 单独表示命令超过时限，不能混写成普通异常。第1课 Bash 执行器还可能返回 `blocked`，也不能强行改成 `ok`。
-
-这些权限规则只是教学策略，不是任意 Bash 命令的安全隔离证明。字符串规则无法完整理解 shell 的重定向、解释器和间接调用。本课让 Docker 执行工具，宿主机 Codex 只返回动作；宿主机代码目录和登录凭据不挂入 Agent 容器。
-
-## 4. 与原版 s02、s03、s04 的改编差异
-
-本课参考固定提交中的 Learn Claude Code，但没有照搬全部机制。详细链接集中在 [源码导读](source_walkthrough.md)。
-
-- 原版 s02 用 `TOOL_HANDLERS` 按名字选择函数，并用 `tool_use_id` 关联结果。本课保留五种工具，使用自己的 `call_id`，还明确规定 `edit_file` 只替换第一处、`glob` 最多返回200项。
-- 原版 s03 先查拒绝规则，需要确认时调用 `ask_user`。本课保留允许、硬拒绝和请求批准三条分支，但批量运行固定拒绝批准请求；目录外文件也直接拒绝。
-- 原版 s04 提供通用 hook 注册机制。本课只在 `UserPromptSubmit`、`PreToolUse`、`PostToolUse` 和 `Stop` 位置写记录，不搭建插件系统。
-- 本课连拒绝和参数错误也记录成完整的 `PreToolUse`、`PostToolUse` 配对；原版在拒绝后直接继续，不会经过执行后的 Post hook。
-
-因此，本课验证的是自己的教学合同，不能据此宣称与原版所有行为完全等价。
-
-## 5. 用父子 span 还原一次调用
-
-只记“调用过两次 `read_file`”不够。`mixed_order` 在同一轮依次读取 `a.txt`、读取 `b.txt`，再运行一条 Bash 命令。如果只按工具名匹配，两个读取结果会无法区分。
-
-本课用四层标识建立关系：
-
-- `run_id`：区分两次独立实验；
-- `agent`：一次实验中的 Agent 根节点；
-- `model-N`：第 N 次模型响应；
-- `model-N:tool-i`：该响应中的第 i 个工具动作。
-
-工具事件的 `parent_id` 指向所属 `model-N`，发回模型的结果也携带同一个 `call_id`。
-
-每次工具请求先记录 `PreToolUse`，分发完成后记录 `PostToolUse`。这样回头查日志时，也能找到目录外拒绝、缺少参数和执行异常的完整经过。
-
-`samples.py` 中的 `trace_errors` 会检查：
-
-- 模型 span 是否重复，父节点是否为 `agent`；
-- 工具顺序、`parent_id` 和原始调用是否匹配；
-- 是否缺少工具结果；
-- Pre/Post hook 是否缺失或状态错位。
-
-交换两个工具事件会出现 `tool_result_order_or_owner`；漏掉结果会出现 `missing_tool_result`；删除 Post hook 会出现 `hook_coverage`。但这只是内部一致性检查，不是防篡改证明。若有人同时伪造事件和输出，它不能凭轨迹本身证明 stdout 真实，仍需独立验收文件状态和执行结果。
-
-## 6. 从轨迹生成两套框架样本
-
-单轮视图回答“这道任务最终输入和输出是什么”；多轮视图保留“模型在哪一轮提出了哪些工具动作，工具怎样返回”。
-
-本课实际构造并往返恢复四种对象：
-
-- DeepEval `LLMTestCase`；
-- DeepEval `ConversationalTestCase`；
-- Ragas `SingleTurnSample`；
-- Ragas `MultiTurnSample`。
-
-字段映射如下：
-
-| 本课事实 | DeepEval | Ragas |
-|---|---|---|
-| 任务 | `input` | `user_input`／`HumanMessage` |
-| 最终回答 | `actual_output` | `response`／末尾 `AIMessage` |
-| 预期答案 | `expected_output` | `reference` |
-| 工具请求 | `tools_called` | `ToolCall` |
-| 工具结果 | `ToolCall.output` | `ToolMessage.content` |
-| 检索证据 | `retrieval_context` | `retrieved_contexts` |
-
-DeepEval 的四个基础字段是 `input`、`actual_output`、`expected_output`、`retrieval_context`，工具动作另放在 `tools_called`。Ragas 单轮样本对应 `user_input`、`response`、`reference`、`retrieved_contexts`；多轮样本使用 `HumanMessage`、`AIMessage` 和 `ToolMessage`。
-
-本课没有检索知识库。文件读取内容是工具输出，不能伪装成检索证据。因此相关字段保持 `None`。`None` 表示“没有提供这个事实”，空列表表示“明确提供了一个空集合”，两者不能随意互换。
-
-轨迹结束条件与任务通过条件也要分开。Agent 返回无工具调用的最终回答时，运行状态可以成为 `finished`；但只有文件、输出、轨迹和样本合同全部通过，任务才算通过。
-
-## 7. JSON 往返中的 SDK 细节
-
-`eval.py` 会先构造四种原生 SDK 对象，再导出 JSON，并从 JSON 恢复对象。这一步能发现只看普通字典看不到的校验问题。
-
-当前固定版本 DeepEval 4.3.4 的 before validator 要求 `tools_called` 中已经是 `ToolCall` 实例。把导出的嵌套字典直接传回 `LLMTestCase` 会报错，所以恢复时要先建 `ToolCall`：
+需要人工确认的规则稍有不同：
 
 ```python
-single["tools_called"] = [
-    ToolCall.model_validate(c)
-    for c in single["tools_called"]
+return ("allow" if approve(name, args) else "deny"), "approval_required"
+```
+
+`approval_required` 是原因 `reason`，不是第三种 `decision`。实际决定仍然只有 `allow` 或 `deny`。批量实验的批准回调固定返回拒绝，不会弹出交互确认框。
+
+这些规则只是教学策略，不能保证隔离任意 Bash。这套实验还依赖 Docker 的运行安排：工具在容器内执行，宿主机 Codex 只返回动作；登录凭据不放入容器，Agent 镜像也不包含私有验收标准。
+
+**第4步：用 call_id 和 hook 记录父子关系**
+
+模型的第几次响应决定 `model_id`，响应内第几个动作决定 `call_id`：
+
+```python
+model_id = f"model-{step}"
+call_id = f"{model_id}:tool-{index}"
+hooks.append({"phase": "PreToolUse", "span_id": call_id})
+policy, result = dispatch(call, workspace, approve)
+```
+
+工具事件把调用、权限和结果放在一起：
+
+```python
+events.append({
+    "type": "tool",
+    "span_id": call_id,
+    "parent_id": model_id,
+    "call": call,
+    "permission": policy,
+    "result": result,
+})
+```
+
+随后写入 `PostToolUse`，并将同一个 `call_id` 随结果返回模型。重复的工具名不足以完成关联：两次 `read_file` 可能读取不同文件，也可能一次成功、一次报错。关联必须依靠顺序、父节点和调用标识。
+
+参数错误、权限拒绝、执行错误和超时也不能混为一类：
+
+- `invalid_arguments`：参数校验失败，尚未检查权限；
+- `denied`：权限层拒绝，没有进入工具实现；
+- `error`：已经执行工具，但文件异常、`ValueError` 或 Bash 非零退出；
+- `timeout`：命令超过第1课执行器的时间限制；
+- `ok`：工具按合同完成。
+
+Bash 还可能保留第1课执行器给出的 `blocked`。读报告时也要保留它与其他状态的区别，不把它改写成 `ok` 或普通 `error`。
+
+**第5步：用 trace_errors 检查内部一致性**
+
+记录完成后，[samples.py](samples.py) 根据模型声明的工具顺序生成预期队列：
+
+```python
+pending = [
+    (f"{model_id}:tool-{i}", model_id, c)
+    for i, c in enumerate(event["reply"]["tool_calls"])
 ]
 ```
 
-会话样本中每个 `Turn` 的工具列表也要这样恢复。实现见 [samples.py](samples.py)。
+每遇到一个工具事件，就比较 `span_id`、`parent_id` 和原始调用：
 
-Ragas 0.4.4 的 `ToolCall` 有 `name` 和 `args`，却没有本课需要的独立 `call_id` 字段。因此关联 ID 放在 `AIMessage` 与 `ToolMessage` 的 `metadata` 中，同时继续保留原始轨迹。后续指标未必读取这些 metadata，不能把“成功保存”误写成“所有指标都会使用”。
+```python
+actual = (event["span_id"], event["parent_id"], event["call"])
+if not pending or actual != pending.pop(0):
+    errors.append("tool_result_order_or_owner")
+```
 
-SDK 对象构造成功，只能说明结构满足当前模型校验，不能说明任意指标都可运行。本课没有运行 G-Eval、Faithfulness 或工具质量分数，也没有评价最终回答的语义质量和工具路径是否最优。这里不新增裁判调用，没有裁判提示词、裁决聚合或异步评分。
+它还能发现 `missing_tool_result` 和 `hook_coverage`：前者表示调用缺少结果，后者表示 Pre/Post/Stop 记录缺失或状态不一致。
 
-固定版本的源码入口和官方说明见 [source_walkthrough.md](source_walkthrough.md)。其中包括 DeepEval `LLMTestCase`、`ToolCall`、`ConversationalTestCase`、`TraceManager.add_span_to_trace`，以及 Ragas `SingleTurnSample`、`MultiTurnSample`、`validate_user_input` 和消息类型。DeepEval Tracing 会按父节点组织子节点；Ragas 会校验 Tool 消息之前的 AI 消息及消息顺序。本课只是用本地 `parent_id` 实现同类归属关系，没有调用 `observe`，也没有接入原生云端 tracing。
+这项检查核对的是记录内部的关系。有人同时改掉调用、结果和 hook，仍可能形成一份自洽的假记录；只改 `stdout` 内容，也不一定会触发关联错误。因此，轨迹检查之后还要由独立验收器读取实际文件、输出和退出码。
 
-## 8. Docker 实验与独立验收
+**第6步：构造四种 SDK 样本并独立验收**
 
-先在宿主机启动模型动作桥接：
+先看 DeepEval 单轮样本怎样接收已检查的事实。这里摘出 `native_samples` 内的一次构造：
+
+```python
+LLMTestCase(
+    input=report["task"],
+    actual_output=report["final_answer"],
+    expected_output=reference,
+    tools_called=list(deep_tools.values()),
+    metadata=metadata,
+)
+```
+
+DeepEval 单轮样本使用 `input`、`actual_output`、`expected_output`、`retrieval_context` 四个基础字段，并用 `tools_called` 保存工具调用。Ragas 对应 `user_input`、`response`、`reference`、`retrieved_contexts`；多轮样本使用 `HumanMessage`、`AIMessage` 和 `ToolMessage` 保存交互顺序。
+
+同一份轨迹还会生成 DeepEval `ConversationalTestCase`、Ragas `SingleTurnSample` 和 `MultiTurnSample`。单轮视图保留任务输入与最终回答，多轮视图保留每次模型响应和工具返回。`finished` 仍只是 Agent 停止，任务通过要另看独立验收。
+
+四种对象都要经过构造、JSON 导出和恢复。恢复时如何重建 DeepEval 的嵌套 `ToolCall`、Ragas 怎样在 metadata 保存关联 ID，以及空值和检索字段的处理，见[源码导读](source_walkthrough.md)。样本结构通过校验后，后续课程才能按指标检查所需字段；本课不调用语义裁判。
+
+独立验收器的判定条件是：任务必须 `finished`，轨迹内部一致，指定工具状态满足，指定文件或 `stdout`、`exit_code` 满足，而且四种 SDK 样本都能构造并恢复。任一检查失败，该任务就不通过。
+
+## 相对上一课的变更
+
+本课保留第1课的工作目录准备和 Bash 执行，没有改写它们。新增内容集中在动作分发、执行前权限、轨迹和样本转换。
+
+| 方面 | 第1课 | 本课 |
+|---|---|---|
+| 动作 | 只有 Bash | Bash 加四种文件工具 |
+| 参数 | Bash 命令 | 按工具声明必需字符串参数 |
+| 权限 | 执行器自身限制 | dispatch 内执行前增加 allow/deny 判断 |
+| 关联 | 一次动作结果 | `run_id`、父子 span、`call_id` |
+| 记录 | 基本运行结果 | Pre/Post hook、权限与工具状态 |
+| 验收 | 任务输出 | 文件、输出、轨迹与四种 SDK 样本 |
+
+上游 s02 的处理器表、s03 的交互批准和 s04 的通用 hook，与本课实现有明确差异，详见[源码对应](source_walkthrough.md)。数据的开发、校准和留出划分见[数据集清单](dataset_manifest.json)。本课只使用五条开发任务；其余两类未执行，不计入历史通过率。
+
+## 试一下
+
+先在宿主机启动模型桥：
 
 ```sh
 python3 tools/model_bridge.py
@@ -216,51 +244,22 @@ docker compose --profile verify run --rm -T verifier verify-e02 --run-id 实际r
 python3 tools/run_e02.py
 ```
 
-单条任务运行后会输出实际 `run_id`。把它填入验收命令，不要照抄“实际run_id”。重跑会在 `runs` 中新建报告，默认不会覆盖固定示例。
+第二条命令会输出实际 `run_id`。把它原样填入验收命令。重跑默认在 `runs` 中创建新报告，不会覆盖固定示例。
 
-课程容器负责执行工具。独立 verifier 容器断网，工作目录以只读方式挂载，私有验收标准只挂给 verifier，不进入 Agent 镜像。凭据也不进入容器。本课知识库仍不参与检索。
+工具在 Docker 容器内执行，宿主机 Codex 只负责返回动作。独立 verifier 断网运行，工作目录只读，并通过私有挂载读取验收标准；凭据和私有标准不会进入 Agent 容器。本课的知识库仍然不参与检索。
 
-每个任务必须同时满足：
+第一次保存的实验中，修改任务实际输出48，权限任务保留被拒绝的调用，错误任务则留下预期的异常。完整五条任务、工具状态和 SDK 往返结果放在[历史运行摘要](run_summary.md)与[固定报告](example_report.json)。本次重写沿用它们，没有重新测量 Agent。
 
-- 运行状态为 `finished`；
-- 轨迹内部一致；
-- 指定工具具有要求的状态；
-- 指定文件或标准输出、退出码符合合同；
-- 四种 SDK 样本都能构造、导出并恢复。
+错误任务的成功条件正是观察到文件异常和脚本非零退出，同时保留原脚本。读报告时先看任务要求，再判断 `error` 是否属于预期结果。
 
-任一检查失败，该任务就不通过。分母只有五条实际执行的开发任务。
+运行后，可以在报告中回答三个观察题：
 
-## 9. 五条开发任务的实际结果
+1. `edit_file` 的 `parent_id` 指向哪个 `model-N`？它的 Pre/Post hook 是否使用相同 `span_id`？
+2. `invalid_arguments`、`denied` 和 `error` 分别停在哪一层？哪些状态实际进入了 `execute`？
+3. 把两个工具事件交换后，`trace_errors` 会报告什么？为什么它仍不能证明任意 `stdout` 为真？
 
-固定运行摘要见 [run_summary.md](run_summary.md)，逐事件报告见 [example_report.json](example_report.json)。
+接着做[练习](exercises.md)，完成后再看[参考答案](solutions.md)。需要追踪完整实现时，按[工具与循环](code.py)、[轨迹和样本适配](samples.py)、[独立验收](eval.py)的顺序阅读；框架字段、源码版本和边界说明都在[源码导读](source_walkthrough.md)。
 
-| 任务 | 实际观察 | 验收 |
-|---|---|---|
-| `edit_and_run` | 五种工具完成；程序输出48；`result.txt` 为48加换行 | 通过 |
-| `permission_denied` | 目录外读取被拒绝；`rm` 要求批准后被固定拒绝；`notes.txt` 未变 | 通过 |
-| `missing_argument` | `read_file` 缺少 `path`，执行前返回 `invalid_arguments` | 通过 |
-| `tool_error` | 缺失文件返回 `error`；原脚本退出1并输出 `e02-demo-failure` | 通过 |
-| `mixed_order` | 两次读取与 Bash 均有独立 `call_id`；文件保持 A/B/N 顺序 | 通过 |
+## 接下来
 
-本次五条开发任务全部通过，共有16次真实模型请求、14次工具请求。其中2次被拒绝，1次参数校验失败，其余11次进入工具执行。每条记录都完成四种 SDK 对象的构造和往返恢复，共20份原生对象视图。
-
-看到 `error` 时，先回头读任务：这道题要求 Agent 观察错误，验收就要检查它是否遇到了预期错误、原文件是否保持不变、退出码是否符合要求。这些故障是我们刻意设置的实验条件，不能拿来统计模型自然犯错的频率。
-
-数据集共有开发5条、校准2条、留出2条。校准集和留出集具有完整任务、初始文件与验收标准，但尚未执行，不计入本次通过率，也不进入 Agent 镜像。具体标识、数量和哈希见 [dataset_manifest.json](dataset_manifest.json)。
-
-## 10. 练习
-
-完整题目见 [exercises.md](exercises.md)，完成后再对照 [solutions.md](solutions.md)。
-
-建议至少完成以下检查：
-
-1. 在 `mixed_order` 中追踪两个重复的 `read_file`，说明为什么工具名不足以关联返回。
-2. 分别构造 `denied`、`invalid_arguments`、`error`，判断哪些真正进入执行函数。
-3. 交换两个工具事件，再运行 `trace_errors`，观察错位轨迹怎样被识别。
-4. 导出并恢复四种 SDK 样本，确认工具状态、`call_id` 和 `exit_code` 没有丢失。
-5. 让 `edit_file` 查找不存在的 `old_text`，确认返回 `error` 且原文件不变。
-6. 按任务族设计 calibration 和 holdout，避免只改文件名就把同类题分到不同集合。
-
-## 接下来评回答质量
-
-做完练习，你应该能沿着一份记录找到动作、权限决定和实际结果，也能检查它是否满足本课的确定性合同。第3课会接着处理一个尚未评分的问题：Agent 的最终解释写得怎样，工具用得是否合适。我们会比较规则评分和 LLM 裁判。
+现在，我们可以沿一份记录找到具体调用、权限决定与返回结果，并把它转成两个框架的样本。第3课开始给这些样本评分：先用规则检查明确条件，再让 LLM 裁判判断解释的含义，并检查两种方法为什么会给出不同结论。

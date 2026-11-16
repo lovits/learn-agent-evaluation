@@ -105,7 +105,7 @@ Agent代码增量：仅 agent_loop、run_bash、必要运行记录
 - 文档依据：https://deepeval.com/tutorials/rag-qa-agent/evaluation
 - 文档依据：https://docs.ragas.io/en/stable/tutorials/rag/
 
-原课知识映射：s01, s09。实施状态：本轮先制作并验证。
+原课知识映射：s01, s09。实施状态：已制作并验证，第1课已按统一正文标准重写。
 
 ### e02 工具、权限、轨迹与统一评测样本
 
@@ -156,7 +156,7 @@ Agent代码增量：read/write/edit/glob dispatch、权限检查和记录 hook
 - 文档依据：https://deepeval.com/guides/guides-tracing-ai-agents
 - 文档依据：https://deepeval.com/docs/evaluation-trajectory-based-llm-evals
 
-原课知识映射：s02, s13。实施状态：第2课已制作并完成真实Docker实验，详见本课验收记录。
+原课知识映射：s02, s13。实施状态：已制作并验证，本轮正文重写与审校完成。
 
 ### e03 规则评分与 LLM 裁判
 
@@ -201,7 +201,7 @@ Agent代码增量：复用前课 Agent，仅加独立判分适配
 - 文档依据：https://deepeval.com/guides/guides-g-eval-examples
 - 文档依据：https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/aspect_critic/
 
-原课知识映射：s03, s04。实施状态：后续逐课制作，本说明不代表已实现。
+原课知识映射：s03, s04。实施状态：已制作并验证，本轮正文重写与审校完成。
 
 ### e04 知识库检索：精度、召回与排序
 
@@ -247,7 +247,7 @@ Agent代码增量：知识库挂载与 search_knowledge，参考 SkillLoader 按
 - 文档依据：https://deepeval.com/docs/metrics-contextual-recall
 - 文档依据：https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/context_recall/
 
-原课知识映射：s05, s06。实施状态：后续逐课制作，本说明不代表已实现。
+原课知识映射：s05, s06。实施状态：已制作并验证，等待按统一正文标准重写。
 
 ### e05 Faithfulness：解释是否忠于检索证据
 
@@ -285,7 +285,7 @@ Agent代码增量：复用检索 Agent，加逐声明 SDK 记录
 - 文档依据：https://deepeval.com/docs/metrics-faithfulness
 - 文档依据：https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/faithfulness/
 
-原课知识映射：s07。实施状态：后续逐课制作，本说明不代表已实现。
+原课知识映射：s07。实施状态：已制作并验证，等待按统一正文标准重写。
 
 ### e06 答案相关性、正确性、完整性与拒答
 
@@ -326,7 +326,7 @@ Agent代码增量：同一 Agent，加入 reference 和不可回答任务
 - 文档依据：https://deepeval.com/guides/guides-answer-correctness-metric
 - 文档依据：https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/factual_correctness/
 
-原课知识映射：s08。实施状态：后续逐课制作，本说明不代表已实现。
+原课知识映射：s08。实施状态：已制作并验证，等待按统一正文标准重写。
 
 ### e07 通过故障实验定位 RAG 失败
 
@@ -362,7 +362,7 @@ Agent代码增量：文档/检索/生成三个位置的可控故障开关
 - 文档依据：https://deepeval.com/guides/guides-rag-evaluation
 - 文档依据：https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/noise_sensitivity/
 
-原课知识映射：s10。实施状态：后续逐课制作，本说明不代表已实现。
+原课知识映射：s10。实施状态：已制作并验证，纳入本轮统一复核与再编排。
 
 ### e08 构建、生成与审查评测数据集
 
@@ -797,3 +797,9 @@ pocketflow_tutorial：https://github.com/The-Pocket/PocketFlow-Tutorial-Codebase
 ## 第1课图文改写
 
 [第1课新版教材、配图与验收](https://my.feishu.cn/docx/ZIlFdoY5EoFvaExYY9dcvQnnnce)：按Learn Claude Code的六部分正文和六步短代码重写，补入Agent/Harness循环、独立验收两张关键结构图，保留源码导读、练习、答案和首次实验。PocketFlow实际生成一次，humanizer审校12节。本地与Docker断网78项测试通过，浏览器已检查两图加载与缩放。原Agent代码、样本和历史报告保持一致，本次未重新测量Agent。
+
+## 统一标准重写：第2、3课
+
+[第2课新版](https://my.feishu.cn/docx/KVAkdoPHlofNEOxSPQqcfXuenfn) · [第3课新版](https://my.feishu.cn/docx/J6iAd17kSonCjCxqlOWcjyGonTg)
+
+第2、3课已按问题、解决方案、工作原理、变更、试一下、接下来重写，每课六步真实代码，humanizer各审校12节。原运行代码、样本和固定报告保持一致，本轮不新增Agent或裁判测量。PocketFlow本轮各实际生成一次，本地与Docker断网78项测试通过；飞书原文档已局部更新并回读核对。

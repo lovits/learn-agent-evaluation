@@ -39,6 +39,8 @@ DOCUMENTS = {
     "/e07-results": ("第7课实测", "lessons/e07_failure_diagnosis/run_summary.md"),
     "/validation7": ("第7课验收", "docs/e07-validation.md"),
     "/generation7": ("第7课生成与审校", "generation/e07-README.md"),
+    "/writing-standard": ("课程正文标准", "references/textbook-writing-standard.md"),
+    "/course-revision-validation": ("课程重写验收", "docs/course-revision-validation.md"),
     "/teaching1": ("第1课改写规则", "references/e01-rewrite-plan.md"),
     "/teaching7": ("第7课写作方式", "references/e07-teaching-pattern.md"),
     "/source6": ("第6课源码", "lessons/e06_answer_quality/source_walkthrough.md"),

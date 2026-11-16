@@ -119,6 +119,7 @@ def main():
                 else []
             ),
             *([f"lessons/{slug}/reference.json"] if lesson == "e06" else []),
+            *(["tools/refine_e03.py"] if lesson == "e03" else []),
             *(
                 ["lessons/e04_retrieval/code.py", "references/e07-teaching-pattern.md"]
                 if lesson == "e07"
@@ -127,6 +128,7 @@ def main():
             *(["references/e01-rewrite-plan.md"] if lesson == "e01" else []),
             "eval_course/records.py",
             "references/versions.json",
+            "references/textbook-writing-standard.md",
         },
         "exclude_patterns": {
             ".git",

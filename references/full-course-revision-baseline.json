@@ -1,0 +1,92 @@
+{
+  "commit": "183c6742792322e08843817f7e77c7ce1de9e8ab",
+  "lessons": {
+    "e02": {
+      "slug": "e02_tools_traces",
+      "published_sha256": "99b51802baf79542df7e542773c8613b0ac44f03c9901af0f912b65adbc7c569",
+      "runtime": {
+        "lessons/e02_tools_traces/code.py": "35c279eac4f0d18748a24fbcf3f586579ff09381d063a33d12d0150d2206159c",
+        "lessons/e02_tools_traces/cases.jsonl": "6fcb468b092225f52b1dd16a8721c444fe0bd5e1e21ed3a3a1da24aa243d07dd",
+        "lessons/e02_tools_traces/__init__.py": "9989303b7ad760a6182b2c75ee38955c4cb0656433443ee18722a28ba82e2636",
+        "lessons/e02_tools_traces/eval.py": "364933618bf64bc289103389f2182c9fcc18b69a62209287d1c561444a6413d6",
+        "lessons/e02_tools_traces/example_report.json": "7d2a460160de184b6b138c8a275a56d6aa6ed5b18cba193cbf859a8c7215b2a2",
+        "lessons/e02_tools_traces/samples.py": "2ee9af3739df522b90cdcd79d232cbe0803ef36847d01a53e17352a630ae5ded",
+        "lessons/e02_tools_traces/dataset_manifest.json": "153910a05894a427701e4937276842d884f3e4c42585816598f7b46d772c1fa2"
+      },
+      "archive": "generation/archive/e02-before-course-revision"
+    },
+    "e03": {
+      "slug": "e03_judges",
+      "published_sha256": "8b3fb7ffa60a578de5053d607cc34c9fc006f26866fa79d7972fd0dbbea2a0b5",
+      "runtime": {
+        "lessons/e03_judges/refined_report.json": "949fc106136f0083ad4bc31dd5e2873f71b856df594de2ff473e0f6af9ec9f77",
+        "lessons/e03_judges/code.py": "3e034b236f6d0a9ae6715c2501245e3e3d2d8d1d98550e1517e7423223199c4f",
+        "lessons/e03_judges/cases.jsonl": "f2bc6aa0befc928224c65a0e6df2029707ee68a1f918f8cc572b4968cdaa2e77",
+        "lessons/e03_judges/__init__.py": "c7315e2454802eb59d81505947b8d7df793932b88fc0f3153d7f8b5dd6c0f4c1",
+        "lessons/e03_judges/eval.py": "92afaa766de88acfde052a51346e86c62eb3d822f0e38cc214eda557c8d46b95",
+        "lessons/e03_judges/example_report.json": "656e332b8e7440b51ccfc5c431925e1f950ddc4b7bc1218020003cc4c1bc6ef6"
+      },
+      "archive": "generation/archive/e03-before-course-revision"
+    },
+    "e04": {
+      "slug": "e04_retrieval",
+      "published_sha256": "4631458c8ff41ca796bd4b6fba0ffcfdbedb4d0fc28a13d47abcd88154a501e2",
+      "runtime": {
+        "lessons/e04_retrieval/initial_evaluation_report.json": "d6871f014028e015d58d40ded702ef1c3aededf2417f45ad5fbd186e36c146d8",
+        "lessons/e04_retrieval/code.py": "783553ab81d348527c5585d6554dc95a0e303385fa0807fe4ade5ab6f288f53a",
+        "lessons/e04_retrieval/cases.jsonl": "41872f267d3bbf7642e5b0144c2160913b9c6ec97cf819d61131b91f3e02d17f",
+        "lessons/e04_retrieval/__init__.py": "f95cf34bdfdc2c085cf4c8cb60390b41d9087519df606fdde8c7543b5b450943",
+        "lessons/e04_retrieval/agent_grade.json": "fe12b57f38b7c153b61a1536a7c65a5dcac61bd43f144e63922177aa90996ca1",
+        "lessons/e04_retrieval/agent_report.json": "7b8d33a455485a2f03ccb1dfcafeb44320624851c6e1dc647a70744b461caf5c",
+        "lessons/e04_retrieval/initial_agent_report.json": "3af0a60303813a458de256c1f89ed4293ff4d3a995bf0b6240e6e684965a52e5",
+        "lessons/e04_retrieval/eval.py": "c81418fcaf912a9377b8242077e6de0ec485f9305a92124ebb72a029d73da2e6",
+        "lessons/e04_retrieval/verify.py": "e44f0cd5b15fb11ae69641b041029872b385a9ecde46dd4bfe1ced21cb5f4d19",
+        "lessons/e04_retrieval/example_report.json": "472957f666eb68987d432db2e0a67d7a16a054f90eba68b2ddc9327876d5fdef"
+      },
+      "archive": "generation/archive/e04-before-course-revision"
+    },
+    "e05": {
+      "slug": "e05_faithfulness",
+      "published_sha256": "d98feee5d32c6328748fcd4b1bb93ba5068dc98b57b1abd194b3f68d8f7e36d4",
+      "runtime": {
+        "lessons/e05_faithfulness/code.py": "7f4f482d51700af8682a5ead375c0ecfaf38b8c31b62b8b031a6cc86774e2658",
+        "lessons/e05_faithfulness/cases.jsonl": "84ed0e3c972ae3274a0fa72a022a9f3b626c2477897f5017df68705f2ce5f19d",
+        "lessons/e05_faithfulness/initial_connection_failure.json": "d8ac2cb8a0835de2a49d8101795b9b8b5e869e27f2ff9c336518df504347e8ff",
+        "lessons/e05_faithfulness/__init__.py": "e742d5822793fa63680ee90504f606fff1f13e7b24d74c8298ad2e5994e2e0b4",
+        "lessons/e05_faithfulness/eval.py": "688642739329c88fb590d2dd149a6288af53745d8bf5f10500985e1b9773d918",
+        "lessons/e05_faithfulness/example_report.json": "a1261003855125575a40ad279b367302b8327e308e1bc628a2dcf7b59a695816",
+        "lessons/e05_faithfulness/source_prefixed_report.json": "c6bd28703a9a8fb27d5468d5ad9b8391aaf58687b400ba00dcd326e18d9a5ee0"
+      },
+      "archive": "generation/archive/e05-before-course-revision"
+    },
+    "e06": {
+      "slug": "e06_answer_quality",
+      "published_sha256": "6d4279ee85280059523734d21ddba207def96fa4a44adebec6c3ac768c092508",
+      "runtime": {
+        "lessons/e06_answer_quality/reference_repair_report.json": "5dc11d5138551452f2951a2faf8b224a5229acc92423a434cd9df117a39b697b",
+        "lessons/e06_answer_quality/code.py": "2cf0e5d5234289d9a17e167b965ad41b491246016d26aadc502909a872c2a2ae",
+        "lessons/e06_answer_quality/cases.jsonl": "4e4de47716dbfb9ce4764edc474a9fd4947b8197fb4007ca239ddd19e7d96605",
+        "lessons/e06_answer_quality/__init__.py": "7b3ee781c0499afd899b188081f7076d87626dccc608099232bb4e05817dc6e8",
+        "lessons/e06_answer_quality/reference.json": "963236e5174cc2b0146793f717974a12b7f6890e2c88b7ead5809c3b96940869",
+        "lessons/e06_answer_quality/eval.py": "432b341573472adba0d37a8e90267a73cee7c0dddbcfd1a7c73c570138b03744",
+        "lessons/e06_answer_quality/example_report.json": "f3c2161dd8bb936e0ea43dccd52b78ca2109fb269bf9acb4ab5882a3192fc312"
+      },
+      "archive": "generation/archive/e06-before-course-revision"
+    },
+    "e07": {
+      "slug": "e07_failure_diagnosis",
+      "published_sha256": "7b4393a1aa278729f5ba82ac655ad3c5fd13c245b21edc16f63842bbb5188b72",
+      "runtime": {
+        "lessons/e07_failure_diagnosis/initial_eval.py.txt": "f8cf1a08d0adff1fb85e5afad5d1b88aba71f9b0b1b726b9ce9260644f50e88f",
+        "lessons/e07_failure_diagnosis/code.py": "37f0e2ecff4486436267e229d4b395c0f09e9b70ba942d57334848c71bd0dcc3",
+        "lessons/e07_failure_diagnosis/cases.jsonl": "14ec61abfa05cfb72caf94ca4687924a3bb8ec903aca26f77ca951e3e92a29de",
+        "lessons/e07_failure_diagnosis/__init__.py": "3428eea1c96876f3bd4dbf09380610b27e90505abbc22e3f763995e6df035778",
+        "lessons/e07_failure_diagnosis/agent_report.json": "a97f4857f77db348a6e1b6e62ca7310d9633d21d4f3fb227ba6823c0817b27b2",
+        "lessons/e07_failure_diagnosis/eval.py": "f7b13de912b63821a030d1121e3d53f049f7dc564a93cf3dc55b26a4e1f2f898",
+        "lessons/e07_failure_diagnosis/example_report.json": "81195a2482d1ad5158ef2215ffd4a9cc80b73ff67ce560fc8bb147bb910ff36d",
+        "lessons/e07_failure_diagnosis/initial_evaluation.json": "d3f22c054ad1e0697a37eb54b49e674cd0da8f2f6e123cc1727b88a8218f359b"
+      },
+      "archive": "generation/archive/e07-before-course-revision"
+    }
+  }
+}

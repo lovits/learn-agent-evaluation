@@ -1,9 +1,15 @@
 {
   "document_id": "J6iAd17kSonCjCxqlOWcjyGonTg",
-  "revision_id": 5,
+  "revision_id": 7,
   "url": "https://my.feishu.cn/docx/J6iAd17kSonCjCxqlOWcjyGonTg",
   "verified": true,
-  "verified_revision": 5,
-  "local_sha256": "8b3fb7ffa60a578de5053d607cc34c9fc006f26866fa79d7972fd0dbbea2a0b5",
-  "cloud_sha256": "caa6d97b80ae463d0117e5a7a1985ad38d622b6809f2327a85b48cf96350556a"
+  "verified_revision": 7,
+  "local_sha256": "dec64c9be263c0b4809e267e4593387f4b5254a222159387adb2a12e11245a02",
+  "cloud_sha256": "5c58fb064ea3a42f01a13c7c99e03d386b7364e554b2954068dc4b9d67474490",
+  "verified_revision_id": 7,
+  "cloud_content_sha256": "5c58fb064ea3a42f01a13c7c99e03d386b7364e554b2954068dc4b9d67474490",
+  "rewrite_main_sections": 6,
+  "rewrite_working_steps": 6,
+  "main_code_blocks_verified": 13,
+  "untargeted_appendices_preserved": true
 }

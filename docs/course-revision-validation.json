@@ -1,0 +1,64 @@
+{
+  "baseline": "references/full-course-revision-baseline.json",
+  "lessons": {
+    "e02": {
+      "runtime_and_fixed_reports_unchanged": true,
+      "generation_calls": 1,
+      "reviewed_sections": 12,
+      "unreviewed_sections": 0,
+      "new_agent_or_judge_run": false,
+      "local_tests": {
+        "passed": 78,
+        "warnings": 1
+      },
+      "docker_tests": {
+        "passed": 78,
+        "warnings": 1,
+        "network": "none"
+      },
+      "feishu": {
+        "url": "https://my.feishu.cn/docx/KVAkdoPHlofNEOxSPQqcfXuenfn",
+        "revision": 7,
+        "main_code_blocks_verified": 17,
+        "untargeted_appendices_preserved": true
+      },
+      "ruff": "passed locally and in Docker",
+      "reader": {
+        "url": "http://localhost:8765/lesson2",
+        "status": 200,
+        "headings": 6,
+        "code_blocks": 17
+      }
+    },
+    "e03": {
+      "runtime_and_fixed_reports_unchanged": true,
+      "generation_calls": 1,
+      "reviewed_sections": 12,
+      "unreviewed_sections": 0,
+      "new_agent_or_judge_run": false,
+      "local_tests": {
+        "passed": 78,
+        "warnings": 1
+      },
+      "docker_tests": {
+        "passed": 78,
+        "warnings": 1,
+        "network": "none"
+      },
+      "feishu": {
+        "url": "https://my.feishu.cn/docx/J6iAd17kSonCjCxqlOWcjyGonTg",
+        "revision": 7,
+        "main_code_blocks_verified": 13,
+        "untargeted_appendices_preserved": true
+      },
+      "ruff": "passed locally and in Docker",
+      "reader": {
+        "url": "http://localhost:8765/lesson3",
+        "status": 200,
+        "headings": 6,
+        "code_blocks": 13
+      }
+    }
+  },
+  "scope": "e02/e03 documentation rewrite only"
+}

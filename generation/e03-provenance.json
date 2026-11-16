@@ -5,9 +5,9 @@
   "actual_model_calls": 1,
   "calls": [
     {
-      "prompt_sha256": "54633c8255b62127c4fd2bba71ed3c318f613dfb6a1f5a863484fffab6206f2f",
-      "response_sha256": "a37d17cb8d1d9a485596667447ddac5be3ff2363993851f6f5ccfe87aac95ce1",
-      "elapsed_seconds": 70.54
+      "prompt_sha256": "abf19fc5598cfd0b7497d4dd8d16f5dc4d8972961971c17de6e82ec0c2e1dbed",
+      "response_sha256": "6ed9d051eb13af04040955d937bf79ff8694bbb0e790ca8375e8e3c7d963e509",
+      "elapsed_seconds": 65.182
     }
   ],
   "nodes_run": [
@@ -28,6 +28,14 @@
       "sha256": "940890c3876981a2273497e8d0d06da4a882d7e65cea6098f6217f87de498181"
     },
     {
+      "path": "tools/refine_e03.py",
+      "sha256": "6cc6e0926e4736549d8ce225253066df8a386bf80861229eb09ff7723ee72585"
+    },
+    {
+      "path": "references/textbook-writing-standard.md",
+      "sha256": "f5b37acb847f10b22c835e46865394eb1b12d0119af01aa030faab4a817f0109"
+    },
+    {
       "path": "references/versions.json",
       "sha256": "75831131b2e85e8f0edd2ddd4534642f169a6d0cd0d5ac89d47c5465581ce99c"
     },
@@ -36,9 +44,8 @@
       "sha256": "706998ab0be7cdaa01aaae7faad081f6cdea1dc49c7597f2e79887d900c76e8a"
     },
     {
-      "path": "generation/e03-materials/run_summary.md",
-      "sha256": "a0c440662a38c2206ae1247570e875cd3e8f250995c1af214532a951a9419002",
-      "source_path": "lessons/e03_judges/run_summary.md"
+      "path": "lessons/e03_judges/run_summary.md",
+      "sha256": "7c52733580615a0e943807c94b9355aa449c842cc7c9cc91132bcc114f4ec831"
     },
     {
       "path": "lessons/e03_judges/exercises.md",
@@ -61,14 +68,18 @@
       "sha256": "92afaa766de88acfde052a51346e86c62eb3d822f0e38cc214eda557c8d46b95"
     }
   ],
-  "brief_sha256": "22dfd65107dc091c14b4779099747a43e5891118dc919e474a3088ca52a1d599",
+  "brief_sha256": "c3975c0f1010e2f6950c955ab27d6d0f54d4e19701e8f4758a925ab8d203b113",
   "raw_output_directory": "generation/output/e03_judges",
-  "post_generation_evidence": "rubric v2 single-development-case calibration, 3 additional calls; main original run retained",
   "publication": {
     "path": "lessons/e03_judges/README.zh.md",
-    "sha256": "8b3fb7ffa60a578de5053d607cc34c9fc006f26866fa79d7972fd0dbbea2a0b5",
-    "humanizer_reviewed_sections": 11,
+    "sha256": "dec64c9be263c0b4809e267e4593387f4b5254a222159387adb2a12e11245a02",
+    "review": "Technical review against current code, followed by full humanizer prose review; code fences, inline code, commands and link targets unchanged during prose pass.",
+    "reviewed_sections": 12,
     "unreviewed_sections": 0,
-    "review": "Full prose pass; code fences and link targets preserved. Technical review added separately recorded rubric-v2 calibration."
+    "main_sections": 6,
+    "working_steps": 6,
+    "baseline": "references/full-course-revision-baseline.json",
+    "previous_generation_archive": "generation/archive/e03-before-course-revision",
+    "new_agent_or_judge_execution_for_rewrite": false
   }
 }

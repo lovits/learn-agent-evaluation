@@ -190,5 +190,41 @@
     "visual_review": "passed",
     "node_font_size": 16,
     "edge_font_size": 13
+  },
+  {
+    "name": "e06-ranking-flow",
+    "slug": "e06_context_precision",
+    "title": "第6课：普通精度与列表 AP 的计算",
+    "diagram_type": "flowchart",
+    "generator": "draw.io",
+    "candidate": "course/e06_context_precision/images/ranking-flow.drawio",
+    "output": "course/e06_context_precision/images/ranking-flow.drawio.svg",
+    "png": "course/e06_context_precision/images/ranking-flow.png",
+    "readme_preview": "course/e06_context_precision/images/ranking-flow.png",
+    "preview_url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e06-ranking-flow.png",
+    "url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e06-ranking-flow.svg",
+    "artifact_sha256": "61de17f1cf4c8093fdc3cba5e57659657e67e4d5e571108b05c572d97e34a171",
+    "png_sha256": "50a55f6bb49dafd9fa39182125a34980ee8d87c3aa61b35f2ced823e526c4ea7",
+    "visual_review": "passed",
+    "node_font_size": 16,
+    "edge_font_size": 13
+  },
+  {
+    "name": "e06-scoring-flow",
+    "slug": "e06_context_precision",
+    "title": "第6课：两类原生指标的评分过程",
+    "diagram_type": "flowchart",
+    "generator": "draw.io",
+    "candidate": "course/e06_context_precision/images/scoring-flow.drawio",
+    "output": "course/e06_context_precision/images/scoring-flow.drawio.svg",
+    "png": "course/e06_context_precision/images/scoring-flow.png",
+    "readme_preview": "course/e06_context_precision/images/scoring-flow.png",
+    "preview_url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e06-scoring-flow.png",
+    "url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e06-scoring-flow.svg",
+    "artifact_sha256": "a6f98e0ccc79ebcb836431a2f7ff8005f962280df311451fbcb92953fe7fc12a",
+    "png_sha256": "51c2b0c19db122e810dcaa2b745599a3cc309400455d4074e6a4d3279c65b34e",
+    "visual_review": "passed",
+    "node_font_size": 16,
+    "edge_font_size": 13
   }
 ]

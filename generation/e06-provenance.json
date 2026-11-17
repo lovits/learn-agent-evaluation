@@ -1,0 +1,29 @@
+{
+  "generator": "PocketFlow-Tutorial-Codebase-Knowledge",
+  "upstream_commit": "05b24cbbb0fe409c5e23c9791f0342f07524ffdc",
+  "nodes_run": [
+    "FetchRepo",
+    "BindLesson",
+    "WriteChapters",
+    "CombineTutorial"
+  ],
+  "actual_model_calls": 1,
+  "calls": [
+    {
+      "prompt_sha256": "472e8bc1ff1218592a952537e580772bab1111b00960c63bea17babda61af691",
+      "response_sha256": "3188c22d79cb6754b53972065ecc305088eed14a67d3f54bbd9cd1d842f2cdc5",
+      "seconds": 92.35
+    }
+  ],
+  "input_sha256": {
+    "eval_course/runtime.py": "f4236018e4dea094fe4573c48cb3cc03fdcf4d837dac8ff30190367c1dc86fa4",
+    "course/e06_context_precision/solutions.md": "54f363a2fbe71fdfba41b93701726508df694ff472c2b3795b1d53191936d4c1",
+    "course/e06_context_precision/exercises.md": "6009beb2ce62c040de7954651e137dbe52d3f46bb660e5afb796ca84c4b2bb7d",
+    "course/e06_context_precision/code.py": "c0c467f179acee8ed1adebe1a25a68e08b5b8b6d2276c7c264a3aa86de4e21e9",
+    "course/e06_context_precision/cases.jsonl": "9e4dc2d9e62f3a77904b22b5400347b3a51b8f2fafb54e646cc14503a356b9f2",
+    "course/e06_context_precision/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "course/e06_context_precision/source_walkthrough.md": "e37f65d051217db3f5fe562e226dc2debc048965b8cbc70dd831aff9e8a37378",
+    "course/e06_context_precision/eval.py": "fca2801c5b7bb2e9ca9dce0ae53c845fe84e0acd504fb86260cadae0e84d6f3d"
+  },
+  "note": "Raw draft is reviewed and condensed; final textbook is in course/. The agreed outline is not model-reordered."
+}

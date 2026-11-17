@@ -168,6 +168,8 @@ Agent 接到任务，读文件、查资料、调用工具，最后给出回答�
 
 **学会的标志**：能说明评分单位、参考依赖、分母及排序变化的影响。
 
+[教材](../course/e06_context_precision/README.zh.md) · [源码导读](../course/e06_context_precision/source_walkthrough.md)
+
 ## 07 上下文覆盖与召回
 
 资料看起来都相关，为什么问题仍答不全？

@@ -15,7 +15,7 @@
         "README.md",
         "docs/curriculum.md"
       ],
-      "verified_revision": 21
+      "verified_revision": 22
     },
     "e01": {
       "title": "第1课：模型停下了，任务完成了吗？",
@@ -137,6 +137,27 @@
         "course/e05_knowledge_context/source_walkthrough.md",
         "course/e05_knowledge_context/exercises.md",
         "course/e05_knowledge_context/solutions.md"
+      ],
+      "verified_revision": 6
+    },
+    "assessment6": {
+      "title": "第6课：样本与评测记录",
+      "document_id": "X03VdsPpeoFTeVxRp7ccebSenVf",
+      "url": "https://my.feishu.cn/docx/X03VdsPpeoFTeVxRp7ccebSenVf",
+      "paths": [
+        "course/e06_context_precision/assessment.md"
+      ],
+      "verified_revision": 3
+    },
+    "e06": {
+      "title": "第6课：上下文相关性与排序",
+      "document_id": "Iv8Gdpvz1opTNAxmyRvcu9pCnme",
+      "url": "https://my.feishu.cn/docx/Iv8Gdpvz1opTNAxmyRvcu9pCnme",
+      "paths": [
+        "course/e06_context_precision/README.zh.md",
+        "course/e06_context_precision/source_walkthrough.md",
+        "course/e06_context_precision/exercises.md",
+        "course/e06_context_precision/solutions.md"
       ],
       "verified_revision": 5
     }

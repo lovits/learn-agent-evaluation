@@ -1,6 +1,6 @@
 {
   "outline_version": 3,
-  "review": "第5课依据 PocketFlow 实际草稿压缩，核对 TinyRAG、上下文回填与成功模型输入；修正错误图片链接、课次与过宽的检查结论。实际结果独立保存。",
+  "review": "第6课依据 PocketFlow 实际草稿压缩，核对普通精度、列表 AP、RR/NDCG 与原生 DeepEval 两种评分单位；修正草稿图片路径和普通精度参考依赖的过度概括。",
   "published_sha256": {
     "course/run.py": "d4f0b75ebfc46cf0eeb897dfbe4c4b22db0626231aac9d72f30093a9caa2cb1c",
     "course/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
@@ -73,7 +73,7 @@
     "course/e04_scoring/images/judging-flow.png": "88e10830f4f63ee19d4e6e9fe5eca9ce3c3ce084128c5fe1504c4f55c998fd41",
     "course/e04_scoring/images/scoring-flow.drawio": "a58a43052dd1ce560366840bea1236b1cfb778db4e44061f62df726e085b4ea4",
     "course/e04_scoring/images/scoring-flow.png": "f99a93c53766abae8d528f9cedb1714ba29f19002b4ef7bdd922a4b80a2a3db7",
-    "course/e05_knowledge_context/README.zh.md": "ed7fe4a086a86083a3ea4b86a2acdaa1c7358f8602942c411da4f099cb02a281",
+    "course/e05_knowledge_context/README.zh.md": "e8eebaab793ae374905240a31615df1631b1f73bbe50bdac883b53dbb4b7ff42",
     "course/e05_knowledge_context/solutions.md": "7895176f13028c98499bf0b5912d3f71e3f7f04374f43594621ae548d325ca14",
     "course/e05_knowledge_context/assessment.json": "b6de30dafbb55dd56ca1a81e35f6570e1c1dbd08b3b7c24ed39a0bb66a41da1a",
     "course/e05_knowledge_context/exercises.md": "b47f38554c20256184de0a9ff84760e0c86b2e6ee56d24ffbf406da6ecffaed3",
@@ -90,14 +90,31 @@
     "course/e05_knowledge_context/images/retrieval-flow.drawio.svg": "4f42edb571c0587a885e702ee0df3e88b4b713a07dc8eb9d01b5aed1ecdbd6bb",
     "course/e05_knowledge_context/images/retrieval-flow.png": "b76fc2af75dca79377ddd500aea1ef2aeba2c9cd978ab10763265fac9b014973",
     "course/e05_knowledge_context/images/context-evaluation.png": "9c212f055cc23f5611bd4478c5ab9ed1cf793eb4c918c6e622883ec64218052d",
-    "eval_course/tinyrag.py": "f86ebee411d59488023f13edf5129b81371617594a7a5807ed49d79c259adc6b"
+    "eval_course/tinyrag.py": "f86ebee411d59488023f13edf5129b81371617594a7a5807ed49d79c259adc6b",
+    "course/e06_context_precision/README.zh.md": "411de3794274f7931ca46e8bafbdb849497d2178cf147dd0cd32153c9a1344bf",
+    "course/e06_context_precision/solutions.md": "54f363a2fbe71fdfba41b93701726508df694ff472c2b3795b1d53191936d4c1",
+    "course/e06_context_precision/assessment.json": "78cc5f9824005eecd13238129d2bfe42d45dde8295e9da240c851ecb4b171a04",
+    "course/e06_context_precision/exercises.md": "6009beb2ce62c040de7954651e137dbe52d3f46bb660e5afb796ca84c4b2bb7d",
+    "course/e06_context_precision/code.py": "c0c467f179acee8ed1adebe1a25a68e08b5b8b6d2276c7c264a3aa86de4e21e9",
+    "course/e06_context_precision/cases.jsonl": "9e4dc2d9e62f3a77904b22b5400347b3a51b8f2fafb54e646cc14503a356b9f2",
+    "course/e06_context_precision/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "course/e06_context_precision/assessment.md": "dfa2daf0b2d5bc9e8de43c5faf392ebb8d4956d87b886010d16653210f40bd7d",
+    "course/e06_context_precision/source_walkthrough.md": "4f4c3d540733d2194f25150aecb0386be3dd7fbce1575aebd12af4f1ef2ed4ba",
+    "course/e06_context_precision/eval.py": "fca2801c5b7bb2e9ca9dce0ae53c845fe84e0acd504fb86260cadae0e84d6f3d",
+    "course/e06_context_precision/images/ranking-flow.png": "50a55f6bb49dafd9fa39182125a34980ee8d87c3aa61b35f2ced823e526c4ea7",
+    "course/e06_context_precision/images/ranking-flow.drawio.svg": "61de17f1cf4c8093fdc3cba5e57659657e67e4d5e571108b05c572d97e34a171",
+    "course/e06_context_precision/images/scoring-flow.drawio.svg": "a6f98e0ccc79ebcb836431a2f7ff8005f962280df311451fbcb92953fe7fc12a",
+    "course/e06_context_precision/images/ranking-flow.drawio": "634ecc65b73adec0ca831f89d446b3d01ecd6a6a43c1bf046607cff54687fc40",
+    "course/e06_context_precision/images/scoring-flow.drawio": "ebbb606782930efe47a7b017f8611e59db1cf358540438212e8888bbdbc04375",
+    "course/e06_context_precision/images/scoring-flow.png": "51c2b0c19db122e810dcaa2b745599a3cc309400455d4074e6a4d3279c65b34e"
   },
   "provenance": [
     "generation/e01-provenance.json",
     "generation/e02-provenance.json",
     "generation/e03-provenance.json",
     "generation/e04-provenance.json",
-    "generation/e05-provenance.json"
+    "generation/e05-provenance.json",
+    "generation/e06-provenance.json"
   ],
   "runtime_evidence": "generation/runtime-evidence.json",
   "figures": "references/figures.json"

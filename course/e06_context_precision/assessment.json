@@ -1,0 +1,556 @@
+{
+  "lesson": "e06",
+  "source_note": "复用原生 TinyRAG 实际候选；重排、天气噪声及固定标签为构造教学条件。DeepEval 的五次裁判请求是真实模型调用。",
+  "cases_sha256": "9e4dc2d9e62f3a77904b22b5400347b3a51b8f2fafb54e646cc14503a356b9f2",
+  "fixed_label_experiment": {
+    "run_id": "ad253f7c73054fb58d5f28e729ff2189",
+    "query": "Atlas 补丁发布前的检查要求 测试命令 发布条件",
+    "reference": "Atlas 补丁发布前在项目根目录运行 python -m pytest -q；全部检查通过才可提交发布，失败时先修复，不跳过失败项。",
+    "sources": {
+      "atlas/release.md": "db65230825cd6997c1e512c65a489941f6caf92d920a6cb94f5a51d395a1d98e",
+      "atlas/auth.md": "ae628a0575ad7e15b11ed78028ac88e4204c8201d7b132ea269ff56935e631ac",
+      "atlas/logs.md": "3b2ad1b6898fb79cabedf2e0e1f9c509ae2b2315fc5fb9c07ee80939bce42032"
+    },
+    "raw_hits": [
+      {
+        "path": "atlas/logs.md",
+        "chunk_id": "atlas/logs.md#0",
+        "text": "# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+        "sha256": "3b2ad1b6898fb79cabedf2e0e1f9c509ae2b2315fc5fb9c07ee80939bce42032",
+        "source_sha256": "3b2ad1b6898fb79cabedf2e0e1f9c509ae2b2315fc5fb9c07ee80939bce42032",
+        "start": 0,
+        "end": 82,
+        "similarity": 0.4123613610867322,
+        "matches": 8,
+        "retriever": "TinyRAG.VectorStore",
+        "embedding": "local-tfidf"
+      },
+      {
+        "path": "atlas/release.md",
+        "chunk_id": "atlas/release.md#0",
+        "text": "# Atlas 补丁发布\n\nAtlas 补丁发布前先在项目根目录运行 `python -m pytest -q`。\n只有全部检查通过才能提交发布；出现失败时先修复，不跳过失败项。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+        "sha256": "db65230825cd6997c1e512c65a489941f6caf92d920a6cb94f5a51d395a1d98e",
+        "source_sha256": "db65230825cd6997c1e512c65a489941f6caf92d920a6cb94f5a51d395a1d98e",
+        "start": 0,
+        "end": 115,
+        "similarity": 0.23535744093348854,
+        "matches": 6,
+        "retriever": "TinyRAG.VectorStore",
+        "embedding": "local-tfidf"
+      },
+      {
+        "path": "atlas/auth.md",
+        "chunk_id": "atlas/auth.md#0",
+        "text": "# Atlas API 认证\n\nAtlas API 使用 `X-Atlas-Token` 请求头传递令牌。\n这个请求头用于身份认证，不用于决定补丁能否发布。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+        "sha256": "ae628a0575ad7e15b11ed78028ac88e4204c8201d7b132ea269ff56935e631ac",
+        "source_sha256": "ae628a0575ad7e15b11ed78028ac88e4204c8201d7b132ea269ff56935e631ac",
+        "start": 0,
+        "end": 104,
+        "similarity": 0.12186097062926068,
+        "matches": 3,
+        "retriever": "TinyRAG.VectorStore",
+        "embedding": "local-tfidf"
+      }
+    ],
+    "annotation_origin": "course_author_ai; constructed teaching labels, not independent human gold",
+    "orders": {
+      "original": {
+        "ids": [
+          "atlas/logs.md#0",
+          "atlas/release.md#0",
+          "atlas/auth.md#0"
+        ],
+        "labels": [
+          0,
+          1,
+          0
+        ],
+        "scores": {
+          "precision": 0.3333333333333333,
+          "list_ap": 0.5,
+          "rr": 0.5,
+          "ndcg": 0.6309297535714575
+        }
+      },
+      "useful_first": {
+        "ids": [
+          "atlas/release.md#0",
+          "atlas/logs.md#0",
+          "atlas/auth.md#0"
+        ],
+        "labels": [
+          1,
+          0,
+          0
+        ],
+        "scores": {
+          "precision": 0.3333333333333333,
+          "list_ap": 1.0,
+          "rr": 1.0,
+          "ndcg": 1.0
+        }
+      },
+      "useful_last": {
+        "ids": [
+          "atlas/logs.md#0",
+          "atlas/auth.md#0",
+          "atlas/release.md#0"
+        ],
+        "labels": [
+          0,
+          0,
+          1
+        ],
+        "scores": {
+          "precision": 0.3333333333333333,
+          "list_ap": 0.3333333333333333,
+          "rr": 0.3333333333333333,
+          "ndcg": 0.5
+        }
+      },
+      "trailing_noise": {
+        "ids": [
+          "atlas/release.md#0",
+          "atlas/logs.md#0",
+          "atlas/auth.md#0",
+          "constructed/weather"
+        ],
+        "labels": [
+          1,
+          0,
+          0,
+          0
+        ],
+        "scores": {
+          "precision": 0.25,
+          "list_ap": 1.0,
+          "rr": 1.0,
+          "ndcg": 1.0
+        }
+      }
+    }
+  },
+  "native_deepeval_experiment": {
+    "run_id": "c675aad87cd140e6af3aaa0112643740",
+    "query": "Atlas 补丁发布前的检查要求 测试命令 发布条件",
+    "reference": "Atlas 补丁发布前在项目根目录运行 python -m pytest -q；全部检查通过才可提交发布，失败时先修复，不跳过失败项。",
+    "sources": {
+      "atlas/release.md": "db65230825cd6997c1e512c65a489941f6caf92d920a6cb94f5a51d395a1d98e",
+      "atlas/auth.md": "ae628a0575ad7e15b11ed78028ac88e4204c8201d7b132ea269ff56935e631ac",
+      "atlas/logs.md": "3b2ad1b6898fb79cabedf2e0e1f9c509ae2b2315fc5fb9c07ee80939bce42032"
+    },
+    "raw_hits": [
+      {
+        "path": "atlas/logs.md",
+        "chunk_id": "atlas/logs.md#0",
+        "text": "# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+        "sha256": "3b2ad1b6898fb79cabedf2e0e1f9c509ae2b2315fc5fb9c07ee80939bce42032",
+        "source_sha256": "3b2ad1b6898fb79cabedf2e0e1f9c509ae2b2315fc5fb9c07ee80939bce42032",
+        "start": 0,
+        "end": 82,
+        "similarity": 0.4123613610867322,
+        "matches": 8,
+        "retriever": "TinyRAG.VectorStore",
+        "embedding": "local-tfidf"
+      },
+      {
+        "path": "atlas/release.md",
+        "chunk_id": "atlas/release.md#0",
+        "text": "# Atlas 补丁发布\n\nAtlas 补丁发布前先在项目根目录运行 `python -m pytest -q`。\n只有全部检查通过才能提交发布；出现失败时先修复，不跳过失败项。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+        "sha256": "db65230825cd6997c1e512c65a489941f6caf92d920a6cb94f5a51d395a1d98e",
+        "source_sha256": "db65230825cd6997c1e512c65a489941f6caf92d920a6cb94f5a51d395a1d98e",
+        "start": 0,
+        "end": 115,
+        "similarity": 0.23535744093348854,
+        "matches": 6,
+        "retriever": "TinyRAG.VectorStore",
+        "embedding": "local-tfidf"
+      },
+      {
+        "path": "atlas/auth.md",
+        "chunk_id": "atlas/auth.md#0",
+        "text": "# Atlas API 认证\n\nAtlas API 使用 `X-Atlas-Token` 请求头传递令牌。\n这个请求头用于身份认证，不用于决定补丁能否发布。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+        "sha256": "ae628a0575ad7e15b11ed78028ac88e4204c8201d7b132ea269ff56935e631ac",
+        "source_sha256": "ae628a0575ad7e15b11ed78028ac88e4204c8201d7b132ea269ff56935e631ac",
+        "start": 0,
+        "end": 104,
+        "similarity": 0.12186097062926068,
+        "matches": 3,
+        "retriever": "TinyRAG.VectorStore",
+        "embedding": "local-tfidf"
+      }
+    ],
+    "annotation_origin": "course_author_ai; constructed teaching labels, not independent human gold",
+    "orders": {
+      "original": {
+        "ids": [
+          "atlas/logs.md#0",
+          "atlas/release.md#0",
+          "atlas/auth.md#0"
+        ],
+        "labels": [
+          0,
+          1,
+          0
+        ],
+        "scores": {
+          "precision": 0.3333333333333333,
+          "list_ap": 0.5,
+          "rr": 0.5,
+          "ndcg": 0.6309297535714575
+        }
+      },
+      "useful_first": {
+        "ids": [
+          "atlas/release.md#0",
+          "atlas/logs.md#0",
+          "atlas/auth.md#0"
+        ],
+        "labels": [
+          1,
+          0,
+          0
+        ],
+        "scores": {
+          "precision": 0.3333333333333333,
+          "list_ap": 1.0,
+          "rr": 1.0,
+          "ndcg": 1.0
+        }
+      },
+      "useful_last": {
+        "ids": [
+          "atlas/logs.md#0",
+          "atlas/auth.md#0",
+          "atlas/release.md#0"
+        ],
+        "labels": [
+          0,
+          0,
+          1
+        ],
+        "scores": {
+          "precision": 0.3333333333333333,
+          "list_ap": 0.3333333333333333,
+          "rr": 0.3333333333333333,
+          "ndcg": 0.5
+        }
+      },
+      "trailing_noise": {
+        "ids": [
+          "atlas/release.md#0",
+          "atlas/logs.md#0",
+          "atlas/auth.md#0",
+          "constructed/weather"
+        ],
+        "labels": [
+          1,
+          0,
+          0,
+          0
+        ],
+        "scores": {
+          "precision": 0.25,
+          "list_ap": 1.0,
+          "rr": 1.0,
+          "ndcg": 1.0
+        }
+      }
+    },
+    "native_precision": {
+      "original": {
+        "sample": {
+          "input": "Atlas 补丁发布前的检查要求 测试命令 发布条件",
+          "actual_output": null,
+          "expected_output": "Atlas 补丁发布前在项目根目录运行 python -m pytest -q；全部检查通过才可提交发布，失败时先修复，不跳过失败项。",
+          "context": null,
+          "retrieval_context": [
+            "# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+            "# Atlas 补丁发布\n\nAtlas 补丁发布前先在项目根目录运行 `python -m pytest -q`。\n只有全部检查通过才能提交发布；出现失败时先修复，不跳过失败项。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+            "# Atlas API 认证\n\nAtlas API 使用 `X-Atlas-Token` 请求头传递令牌。\n这个请求头用于身份认证，不用于决定补丁能否发布。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+          ],
+          "metadata": null,
+          "tools_called": null,
+          "comments": null,
+          "expected_tools": null,
+          "token_cost": null,
+          "input_token_count": null,
+          "output_token_count": null,
+          "completion_time": null,
+          "flaky": false,
+          "multimodal": false,
+          "name": null,
+          "tags": null,
+          "mcp_servers": null,
+          "mcp_tools_called": null,
+          "mcp_resources_called": null,
+          "mcp_prompts_called": null,
+          "custom_column_key_values": null,
+          "expectations": null,
+          "expected_labels": null
+        },
+        "status": "ok",
+        "score": 0.5,
+        "passed": true,
+        "reason": null,
+        "verdicts": [
+          {
+            "verdict": "no",
+            "reason": "该文档仅说明“Atlas 审计日志保留 14 天”，并明确表示日志保留时间“不决定补丁发布前要运行的检查命令”，无法帮助得出预期答案。"
+          },
+          {
+            "verdict": "yes",
+            "reason": "该文档直接给出所需信息：发布前在项目根目录运行“python -m pytest -q”，并且“只有全部检查通过才能提交发布；出现失败时先修复，不跳过失败项”。"
+          },
+          {
+            "verdict": "no",
+            "reason": "该文档讨论的是 Atlas API 通过“X-Atlas-Token”请求头进行身份认证，并明确说明该请求头“不用于决定补丁能否发布”，与发布前检查要求无关。"
+          }
+        ]
+      },
+      "useful_first": {
+        "sample": {
+          "input": "Atlas 补丁发布前的检查要求 测试命令 发布条件",
+          "actual_output": null,
+          "expected_output": "Atlas 补丁发布前在项目根目录运行 python -m pytest -q；全部检查通过才可提交发布，失败时先修复，不跳过失败项。",
+          "context": null,
+          "retrieval_context": [
+            "# Atlas 补丁发布\n\nAtlas 补丁发布前先在项目根目录运行 `python -m pytest -q`。\n只有全部检查通过才能提交发布；出现失败时先修复，不跳过失败项。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+            "# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+            "# Atlas API 认证\n\nAtlas API 使用 `X-Atlas-Token` 请求头传递令牌。\n这个请求头用于身份认证，不用于决定补丁能否发布。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+          ],
+          "metadata": null,
+          "tools_called": null,
+          "comments": null,
+          "expected_tools": null,
+          "token_cost": null,
+          "input_token_count": null,
+          "output_token_count": null,
+          "completion_time": null,
+          "flaky": false,
+          "multimodal": false,
+          "name": null,
+          "tags": null,
+          "mcp_servers": null,
+          "mcp_tools_called": null,
+          "mcp_resources_called": null,
+          "mcp_prompts_called": null,
+          "custom_column_key_values": null,
+          "expectations": null,
+          "expected_labels": null
+        },
+        "status": "ok",
+        "score": 1.0,
+        "passed": true,
+        "reason": null,
+        "verdicts": [
+          {
+            "verdict": "yes",
+            "reason": "该文档直接提供了预期答案所需的测试命令和发布条件：在“项目根目录运行 `python -m pytest -q`”，且“只有全部检查通过才能提交发布；出现失败时先修复，不跳过失败项”。"
+          },
+          {
+            "verdict": "no",
+            "reason": "该文档讨论的是“Atlas 审计日志保留 14 天”，并明确说明“日志保留时间不决定补丁发布前要运行的检查命令”，未提供预期答案所需信息。"
+          },
+          {
+            "verdict": "no",
+            "reason": "该文档说明 Atlas API 使用“`X-Atlas-Token` 请求头传递令牌”，属于身份认证信息，并明确称其“不用于决定补丁能否发布”，与所问测试命令和发布条件无关。"
+          }
+        ]
+      }
+    },
+    "native_relevancy": {
+      "sample": {
+        "input": "Atlas 补丁发布前的检查要求 测试命令 发布条件",
+        "actual_output": null,
+        "expected_output": null,
+        "context": null,
+        "retrieval_context": [
+          "# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+          "# Atlas 补丁发布\n\nAtlas 补丁发布前先在项目根目录运行 `python -m pytest -q`。\n只有全部检查通过才能提交发布；出现失败时先修复，不跳过失败项。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+          "# Atlas API 认证\n\nAtlas API 使用 `X-Atlas-Token` 请求头传递令牌。\n这个请求头用于身份认证，不用于决定补丁能否发布。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+        ],
+        "metadata": null,
+        "tools_called": null,
+        "comments": null,
+        "expected_tools": null,
+        "token_cost": null,
+        "input_token_count": null,
+        "output_token_count": null,
+        "completion_time": null,
+        "flaky": false,
+        "multimodal": false,
+        "name": null,
+        "tags": null,
+        "mcp_servers": null,
+        "mcp_tools_called": null,
+        "mcp_resources_called": null,
+        "mcp_prompts_called": null,
+        "custom_column_key_values": null,
+        "expectations": null,
+        "expected_labels": null
+      },
+      "status": "ok",
+      "score": 0.4444444444444444,
+      "passed": false,
+      "reason": null,
+      "statements_by_context": [
+        {
+          "verdicts": [
+            {
+              "statement": "Atlas 审计日志保留 14 天。",
+              "verdict": "no",
+              "reason": "“审计日志保留 14 天”与补丁发布前的检查要求、测试命令及发布条件无关。"
+            },
+            {
+              "statement": "日志保留时间不决定补丁发布前要运行的检查命令。",
+              "verdict": "yes",
+              "reason": null
+            },
+            {
+              "statement": "本页是课程构造的项目规范，不对应真实商业系统。",
+              "verdict": "no",
+              "reason": "“不对应真实商业系统”只是项目背景说明，没有提供补丁发布前的检查要求、测试命令或发布条件。"
+            }
+          ]
+        },
+        {
+          "verdicts": [
+            {
+              "statement": "Atlas 补丁发布前需要在项目根目录运行 `python -m pytest -q`。",
+              "verdict": "yes",
+              "reason": null
+            },
+            {
+              "statement": "只有全部检查通过才能提交发布；如果出现失败，需要先修复，不能跳过失败项。",
+              "verdict": "yes",
+              "reason": null
+            },
+            {
+              "statement": "本页是课程构造的项目规范，不对应真实商业系统。",
+              "verdict": "no",
+              "reason": "“本页是课程构造的项目规范，不对应真实商业系统”是背景说明，与 Atlas 补丁发布前的检查要求、测试命令和发布条件无关。"
+            }
+          ]
+        },
+        {
+          "verdicts": [
+            {
+              "statement": "Atlas API 使用 `X-Atlas-Token` 请求头传递令牌，该请求头用于身份认证。",
+              "verdict": "no",
+              "reason": "“使用 `X-Atlas-Token` 请求头传递令牌”和“用于身份认证”描述的是 API 认证方式，不是补丁发布前的检查要求、测试命令或发布条件。"
+            },
+            {
+              "statement": "`X-Atlas-Token` 请求头不用于决定补丁能否发布。",
+              "verdict": "yes",
+              "reason": null
+            },
+            {
+              "statement": "本页是课程构造的项目规范，不对应真实商业系统。",
+              "verdict": "no",
+              "reason": "“不对应真实商业系统”只是说明规范的背景，与补丁发布前的检查要求、测试命令和发布条件无关。"
+            }
+          ]
+        }
+      ]
+    },
+    "judge_calls": [
+      {
+        "text": "{\"verdicts\":[{\"verdict\":\"no\",\"reason\":\"该文档仅说明“Atlas 审计日志保留 14 天”，并明确表示日志保留时间“不决定补丁发布前要运行的检查命令”，无法帮助得出预期答案。\"},{\"verdict\":\"yes\",\"reason\":\"该文档直接给出所需信息：发布前在项目根目录运行“python -m pytest -q”，并且“只有全部检查通过才能提交发布；出现失败时先修复，不跳过失败项”。\"},{\"verdict\":\"no\",\"reason\":\"该文档讨论的是 Atlas API 通过“X-Atlas-Token”请求头进行身份认证，并明确说明该请求头“不用于决定补丁能否发布”，与发布前检查要求无关。\"}]}",
+        "usage": [
+          {
+            "input_tokens": 15812,
+            "cached_input_tokens": 13440,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 172,
+            "reasoning_output_tokens": 0
+          }
+        ],
+        "reported_model": null,
+        "model_selection": "Codex CLI default; user config ignored",
+        "elapsed_seconds": 8.932,
+        "transport_tool_events": 0,
+        "prompt_sha256": "2f34ef2a96bb3c3734ddaa0317078264385611d09bd726504c9217f9333f3cb6"
+      },
+      {
+        "text": "{\"verdicts\":[{\"verdict\":\"yes\",\"reason\":\"该文档直接提供了预期答案所需的测试命令和发布条件：在“项目根目录运行 `python -m pytest -q`”，且“只有全部检查通过才能提交发布；出现失败时先修复，不跳过失败项”。\"},{\"verdict\":\"no\",\"reason\":\"该文档讨论的是“Atlas 审计日志保留 14 天”，并明确说明“日志保留时间不决定补丁发布前要运行的检查命令”，未提供预期答案所需信息。\"},{\"verdict\":\"no\",\"reason\":\"该文档说明 Atlas API 使用“`X-Atlas-Token` 请求头传递令牌”，属于身份认证信息，并明确称其“不用于决定补丁能否发布”，与所问测试命令和发布条件无关。\"}]}",
+        "usage": [
+          {
+            "input_tokens": 15808,
+            "cached_input_tokens": 13440,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 189,
+            "reasoning_output_tokens": 0
+          }
+        ],
+        "reported_model": null,
+        "model_selection": "Codex CLI default; user config ignored",
+        "elapsed_seconds": 9.998,
+        "transport_tool_events": 0,
+        "prompt_sha256": "96ab66fd498d0c1053f076b91b3917781826963d501a6deb82255b68d7131264"
+      },
+      {
+        "text": "{\"verdicts\":[{\"statement\":\"Atlas 审计日志保留 14 天。\",\"verdict\":\"no\",\"reason\":\"“审计日志保留 14 天”与补丁发布前的检查要求、测试命令及发布条件无关。\"},{\"statement\":\"日志保留时间不决定补丁发布前要运行的检查命令。\",\"verdict\":\"yes\"},{\"statement\":\"本页是课程构造的项目规范，不对应真实商业系统。\",\"verdict\":\"no\",\"reason\":\"“不对应真实商业系统”只是项目背景说明，没有提供补丁发布前的检查要求、测试命令或发布条件。\"}]}",
+        "usage": [
+          {
+            "input_tokens": 15678,
+            "cached_input_tokens": 13440,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 199,
+            "reasoning_output_tokens": 57
+          }
+        ],
+        "reported_model": null,
+        "model_selection": "Codex CLI default; user config ignored",
+        "elapsed_seconds": 9.079,
+        "transport_tool_events": 0,
+        "prompt_sha256": "5e9324976bf7c3c8c8a0aa9063f8f3e6e07139fd861e51206113bcfdde71338d"
+      },
+      {
+        "text": "{\"verdicts\":[{\"statement\":\"Atlas 补丁发布前需要在项目根目录运行 `python -m pytest -q`。\",\"verdict\":\"yes\"},{\"statement\":\"只有全部检查通过才能提交发布；如果出现失败，需要先修复，不能跳过失败项。\",\"verdict\":\"yes\"},{\"statement\":\"本页是课程构造的项目规范，不对应真实商业系统。\",\"verdict\":\"no\",\"reason\":\"“本页是课程构造的项目规范，不对应真实商业系统”是背景说明，与 Atlas 补丁发布前的检查要求、测试命令和发布条件无关。\"}]}",
+        "usage": [
+          {
+            "input_tokens": 15693,
+            "cached_input_tokens": 13440,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 135,
+            "reasoning_output_tokens": 0
+          }
+        ],
+        "reported_model": null,
+        "model_selection": "Codex CLI default; user config ignored",
+        "elapsed_seconds": 6.714,
+        "transport_tool_events": 0,
+        "prompt_sha256": "bc71885381ba45fa9609e1948e4f4d375cd166063324088771c05325b884e12f"
+      },
+      {
+        "text": "{\"verdicts\":[{\"statement\":\"Atlas API 使用 `X-Atlas-Token` 请求头传递令牌，该请求头用于身份认证。\",\"verdict\":\"no\",\"reason\":\"“使用 `X-Atlas-Token` 请求头传递令牌”和“用于身份认证”描述的是 API 认证方式，不是补丁发布前的检查要求、测试命令或发布条件。\"},{\"statement\":\"`X-Atlas-Token` 请求头不用于决定补丁能否发布。\",\"verdict\":\"yes\"},{\"statement\":\"本页是课程构造的项目规范，不对应真实商业系统。\",\"verdict\":\"no\",\"reason\":\"“不对应真实商业系统”只是说明规范的背景，与补丁发布前的检查要求、测试命令和发布条件无关。\"}]}",
+        "usage": [
+          {
+            "input_tokens": 15679,
+            "cached_input_tokens": 13440,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 259,
+            "reasoning_output_tokens": 86
+          }
+        ],
+        "reported_model": null,
+        "model_selection": "Codex CLI default; user config ignored",
+        "elapsed_seconds": 8.704,
+        "transport_tool_events": 0,
+        "prompt_sha256": "5beb24830d9185f745708983656f453a3453d64d6ba3b0d6097e5fa9bf11e876"
+      }
+    ]
+  },
+  "agent_generation": null,
+  "ragas_executed": false,
+  "limitations": [
+    "只有一个公开教学问题，不估计业务总体准确率。",
+    "教学标签由课程编写助手核对，不是独立人工金标准。",
+    "重排和天气噪声是控制条件，不声称由检索器真实返回。",
+    "列表 AP 的分母只含本列表相关数，不是知识库所有必要证据。",
+    "陈述级相关性与片段对参考答案的用处是不同单位和判据。",
+    "未生成新回答，actual_output 保持为空；指标只评价检索候选。",
+    "默认阈值只是 SDK 配置，本课不以它判定业务是否达标。"
+  ]
+}

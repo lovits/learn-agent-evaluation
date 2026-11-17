@@ -1,6 +1,6 @@
 # e05: 找到了资料，模型看到了吗？
 
-[e04](../e04_scoring/README.zh.md) → `e05` → [e06](../../docs/curriculum.md#06-上下文相关性与排序) → … → e16
+[e04](../e04_scoring/README.zh.md) → `e05` → [e06](../e06_context_precision/README.zh.md) → … → e16
 
 > 把候选片段、工具回填和模型输入分别保存。
 

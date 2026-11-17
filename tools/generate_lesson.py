@@ -14,13 +14,10 @@ def main():
     from pocketflow import Flow, Node
 
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("lesson", choices=["e01", "e02"])
+    entries = json.loads((PROJECT / "curriculum.json").read_text())["lessons"]
+    parser.add_argument("lesson", choices=[r["id"] for r in entries])
     args = parser.parse_args()
-    entry = next(
-        r
-        for r in json.loads((PROJECT / "curriculum.json").read_text())["lessons"]
-        if r["id"] == args.lesson
-    )
+    entry = next(r for r in entries if r["id"] == args.lesson)
     folder = PROJECT / "generation/private" / args.lesson
     folder.mkdir(parents=True, exist_ok=True)
     brief = (

@@ -15,7 +15,7 @@
         "README.md",
         "docs/curriculum.md"
       ],
-      "verified_revision": 16
+      "verified_revision": 18
     },
     "e01": {
       "title": "第1课：模型停下了，任务完成了吗？",
@@ -74,6 +74,27 @@
       "url": "https://my.feishu.cn/docx/NsG6d9zxgoznXUx3LQZckFo9nte",
       "paths": [
         "docs/course-requirements.md"
+      ],
+      "verified_revision": 5
+    },
+    "assessment3": {
+      "title": "第3课：样本与评测记录",
+      "document_id": "N9uZdpRR8ovCjUxYGEacsRkHn4g",
+      "url": "https://my.feishu.cn/docx/N9uZdpRR8ovCjUxYGEacsRkHn4g",
+      "paths": [
+        "course/e03_datasets/assessment.md"
+      ],
+      "verified_revision": 3
+    },
+    "e03": {
+      "title": "第3课：准备评测数据",
+      "document_id": "Zt2RdclwSoJ6VKxWnNkcVKYinEg",
+      "url": "https://my.feishu.cn/docx/Zt2RdclwSoJ6VKxWnNkcVKYinEg",
+      "paths": [
+        "course/e03_datasets/README.zh.md",
+        "course/e03_datasets/source_walkthrough.md",
+        "course/e03_datasets/exercises.md",
+        "course/e03_datasets/solutions.md"
       ],
       "verified_revision": 5
     }

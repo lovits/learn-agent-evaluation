@@ -82,5 +82,41 @@
     "png_sha256": "409cd8a7f1a3ecf854fbff0b55ef701bb0c212ba127beeac2c6cd370a7974f54",
     "readme_preview": "course/e02_samples/images/evaluation-path.png",
     "preview_url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e02-evaluation-path.png"
+  },
+  {
+    "name": "e03-dataset-flow",
+    "slug": "e03_datasets",
+    "title": "第3课：从资料到审核后的评测集",
+    "diagram_type": "flowchart",
+    "generator": "draw.io",
+    "candidate": "course/e03_datasets/images/dataset-flow.drawio",
+    "output": "course/e03_datasets/images/dataset-flow.drawio.svg",
+    "png": "course/e03_datasets/images/dataset-flow.png",
+    "readme_preview": "course/e03_datasets/images/dataset-flow.png",
+    "preview_url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e03-dataset-flow.png",
+    "url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e03-dataset-flow.svg",
+    "artifact_sha256": "9da94945ac746de2e48335a3bd18d2e2d027bf6f8791ca282bd6cac25555c87c",
+    "png_sha256": "872efcbcb7adaa394e06421d88723c0a81f3ec62a961c11f37100020b407f5f6",
+    "visual_review": "passed",
+    "node_font_size": 16,
+    "edge_font_size": 13
+  },
+  {
+    "name": "e03-sample-flow",
+    "slug": "e03_datasets",
+    "title": "第3课：参考与实际输出分别进入评分样本",
+    "diagram_type": "flowchart",
+    "generator": "draw.io",
+    "candidate": "course/e03_datasets/images/sample-flow.drawio",
+    "output": "course/e03_datasets/images/sample-flow.drawio.svg",
+    "png": "course/e03_datasets/images/sample-flow.png",
+    "readme_preview": "course/e03_datasets/images/sample-flow.png",
+    "preview_url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e03-sample-flow.png",
+    "url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e03-sample-flow.svg",
+    "artifact_sha256": "7e9dff27a04b0d63bebddae0756610cec7b48e532f94a31ce5a516f4ca289abb",
+    "png_sha256": "b5a1b546befa555b47fda8fc16c09d596f8c817613b2f389cfc0415368fedc91",
+    "visual_review": "passed",
+    "node_font_size": 16,
+    "edge_font_size": 13
   }
 ]

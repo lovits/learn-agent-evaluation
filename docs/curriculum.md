@@ -89,6 +89,8 @@ Agent 接到任务，读文件、查资料、调用工具，最后给出回答�
 
 **学会的标志**：能解释一道题测什么、参考来自哪里，以及为何不能把调试题当独立验证。
 
+[教材](../course/e03_datasets/README.zh.md) · [源码导读](../course/e03_datasets/source_walkthrough.md)
+
 ## 04 给样本评分
 
 什么时候用规则，什么时候请模型判断？

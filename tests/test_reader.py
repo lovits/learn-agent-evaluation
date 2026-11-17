@@ -21,6 +21,9 @@ def test_new_course_pages_and_source_boundary():
             "/lesson1",
             "/lesson2",
             "/source2",
+            "/lesson3",
+            "/source3",
+            "/assessment3",
             "/assessment1",
             "/assessment2",
             "/code?path=course/e02_samples/code.py",
@@ -31,7 +34,7 @@ def test_new_course_pages_and_source_boundary():
             assert response.headers.get_content_type() == "image/png"
             assert response.read(8) == b"\x89PNG\r\n\x1a\n"
         diagrams = json.loads((PROJECT / "references/figures.json").read_text())
-        for lesson, slug in [(1, "e01_success"), (2, "e02_samples")]:
+        for lesson, slug in [(1, "e01_success"), (2, "e02_samples"), (3, "e03_datasets")]:
             with urlopen(base + f"/lesson{lesson}") as response:
                 body = response.read().decode()
             lesson_diagrams = [d for d in diagrams if d["slug"] == slug]

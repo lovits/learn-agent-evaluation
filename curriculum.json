@@ -126,10 +126,10 @@
       ],
       "activity": "为一个小知识库编写种子题，生成候选并剔除无依据或重复的题；同题族保持同一划分。",
       "understanding": "能解释一道题测什么、参考来自哪里，以及为何不能把调试题当独立验证。",
-      "textbook": null,
-      "source_walkthrough": null,
+      "textbook": "course/e03_datasets/README.zh.md",
+      "source_walkthrough": "course/e03_datasets/source_walkthrough.md",
       "outline_anchor": "03-准备评测数据",
-      "implementation": "planned",
+      "implementation": "ready",
       "source_paths": [
         "deepeval/deepeval/synthesizer/synthesizer.py",
         "ragas/src/ragas/testset/synthesizers/generate.py"

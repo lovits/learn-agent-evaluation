@@ -1,6 +1,6 @@
 # e02: 一次运行，一份样本
 
-[e01](../e01_success/README.zh.md) → `e02` → [e03](../../docs/curriculum.md#03-准备评测数据) → … → e16
+[e01](../e01_success/README.zh.md) → `e02` → [e03](../e03_datasets/README.zh.md) → … → e16
 
 > 记录动作时，把它的参数和结果一起留下。
 

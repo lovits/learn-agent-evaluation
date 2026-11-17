@@ -7,7 +7,7 @@ from pathlib import Path
 
 from .knowledge import PROJECT
 
-NAME = re.compile(r"(?:e0[12]|grade-e0[12]|e0[12]-suite)-[0-9a-f]{32}\.json")
+NAME = re.compile(r"(?:(?:grade-)?e(?:0[1-9]|1[0-6])|e(?:0[1-9]|1[0-6])-suite)-[0-9a-f]{32}\.json")
 
 
 def report_root():

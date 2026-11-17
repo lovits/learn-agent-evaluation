@@ -1,0 +1,527 @@
+{
+  "lesson": "e03",
+  "teaching_source": "knowledge_base/course/upload.md",
+  "source_note": "Upload API 文本是构造的教学资料，不代表真实生产接口。",
+  "cases_sha256": "02c976b330e37fed1c1956dca8ff7c2d01cd66d460d7dd351b19aabeb0ed44f9",
+  "candidate_generation": {
+    "run_id": "604338d8a76b406a92f64caa9059b750",
+    "kind": "generated_candidates",
+    "candidates": [
+      {
+        "task": "请阅读 upload.md。调用 POST /upload 时，API 令牌应放在哪个请求头中？",
+        "reference": "API 令牌必须放在 X-Project-Token 请求头中。",
+        "quote": "POST /upload requires the API token in the X-Project-Token header.",
+        "answerable": true,
+        "family": "upload-auth",
+        "intent": "确定上传接口的令牌传递位置",
+        "category": "normal",
+        "id": "generated-0",
+        "origin": "live_model_candidate",
+        "source": {
+          "path": "course/upload.md",
+          "sha256": "373d757ad03c0abeca2bee4fe92d832001dadb6d617ddbd94f87e15a828a996a"
+        },
+        "review": {
+          "decision": "pending",
+          "reviewer": null,
+          "reason": "Await source review"
+        }
+      },
+      {
+        "task": "请阅读 upload.md。上传一个大小恰好为 1048576 字节的文件是否超过允许的最大文件大小？",
+        "reference": "不会。最大文件大小是 1048576 字节，因此恰好 1048576 字节仍在限制内。",
+        "quote": "The maximum file size is 1048576 bytes (1 MiB).",
+        "answerable": true,
+        "family": "upload-size",
+        "intent": "判断文件大小上限的边界是否包含端点",
+        "category": "boundary",
+        "id": "generated-1",
+        "origin": "live_model_candidate",
+        "source": {
+          "path": "course/upload.md",
+          "sha256": "373d757ad03c0abeca2bee4fe92d832001dadb6d617ddbd94f87e15a828a996a"
+        },
+        "review": {
+          "decision": "pending",
+          "reviewer": null,
+          "reason": "Await source review"
+        }
+      },
+      {
+        "task": "请阅读 upload.md。上传一个 1048577 字节的文件会返回什么 HTTP 状态码，发送前应采取什么操作？",
+        "reference": "会返回 HTTP 413；发送前应先检查文件大小。",
+        "quote": "A larger upload returns HTTP 413. Check the file size before sending.",
+        "answerable": true,
+        "family": "upload-size",
+        "intent": "识别超限上传的响应及预防措施",
+        "category": "error",
+        "id": "generated-2",
+        "origin": "live_model_candidate",
+        "source": {
+          "path": "course/upload.md",
+          "sha256": "373d757ad03c0abeca2bee4fe92d832001dadb6d617ddbd94f87e15a828a996a"
+        },
+        "review": {
+          "decision": "pending",
+          "reviewer": null,
+          "reason": "Await source review"
+        }
+      }
+    ],
+    "transport": {
+      "usage": [
+        {
+          "input_tokens": 15217,
+          "cached_input_tokens": 0,
+          "cache_write_input_tokens": 0,
+          "output_tokens": 403,
+          "reasoning_output_tokens": 34
+        }
+      ],
+      "reported_model": null,
+      "model_selection": "Codex CLI default; user config ignored",
+      "elapsed_seconds": 12.258,
+      "transport_tool_events": 0,
+      "prompt_sha256": "195bb675a7547c2a440c52d414b9d8282b755cf9765c579f51fdb0efbbaee9b6"
+    }
+  },
+  "candidate_review": {
+    "reviewer": "course_author_ai",
+    "note": "由课程编写助手逐项核对所给资料；不是独立人工标注。生成原文保留在原始运行记录。",
+    "candidates": [
+      {
+        "task": "请阅读 upload.md。调用 POST /upload 时，API 令牌应放在哪个请求头中？",
+        "reference": "API 令牌必须放在 X-Project-Token 请求头中。",
+        "quote": "POST /upload requires the API token in the X-Project-Token header.",
+        "answerable": true,
+        "family": "upload-auth",
+        "intent": "token-header",
+        "category": "normal",
+        "id": "generated-0",
+        "origin": "live_model_candidate",
+        "source": {
+          "path": "course/upload.md",
+          "sha256": "373d757ad03c0abeca2bee4fe92d832001dadb6d617ddbd94f87e15a828a996a"
+        },
+        "review": {
+          "decision": "accept",
+          "reviewer": "course_author_ai",
+          "reason": "原文明确要求 X-Project-Token；与种子题 auth-header 同意，规范为相同题意键。"
+        },
+        "model_intent": "确定上传接口的令牌传递位置"
+      },
+      {
+        "task": "请阅读 upload.md。上传一个大小恰好为 1048576 字节的文件是否超过允许的最大文件大小？",
+        "reference": "不会。最大文件大小是 1048576 字节，因此恰好 1048576 字节仍在限制内。",
+        "quote": "The maximum file size is 1048576 bytes (1 MiB).",
+        "answerable": true,
+        "family": "upload-size",
+        "intent": "at-limit",
+        "category": "boundary",
+        "id": "generated-1",
+        "origin": "live_model_candidate",
+        "source": {
+          "path": "course/upload.md",
+          "sha256": "373d757ad03c0abeca2bee4fe92d832001dadb6d617ddbd94f87e15a828a996a"
+        },
+        "review": {
+          "decision": "accept",
+          "reviewer": "course_author_ai",
+          "reason": "最大值为 1048576 bytes，恰好等于上限未超限；这是现有种子题之外的边界问法。"
+        },
+        "model_intent": "判断文件大小上限的边界是否包含端点"
+      },
+      {
+        "task": "请阅读 upload.md。上传一个 1048577 字节的文件会返回什么 HTTP 状态码，发送前应采取什么操作？",
+        "reference": "会返回 HTTP 413；发送前应先检查文件大小。",
+        "quote": "A larger upload returns HTTP 413. Check the file size before sending.",
+        "answerable": true,
+        "family": "upload-size",
+        "intent": "over-limit",
+        "category": "error",
+        "id": "generated-2",
+        "origin": "live_model_candidate",
+        "source": {
+          "path": "course/upload.md",
+          "sha256": "373d757ad03c0abeca2bee4fe92d832001dadb6d617ddbd94f87e15a828a996a"
+        },
+        "review": {
+          "decision": "accept",
+          "reviewer": "course_author_ai",
+          "reason": "原文明确给出 HTTP 413 与发送前检查；核心题意归入既有超限题。"
+        },
+        "model_intent": "识别超限上传的响应及预防措施"
+      }
+    ]
+  },
+  "dataset_audit": {
+    "run_id": "9acf1b88bd7944fb96238bf19ae0760b",
+    "kind": "dataset_audit",
+    "audit": [
+      {
+        "id": "auth-header",
+        "decision": "accepted"
+      },
+      {
+        "id": "auth-paraphrase",
+        "decision": "duplicate_intent"
+      },
+      {
+        "id": "auth-misplaced",
+        "decision": "accepted"
+      },
+      {
+        "id": "size-limit",
+        "decision": "accepted"
+      },
+      {
+        "id": "size-overflow",
+        "decision": "accepted"
+      },
+      {
+        "id": "billing-unknown",
+        "decision": "accepted"
+      },
+      {
+        "id": "pending",
+        "decision": "not_approved"
+      },
+      {
+        "id": "bad-reference",
+        "decision": "not_approved"
+      },
+      {
+        "id": "missing-quote",
+        "decision": "missing_evidence"
+      },
+      {
+        "id": "stale-source",
+        "decision": "source_changed"
+      },
+      {
+        "id": "generated-0",
+        "decision": "duplicate_intent"
+      },
+      {
+        "id": "generated-1",
+        "decision": "accepted"
+      },
+      {
+        "id": "generated-2",
+        "decision": "duplicate_intent"
+      }
+    ],
+    "checks": {
+      "unique_ids": true,
+      "unique_intents": true,
+      "both_splits_present": true,
+      "families_disjoint": true,
+      "coverage": true
+    },
+    "datasets": {
+      "development": [
+        {
+          "input": "用 read_file 读取 upload.md，然后说明上传接口的 token 放在哪个请求头。",
+          "actual_output": null,
+          "expected_output": "X-Project-Token",
+          "context": [
+            "# Upload API\n\nPOST /upload requires the API token in the X-Project-Token header.\nThe maximum file size is 1048576 bytes (1 MiB).\nA larger upload returns HTTP 413. Check the file size before sending.\n"
+          ],
+          "retrieval_context": null,
+          "additional_metadata": {
+            "id": "auth-header",
+            "family": "upload-auth",
+            "intent": "token-header",
+            "category": "normal",
+            "split": "development",
+            "source": {
+              "path": "course/upload.md",
+              "sha256": "373d757ad03c0abeca2bee4fe92d832001dadb6d617ddbd94f87e15a828a996a"
+            }
+          },
+          "comments": null,
+          "tools_called": null,
+          "expected_tools": null,
+          "token_cost": null,
+          "input_token_count": null,
+          "output_token_count": null,
+          "source_file": "course/upload.md",
+          "name": null,
+          "custom_column_key_values": null,
+          "expectations": null,
+          "expected_labels": null,
+          "images_mapping": null
+        },
+        {
+          "input": "用 read_file 读取 upload.md，然后判断只把 token 放在 Authorization 头是否符合这里的要求，并给出正确头名。",
+          "actual_output": null,
+          "expected_output": "不符合；资料要求 X-Project-Token。",
+          "context": [
+            "# Upload API\n\nPOST /upload requires the API token in the X-Project-Token header.\nThe maximum file size is 1048576 bytes (1 MiB).\nA larger upload returns HTTP 413. Check the file size before sending.\n"
+          ],
+          "retrieval_context": null,
+          "additional_metadata": {
+            "id": "auth-misplaced",
+            "family": "upload-auth",
+            "intent": "wrong-header",
+            "category": "error",
+            "split": "development",
+            "source": {
+              "path": "course/upload.md",
+              "sha256": "373d757ad03c0abeca2bee4fe92d832001dadb6d617ddbd94f87e15a828a996a"
+            }
+          },
+          "comments": null,
+          "tools_called": null,
+          "expected_tools": null,
+          "token_cost": null,
+          "input_token_count": null,
+          "output_token_count": null,
+          "source_file": "course/upload.md",
+          "name": null,
+          "custom_column_key_values": null,
+          "expectations": null,
+          "expected_labels": null,
+          "images_mapping": null
+        },
+        {
+          "input": "用 read_file 读取 upload.md，然后回答资料是否说明了账单使用哪种货币；没有说明就明确说不知道。",
+          "actual_output": null,
+          "expected_output": "所给资料未说明账单货币。",
+          "context": [
+            "# Upload API\n\nPOST /upload requires the API token in the X-Project-Token header.\nThe maximum file size is 1048576 bytes (1 MiB).\nA larger upload returns HTTP 413. Check the file size before sending.\n"
+          ],
+          "retrieval_context": null,
+          "additional_metadata": {
+            "id": "billing-unknown",
+            "family": "upload-billing",
+            "intent": "currency",
+            "category": "insufficient",
+            "split": "development",
+            "source": {
+              "path": "course/upload.md",
+              "sha256": "373d757ad03c0abeca2bee4fe92d832001dadb6d617ddbd94f87e15a828a996a"
+            }
+          },
+          "comments": null,
+          "tools_called": null,
+          "expected_tools": null,
+          "token_cost": null,
+          "input_token_count": null,
+          "output_token_count": null,
+          "source_file": "course/upload.md",
+          "name": null,
+          "custom_column_key_values": null,
+          "expectations": null,
+          "expected_labels": null,
+          "images_mapping": null
+        }
+      ],
+      "holdout": [
+        {
+          "input": "用 read_file 读取 upload.md，然后给出上传文件的最大字节数。",
+          "actual_output": null,
+          "expected_output": "1048576 bytes (1 MiB)",
+          "context": [
+            "# Upload API\n\nPOST /upload requires the API token in the X-Project-Token header.\nThe maximum file size is 1048576 bytes (1 MiB).\nA larger upload returns HTTP 413. Check the file size before sending.\n"
+          ],
+          "retrieval_context": null,
+          "additional_metadata": {
+            "id": "size-limit",
+            "family": "upload-size",
+            "intent": "max-bytes",
+            "category": "normal",
+            "split": "holdout",
+            "source": {
+              "path": "course/upload.md",
+              "sha256": "373d757ad03c0abeca2bee4fe92d832001dadb6d617ddbd94f87e15a828a996a"
+            }
+          },
+          "comments": null,
+          "tools_called": null,
+          "expected_tools": null,
+          "token_cost": null,
+          "input_token_count": null,
+          "output_token_count": null,
+          "source_file": "course/upload.md",
+          "name": null,
+          "custom_column_key_values": null,
+          "expectations": null,
+          "expected_labels": null,
+          "images_mapping": null
+        },
+        {
+          "input": "用 read_file 读取 upload.md，然后说明文件为 1048577 字节时服务端按资料会返回什么状态。",
+          "actual_output": null,
+          "expected_output": "HTTP 413",
+          "context": [
+            "# Upload API\n\nPOST /upload requires the API token in the X-Project-Token header.\nThe maximum file size is 1048576 bytes (1 MiB).\nA larger upload returns HTTP 413. Check the file size before sending.\n"
+          ],
+          "retrieval_context": null,
+          "additional_metadata": {
+            "id": "size-overflow",
+            "family": "upload-size",
+            "intent": "over-limit",
+            "category": "boundary",
+            "split": "holdout",
+            "source": {
+              "path": "course/upload.md",
+              "sha256": "373d757ad03c0abeca2bee4fe92d832001dadb6d617ddbd94f87e15a828a996a"
+            }
+          },
+          "comments": null,
+          "tools_called": null,
+          "expected_tools": null,
+          "token_cost": null,
+          "input_token_count": null,
+          "output_token_count": null,
+          "source_file": "course/upload.md",
+          "name": null,
+          "custom_column_key_values": null,
+          "expectations": null,
+          "expected_labels": null,
+          "images_mapping": null
+        },
+        {
+          "input": "请阅读 upload.md。上传一个大小恰好为 1048576 字节的文件是否超过允许的最大文件大小？",
+          "actual_output": null,
+          "expected_output": "不会。最大文件大小是 1048576 字节，因此恰好 1048576 字节仍在限制内。",
+          "context": [
+            "# Upload API\n\nPOST /upload requires the API token in the X-Project-Token header.\nThe maximum file size is 1048576 bytes (1 MiB).\nA larger upload returns HTTP 413. Check the file size before sending.\n"
+          ],
+          "retrieval_context": null,
+          "additional_metadata": {
+            "id": "generated-1",
+            "family": "upload-size",
+            "intent": "at-limit",
+            "category": "boundary",
+            "split": "holdout",
+            "source": {
+              "path": "course/upload.md",
+              "sha256": "373d757ad03c0abeca2bee4fe92d832001dadb6d617ddbd94f87e15a828a996a"
+            }
+          },
+          "comments": null,
+          "tools_called": null,
+          "expected_tools": null,
+          "token_cost": null,
+          "input_token_count": null,
+          "output_token_count": null,
+          "source_file": "course/upload.md",
+          "name": null,
+          "custom_column_key_values": null,
+          "expectations": null,
+          "expected_labels": null,
+          "images_mapping": null
+        }
+      ]
+    }
+  },
+  "agent_run": {
+    "run_id": "c2d4a4a765774873a3d26a02ef7a073a",
+    "case_id": "auth-header",
+    "task": "用 read_file 读取 upload.md，然后说明上传接口的 token 放在哪个请求头。",
+    "mode": "live_model",
+    "status": "finished",
+    "final_answer": "上传接口的 token 放在 `X-Project-Token` 请求头中。",
+    "events": [
+      {
+        "id": "1.0",
+        "name": "read_file",
+        "arguments": {
+          "path": "upload.md"
+        },
+        "result": {
+          "status": "ok",
+          "output": "# Upload API\n\nPOST /upload requires the API token in the X-Project-Token header.\nThe maximum file size is 1048576 bytes (1 MiB).\nA larger upload returns HTTP 413. Check the file size before sending.\n"
+        }
+      }
+    ],
+    "messages": [
+      {
+        "role": "user",
+        "content": "用 read_file 读取 upload.md，然后说明上传接口的 token 放在哪个请求头。"
+      },
+      {
+        "role": "assistant",
+        "content": {
+          "answer": "",
+          "tool_calls": [
+            {
+              "name": "read_file",
+              "arguments_json": "{\"path\":\"upload.md\"}"
+            }
+          ]
+        }
+      },
+      {
+        "role": "tool",
+        "content": [
+          {
+            "status": "ok",
+            "output": "# Upload API\n\nPOST /upload requires the API token in the X-Project-Token header.\nThe maximum file size is 1048576 bytes (1 MiB).\nA larger upload returns HTTP 413. Check the file size before sending.\n"
+          }
+        ]
+      },
+      {
+        "role": "assistant",
+        "content": {
+          "answer": "上传接口的 token 放在 `X-Project-Token` 请求头中。",
+          "tool_calls": []
+        }
+      }
+    ],
+    "sample": {
+      "input": "用 read_file 读取 upload.md，然后说明上传接口的 token 放在哪个请求头。",
+      "actual_output": "上传接口的 token 放在 `X-Project-Token` 请求头中。",
+      "expected_output": "X-Project-Token",
+      "context": null,
+      "retrieval_context": null,
+      "metadata": null,
+      "tools_called": [
+        {
+          "name": "read_file",
+          "type": "FUNCTION",
+          "description": null,
+          "reasoning": null,
+          "output": {
+            "status": "ok",
+            "output": "# Upload API\n\nPOST /upload requires the API token in the X-Project-Token header.\nThe maximum file size is 1048576 bytes (1 MiB).\nA larger upload returns HTTP 413. Check the file size before sending.\n"
+          },
+          "input_parameters": {
+            "path": "upload.md"
+          }
+        }
+      ],
+      "comments": null,
+      "expected_tools": null,
+      "token_cost": null,
+      "input_token_count": null,
+      "output_token_count": null,
+      "completion_time": null,
+      "flaky": false,
+      "multimodal": false,
+      "name": null,
+      "tags": null,
+      "mcp_servers": null,
+      "mcp_tools_called": null,
+      "mcp_resources_called": null,
+      "mcp_prompts_called": null,
+      "custom_column_key_values": null,
+      "expectations": null,
+      "expected_labels": null
+    },
+    "source": {
+      "path": "course/upload.md",
+      "sha256": "373d757ad03c0abeca2bee4fe92d832001dadb6d617ddbd94f87e15a828a996a"
+    },
+    "split": "development"
+  },
+  "answer_quality_score": null,
+  "limits": [
+    "审核由课程编写助手核对，不是独立人工标注。",
+    "题族与题意由审核者标记，程序不自动理解任意句子。",
+    "资料引用存在不保证参考正确；小样本不代表真实分布。",
+    "数据检查不是 Agent 能力评分；本课没有运行框架答案质量指标或原生 Synthesizer。"
+  ]
+}

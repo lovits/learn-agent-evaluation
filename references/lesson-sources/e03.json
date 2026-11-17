@@ -1,0 +1,45 @@
+{
+  "lesson": "e03",
+  "versions": {
+    "deepeval": {
+      "repository": "https://github.com/confident-ai/deepeval",
+      "commit": "34db63dd005ebc9a905c8ef4741ae0687c93c14c",
+      "mode": "llm"
+    },
+    "ragas": {
+      "repository": "https://github.com/vibrantlabsai/ragas",
+      "commit": "8c63f10d500c44efbf24fdb9e2920de2104c321c",
+      "api": "metrics.collections"
+    },
+    "learn_claude_code": {
+      "repository": "https://github.com/shareAI-lab/learn-claude-code",
+      "commit": "448c75bb596917ad196cc1fb7558f459c5c50fdd"
+    },
+    "pocketflow_tutorial": {
+      "repository": "https://github.com/The-Pocket/PocketFlow-Tutorial-Codebase-Knowledge",
+      "commit": "05b24cbbb0fe409c5e23c9791f0342f07524ffdc"
+    }
+  },
+  "official_readings": [
+    "https://deepeval.com/docs/evaluation-datasets",
+    "https://deepeval.com/guides/guides-using-synthesizer",
+    "https://docs.ragas.io/en/stable/concepts/test_data_generation/rag/"
+  ],
+  "source_reading": [
+    "deepeval/dataset/golden.py:181-239",
+    "deepeval/dataset/dataset.py:237-267",
+    "deepeval/synthesizer/synthesizer.py:673-904,1554-1602",
+    "src/ragas/testset/synthesizers/generate.py:114-220,414-640"
+  ],
+  "feishu_readings": [
+    {
+      "document_id": "RMSkdusn8oeS1XxCTp6cNAK6noc",
+      "keyword": "generate_goldens_from_contexts"
+    },
+    {
+      "document_id": "SOHsdGTt0ojxXoxVwbjcBzCYntg",
+      "keyword": "query_distribution"
+    }
+  ],
+  "note": "Source repositories match the fixed commits. Feishu keyword excerpts and official pages cross-checked; no claim that the whole libraries were rerun."
+}

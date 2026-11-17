@@ -1,0 +1,97 @@
+{
+  "lesson": "e15",
+  "scope": "Selected methods, not every line of every framework. CodeGraph queried before indexed source reads. Web stable docs checked separately from pinned source.",
+  "files": [
+    {
+      "repository": "deepeval",
+      "path": "deepeval/metrics/g_eval/g_eval.py",
+      "commit": "34db63dd005ebc9a905c8ef4741ae0687c93c14c",
+      "sha256": "80d43cc8f469d994b81715f02c0e7eb87f4bf1b6122664caaacdfdd66fa1695e",
+      "selected_reading": "GEval._validate, measure/a_measure, evaluation_steps, _evaluate/_a_evaluate",
+      "url": "https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/g_eval/g_eval.py"
+    },
+    {
+      "repository": "deepeval",
+      "path": "deepeval/metrics/utils/decision.py",
+      "commit": "34db63dd005ebc9a905c8ef4741ae0687c93c14c",
+      "sha256": "0ae323b0563be5e2fa2bb442e511fef34b98b6cc2d2c09aabfc130ac8b0dab07",
+      "selected_reading": "generate_rubric_score/a_generate_rubric_score; AttributeError schema fallback",
+      "url": "https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/utils/decision.py"
+    },
+    {
+      "repository": "deepeval",
+      "path": "deepeval/metrics/g_eval/schema.py",
+      "commit": "34db63dd005ebc9a905c8ef4741ae0687c93c14c",
+      "sha256": "57adbdb71b83aebff6204284b2025561865bfe991d7dc96d415f598efc4ae5ca",
+      "selected_reading": "ReasonScore, Steps",
+      "url": "https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/g_eval/schema.py"
+    },
+    {
+      "repository": "ragas",
+      "path": "src/ragas/metrics/discrete.py",
+      "commit": "8c63f10d500c44efbf24fdb9e2920de2104c321c",
+      "sha256": "15719d557df44136d5bf72c111fdc70f464ac2d8ace5c73091a37943913a3650",
+      "selected_reading": "DiscreteMetric.__post_init__, get_correlation",
+      "url": "https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/metrics/discrete.py"
+    },
+    {
+      "repository": "ragas",
+      "path": "src/ragas/metrics/base.py",
+      "commit": "8c63f10d500c44efbf24fdb9e2920de2104c321c",
+      "sha256": "d31061944d727d4aeac057661111afeca38e07e1418edd0c6cb08905fb813bf6",
+      "selected_reading": "SimpleLLMMetric.score/ascore, align, validate_alignment",
+      "url": "https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/metrics/base.py"
+    },
+    {
+      "repository": "ragas",
+      "path": "src/ragas/prompt/dynamic_few_shot.py",
+      "commit": "8c63f10d500c44efbf24fdb9e2920de2104c321c",
+      "sha256": "568d3ab83ba087c0eacf6d0eb25c53b322e1dc7af8c4892ff1d1bbc382496664",
+      "selected_reading": "recent-example fallback, embedding wrapper incompatibility, prompt format",
+      "url": "https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/prompt/dynamic_few_shot.py"
+    },
+    {
+      "repository": "ragas",
+      "path": "src/ragas/prompt/metrics/base_prompt.py",
+      "commit": "8c63f10d500c44efbf24fdb9e2920de2104c321c",
+      "sha256": "02c9ef85458c89e323bcb24e809d79865e101e073b26c598629d57cad8246c7a",
+      "selected_reading": "BasePrompt.to_string, adapt, _translate_strings",
+      "url": "https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/prompt/metrics/base_prompt.py"
+    },
+    {
+      "repository": "ragas",
+      "path": "src/ragas/dataset.py",
+      "commit": "8c63f10d500c44efbf24fdb9e2920de2104c321c",
+      "sha256": "4060f532bf10542661464fba7b0d14b63d1aef9655fe8dcd8849ec385c460827",
+      "selected_reading": "DataTable backend reload and row lookup",
+      "url": "https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/dataset.py"
+    },
+    {
+      "repository": "learn-claude-code",
+      "path": "docs/zh/s01-the-agent-loop.md",
+      "commit": "448c75bb596917ad196cc1fb7558f459c5c50fdd",
+      "sha256": "4d40a78832530dd4994e2a7b89b10a9c27c0f678b2a69278a012db67dc85a07f",
+      "selected_reading": "problem, minimal mechanism, incremental real snippets",
+      "url": "https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/docs/zh/s01-the-agent-loop.md"
+    }
+  ],
+  "documents": [
+    {
+      "url": "https://deepeval.com/docs/metrics-llm-evals",
+      "used_for": "explicit steps, custom judge and logprob fallback"
+    },
+    {
+      "url": "https://docs.ragas.io/en/stable/howtos/applications/align-llm-as-judge/",
+      "used_for": "fixed reports and comparison against reference labels; actual labels here are constructed"
+    },
+    {
+      "url": "https://docs.ragas.io/en/stable/howtos/customizations/metrics/metrics_language_adaptation/",
+      "used_for": "adapt examples and optional instructions"
+    },
+    {
+      "url": "https://arxiv.org/abs/2306.05685",
+      "used_for": "position, verbosity and self-enhancement bias taxonomy; its benchmark results are not our results"
+    }
+  ],
+  "checked_at": "2026-11-17T10:16:50.190485+00:00"
+}

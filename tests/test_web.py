@@ -49,6 +49,7 @@ class Links(HTMLParser):
         ("/lesson12", 1),
         ("/lesson13", 1),
         ("/lesson14", 1),
+        ("/lesson15", 0),
     ],
 )
 def test_lesson_diagrams_load_from_the_rendered_page(reader, route, count):

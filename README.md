@@ -66,7 +66,7 @@ python3 tools/run_e01.py
 ## 项目状态
 
 旧Faithfulness样章和专属回放实现已清理；该主题已在第5课以编程案例重新制作。
-当前第1至14课已制作，第1至7课按统一正文标准完成重写与复核，第8至14课沿同一写法制作，其余2课保留详细设计。DeepEval/Ragas用于评测方法和源码依据，
+当前第1至15课已制作，第1至7课按统一正文标准完成重写与复核，第8至15课沿同一写法制作，第16课保留详细设计。DeepEval/Ragas用于评测方法和源码依据，
 第一课先用确定性任务合同判断文件、输出和退出码，后续再逐步引入框架接口与模型裁判。
 
 教材通过 [PocketFlow流程](generation/README.md)组织，来源与许可见 [第三方说明](THIRD_PARTY.md)。
@@ -256,3 +256,15 @@ docker compose run --rm -T --entrypoint python course -m lessons.e14_runtime.eva
 先分别启动8766模型桥和8768裁判桥并确认镜像构建成功。已有e14-agent.json时先另存原报告，入口拒绝覆盖。阅读地址：http://localhost:8765/lesson14 。预声明正常任务3/3，故意超时恢复单列通过；原生效率低分与必要恢复读取的分歧保留。受控时钟不等于常驻生产调度服务，完整机制仍到综合课核验。
 
 [第14课飞书完整教材](https://my.feishu.cn/docx/Y2DBdLG3Nouii3xym8NcjZNsnjg)。
+
+## 第15课：裁判校准、偏差与中文适配
+
+[教材](lessons/e15_calibration/README.zh.md)、[源码导读](lessons/e15_calibration/source_walkthrough.md)、[实验结果](lessons/e15_calibration/run_summary.md)、[练习](lessons/e15_calibration/exercises.md)、[验收](docs/e15-validation.md)。保持Agent不变，按家族隔离数据，在开发集选择标准后冻结，再评价留出结果；区分规则标签、人工审核与模型判分。
+
+```bash
+docker compose run --rm -T --entrypoint python course -m lessons.e15_calibration.eval
+```
+
+先在宿主启动8768裁判桥并确认镜像构建成功。已有e15-calibration.json会拒绝覆盖，须另存旧报告再明确新实验。48次真实裁判响应均保留，未测出准确率提升或成对标签翻转；这些简单构造案例不证明普遍无偏。阅读地址：http://localhost:8765/lesson15 。
+
+[第15课飞书完整教材](https://my.feishu.cn/docx/HBwudv2QzoZgeQxocH1cAMXcnFg)。

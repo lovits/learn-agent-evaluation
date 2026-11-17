@@ -1,0 +1,42 @@
+{
+  "lesson": "e15",
+  "frozen_at": "2026-11-17T10:15:50.862893+00:00",
+  "stage": "before_any_live_e15_judge_request",
+  "constructed_samples": 16,
+  "splits": {
+    "train": 4,
+    "dev": 4,
+    "holdout": 8
+  },
+  "family_disjoint": true,
+  "human_reviewed": false,
+  "threshold": 0.7,
+  "geval_candidates": [
+    "v1",
+    "v2"
+  ],
+  "selection": "Fully scored development candidates only; minimize false passes then maximize agreement; ties prefer v2; record choice before scoring holdout. No holdout tuning.",
+  "planned_successful_responses_without_failures": 48,
+  "schedule": {
+    "geval_development": 8,
+    "geval_selected_holdout": 8,
+    "native_ragas_before_and_after": 16,
+    "native_prompt_translation": 2,
+    "same_prompt_language_before_and_after": 8,
+    "three_pair_conditions_both_orders": 6
+  },
+  "agent_model_requests": 0,
+  "native_alignment": "SimpleLLMMetric.align with embedding_model=None uses native recent-example fallback, not semantic retrieval or model weight training",
+  "labels": "Instructor scalar contract records, no actual Agent execution or independent human vote claimed",
+  "self_preference": "Unverified origin cue only; exact judge identity and actual report origins are unknown, so no model self-preference conclusion",
+  "retry_policy": "No reroll or best-of; errors remain unscored; native stage failure preserves successful partial calls",
+  "source_hashes": {
+    "lessons/e15_calibration/code.py": "9038c92eebae5182c3c37246ca1c6744bf25e62702c11d882571f7ae30e8d6cf",
+    "lessons/e15_calibration/eval.py": "9db57ff8571ab6a37ec89bec6f7f4a02645fa719905146bb907a4f3f5f3626fd",
+    "lessons/e15_calibration/cases.jsonl": "d8e1e1b029361a269f03a8bf3d120188e0ef7e7589a860a8b2e893686c88db35",
+    "lessons/e03_judges/eval.py": "92afaa766de88acfde052a51346e86c62eb3d822f0e38cc214eda557c8d46b95",
+    "tools/judge_bridge.py": "b9333f66e5a71f47938f38b5dba4fdd82ebb8d777bd392e98172e26a383573f1",
+    "pyproject.toml": "8f0918b847ce5d4499d04216a8dcfacb2b975e73f6599aab64e995392719f542",
+    "uv.lock": "fbb4a6aa5e29c670058ee927f011483d95ccc0051da009ece07a2eb2f49e7505"
+  }
+}

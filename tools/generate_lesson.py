@@ -31,6 +31,7 @@ def main():
             "e12",
             "e13",
             "e14",
+            "e15",
         ],
         default="e01",
     )
@@ -106,6 +107,12 @@ def main():
             "e14_runtime",
             "后台、调度与效率：少几步就更好吗",
             "generation/e14-brief.md",
+        )
+    if lesson == "e15":
+        slug, title, brief_path = (
+            "e15_calibration",
+            "裁判校准：分数对了，标准也对了吗",
+            "generation/e15-brief.md",
         )
     private = PROJECT / "generation/private" / lesson
     private.mkdir(parents=True, exist_ok=True)
@@ -270,6 +277,11 @@ def main():
                 else []
             ),
             "references/textbook-writing-standard.md",
+            *(
+                ["references/e15-reading.json", "references/e15-experiment-protocol.json"]
+                if lesson == "e15"
+                else []
+            ),
         },
         "exclude_patterns": {
             ".git",

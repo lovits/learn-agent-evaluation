@@ -30,6 +30,7 @@ PAGES = {
     "/lesson12": ("第12课：多轮与记忆", "lessons/e12_conversation/README.zh.md"),
     "/lesson13": ("第13课：计划与交接", "lessons/e13_planning/README.zh.md"),
     "/lesson14": ("第14课：后台与调度", "lessons/e14_runtime/README.zh.md"),
+    "/lesson15": ("第15课：裁判校准", "lessons/e15_calibration/README.zh.md"),
     "/source": ("第1课源码", "lessons/e01_agent_baseline/source_walkthrough.md"),
     "/exercises": ("第1课练习", "lessons/e01_agent_baseline/exercises.md"),
     "/solutions": ("第1课答案", "lessons/e01_agent_baseline/solutions.md"),
@@ -38,6 +39,12 @@ PAGES = {
 }
 DOCUMENTS = {
     **PAGES,
+    "/source15": ("第15课源码", "lessons/e15_calibration/source_walkthrough.md"),
+    "/exercises15": ("第15课练习", "lessons/e15_calibration/exercises.md"),
+    "/solutions15": ("第15课答案", "lessons/e15_calibration/solutions.md"),
+    "/e15-results": ("第15课实测", "lessons/e15_calibration/run_summary.md"),
+    "/validation15": ("第15课验收", "docs/e15-validation.md"),
+    "/generation15": ("第15课生成与审校", "generation/e15-README.md"),
     "/source14": ("第14课源码", "lessons/e14_runtime/source_walkthrough.md"),
     "/exercises14": ("第14课练习", "lessons/e14_runtime/exercises.md"),
     "/solutions14": ("第14课答案", "lessons/e14_runtime/solutions.md"),

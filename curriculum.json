@@ -159,15 +159,17 @@
       ],
       "activity": "对同义答案、漏项答案和裁判接口错误分别评分，观察规则与语义标准适用的位置。",
       "understanding": "能追到一次评分的输入、判据与分母，接口失败不会被当成零分。",
-      "textbook": null,
-      "source_walkthrough": null,
+      "textbook": "course/e04_scoring/README.zh.md",
+      "source_walkthrough": "course/e04_scoring/source_walkthrough.md",
       "outline_anchor": "04-给样本评分",
-      "implementation": "planned",
+      "implementation": "ready",
       "source_paths": [
-        "deepeval/deepeval/metrics/dag/dag.py",
         "deepeval/deepeval/metrics/g_eval/g_eval.py",
-        "ragas/src/ragas/metrics/collections/tool_call_f1/metric.py",
-        "ragas/src/ragas/metrics/collections/tool_call_f1/util.py"
+        "deepeval/deepeval/metrics/utils/decision.py",
+        "deepeval/deepeval/metrics/dag/dag.py",
+        "ragas/src/ragas/metrics/_aspect_critic.py",
+        "ragas/src/ragas/metrics/collections/domain_specific_rubrics/metric.py",
+        "ragas/src/ragas/metrics/result.py"
       ],
       "readings": [
         "https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/traditional/",

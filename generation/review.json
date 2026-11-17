@@ -1,6 +1,6 @@
 {
   "outline_version": 3,
-  "review": "第3课依据 PocketFlow 实际草稿压缩并核对源码；移除草稿中的错误外链与类比，保持关键片段、审核边界和实际记录。",
+  "review": "第4课依据 PocketFlow 实际草稿压缩，核对规则、G-Eval 与 Ragas 固定源码；修正草稿中的错误图片链接和课次，明确评分状态与分母。",
   "published_sha256": {
     "course/run.py": "d4f0b75ebfc46cf0eeb897dfbe4c4b22db0626231aac9d72f30093a9caa2cb1c",
     "course/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
@@ -21,7 +21,7 @@
     "course/e01_success/images/evaluation-path.png": "84631226a87f24a92b75bb78b8ff2ada48c6af60faaefc3e74617a1b0df861f3",
     "course/e01_success/images/agent-loop.png": "69630c87dce95684348df5cd47121b5f48b9e5af44bbdff448c0ac64105578c5",
     "course/e01_success/images/agent-loop.drawio": "4a0a900a62fc61a7692a5c8b03a7eecda6ff0b1c073953f4c218da892edd1bec",
-    "course/e03_datasets/README.zh.md": "e3b2e6498f9187b8216c34ee1855b1559527cb9a096a1e626fb5030c8b340390",
+    "course/e03_datasets/README.zh.md": "69ca911fe74baa4b775c887a191a6dcf7525b06b7fa6b05091140092ebb30c31",
     "course/e03_datasets/solutions.md": "e6688c8ba750f184a046432a273ee676c0c692c242705a0c7c3c9d99a22f122a",
     "course/e03_datasets/assessment.json": "2fc556301b63b0297dabf56a3d1b5d351dd86b0d9da47bd73b53c1a2aa7d1059",
     "course/e03_datasets/generate.py": "84b9528a10ed6951cd78513f30c1db128ecc75b21de1f00a29a5ee13ffe1fa70",
@@ -56,12 +56,29 @@
     "course/e02_samples/images/agent-loop.drawio.svg": "73bd23a658ee7712cd8d2a96cfa479cf8fc0625a0cfcb3599ecf2f650373500c",
     "course/e02_samples/images/evaluation-path.png": "409cd8a7f1a3ecf854fbff0b55ef701bb0c212ba127beeac2c6cd370a7974f54",
     "course/e02_samples/images/agent-loop.png": "e971368c9f258b32e62a9a150fcd1a0a5aa2445885721fab02264776b975fac0",
-    "course/e02_samples/images/agent-loop.drawio": "81b71d15a4b4e0659a147e53bec163d8cc5635ea059ef7859c952393978ae8a1"
+    "course/e02_samples/images/agent-loop.drawio": "81b71d15a4b4e0659a147e53bec163d8cc5635ea059ef7859c952393978ae8a1",
+    "course/e04_scoring/README.zh.md": "d94e0c84fd141aabb3b617ab1ad5f7f72d01948e6c62b1a21d385ca669392579",
+    "course/e04_scoring/solutions.md": "b90d706177522eb2557874f1bb561588d6c959f931b93f018a8722ce0e7aa7ee",
+    "course/e04_scoring/assessment.json": "03b0d74dbdfb8e3b037572f3ba02af599e0301f9d933fdd2a51cbdec1f83f564",
+    "course/e04_scoring/exercises.md": "07a1cf37188230d62e986fe9b0d0ee42811611bde44f695650779e9aba7f2e56",
+    "course/e04_scoring/code.py": "f9c13fb6ca83722dfd82598899e49cbba925a846c52add56f13f70834d8d1d9b",
+    "course/e04_scoring/cases.jsonl": "422149ee15be43913f6dba6946f171a7d1dbde84a7214eba4f3e328f78250535",
+    "course/e04_scoring/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "course/e04_scoring/assessment.md": "96c2784700b29e8bf9aef15def7c2ff4f2b4a0452181430e91d585671c95deb1",
+    "course/e04_scoring/source_walkthrough.md": "e4418486a364b23d739eca37c05a835bbf53bc4e4b1e2a9916e3304f99512442",
+    "course/e04_scoring/eval.py": "3f01fdb12aaa84211373f6ec4bbedc9b6bf934d46c8da27a43e13f6eb3a845eb",
+    "course/e04_scoring/images/judging-flow.drawio": "4f6a36890fe2f03b4c586c38ac8d5afb3349bb0da0ee9288be5b4d48a98e7975",
+    "course/e04_scoring/images/judging-flow.drawio.svg": "15fa142295f7211528a6b87eac3b69993f855bf3f01fd4cb8aa1f79ee5193a2e",
+    "course/e04_scoring/images/scoring-flow.drawio.svg": "3ef7586381a5deb9552ace33ad894fff05a1eb6871fb4a02d311a795588f98d9",
+    "course/e04_scoring/images/judging-flow.png": "88e10830f4f63ee19d4e6e9fe5eca9ce3c3ce084128c5fe1504c4f55c998fd41",
+    "course/e04_scoring/images/scoring-flow.drawio": "a58a43052dd1ce560366840bea1236b1cfb778db4e44061f62df726e085b4ea4",
+    "course/e04_scoring/images/scoring-flow.png": "f99a93c53766abae8d528f9cedb1714ba29f19002b4ef7bdd922a4b80a2a3db7"
   },
   "provenance": [
     "generation/e01-provenance.json",
     "generation/e02-provenance.json",
-    "generation/e03-provenance.json"
+    "generation/e03-provenance.json",
+    "generation/e04-provenance.json"
   ],
   "runtime_evidence": "generation/runtime-evidence.json",
   "figures": "references/figures.json"

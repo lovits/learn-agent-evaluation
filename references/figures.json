@@ -118,5 +118,41 @@
     "visual_review": "passed",
     "node_font_size": 16,
     "edge_font_size": 13
+  },
+  {
+    "name": "e04-scoring-flow",
+    "slug": "e04_scoring",
+    "title": "第4课：规则与语义分别评分",
+    "diagram_type": "flowchart",
+    "generator": "draw.io",
+    "candidate": "course/e04_scoring/images/scoring-flow.drawio",
+    "output": "course/e04_scoring/images/scoring-flow.drawio.svg",
+    "png": "course/e04_scoring/images/scoring-flow.png",
+    "readme_preview": "course/e04_scoring/images/scoring-flow.png",
+    "preview_url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e04-scoring-flow.png",
+    "url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e04-scoring-flow.svg",
+    "artifact_sha256": "3ef7586381a5deb9552ace33ad894fff05a1eb6871fb4a02d311a795588f98d9",
+    "png_sha256": "f99a93c53766abae8d528f9cedb1714ba29f19002b4ef7bdd922a4b80a2a3db7",
+    "visual_review": "passed",
+    "node_font_size": 16,
+    "edge_font_size": 13
+  },
+  {
+    "name": "e04-judging-flow",
+    "slug": "e04_scoring",
+    "title": "第4课：裁判返回到达标判断",
+    "diagram_type": "flowchart",
+    "generator": "draw.io",
+    "candidate": "course/e04_scoring/images/judging-flow.drawio",
+    "output": "course/e04_scoring/images/judging-flow.drawio.svg",
+    "png": "course/e04_scoring/images/judging-flow.png",
+    "readme_preview": "course/e04_scoring/images/judging-flow.png",
+    "preview_url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e04-judging-flow.png",
+    "url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e04-judging-flow.svg",
+    "artifact_sha256": "15fa142295f7211528a6b87eac3b69993f855bf3f01fd4cb8aa1f79ee5193a2e",
+    "png_sha256": "88e10830f4f63ee19d4e6e9fe5eca9ce3c3ce084128c5fe1504c4f55c998fd41",
+    "visual_review": "passed",
+    "node_font_size": 16,
+    "edge_font_size": 13
   }
 ]

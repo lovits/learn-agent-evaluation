@@ -1,0 +1,5 @@
+{"id": "paraphrase", "origin": "constructed_teaching_answer", "answer": "{\"required_header\": \"X-Project-Token\", \"max_bytes\": 1048576, \"explanation\": \"超过 1 MiB 会收到 413，所以发送前先核对文件大小。\"}"}
+{"id": "omission", "origin": "constructed_teaching_answer", "answer": "{\"required_header\": \"X-Project-Token\", \"max_bytes\": 1048576, \"explanation\": \"发送前先检查文件大小。\"}"}
+{"id": "contradiction", "origin": "constructed_teaching_answer", "answer": "{\"required_header\": \"X-Project-Token\", \"max_bytes\": 1048576, \"explanation\": \"超限仍会上传成功并返回 200，不必检查大小。\"}"}
+{"id": "irrelevant", "origin": "constructed_teaching_answer", "answer": "{\"required_header\": \"X-Project-Token\", \"max_bytes\": 1048576, \"explanation\": \"接口文档在 upload.md。\"}"}
+{"id": "plain-text", "origin": "constructed_teaching_answer", "answer": "超出 1048576 字节返回 HTTP 413，发送前检查文件大小。"}

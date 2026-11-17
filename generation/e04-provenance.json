@@ -1,0 +1,33 @@
+{
+  "generator": "PocketFlow-Tutorial-Codebase-Knowledge",
+  "upstream_commit": "05b24cbbb0fe409c5e23c9791f0342f07524ffdc",
+  "nodes_run": [
+    "FetchRepo",
+    "BindLesson",
+    "WriteChapters",
+    "CombineTutorial"
+  ],
+  "actual_model_calls": 1,
+  "calls": [
+    {
+      "prompt_sha256": "4770be377d7c80e61d951aec107ee7f4431054450a415b4c6c559a99e4ecfaba",
+      "response_sha256": "6f777443ac936d0c98bfa155d233c816889a6d757b282ae241cb42cea8a9535f",
+      "seconds": 109.21
+    }
+  ],
+  "input_sha256": {
+    "eval_course/runtime.py": "f4236018e4dea094fe4573c48cb3cc03fdcf4d837dac8ff30190367c1dc86fa4",
+    "course/e04_scoring/solutions.md": "b90d706177522eb2557874f1bb561588d6c959f931b93f018a8722ce0e7aa7ee",
+    "course/e04_scoring/exercises.md": "07a1cf37188230d62e986fe9b0d0ee42811611bde44f695650779e9aba7f2e56",
+    "course/e04_scoring/code.py": "f9c13fb6ca83722dfd82598899e49cbba925a846c52add56f13f70834d8d1d9b",
+    "course/e04_scoring/cases.jsonl": "422149ee15be43913f6dba6946f171a7d1dbde84a7214eba4f3e328f78250535",
+    "course/e04_scoring/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "course/e04_scoring/source_walkthrough.md": "ff4755c49b69821d13f051228218a6a43da1c0ebe2f2ca3c53926c7be37d3599",
+    "course/e04_scoring/eval.py": "7cdb22d54e4bf7b4f3ff03562b24371a2b63478398b0ce812c9b990bfd083a45",
+    "course/e04_scoring/images/judging-flow.drawio": "3dbacd059cabf58838f53935adbec9e639fcdd4322245c99d510d0489a596d39",
+    "course/e04_scoring/images/judging-flow.drawio.svg": "0f3e292ecb59fb004b86acce639eb4d9e9a0ebecdf73509c8df195af1195fb7e",
+    "course/e04_scoring/images/scoring-flow.drawio.svg": "89e703871ecedb2403eaeae5f93a157a24ce95233876fda5263e73c5ceea03b2",
+    "course/e04_scoring/images/scoring-flow.drawio": "a58a43052dd1ce560366840bea1236b1cfb778db4e44061f62df726e085b4ea4"
+  },
+  "note": "Raw draft is reviewed and condensed; final textbook is in course/. The agreed outline is not model-reordered."
+}

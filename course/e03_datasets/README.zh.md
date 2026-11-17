@@ -1,6 +1,6 @@
 # e03: 题目从哪里来，参考凭什么可信？
 
-[e02](../e02_samples/README.zh.md) → `e03` → [e04](../../docs/curriculum.md#04-给样本评分) → … → e16
+[e02](../e02_samples/README.zh.md) → `e03` → [e04](../e04_scoring/README.zh.md) → … → e16
 
 > 先把题目和参考核对好，再让 Agent 作答。
 

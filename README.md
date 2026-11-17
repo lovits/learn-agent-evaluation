@@ -11,7 +11,7 @@
 | 01 | [定义成功](course/e01_success/README.zh.md) | 模型停下了，任务就完成了吗？ |
 | 02 | [保存一次运行](course/e02_samples/README.zh.md) | 怎样把 Agent 的一次工作变成评测样本？ |
 | 03 | [准备评测数据](course/e03_datasets/README.zh.md) | 怎样让题目代表你真正关心的能力？ |
-| 04 | [给样本评分](docs/curriculum.md#04-给样本评分) | 什么时候用规则，什么时候请模型判断？ |
+| 04 | [给样本评分](course/e04_scoring/README.zh.md) | 什么时候用规则，什么时候请模型判断？ |
 | 05 | [接通知识库](docs/curriculum.md#05-接通知识库) | 检索出的资料，最后有哪些真的交给了模型？ |
 | 06 | [上下文相关性与排序](docs/curriculum.md#06-上下文相关性与排序) | 找到了资料，为什么还要看相关性和顺序？ |
 | 07 | [上下文覆盖与召回](docs/curriculum.md#07-上下文覆盖与召回) | 资料看起来都相关，为什么问题仍答不全？ |
@@ -25,7 +25,7 @@
 | 15 | [比较两个版本](docs/curriculum.md#15-比较两个版本) | 分数变高，怎样判断改动真的有用？ |
 | 16 | [综合项目与持续回归](docs/curriculum.md#16-综合项目与持续回归) | 怎样让一次修复成为以后不会再犯的经验？ |
 
-[飞书课程目录](https://my.feishu.cn/drive/folder/Cap7fQoFVlH3Y3dtgJ4cP55dnFg) · [完整大纲](docs/curriculum.md) · [第1课教材](course/e01_success/README.zh.md) · [第1课源码导读](course/e01_success/source_walkthrough.md) · [第2课教材](course/e02_samples/README.zh.md) · [第2课源码导读](course/e02_samples/source_walkthrough.md) · [第3课教材](course/e03_datasets/README.zh.md) · [第3课源码导读](course/e03_datasets/source_walkthrough.md)
+[飞书课程目录](https://my.feishu.cn/drive/folder/Cap7fQoFVlH3Y3dtgJ4cP55dnFg) · [完整大纲](docs/curriculum.md)
 
 ## 学完能做什么
 

@@ -1,0 +1,483 @@
+{
+  "lesson": "e04",
+  "source_note": "Upload API 是构造的教学资料；构造回答与真实 Agent 回答分开记录。",
+  "cases_sha256": "422149ee15be43913f6dba6946f171a7d1dbde84a7214eba4f3e328f78250535",
+  "controlled_answers_with_live_judge": {
+    "run_id": "dea7034d37c9444589be03e531a932c6",
+    "rows": [
+      {
+        "id": "paraphrase",
+        "origin": "constructed_teaching_answer",
+        "sample": {
+          "input": "读取 upload.md，仅返回一个 JSON 对象，不加 Markdown。字段必须为 required_header （上传 token 请求头名称）、max_bytes（最大字节数整数）和 explanation （说明超限会怎样，以及发送前应做什么）。",
+          "actual_output": "{\"required_header\": \"X-Project-Token\", \"max_bytes\": 1048576, \"explanation\": \"超过 1 MiB 会收到 413，所以发送前先核对文件大小。\"}",
+          "expected_output": "文件大于 1048576 字节时返回 HTTP 413；发送前先检查文件大小。",
+          "context": null,
+          "retrieval_context": null,
+          "metadata": null,
+          "tools_called": null,
+          "comments": null,
+          "expected_tools": null,
+          "token_cost": null,
+          "input_token_count": null,
+          "output_token_count": null,
+          "completion_time": null,
+          "flaky": false,
+          "multimodal": false,
+          "name": null,
+          "tags": null,
+          "mcp_servers": null,
+          "mcp_tools_called": null,
+          "mcp_resources_called": null,
+          "mcp_prompts_called": null,
+          "custom_column_key_values": null,
+          "expectations": null,
+          "expected_labels": null
+        },
+        "rules": {
+          "status": "ok",
+          "score": 1.0,
+          "passed": true,
+          "reason": "{\"json_object\": true, \"fields\": true, \"header\": true, \"size\": true, \"explanation\": true}"
+        },
+        "judge": {
+          "status": "ok",
+          "score": 1.0,
+          "passed": true,
+          "reason": "explanation 同时包含两项要求：超过 1 MiB（1048576 字节）会收到 HTTP 413，并建议发送前核对文件大小；与预期一致，且没有虚构 API 政策。required_header 和 max_bytes 字段不计入评分。"
+        }
+      },
+      {
+        "id": "omission",
+        "origin": "constructed_teaching_answer",
+        "sample": {
+          "input": "读取 upload.md，仅返回一个 JSON 对象，不加 Markdown。字段必须为 required_header （上传 token 请求头名称）、max_bytes（最大字节数整数）和 explanation （说明超限会怎样，以及发送前应做什么）。",
+          "actual_output": "{\"required_header\": \"X-Project-Token\", \"max_bytes\": 1048576, \"explanation\": \"发送前先检查文件大小。\"}",
+          "expected_output": "文件大于 1048576 字节时返回 HTTP 413；发送前先检查文件大小。",
+          "context": null,
+          "retrieval_context": null,
+          "metadata": null,
+          "tools_called": null,
+          "comments": null,
+          "expected_tools": null,
+          "token_cost": null,
+          "input_token_count": null,
+          "output_token_count": null,
+          "completion_time": null,
+          "flaky": false,
+          "multimodal": false,
+          "name": null,
+          "tags": null,
+          "mcp_servers": null,
+          "mcp_tools_called": null,
+          "mcp_resources_called": null,
+          "mcp_prompts_called": null,
+          "custom_column_key_values": null,
+          "expectations": null,
+          "expected_labels": null
+        },
+        "rules": {
+          "status": "ok",
+          "score": 1.0,
+          "passed": true,
+          "reason": "{\"json_object\": true, \"fields\": true, \"header\": true, \"size\": true, \"explanation\": true}"
+        },
+        "judge": {
+          "status": "ok",
+          "score": 0.5,
+          "passed": false,
+          "reason": "The explanation includes one required meaning: check the file size before sending. It omits that uploads larger than 1048576 bytes return HTTP 413; the required_header and max_bytes fields do not count toward the explanation criteria."
+        }
+      },
+      {
+        "id": "contradiction",
+        "origin": "constructed_teaching_answer",
+        "sample": {
+          "input": "读取 upload.md，仅返回一个 JSON 对象，不加 Markdown。字段必须为 required_header （上传 token 请求头名称）、max_bytes（最大字节数整数）和 explanation （说明超限会怎样，以及发送前应做什么）。",
+          "actual_output": "{\"required_header\": \"X-Project-Token\", \"max_bytes\": 1048576, \"explanation\": \"超限仍会上传成功并返回 200，不必检查大小。\"}",
+          "expected_output": "文件大于 1048576 字节时返回 HTTP 413；发送前先检查文件大小。",
+          "context": null,
+          "retrieval_context": null,
+          "metadata": null,
+          "tools_called": null,
+          "comments": null,
+          "expected_tools": null,
+          "token_cost": null,
+          "input_token_count": null,
+          "output_token_count": null,
+          "completion_time": null,
+          "flaky": false,
+          "multimodal": false,
+          "name": null,
+          "tags": null,
+          "mcp_servers": null,
+          "mcp_tools_called": null,
+          "mcp_resources_called": null,
+          "mcp_prompts_called": null,
+          "custom_column_key_values": null,
+          "expectations": null,
+          "expected_labels": null
+        },
+        "rules": {
+          "status": "ok",
+          "score": 1.0,
+          "passed": true,
+          "reason": "{\"json_object\": true, \"fields\": true, \"header\": true, \"size\": true, \"explanation\": true}"
+        },
+        "judge": {
+          "status": "ok",
+          "score": 0.0,
+          "passed": false,
+          "reason": "explanation 与预期两项要求均矛盾：它声称超过 1048576 字节仍会成功并返回 HTTP 200，而正确行为是返回 HTTP 413；同时称发送前不必检查大小，而要求是先检查文件大小。"
+        }
+      },
+      {
+        "id": "irrelevant",
+        "origin": "constructed_teaching_answer",
+        "sample": {
+          "input": "读取 upload.md，仅返回一个 JSON 对象，不加 Markdown。字段必须为 required_header （上传 token 请求头名称）、max_bytes（最大字节数整数）和 explanation （说明超限会怎样，以及发送前应做什么）。",
+          "actual_output": "{\"required_header\": \"X-Project-Token\", \"max_bytes\": 1048576, \"explanation\": \"接口文档在 upload.md。\"}",
+          "expected_output": "文件大于 1048576 字节时返回 HTTP 413；发送前先检查文件大小。",
+          "context": null,
+          "retrieval_context": null,
+          "metadata": null,
+          "tools_called": null,
+          "comments": null,
+          "expected_tools": null,
+          "token_cost": null,
+          "input_token_count": null,
+          "output_token_count": null,
+          "completion_time": null,
+          "flaky": false,
+          "multimodal": false,
+          "name": null,
+          "tags": null,
+          "mcp_servers": null,
+          "mcp_tools_called": null,
+          "mcp_resources_called": null,
+          "mcp_prompts_called": null,
+          "custom_column_key_values": null,
+          "expectations": null,
+          "expected_labels": null
+        },
+        "rules": {
+          "status": "ok",
+          "score": 1.0,
+          "passed": true,
+          "reason": "{\"json_object\": true, \"fields\": true, \"header\": true, \"size\": true, \"explanation\": true}"
+        },
+        "judge": {
+          "status": "ok",
+          "score": 0.0,
+          "passed": false,
+          "reason": "explanation 仅称“接口文档在 upload.md”，既未说明文件大于 1048576 字节会返回 HTTP 413，也未说明发送前应检查文件大小；required_header 和 max_bytes 字段不计入这两项要求。"
+        }
+      },
+      {
+        "id": "plain-text",
+        "origin": "constructed_teaching_answer",
+        "sample": {
+          "input": "读取 upload.md，仅返回一个 JSON 对象，不加 Markdown。字段必须为 required_header （上传 token 请求头名称）、max_bytes（最大字节数整数）和 explanation （说明超限会怎样，以及发送前应做什么）。",
+          "actual_output": "超出 1048576 字节返回 HTTP 413，发送前检查文件大小。",
+          "expected_output": "文件大于 1048576 字节时返回 HTTP 413；发送前先检查文件大小。",
+          "context": null,
+          "retrieval_context": null,
+          "metadata": null,
+          "tools_called": null,
+          "comments": null,
+          "expected_tools": null,
+          "token_cost": null,
+          "input_token_count": null,
+          "output_token_count": null,
+          "completion_time": null,
+          "flaky": false,
+          "multimodal": false,
+          "name": null,
+          "tags": null,
+          "mcp_servers": null,
+          "mcp_tools_called": null,
+          "mcp_resources_called": null,
+          "mcp_prompts_called": null,
+          "custom_column_key_values": null,
+          "expectations": null,
+          "expected_labels": null
+        },
+        "rules": {
+          "status": "ok",
+          "score": 0.0,
+          "passed": false,
+          "reason": "{\"json_object\": false}"
+        },
+        "judge": {
+          "status": "ok",
+          "score": 1.0,
+          "passed": true,
+          "reason": "实际输出同时包含两项要求：超过 1048576 字节会返回 HTTP 413，并明确说明发送前检查文件大小；没有矛盾或虚构的 API 声明。"
+        }
+      }
+    ],
+    "set_example": {
+      "precision": 0.5,
+      "recall": 0.3333333333333333,
+      "f1": 0.4
+    },
+    "judge_calls": [
+      {
+        "text": "{\"reason\":\"explanation 同时包含两项要求：超过 1 MiB（1048576 字节）会收到 HTTP 413，并建议发送前核对文件大小；与预期一致，且没有虚构 API 政策。required_header 和 max_bytes 字段不计入评分。\",\"score\":2}",
+        "usage": [
+          {
+            "input_tokens": 15572,
+            "cached_input_tokens": 0,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 73,
+            "reasoning_output_tokens": 0
+          }
+        ],
+        "reported_model": null,
+        "model_selection": "Codex CLI default; user config ignored",
+        "elapsed_seconds": 6.807,
+        "transport_tool_events": 0,
+        "prompt_sha256": "824b2f478ffbb1eb6d2f1d28f7bff4c90462a26cd8ca364166dbf9d3411e1167"
+      },
+      {
+        "text": "{\"reason\":\"The explanation includes one required meaning: check the file size before sending. It omits that uploads larger than 1048576 bytes return HTTP 413; the required_header and max_bytes fields do not count toward the explanation criteria.\",\"score\":1}",
+        "usage": [
+          {
+            "input_tokens": 15559,
+            "cached_input_tokens": 0,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 57,
+            "reasoning_output_tokens": 0
+          }
+        ],
+        "reported_model": null,
+        "model_selection": "Codex CLI default; user config ignored",
+        "elapsed_seconds": 5.8,
+        "transport_tool_events": 0,
+        "prompt_sha256": "9bb80be139e55b2d2a65daeaca3a80ddfc61437b11a94768fbcb02c08f14a43a"
+      },
+      {
+        "text": "{\"reason\":\"explanation 与预期两项要求均矛盾：它声称超过 1048576 字节仍会成功并返回 HTTP 200，而正确行为是返回 HTTP 413；同时称发送前不必检查大小，而要求是先检查文件大小。\",\"score\":0}",
+        "usage": [
+          {
+            "input_tokens": 15569,
+            "cached_input_tokens": 0,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 68,
+            "reasoning_output_tokens": 0
+          }
+        ],
+        "reported_model": null,
+        "model_selection": "Codex CLI default; user config ignored",
+        "elapsed_seconds": 5.56,
+        "transport_tool_events": 0,
+        "prompt_sha256": "87a6f06763882dfaddda6f7bc82fa5e0873aef5f340be4a1e1eff1667399f689"
+      },
+      {
+        "text": "{\"reason\":\"explanation 仅称“接口文档在 upload.md”，既未说明文件大于 1048576 字节会返回 HTTP 413，也未说明发送前应检查文件大小；required_header 和 max_bytes 字段不计入这两项要求。\",\"score\":0}",
+        "usage": [
+          {
+            "input_tokens": 15559,
+            "cached_input_tokens": 0,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 67,
+            "reasoning_output_tokens": 0
+          }
+        ],
+        "reported_model": null,
+        "model_selection": "Codex CLI default; user config ignored",
+        "elapsed_seconds": 5.424,
+        "transport_tool_events": 0,
+        "prompt_sha256": "00c7de8f5be191841ea0fcde7273c4df7fc09c5c8dbe2dab7e438498bbd30dde"
+      },
+      {
+        "text": "{\"reason\":\"实际输出同时包含两项要求：超过 1048576 字节会返回 HTTP 413，并明确说明发送前检查文件大小；没有矛盾或虚构的 API 声明。\",\"score\":2}",
+        "usage": [
+          {
+            "input_tokens": 15543,
+            "cached_input_tokens": 13440,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 54,
+            "reasoning_output_tokens": 0
+          }
+        ],
+        "reported_model": null,
+        "model_selection": "Codex CLI default; user config ignored",
+        "elapsed_seconds": 6.604,
+        "transport_tool_events": 0,
+        "prompt_sha256": "9c9daf8bd3b740e48163125a80b13da9281d65c25f954ad302b05f3fb9f2b4dc"
+      }
+    ]
+  },
+  "live_agent_with_live_judge": {
+    "run_id": "9d73b411ab7b4ea1848adfc3a397e90d",
+    "rows": [
+      {
+        "id": "live",
+        "origin": "live_agent",
+        "sample": {
+          "input": "读取 upload.md，仅返回一个 JSON 对象，不加 Markdown。字段必须为 required_header （上传 token 请求头名称）、max_bytes（最大字节数整数）和 explanation （说明超限会怎样，以及发送前应做什么）。",
+          "actual_output": "{\"required_header\":\"X-Project-Token\",\"max_bytes\":1048576,\"explanation\":\"超出最大文件大小会返回 HTTP 413；发送前应检查文件大小。\"}",
+          "expected_output": "文件大于 1048576 字节时返回 HTTP 413；发送前先检查文件大小。",
+          "context": null,
+          "retrieval_context": null,
+          "metadata": null,
+          "tools_called": [
+            {
+              "name": "read_file",
+              "type": "FUNCTION",
+              "description": null,
+              "reasoning": null,
+              "output": {
+                "status": "ok",
+                "output": "# Upload API\n\nPOST /upload requires the API token in the X-Project-Token header.\nThe maximum file size is 1048576 bytes (1 MiB).\nA larger upload returns HTTP 413. Check the file size before sending.\n"
+              },
+              "input_parameters": {
+                "path": "upload.md"
+              }
+            }
+          ],
+          "comments": null,
+          "expected_tools": null,
+          "token_cost": null,
+          "input_token_count": null,
+          "output_token_count": null,
+          "completion_time": null,
+          "flaky": false,
+          "multimodal": false,
+          "name": null,
+          "tags": null,
+          "mcp_servers": null,
+          "mcp_tools_called": null,
+          "mcp_resources_called": null,
+          "mcp_prompts_called": null,
+          "custom_column_key_values": null,
+          "expectations": null,
+          "expected_labels": null
+        },
+        "rules": {
+          "status": "ok",
+          "score": 1.0,
+          "passed": true,
+          "reason": "{\"json_object\": true, \"fields\": true, \"header\": true, \"size\": true, \"explanation\": true}"
+        },
+        "judge": {
+          "status": "ok",
+          "score": 1.0,
+          "passed": true,
+          "reason": "explanation 同时包含两项要求：超过 1048576 字节的上限会返回 HTTP 413，并且发送前应检查文件大小；required_header 和 max_bytes 字段不影响本项评分，且没有虚假 API 声明。"
+        }
+      }
+    ],
+    "set_example": {
+      "precision": 0.5,
+      "recall": 0.3333333333333333,
+      "f1": 0.4
+    },
+    "agent_run": {
+      "run_id": "9d73b411ab7b4ea1848adfc3a397e90d",
+      "task": "读取 upload.md，仅返回一个 JSON 对象，不加 Markdown。字段必须为 required_header （上传 token 请求头名称）、max_bytes（最大字节数整数）和 explanation （说明超限会怎样，以及发送前应做什么）。",
+      "mode": "live_model",
+      "status": "finished",
+      "final_answer": "{\"required_header\":\"X-Project-Token\",\"max_bytes\":1048576,\"explanation\":\"超出最大文件大小会返回 HTTP 413；发送前应检查文件大小。\"}",
+      "events": [
+        {
+          "id": "1.0",
+          "name": "read_file",
+          "arguments": {
+            "path": "upload.md"
+          },
+          "result": {
+            "status": "ok",
+            "output": "# Upload API\n\nPOST /upload requires the API token in the X-Project-Token header.\nThe maximum file size is 1048576 bytes (1 MiB).\nA larger upload returns HTTP 413. Check the file size before sending.\n"
+          }
+        }
+      ],
+      "messages": [
+        {
+          "role": "user",
+          "content": "读取 upload.md，仅返回一个 JSON 对象，不加 Markdown。字段必须为 required_header （上传 token 请求头名称）、max_bytes（最大字节数整数）和 explanation （说明超限会怎样，以及发送前应做什么）。"
+        },
+        {
+          "role": "assistant",
+          "content": {
+            "answer": "",
+            "tool_calls": [
+              {
+                "name": "read_file",
+                "arguments_json": "{\"path\":\"upload.md\"}"
+              }
+            ]
+          }
+        },
+        {
+          "role": "tool",
+          "content": [
+            {
+              "status": "ok",
+              "output": "# Upload API\n\nPOST /upload requires the API token in the X-Project-Token header.\nThe maximum file size is 1048576 bytes (1 MiB).\nA larger upload returns HTTP 413. Check the file size before sending.\n"
+            }
+          ]
+        },
+        {
+          "role": "assistant",
+          "content": {
+            "answer": "{\"required_header\":\"X-Project-Token\",\"max_bytes\":1048576,\"explanation\":\"超出最大文件大小会返回 HTTP 413；发送前应检查文件大小。\"}",
+            "tool_calls": []
+          }
+        }
+      ]
+    },
+    "source": {
+      "path": "course/upload.md",
+      "sha256": "373d757ad03c0abeca2bee4fe92d832001dadb6d617ddbd94f87e15a828a996a"
+    },
+    "judge_calls": [
+      {
+        "text": "{\"reason\":\"explanation 同时包含两项要求：超过 1048576 字节的上限会返回 HTTP 413，并且发送前应检查文件大小；required_header 和 max_bytes 字段不影响本项评分，且没有虚假 API 声明。\",\"score\":2}",
+        "usage": [
+          {
+            "input_tokens": 15571,
+            "cached_input_tokens": 0,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 67,
+            "reasoning_output_tokens": 0
+          }
+        ],
+        "reported_model": null,
+        "model_selection": "Codex CLI default; user config ignored",
+        "elapsed_seconds": 5.711,
+        "transport_tool_events": 0,
+        "prompt_sha256": "0596eb4eb1e302dc78078bdd846a97d17d6e64104d53a5e2baece2daa5652ce4"
+      }
+    ]
+  },
+  "controlled_software_probe": {
+    "run_id": "cebc28fdd326433d9ae1421da6a40905",
+    "kind": "controlled_software_probe",
+    "transport_failure": {
+      "status": "error",
+      "score": null,
+      "passed": null,
+      "reason": "Controlled transport failure; no model request sent"
+    },
+    "empty_predicted": {
+      "precision": null,
+      "recall": 0.0,
+      "f1": 0.0
+    },
+    "both_empty": {
+      "precision": null,
+      "recall": null,
+      "f1": null
+    }
+  },
+  "limitations": [
+    "教学回答不是从用户分布采样的 Agent 回答，不据此计算 Agent 准确率。",
+    "真实 Agent 只运行一个任务，不足以估计泛化表现。",
+    "裁判与 Agent 复用本机 Codex 登录，使用分离上下文，不声称独立模型或人工金标准。",
+    "评分理由来自模型，不是已证明正确的事实。",
+    "软件故障探针人为注入 OSError，不是虚构真实服务宕机。",
+    "适配器不提供 logprobs，不声称概率加权；价格未知，不编造费用。"
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "status": "integration_foundation_verified_full_course16_pending",
+  "foundation_model_responses": 11,
+  "foundation_roles": {
+    "worker": 9,
+    "memory_support": 1,
+    "goal_review": 1
+  },
+  "foundation_goal_met": true,
+  "independent_business_inputs": 44,
+  "protected_tests": 2,
+  "native_memory_records": 2,
+  "first_setup_successful_responses": 0,
+  "workflow_initial_responses": 2,
+  "workflow_resume_new_responses": 1,
+  "workflow_resume_cached_steps": 2,
+  "actual_parallel_request_overlap": true,
+  "workflow_run_id": "wf_course-review_8b69a8242907edf2",
+  "workflow_snapshot_files": [
+    "shipping.py",
+    "checkout.py"
+  ],
+  "project_test_files_omitted_from_review_input": [
+    "test_shipping.py",
+    "test_checkout.py"
+  ],
+  "workflow_semantic_findings_accepted": false,
+  "reason": "Orchestration succeeds, but project-wide test-coverage assertions have insufficient evidence because test files were absent from review input. Preserve as regression case.",
+  "full_17_acceptance": false,
+  "application_image": "sha256:25ec542ccc1f36dfede84d3b5557ebd0f5c4e1ed3eb9b0231fe9f029848b9eeb",
+  "workflow_image": "sha256:4f1305fc1aeb2954554eba01ea876f023f739e373895548e1387b0d59f60242b",
+  "local_tests": 232,
+  "docker_network_none_tests": 232,
+  "authored_ruff": "passed",
+  "review_context_gate_regression_tests": 2,
+  "source_snapshot": "generation/archive/e16-foundation-v2-source",
+  "grader_image": "sha256:08f5c448d2d9f1e73ce8812a826869afccab1d57993d744ac50a2a877deb2638",
+  "formal_lesson16_complete": false,
+  "pocketflow_lesson16_run": false
+}

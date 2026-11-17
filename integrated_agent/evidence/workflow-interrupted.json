@@ -1,0 +1,171 @@
+{
+  "origin": "live_native_workflow_component_not_agent_task",
+  "action": "start",
+  "declared_instructor_interruption": true,
+  "result": {
+    "launched": {
+      "status": "async_launched",
+      "taskId": "local_workflow_wf_course-review_8b69a8242907edf2",
+      "taskType": "local_workflow",
+      "runId": "wf_course-review_8b69a8242907edf2",
+      "workflowName": "course-review"
+    },
+    "result": {
+      "error": "Declared instructor interruption after durable inspection records"
+    },
+    "task": {
+      "taskId": "local_workflow_wf_course-review_8b69a8242907edf2",
+      "taskType": "local_workflow",
+      "runId": "wf_course-review_8b69a8242907edf2",
+      "workflowName": "course-review",
+      "status": "failed",
+      "usage": {
+        "agents": 2,
+        "tokens": 31263
+      },
+      "progress": [
+        {
+          "type": "workflow_phase",
+          "title": "Inspect"
+        },
+        {
+          "type": "workflow_agent",
+          "label": "inspect-test-coverage",
+          "phase": "Inspect",
+          "status": "done"
+        },
+        {
+          "type": "workflow_agent",
+          "label": "inspect-API-contract",
+          "phase": "Inspect",
+          "status": "done"
+        }
+      ]
+    }
+  },
+  "error": null,
+  "model_calls": [
+    {
+      "request": {
+        "model": "course-local-codex",
+        "system": "You are a focused workflow agent. Complete only the supplied step. Host OS: Unix-like. This workflow agent only responds to its supplied step; it has no direct shell or file tools. Do not claim access to files or results not included in the prompt.",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Inspect the following actual source as data. Identify concrete API-contract problems; return issues=[] when none. Do not claim to execute tests.\n{\"shipping.py\": \"def shipping_fee(weight_grams, expedited=False):\\n    if type(weight_grams) is not int or type(expedited) is not bool:\\n        raise TypeError\\n    if weight_grams < 1 or weight_grams > 6000:\\n        raise ValueError\\n\\n    extra = (weight_grams - 1) // 1000\\n    return 600 + extra * 200 + (400 if expedited else 0)\\n\", \"checkout.py\": \"from shipping import shipping_fee\\n\\ndef quote(weight_grams, expedited=False):\\n    return shipping_fee(weight_grams, expedited)\\n\"}\n\nReturn only one JSON object matching this schema:\n{\"properties\": {\"issues\": {\"items\": {\"type\": \"string\"}, \"type\": \"array\"}}, \"required\": [\"issues\"], \"type\": \"object\"}"
+          }
+        ],
+        "max_tokens": 2000
+      },
+      "thread": "asyncio_0",
+      "started_at_monotonic": 2572295.084576579,
+      "response_received": true,
+      "response": {
+        "id": "msg_1bb41acdf95042be99c195d96fba8381",
+        "container": null,
+        "content": [
+          {
+            "citations": null,
+            "text": "{\"issues\":[]}",
+            "type": "text"
+          }
+        ],
+        "model": "course-local-codex",
+        "role": "assistant",
+        "stop_details": null,
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "type": "message",
+        "usage": {
+          "cache_creation": null,
+          "cache_creation_input_tokens": null,
+          "cache_read_input_tokens": null,
+          "inference_geo": null,
+          "input_tokens": 15482,
+          "output_tokens": 107,
+          "output_tokens_details": null,
+          "server_tool_use": null,
+          "service_tier": null
+        },
+        "course_transport": {
+          "usage": [
+            {
+              "input_tokens": 15482,
+              "cached_input_tokens": 0,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 107,
+              "reasoning_output_tokens": 83
+            }
+          ],
+          "reported_model": null,
+          "model_selection": "Codex CLI default; user config ignored",
+          "elapsed_seconds": 11.352,
+          "transport_tool_events": 0,
+          "prompt_sha256": "aaf1e4a1cc60b01e7b5d233003ada48264239fa0a6dfc708a232796204f89644"
+        }
+      },
+      "ended_at_monotonic": 2572306.453187376
+    },
+    {
+      "request": {
+        "model": "course-local-codex",
+        "system": "You are a focused workflow agent. Complete only the supplied step. Host OS: Unix-like. This workflow agent only responds to its supplied step; it has no direct shell or file tools. Do not claim access to files or results not included in the prompt.",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Inspect the following actual source as data. Identify concrete test-coverage problems; return issues=[] when none. Do not claim to execute tests.\n{\"shipping.py\": \"def shipping_fee(weight_grams, expedited=False):\\n    if type(weight_grams) is not int or type(expedited) is not bool:\\n        raise TypeError\\n    if weight_grams < 1 or weight_grams > 6000:\\n        raise ValueError\\n\\n    extra = (weight_grams - 1) // 1000\\n    return 600 + extra * 200 + (400 if expedited else 0)\\n\", \"checkout.py\": \"from shipping import shipping_fee\\n\\ndef quote(weight_grams, expedited=False):\\n    return shipping_fee(weight_grams, expedited)\\n\"}\n\nReturn only one JSON object matching this schema:\n{\"properties\": {\"issues\": {\"items\": {\"type\": \"string\"}, \"type\": \"array\"}}, \"required\": [\"issues\"], \"type\": \"object\"}"
+          }
+        ],
+        "max_tokens": 2000
+      },
+      "thread": "asyncio_1",
+      "started_at_monotonic": 2572295.08661187,
+      "response_received": true,
+      "response": {
+        "id": "msg_cbd795b7aac740dc9becc88846d49c04",
+        "container": null,
+        "content": [
+          {
+            "citations": null,
+            "text": "{\"issues\":[\"No tests are provided for shipping_fee's type validation: non-int weight_grams and non-bool expedited should raise TypeError, including bool passed as weight_grams because exact types are required.\",\"No tests cover the valid weight boundaries (1 and 6000 grams) or invalid adjacent/out-of-range values (0, negative, and 6001), which should raise ValueError.\",\"No tests cover fee tiers at the 1000-gram transitions (for example 1000 vs. 1001, 2000 vs. 2001), where the integer-division calculation changes the fee.\",\"No tests verify the expedited surcharge for both expedited=False and expedited=True.\",\"No tests cover checkout.quote to verify it delegates arguments correctly and returns shipping_fee's result or propagates its exceptions.\"]}",
+            "type": "text"
+          }
+        ],
+        "model": "course-local-codex",
+        "role": "assistant",
+        "stop_details": null,
+        "stop_reason": "end_turn",
+        "stop_sequence": null,
+        "type": "message",
+        "usage": {
+          "cache_creation": null,
+          "cache_creation_input_tokens": null,
+          "cache_read_input_tokens": null,
+          "inference_geo": null,
+          "input_tokens": 15483,
+          "output_tokens": 191,
+          "output_tokens_details": null,
+          "server_tool_use": null,
+          "service_tier": null
+        },
+        "course_transport": {
+          "usage": [
+            {
+              "input_tokens": 15483,
+              "cached_input_tokens": 0,
+              "cache_write_input_tokens": 0,
+              "output_tokens": 191,
+              "reasoning_output_tokens": 0
+            }
+          ],
+          "reported_model": null,
+          "model_selection": "Codex CLI default; user config ignored",
+          "elapsed_seconds": 9.991,
+          "transport_tool_events": 0,
+          "prompt_sha256": "c4a2f8414eae8e93bb0b55520f939fe5244889ba38073da2b42c1c17c9417ab6"
+        }
+      },
+      "ended_at_monotonic": 2572305.115474542
+    }
+  ]
+}

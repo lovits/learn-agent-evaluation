@@ -1,0 +1,21 @@
+{
+  "scope": "foundation grader revision; application is not rerun or modified",
+  "frozen_at": "2026-11-17T11:04:56.238043+00:00",
+  "previous_raw_report": "runs/e16-foundation-v2-evaluation.json",
+  "previous_raw_report_sha256": "bd976e6209c45d4a1f5bd65e3c4e90f2d779d784dab7b4eb6ffb5ccb7249e518",
+  "previous_failure": "e13 verifier treats valid native .memory records/index as unexpected project files",
+  "contract_correction": "Grade four business files in a bounded clean copy; separately inspect actual workspace for symlinks, extra files and native memory frontmatter/index consistency. Arbitrary memory executables, malformed records and stale indexes still fail. Not the full 17-mechanism state policy.",
+  "no_application_rerun": true,
+  "expected_business_hashes": {
+    "shipping.py": "03eb08b8aab0e356fe420f901ad7bad4e8ff27846265f0b05c14d7be4537548d",
+    "checkout.py": "554a7c372aa478ca5ad37454357751b2bf75dd3d842837b43045775c50cc2c50",
+    "test_shipping.py": "4dc6ca500387427266db0b3f131c15e76a5c0139b76201ae01997818fc99abef",
+    "test_checkout.py": "13ec3c5f86c4fa61348baf1543161dcf8eafc3132d3700e47ba7fb074ba74e6f"
+  },
+  "source_hashes": {
+    "integrated_agent/verify.py": "9910911207180f7782136c1f162f7182fa8765a02bca84e04bd457218fdecf8e",
+    "lessons/e13_planning/verify.py": "1037af7667f750319260b404db52e018cc730c5d2b4428abb71c00b4b65b9034",
+    "integrated_agent/cases/foundation.json": "fd5a1a7edd47627a0e244ae224975a26629c95f9112bb4da4d7ed110c7bee293",
+    "evaluation_private/e16-foundation.json": "614ce4d6a8ed5e2904759189a63d15fac69aaa04f23540a77cc3c348e4801fef"
+  }
+}

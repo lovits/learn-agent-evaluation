@@ -3,6 +3,7 @@
 import html
 import json
 import os
+import re
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from urllib.parse import parse_qs, quote, unquote, urlparse
@@ -12,7 +13,8 @@ from markdown_it import MarkdownIt
 from lessons.e01_agent_baseline.code import load_cases
 
 from .knowledge import PROJECT, catalog, document, search
-from .records import NAME as REPORT_NAME
+
+READABLE_REPORT_NAME = re.compile(r"[A-Za-z0-9][A-Za-z0-9._-]{0,119}\.json")
 
 PAGES = {
     "/": ("课程首页", "README.md"),
@@ -39,6 +41,8 @@ PAGES = {
 }
 DOCUMENTS = {
     **PAGES,
+    "/project": ("综合项目：当前实现", "integrated_agent/README.md"),
+    "/integration-status": ("综合项目阶段", "docs/e16-integration-status.md"),
     "/source15": ("第15课源码", "lessons/e15_calibration/source_walkthrough.md"),
     "/exercises15": ("第15课练习", "lessons/e15_calibration/exercises.md"),
     "/solutions15": ("第15课答案", "lessons/e15_calibration/solutions.md"),
@@ -211,16 +215,27 @@ def knowledge_page(query: dict) -> bytes:
 def reports_page(query: dict) -> bytes:
     name = query.get("file", [""])[0]
     if name:
-        if not REPORT_NAME.fullmatch(name):
+        root = report_root().resolve()
+        target = root / name
+        if (
+            not READABLE_REPORT_NAME.fullmatch(name)
+            or target.is_symlink()
+            or target.resolve().parent != root
+            or not target.is_file()
+        ):
             raise ValueError("无效的实验文件名。")
-        text = (report_root() / name).read_text(encoding="utf-8")
+        text = target.read_text(encoding="utf-8")
         return layout(name, "<h1>逐样本实验记录</h1><pre>" + html.escape(text) + "</pre>")
-    files = sorted(report_root().glob("*.json"), key=lambda p: p.stat().st_mtime, reverse=True)
-    links = "".join(
-        f'<li><a href="/reports?file={p.name}">{p.name}</a></li>'
-        for p in files
-        if REPORT_NAME.fullmatch(p.name)
+    files = sorted(
+        (
+            p
+            for p in report_root().glob("*.json")
+            if READABLE_REPORT_NAME.fullmatch(p.name) and not p.is_symlink() and p.is_file()
+        ),
+        key=lambda p: p.stat().st_mtime,
+        reverse=True,
     )
+    links = "".join(f'<li><a href="/reports?file={p.name}">{p.name}</a></li>' for p in files)
     return layout(
         "实验结果",
         "<h1>实验结果</h1><p>运行课程Agent并独立验收后刷新此页。</p><ul>" + links + "</ul>",
@@ -256,7 +271,10 @@ class Handler(BaseHTTPRequestHandler):
                 return self.send(200, target.read_bytes(), "image/png")
             elif parsed.path == "/code":
                 target = (PROJECT / query.get("path", [""])[0]).resolve()
-                allowed = [PROJECT / n for n in ("lessons", "eval_course", "references", "tools")]
+                allowed = [
+                    PROJECT / n
+                    for n in ("lessons", "eval_course", "references", "tools", "integrated_agent")
+                ]
                 if target.suffix not in {".py", ".txt", ".json", ".jsonl"} or not any(
                     target.is_relative_to(x) for x in allowed
                 ):

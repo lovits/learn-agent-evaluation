@@ -2,11 +2,11 @@
   "title": "Learn Claude Code 编程Agent评测课程：16课详细设计与制作规范",
   "url": "https://my.feishu.cn/docx/V8CPdL3Y8oMZt4xJ8RCc4HfNnfb",
   "document_id": "V8CPdL3Y8oMZt4xJ8RCc4HfNnfb",
-  "revision_id": 63,
+  "revision_id": 66,
   "verified_lesson_count": 16,
   "local_path": "docs/course-specification.md",
-  "local_sha256": "414ccbf27e3fb74c58186d5acd5698a3845f885976e41945e27889cf043e91ae",
-  "cloud_content_sha256": "e070ff41a44b30b71c801e4505e6a80c2c1d13d890edfd1224aa7c403cacf73a",
+  "local_sha256": "14a7d0a4e72c8e6953a883aa25d8fde014459e552669356ab86dbdb1d0cd2fc5",
+  "cloud_content_sha256": "4a7632d2049099f94f723837f38b772057f574eb3c91b2578a60356f81d7cb2e",
   "delivery_appendix_verified": true,
   "e02_delivery_verified": true,
   "e03_delivery_verified": true,
@@ -22,7 +22,7 @@
   "e10_delivery_verified": true,
   "e11_delivery_verified": true,
   "e08_e11_implementation_status_verified": true,
-  "verified_revision_id": 63,
+  "verified_revision_id": 66,
   "verified": true,
   "implemented_lessons": [
     "e01",
@@ -52,5 +52,7 @@
   "e14_implementation_status_verified": true,
   "e15_url": "https://my.feishu.cn/docx/HBwudv2QzoZgeQxocH1cAMXcnFg",
   "e15_delivery_verified": true,
-  "e15_implementation_status_verified": true
+  "e15_implementation_status_verified": true,
+  "e16_foundation_progress_verified": true,
+  "e16_complete": false
 }

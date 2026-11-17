@@ -1,4 +1,22 @@
 services:
+  agent:
+    image: learn-agent-evaluation:local
+    profiles: ["capstone"]
+    init: true
+    user: "${LOCAL_UID:-1000}:${LOCAL_GID:-1000}"
+    entrypoint: ["python", "-m", "integrated_agent"]
+    environment:
+      INTEGRATED_BRIDGE_URL: "${INTEGRATED_BRIDGE_URL:-http://host.docker.internal:8770}"
+      KNOWLEDGE_DIR: /data/knowledge
+      RUNS_DIR: /data/runs
+      DEEPEVAL_TELEMETRY_OPT_OUT: "YES"
+      RAGAS_DO_NOT_TRACK: "true"
+    volumes:
+      - ${INTEGRATED_KNOWLEDGE_DIR:-./knowledge_base/e16}:/data/knowledge:ro
+      - ./runs:/data/runs
+      - ./workspaces:/data/workspaces
+    cap_drop: ["ALL"]
+    security_opt: ["no-new-privileges:true"]
   course:
     build: .
     image: learn-agent-evaluation:local

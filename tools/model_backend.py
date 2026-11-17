@@ -30,7 +30,7 @@ def sha(text):
     return hashlib.sha256(text.encode()).hexdigest()
 
 
-def complete(prompt, schema=None, timeout=1200):
+def complete(prompt, schema=None, timeout=1200, model=None):
     if not shutil.which("codex"):
         raise RuntimeError("请在宿主机安装并登录 Codex CLI。")
     started = time.monotonic()
@@ -60,6 +60,8 @@ def complete(prompt, schema=None, timeout=1200):
             path = root / "schema.json"
             path.write_text(json.dumps(schema))
             args.extend(["--output-schema", str(path)])
+        if model:
+            args.extend(["--model", model])
         args.append("-")
         try:
             result = subprocess.run(
@@ -90,7 +92,11 @@ def complete(prompt, schema=None, timeout=1200):
             "text": output.read_text(),
             "usage": usage,
             "reported_model": model.group(1) if model else None,
-            "model_selection": "Codex CLI default; user config ignored",
+            "model_selection": (
+                f"Codex CLI explicit model: {model}"
+                if model
+                else "Codex CLI default; user config ignored"
+            ),
             "elapsed_seconds": round(time.monotonic() - started, 3),
             "transport_tool_events": 0,
             "prompt_sha256": sha(prompt),

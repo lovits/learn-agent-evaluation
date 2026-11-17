@@ -1,0 +1,58 @@
+{
+  "stage": "e16_integration_foundation_smoke_not_full_17_acceptance",
+  "frozen_at": "2026-11-17T10:52:55.953648+00:00",
+  "runs": 1,
+  "case": "integrated_agent/cases/foundation.json",
+  "workspace": "e16-foundation-001",
+  "goal": "Both public APIs are repaired according to the mounted v3 contract; original tests are unchanged; the actual unittest command has returned exit code 0.",
+  "approved_commands": [
+    "python3 -m unittest -q"
+  ],
+  "maximum_application_and_support_requests": 80,
+  "event_settle_seconds": 30,
+  "independent_criteria": "evaluation_private/e16-foundation.json; same declared v3 finite probes as e13, not a blind benchmark",
+  "success": "Native loop actually loads skill, reads mounted docs, edits both implementations and runs tests; independent bounded verifier checks 44 API inputs and protected original test bytes. This does not verify all 17 mechanisms.",
+  "source_hashes": {
+    "integrated_agent/transport.py": "02f654df8c1e786100fc3badb6c72245c12178e52d303d2472546edda25c83aa",
+    "integrated_agent/__init__.py": "a07a46e0466f2bfe9c9266190f8aac7cd04c6d73aa90206fbd95e49af2779842",
+    "integrated_agent/runtime.py": "da2eba587c57481a31653301f99361360864aeba903dc25dafbfac7e7bb80115",
+    "integrated_agent/workflows.py": "9c35dbd2ae12ad53d08140e7f687c5cd8c58b8800530ea7fcec435c8c080526e",
+    "integrated_agent/__main__.py": "d137d7ec1f64e3990e7916f0f74d727870a41c212410a7fbf48765a163587c1d",
+    "integrated_agent/skills/repair/SKILL.md": "c1ba0a4e8e8cf74ce1cc569d2c4bc9a2befa4f900476dd0dc0bb761f0582127a",
+    "integrated_agent/cases/foundation.json": "fd5a1a7edd47627a0e244ae224975a26629c95f9112bb4da4d7ed110c7bee293",
+    "tools/model_backend.py": "d2e56c1a36b8f8eeda23debac86f7c16b7efd60f68cf75b4daf8e2a1024c74a7",
+    "tools/integrated_bridge.py": "3dd5574d576a28a38b383c19784e5091dc8add485e67bd2892d43eec68cbf0c3",
+    "knowledge_base/e16/shipping.md": "ba7f9e8c4b4b5f1306153bef43e4b5918b29dc645c5843168e252e86f54d8453",
+    "compose.yaml": "f914d50448857cc24f94ef3c64653af0d7a8df2b74e253479775b286b7e01c4a",
+    "pyproject.toml": "62f1c0ea0ff8ab2a79c102aeecb89be7f80cfacdb1fca75bab5a5a589dff7cb6",
+    "uv.lock": "0dc3854fdc91edc758ea1389cd5d4a9382a105704b7d67f2b1863dad01c48238"
+  },
+  "upstream": {
+    "repository": "https://github.com/shareAI-lab/learn-claude-code",
+    "commit": "448c75bb596917ad196cc1fb7558f459c5c50fdd",
+    "license": "MIT; original notice preserved in LICENSE",
+    "mode": "unmodified selected source; host adapters are outside this directory",
+    "files": [
+      {
+        "path": "LICENSE",
+        "sha256": "204ff5ee216c8f895268a23b66d959f82aa4d868e871e0690fbf2844eff8a26b"
+      },
+      {
+        "path": "s09_memory/code.py",
+        "sha256": "fdebc11921c7e9770664035838cc07bae8abb06e98266ab02343c37acdbe6888"
+      },
+      {
+        "path": "s15_integrated_harness/code.py",
+        "sha256": "8a50ce119d64881e4e8386dde831b5771dd2e097348a25798b4eab0574fb07bf"
+      },
+      {
+        "path": "s16_workflow_runtime/code.py",
+        "sha256": "0930f070d14a9eb93d2c57b26d0c7c081b754d04b85a4f0ba04538b9b2f2a66a"
+      },
+      {
+        "path": "s17_goal_loop/code.py",
+        "sha256": "ecce68f327aef9b564d41c50068d7a2a72a23ae780d81c32a0c00fd59a3d31f5"
+      }
+    ]
+  }
+}

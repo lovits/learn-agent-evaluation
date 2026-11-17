@@ -90,6 +90,43 @@ def test_api_reads_the_selected_mount(reader):
     assert "挂载测试" in docs[0]["text"]
 
 
+def test_reader_opens_later_lesson_and_integrated_report_names(reader, tmp_path, monkeypatch):
+    folder = tmp_path / "actual-runs"
+    folder.mkdir()
+    monkeypatch.setenv("RUNS_DIR", str(folder))
+    for name in ("e14-agent.json", "e16-foundation-v2.json", "integrated-abc.json"):
+        (folder / name).write_text('{"source":"actual test artifact", "answer":"<script>"}')
+        with urlopen(reader + "/reports?file=" + name) as response:
+            text = response.read().decode()
+            assert response.status == 200 and "actual test artifact" in text
+            assert "&lt;script&gt;" in text
+    with urlopen(reader + "/reports") as response:
+        assert "e16-foundation-v2.json" in response.read().decode()
+
+
+def test_reader_report_list_and_read_reject_symlinks_and_directories(reader, tmp_path, monkeypatch):
+    folder = tmp_path / "actual-runs"
+    folder.mkdir()
+    monkeypatch.setenv("RUNS_DIR", str(folder))
+    outside = tmp_path / "outside.json"
+    outside.write_text("private outside contents")
+    (folder / "escaped.json").symlink_to(outside)
+    (folder / "directory.json").mkdir()
+    with urlopen(reader + "/reports") as response:
+        text = response.read().decode()
+        assert "escaped.json" not in text and "directory.json" not in text
+    for name in ("escaped.json", "directory.json"):
+        with pytest.raises(HTTPError) as failure:
+            urlopen(reader + "/reports?file=" + name)
+        assert failure.value.code == 400
+        failure.value.close()
+
+
+def test_reader_can_show_integrated_runtime_source(reader):
+    with urlopen(reader + "/code?path=integrated_agent/runtime.py") as response:
+        assert response.status == 200 and "class Runtime" in response.read().decode()
+
+
 @pytest.mark.parametrize(
     "path",
     [

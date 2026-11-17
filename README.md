@@ -66,7 +66,7 @@ python3 tools/run_e01.py
 ## 项目状态
 
 旧Faithfulness样章和专属回放实现已清理；该主题已在第5课以编程案例重新制作。
-当前第1至15课已制作，第1至7课按统一正文标准完成重写与复核，第8至15课沿同一写法制作，第16课保留详细设计。DeepEval/Ragas用于评测方法和源码依据，
+当前第1至15课已制作，第1至7课按统一正文标准完成重写与复核，第8至15课沿同一写法制作，第16课的集成实现与验收正在进行。DeepEval/Ragas用于评测方法和源码依据，
 第一课先用确定性任务合同判断文件、输出和退出码，后续再逐步引入框架接口与模型裁判。
 
 教材通过 [PocketFlow流程](generation/README.md)组织，来源与许可见 [第三方说明](THIRD_PARTY.md)。
@@ -268,3 +268,7 @@ docker compose run --rm -T --entrypoint python course -m lessons.e15_calibration
 先在宿主启动8768裁判桥并确认镜像构建成功。已有e15-calibration.json会拒绝覆盖，须另存旧报告再明确新实验。48次真实裁判响应均保留，未测出准确率提升或成对标签翻转；这些简单构造案例不证明普遍无偏。阅读地址：http://localhost:8765/lesson15 。
 
 [第15课飞书完整教材](https://my.feishu.cn/docx/HBwudv2QzoZgeQxocH1cAMXcnFg)。
+
+## 综合项目：集成与验收进行中
+
+[项目入口](integrated_agent/README.md)与[阶段范围](docs/e16-integration-status.md)。固定上游核心已接入，Docker真实跨文件修复与独立44条行为检查通过；工作流已执行中断、换进程恢复和日志缓存。正式第16课、17项能力完整验收和总体教材继续制作。

@@ -1,0 +1,9 @@
+{
+  "issues": [
+    "No tests are provided for shipping_fee's exact-type validation: non-int weight_grams and non-bool expedited raise TypeError, including bool passed as weight_grams.",
+    "No tests cover the valid weight boundaries of 1 and 6000 grams or invalid values such as 0, negative values, and 6001, which raise ValueError.",
+    "No tests cover fee-tier transitions such as 1000 versus 1001 grams and 2000 versus 2001 grams, where the integer-division calculation changes the fee.",
+    "No tests verify the 400-unit expedited surcharge for both expedited=False and expedited=True.",
+    "No tests cover checkout.quote to verify that it forwards both arguments to shipping_fee and returns its result or propagates its exceptions."
+  ]
+}

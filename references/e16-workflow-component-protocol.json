@@ -1,0 +1,27 @@
+{
+  "scope": "live native workflow component; not whole-Agent completion or full 17 acceptance",
+  "frozen_at": "2026-11-17T11:07:32.095516+00:00",
+  "workspace": "e16-workflow-component-001",
+  "start": "course-review with two real parallel inspection requests, then declared RuntimeError after journal records",
+  "resume": "fresh process; same native run ID and saved arguments; both inspections should be cached and one verification request new",
+  "planned_base_model_responses": 3,
+  "native_schema_retry_limit_per_step": 1,
+  "maximum_recorded_requests_per_process": 12,
+  "no_reroll": "preserve initial declared failure and both complete call ledgers",
+  "input_file_hashes": {
+    "shipping.py": "03eb08b8aab0e356fe420f901ad7bad4e8ff27846265f0b05c14d7be4537548d",
+    "checkout.py": "554a7c372aa478ca5ad37454357751b2bf75dd3d842837b43045775c50cc2c50",
+    "test_shipping.py": "4dc6ca500387427266db0b3f131c15e76a5c0139b76201ae01997818fc99abef",
+    "test_checkout.py": "13ec3c5f86c4fa61348baf1543161dcf8eafc3132d3700e47ba7fb074ba74e6f"
+  },
+  "source_hashes": {
+    "integrated_agent/runtime.py": "fbfed6a1162abb6f7c224fe2394420fa73d0ac4d4533c2d606ffc373b1294420",
+    "integrated_agent/workflows.py": "9c35dbd2ae12ad53d08140e7f687c5cd8c58b8800530ea7fcec435c8c080526e",
+    "integrated_agent/workflow_demo.py": "9f77bf9aaf54715c7bac3f6e599f8fe872d163f818ed6ff7518a7e241d5b225c",
+    "integrated_agent/transport.py": "02f654df8c1e786100fc3badb6c72245c12178e52d303d2472546edda25c83aa",
+    "tools/model_backend.py": "d2e56c1a36b8f8eeda23debac86f7c16b7efd60f68cf75b4daf8e2a1024c74a7",
+    "tools/integrated_bridge.py": "3dd5574d576a28a38b383c19784e5091dc8add485e67bd2892d43eec68cbf0c3",
+    "pyproject.toml": "62f1c0ea0ff8ab2a79c102aeecb89be7f80cfacdb1fca75bab5a5a589dff7cb6",
+    "uv.lock": "0dc3854fdc91edc758ea1389cd5d4a9382a105704b7d67f2b1863dad01c48238"
+  }
+}

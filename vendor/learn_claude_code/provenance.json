@@ -1,0 +1,28 @@
+{
+  "repository": "https://github.com/shareAI-lab/learn-claude-code",
+  "commit": "448c75bb596917ad196cc1fb7558f459c5c50fdd",
+  "license": "MIT; original notice preserved in LICENSE",
+  "mode": "unmodified selected source; host adapters are outside this directory",
+  "files": [
+    {
+      "path": "LICENSE",
+      "sha256": "204ff5ee216c8f895268a23b66d959f82aa4d868e871e0690fbf2844eff8a26b"
+    },
+    {
+      "path": "s09_memory/code.py",
+      "sha256": "fdebc11921c7e9770664035838cc07bae8abb06e98266ab02343c37acdbe6888"
+    },
+    {
+      "path": "s15_integrated_harness/code.py",
+      "sha256": "8a50ce119d64881e4e8386dde831b5771dd2e097348a25798b4eab0574fb07bf"
+    },
+    {
+      "path": "s16_workflow_runtime/code.py",
+      "sha256": "0930f070d14a9eb93d2c57b26d0c7c081b754d04b85a4f0ba04538b9b2f2a66a"
+    },
+    {
+      "path": "s17_goal_loop/code.py",
+      "sha256": "ecce68f327aef9b564d41c50068d7a2a72a23ae780d81c32a0c00fd59a3d31f5"
+    }
+  ]
+}

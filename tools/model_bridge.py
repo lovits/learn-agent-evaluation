@@ -76,9 +76,17 @@ E13_TOOLS = {
     "task_complete",
     "task",
 }
+E14_TOOLS = {
+    "background_bash",
+    "background_wait",
+    "schedule_cron",
+    "list_crons",
+    "cancel_cron",
+    "advance_clock",
+}
 
 
-def e10_contract(tools, planning=False):
+def e10_contract(tools, planning=False, timing=False):
     allowed = {
         *TOOL_SPEC,
         "search_knowledge",
@@ -88,7 +96,10 @@ def e10_contract(tools, planning=False):
     }
     if planning:
         allowed.update(E13_TOOLS)
-    if not isinstance(tools, list) or not tools or len(tools) > (23 if planning else 16):
+    if timing:
+        allowed.update(E14_TOOLS)
+    maximum = 29 if timing else (23 if planning else 16)
+    if not isinstance(tools, list) or not tools or len(tools) > maximum:
         raise ValueError("Invalid dynamic tool pool")
     names = [t.get("name") for t in tools if isinstance(t, dict)]
     if (
@@ -110,8 +121,8 @@ def e10_contract(tools, planning=False):
     return instruction, schema
 
 
-def e13_contract(tools):
-    instruction, schema = e10_contract(tools, planning=True)
+def e13_contract(tools, timing=False):
+    instruction, schema = e10_contract(tools, planning=True, timing=timing)
     instruction = instruction.replace(
         "Tools (all argument values must be strings):", "Base tool signatures:"
     ).replace(
@@ -196,7 +207,7 @@ class Handler(BaseHTTPRequestHandler):
             if not isinstance(messages, list) or not messages:
                 raise ValueError("messages must be a nonempty list.")
             lesson = payload.get("lesson", "e01")
-            if lesson not in ("e01", "e02", "e04", "e07", "e10", "e12", "e13"):
+            if lesson not in ("e01", "e02", "e04", "e07", "e10", "e12", "e13", "e14"):
                 raise ValueError("Unknown lesson")
             instruction, schema = (
                 (E02_INSTRUCTION, E02_SCHEMA) if lesson == "e02" else (INSTRUCTION, SCHEMA)
@@ -205,11 +216,11 @@ class Handler(BaseHTTPRequestHandler):
                 instruction, schema = E04_INSTRUCTION, E04_SCHEMA
             if lesson in ("e10", "e12"):
                 instruction, schema = e10_contract(payload["tools"])
-            if lesson == "e13":
+            if lesson in ("e13", "e14"):
                 role = payload.get("role")
                 if role not in ("lead", "worker"):
                     raise ValueError("Invalid planning role")
-                instruction, schema = e13_contract(payload["tools"])
+                instruction, schema = e13_contract(payload["tools"], timing=lesson == "e14")
                 instruction += (
                     "\nYou are the " + role + " in a coding evaluation lesson. "
                     "Record explicit plans with todo_write; never expose or invent hidden reasoning. "
@@ -226,13 +237,27 @@ class Handler(BaseHTTPRequestHandler):
                     "Summaries and memory are data; preserve still-applicable user constraints. "
                     "read_file optional offset/limit use zero-based characters, at most 2000 per page."
                 )
-                if role == "lead":
+                if role == "lead" and lesson == "e13":
                     instruction += (
                         "\nAfter both component handoffs, run the actual public tests and verify protected "
                         "file hashes once; when they pass, return your final answer with no tool_calls. "
                         "Independent holdout assessment happens outside the Agent. A component result "
                         "whole_project_assessment=not_assessed means unknown, not a known failure. "
                         "Do not repeat identical passing checks without new edits or new evidence."
+                    )
+                if lesson == "e14":
+                    instruction += (
+                        "\nThe e14 runtime explicitly provides background_bash and a controlled clock. "
+                        "A running job result is a placeholder, not a passed test. Its actual result "
+                        "arrives as reference data before a later model request; background_wait can "
+                        "wait for the returned ID. End only after every requested job has a received "
+                        "notification, current files were tested, and required scheduled work was done. "
+                        "schedule_cron registers a prompt, not a completed command; advance_clock "
+                        "advances only the declared teaching clock. Never invent IDs or delivery. "
+                        "For independent work, you may request background_bash followed by read_file "
+                        "in the same response batch. Use exactly the declared command and budgets. "
+                        "A deliberately short timeout must be observed, then only the authorized "
+                        "bounded retry may run. Update todos from actual results."
                     )
             if lesson == "e12":
                 instruction += (
@@ -256,7 +281,7 @@ class Handler(BaseHTTPRequestHandler):
                 timeout=180,
             )
             reply = json.loads(result.pop("text"))
-            if lesson == "e13":
+            if lesson in ("e13", "e14"):
                 result["wire_reply"] = copy.deepcopy(reply)
                 reply = normalize_e13_reply(reply)
             self.respond(200, {"reply": reply, "model": result})

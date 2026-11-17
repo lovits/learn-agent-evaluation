@@ -1,0 +1,16 @@
+{
+  "lesson": "e14",
+  "authoring": "native draw.io XML",
+  "preview": "Pillow preview rendered from the same node/edge graph; not a Desktop export",
+  "scope": "new background process and scheduled prompt delivery paths; independent file/state/receipt acceptance",
+  "desktop_cli_available": false,
+  "width": 940,
+  "height": 660,
+  "nodes": 9,
+  "edges": 12,
+  "files": {
+    "background-and-schedule.png": "8c6b37b412aed2c12a52f6a2781d9a20e7e8ed7166e42f4ebc176620e1939ea4",
+    "background-and-schedule.drawio": "edb016c824694b34c130316b24d51cd3a5de678b00f1773e9c264de60db7d439"
+  },
+  "final_preview_visually_inspected": true
+}

@@ -35,14 +35,20 @@
     "source_path": "learn-claude-code/s05_todo_write/code.py",
     "sha256": "4195fca02d7417f524fa31c591b4e2878fbd68e09ee5caf91c51a3a63f483581",
     "introduced_in": "e13",
-    "status": "planned_not_implemented_or_validated"
+    "status": "e13_explicit_todo_contract_verified_with_adaptations",
+    "adaptations": "Strict nonempty typed array, validation before replacement and three-tool-round reminder; no claim that upstream legacy literal inputs are accepted.",
+    "lesson_validation": "docs/e13-validation.md",
+    "full_integrated_equivalence_verified": false
   },
   {
     "upstream_lesson": "s06_subagent",
     "source_path": "learn-claude-code/s06_subagent/code.py",
     "sha256": "59f6adbfe81aa48c6b83341adb4b83de35236678039ea7a1042c5282afc1d0a5",
     "introduced_in": "e13",
-    "status": "planned_not_implemented_or_validated"
+    "status": "e13_fresh_one_shot_child_context_verified",
+    "adaptations": "Fresh delegated request, shared workspace, assigned-file tools and no recursive delegation; persistent autonomous teammate lifecycle remains for e16.",
+    "lesson_validation": "docs/e13-validation.md",
+    "full_integrated_equivalence_verified": false
   },
   {
     "upstream_lesson": "s07_skill_loading",
@@ -57,49 +63,70 @@
     "source_path": "learn-claude-code/s08_context_compact/code.py",
     "sha256": "33e9c1fff23e0170dca742fc29cdb544e36572c4460ff8def8c485efe5ac2d5f",
     "introduced_in": "e12",
-    "status": "planned_not_implemented_or_validated"
+    "status": "e12_recoverable_context_subset_verified",
+    "adaptations": "Snip, persisted tool output, summaries, page recovery and actual input exposure checked; full proactive compaction/oversize retry integration remains for e16.",
+    "lesson_validation": "docs/e12-validation.md",
+    "full_integrated_equivalence_verified": false
   },
   {
     "upstream_lesson": "s09_memory",
     "source_path": "learn-claude-code/s09_memory/code.py",
     "sha256": "fdebc11921c7e9770664035838cc07bae8abb06e98266ab02343c37acdbe6888",
     "introduced_in": "e12",
-    "status": "planned_not_implemented_or_validated"
+    "status": "e12_cross_session_memory_subset_verified",
+    "adaptations": "Versioned extracted disk memory, stale facts and injected instruction boundary checked; full memory lifecycle/rollback integration remains for e16.",
+    "lesson_validation": "docs/e12-validation.md",
+    "full_integrated_equivalence_verified": false
   },
   {
     "upstream_lesson": "s10_task_system",
     "source_path": "learn-claude-code/s10_task_system/code.py",
     "sha256": "4e88e100c7a41a17144f091fb59b35596074b841f20af29dedbb942b777b2f21",
     "introduced_in": "e13",
-    "status": "planned_not_implemented_or_validated"
+    "status": "e13_dependency_owner_and_single_instance_atomic_claim_verified",
+    "adaptations": "Persistent DAG, cycle rejection, owner checks and shared-instance RLock; no distributed or cross-process lock guarantee.",
+    "lesson_validation": "docs/e13-validation.md",
+    "full_integrated_equivalence_verified": false
   },
   {
     "upstream_lesson": "s11_background_tasks",
     "source_path": "learn-claude-code/s11_background_tasks/code.py",
     "sha256": "78a1701d4a599d55e15aba89ff6bc2ed02cf61b528314dd9647b141b194f0b0f",
     "introduced_in": "e14",
-    "status": "planned_not_implemented_or_validated"
+    "status": "e14_explicit_background_and_current_source_receipts_subset_verified",
+    "full_integrated_equivalence_verified": false,
+    "adaptations": "Real POSIX processes, normal close and timeout cleanup, one notification and source receipts; full signal lifecycle/integrated combination remains for e16.",
+    "lesson_validation": "docs/e14-validation.md"
   },
   {
     "upstream_lesson": "s12_cron_scheduler",
     "source_path": "learn-claude-code/s12_cron_scheduler/code.py",
     "sha256": "3bda414240b1cd0e3a5d5f0f7b7989d2e506b961e408c0da1079b6dfe7897957",
     "introduced_in": "e14",
-    "status": "planned_not_implemented_or_validated"
+    "status": "e14_controlled_cron_persistence_and_receipt_subset_verified",
+    "full_integrated_equivalence_verified": false,
+    "adaptations": "Five-field cron, durable pending/ack/requeue and controlled datetime checked; resident real-time scheduler and full agent-idle integration remain for e16.",
+    "lesson_validation": "docs/e14-validation.md"
   },
   {
     "upstream_lesson": "s13_agent_teams",
     "source_path": "learn-claude-code/s13_agent_teams/code.py",
     "sha256": "7e3e56642cb973fc9ca56684130ddab1f3dcb4cfead530c9ac6c19bc9925cce3",
     "introduced_in": "e13",
-    "status": "planned_not_implemented_or_validated"
+    "status": "e13_one_shot_handoff_mailbox_subset_verified",
+    "adaptations": "Single-consumer result mailbox and stale-file guard checked; persistent WORK/IDLE, teammate protocols and worktrees remain for e16.",
+    "lesson_validation": "docs/e13-validation.md",
+    "full_integrated_equivalence_verified": false
   },
   {
     "upstream_lesson": "s14_mcp_plugin",
     "source_path": "learn-claude-code/s14_mcp_plugin/code.py",
     "sha256": "b7db5a98a37f19d751e334f5309e16eae9185846ef7ba009a137d0d42250955d",
     "introduced_in": "e10",
-    "status": "planned_not_implemented_or_validated"
+    "status": "e10_dynamic_namespaced_tools_subset_verified",
+    "adaptations": "Pinned local docs plugin stand-in with dynamic tools and argument checks; full upstream plugin/transport contract is not certified by these subset checks.",
+    "lesson_validation": "docs/e10-validation.md",
+    "full_integrated_equivalence_verified": false
   },
   {
     "upstream_lesson": "s15_integrated_harness",
@@ -120,6 +147,9 @@
     "source_path": "learn-claude-code/s17_goal_loop/code.py",
     "sha256": "ecce68f327aef9b564d41c50068d7a2a72a23ae780d81c32a0c00fd59a3d31f5",
     "introduced_in": "e11",
-    "status": "planned_not_implemented_or_validated"
+    "status": "e11_public_stop_and_independent_acceptance_subset_verified",
+    "adaptations": "Public component stopping separate from private finite behavior checks; full persisted goal-loop stop/recovery contract remains for e16.",
+    "lesson_validation": "docs/e11-validation.md",
+    "full_integrated_equivalence_verified": false
   }
 ]

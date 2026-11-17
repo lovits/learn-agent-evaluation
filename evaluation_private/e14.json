@@ -1,0 +1,225 @@
+[
+  {
+    "id": "w1-expFalse",
+    "arguments": {
+      "weight_grams": 1,
+      "expedited": false
+    },
+    "expected": {
+      "value": 600,
+      "type": "int"
+    }
+  },
+  {
+    "id": "w1-expTrue",
+    "arguments": {
+      "weight_grams": 1,
+      "expedited": true
+    },
+    "expected": {
+      "value": 1000,
+      "type": "int"
+    }
+  },
+  {
+    "id": "w999-expFalse",
+    "arguments": {
+      "weight_grams": 999,
+      "expedited": false
+    },
+    "expected": {
+      "value": 600,
+      "type": "int"
+    }
+  },
+  {
+    "id": "w999-expTrue",
+    "arguments": {
+      "weight_grams": 999,
+      "expedited": true
+    },
+    "expected": {
+      "value": 1000,
+      "type": "int"
+    }
+  },
+  {
+    "id": "w1999-expFalse",
+    "arguments": {
+      "weight_grams": 1999,
+      "expedited": false
+    },
+    "expected": {
+      "value": 800,
+      "type": "int"
+    }
+  },
+  {
+    "id": "w1999-expTrue",
+    "arguments": {
+      "weight_grams": 1999,
+      "expedited": true
+    },
+    "expected": {
+      "value": 1200,
+      "type": "int"
+    }
+  },
+  {
+    "id": "w2001-expFalse",
+    "arguments": {
+      "weight_grams": 2001,
+      "expedited": false
+    },
+    "expected": {
+      "value": 1000,
+      "type": "int"
+    }
+  },
+  {
+    "id": "w2001-expTrue",
+    "arguments": {
+      "weight_grams": 2001,
+      "expedited": true
+    },
+    "expected": {
+      "value": 1400,
+      "type": "int"
+    }
+  },
+  {
+    "id": "w5000-expFalse",
+    "arguments": {
+      "weight_grams": 5000,
+      "expedited": false
+    },
+    "expected": {
+      "value": 1400,
+      "type": "int"
+    }
+  },
+  {
+    "id": "w5000-expTrue",
+    "arguments": {
+      "weight_grams": 5000,
+      "expedited": true
+    },
+    "expected": {
+      "value": 1800,
+      "type": "int"
+    }
+  },
+  {
+    "id": "invalid-0",
+    "arguments": {
+      "weight_grams": 0
+    },
+    "expected": {
+      "exception": "ValueError"
+    }
+  },
+  {
+    "id": "invalid--1",
+    "arguments": {
+      "weight_grams": -1
+    },
+    "expected": {
+      "exception": "ValueError"
+    }
+  },
+  {
+    "id": "invalid-5001",
+    "arguments": {
+      "weight_grams": 5001
+    },
+    "expected": {
+      "value": 1600,
+      "type": "int"
+    }
+  },
+  {
+    "id": "type-0",
+    "arguments": {
+      "weight_grams": true
+    },
+    "expected": {
+      "exception": "TypeError"
+    }
+  },
+  {
+    "id": "type-1",
+    "arguments": {
+      "weight_grams": "1000"
+    },
+    "expected": {
+      "exception": "TypeError"
+    }
+  },
+  {
+    "id": "type-2",
+    "arguments": {
+      "weight_grams": null
+    },
+    "expected": {
+      "exception": "TypeError"
+    }
+  },
+  {
+    "id": "type-3",
+    "arguments": {
+      "weight_grams": 1000.0
+    },
+    "expected": {
+      "exception": "TypeError"
+    }
+  },
+  {
+    "id": "exp-type-0",
+    "arguments": {
+      "weight_grams": 1000,
+      "expedited": 1
+    },
+    "expected": {
+      "exception": "TypeError"
+    }
+  },
+  {
+    "id": "exp-type-1",
+    "arguments": {
+      "weight_grams": 1000,
+      "expedited": "yes"
+    },
+    "expected": {
+      "exception": "TypeError"
+    }
+  },
+  {
+    "id": "exp-type-2",
+    "arguments": {
+      "weight_grams": 1000,
+      "expedited": null
+    },
+    "expected": {
+      "exception": "TypeError"
+    }
+  },
+  {
+    "id": "v3-6000",
+    "arguments": {
+      "weight_grams": 6000
+    },
+    "expected": {
+      "value": 1600,
+      "type": "int"
+    }
+  },
+  {
+    "id": "v3-6001",
+    "arguments": {
+      "weight_grams": 6001
+    },
+    "expected": {
+      "exception": "ValueError"
+    }
+  }
+]

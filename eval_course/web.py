@@ -29,6 +29,7 @@ PAGES = {
     "/lesson11": ("第11课：任务完成", "lessons/e11_task_completion/README.zh.md"),
     "/lesson12": ("第12课：多轮与记忆", "lessons/e12_conversation/README.zh.md"),
     "/lesson13": ("第13课：计划与交接", "lessons/e13_planning/README.zh.md"),
+    "/lesson14": ("第14课：后台与调度", "lessons/e14_runtime/README.zh.md"),
     "/source": ("第1课源码", "lessons/e01_agent_baseline/source_walkthrough.md"),
     "/exercises": ("第1课练习", "lessons/e01_agent_baseline/exercises.md"),
     "/solutions": ("第1课答案", "lessons/e01_agent_baseline/solutions.md"),
@@ -37,6 +38,12 @@ PAGES = {
 }
 DOCUMENTS = {
     **PAGES,
+    "/source14": ("第14课源码", "lessons/e14_runtime/source_walkthrough.md"),
+    "/exercises14": ("第14课练习", "lessons/e14_runtime/exercises.md"),
+    "/solutions14": ("第14课答案", "lessons/e14_runtime/solutions.md"),
+    "/e14-results": ("第14课实测", "lessons/e14_runtime/run_summary.md"),
+    "/validation14": ("第14课验收", "docs/e14-validation.md"),
+    "/generation14": ("第14课生成与审校", "generation/e14-README.md"),
     "/source13": ("第13课源码", "lessons/e13_planning/source_walkthrough.md"),
     "/exercises13": ("第13课练习", "lessons/e13_planning/exercises.md"),
     "/solutions13": ("第13课答案", "lessons/e13_planning/solutions.md"),

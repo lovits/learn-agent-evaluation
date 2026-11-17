@@ -66,7 +66,7 @@ python3 tools/run_e01.py
 ## 项目状态
 
 旧Faithfulness样章和专属回放实现已清理；该主题已在第5课以编程案例重新制作。
-当前第1至13课已制作，第1至7课按统一正文标准完成重写与复核，第8至13课沿同一写法制作，其余3课保留详细设计。DeepEval/Ragas用于评测方法和源码依据，
+当前第1至14课已制作，第1至7课按统一正文标准完成重写与复核，第8至14课沿同一写法制作，其余2课保留详细设计。DeepEval/Ragas用于评测方法和源码依据，
 第一课先用确定性任务合同判断文件、输出和退出码，后续再逐步引入框架接口与模型裁判。
 
 教材通过 [PocketFlow流程](generation/README.md)组织，来源与许可见 [第三方说明](THIRD_PARTY.md)。
@@ -241,3 +241,18 @@ docker compose run --rm -T --entrypoint python course -m lessons.e13_planning.ev
 先分别启动宿主8766模型桥与8768裁判桥，再构建当前镜像。阅读地址：http://localhost:8765/lesson13 。真实应用与两个API独立验收通过；计划质量、遵从与业务结果有不同含义，保留低分、空计划默认及裁判分歧。同步一次性子任务不代表完整持久团队；其他机制继续在综合项目核验。
 
 [第13课飞书完整教材](https://my.feishu.cn/docx/LEyndiChQo7i8Vx1zodcfvwSnD4)。
+
+## 第14课：后台、调度与效率
+
+[教材](lessons/e14_runtime/README.zh.md)、[源码导读](lessons/e14_runtime/source_walkthrough.md)、[实验结果](lessons/e14_runtime/run_summary.md)、[练习](lessons/e14_runtime/exercises.md)、[验收](docs/e14-validation.md)。把后台编号、真实命令结果、定时提示接收和任务完成分开，按当前文件版本核对测试收据；效率、资源和业务验收分别解释。
+
+```bash
+docker compose run --rm -T --entrypoint python course -m lessons.e14_runtime.code
+docker compose --profile verify run --rm -T --entrypoint python verifier -m lessons.e14_runtime.controls
+docker compose --profile verify run --rm -T --entrypoint python verifier -m lessons.e14_runtime.eval
+docker compose run --rm -T --entrypoint python course -m lessons.e14_runtime.eval --judge
+```
+
+先分别启动8766模型桥和8768裁判桥并确认镜像构建成功。已有e14-agent.json时先另存原报告，入口拒绝覆盖。阅读地址：http://localhost:8765/lesson14 。预声明正常任务3/3，故意超时恢复单列通过；原生效率低分与必要恢复读取的分歧保留。受控时钟不等于常驻生产调度服务，完整机制仍到综合课核验。
+
+[第14课飞书完整教材](https://my.feishu.cn/docx/Y2DBdLG3Nouii3xym8NcjZNsnjg)。

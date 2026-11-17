@@ -1,0 +1,225 @@
+{
+  "lesson": "e14",
+  "origin": "instructor_protocol_controls_with_actual_processes_and_state_operations",
+  "model_requests": 0,
+  "clock_origin": "explicit_controlled_datetime_not_wall_clock_waiting",
+  "checks": {
+    "main_continued_while_background_pending": true,
+    "actual_background_completed": true,
+    "one_notification": true,
+    "actual_timeout_distinct_from_nonzero_exit": true,
+    "old_receipt_not_current_source": true,
+    "no_early_or_same_minute_duplicate_schedule": true,
+    "failed_delivery_and_restart_reoffer_pending": true,
+    "one_shot_removed_only_after_model_receipt_ack": true,
+    "native_ragas_fixture_passed": true
+  },
+  "passed": true,
+  "background_jobs": [
+    {
+      "id": "bg_595895b1",
+      "command": "/app/.venv/bin/python -c 'from pathlib import Path; import time\nwhile not Path('\"'\"'release'\"'\"').exists(): time.sleep(0.01)\nprint('\"'\"'actual background result'\"'\"')'",
+      "timeout_seconds": 3,
+      "status": "completed",
+      "started_at_monotonic": 2565791.123187115,
+      "initial_hashes": {
+        "source.py": "de3b107b571d2cc3cd672fbf44ffb97171dc3f9460301e87166df74590dc2a92"
+      },
+      "notified": true,
+      "result": {
+        "status": "completed",
+        "exit_code": 0,
+        "stdout": "actual background result\n",
+        "stderr": "",
+        "output_truncated": false
+      },
+      "ended_at_monotonic": 2565791.19159349,
+      "elapsed_seconds": 0.06840637512505054,
+      "final_hashes": {
+        "source.py": "de3b107b571d2cc3cd672fbf44ffb97171dc3f9460301e87166df74590dc2a92"
+      }
+    },
+    {
+      "id": "bg_2a1011d7",
+      "command": "/app/.venv/bin/python -c 'import time; time.sleep(5)'",
+      "timeout_seconds": 0.05,
+      "status": "timeout",
+      "started_at_monotonic": 2565791.193077698,
+      "initial_hashes": {
+        "source.py": "de3b107b571d2cc3cd672fbf44ffb97171dc3f9460301e87166df74590dc2a92"
+      },
+      "notified": true,
+      "result": {
+        "status": "timeout",
+        "exit_code": -9,
+        "stdout": "",
+        "stderr": "",
+        "output_truncated": false
+      },
+      "ended_at_monotonic": 2565791.247569865,
+      "elapsed_seconds": 0.05449216719716787,
+      "final_hashes": {
+        "source.py": "de3b107b571d2cc3cd672fbf44ffb97171dc3f9460301e87166df74590dc2a92"
+      }
+    },
+    {
+      "id": "bg_f03ed657",
+      "command": "/app/.venv/bin/python -c 'raise SystemExit(7)'",
+      "timeout_seconds": 2,
+      "status": "error",
+      "started_at_monotonic": 2565791.193450157,
+      "initial_hashes": {
+        "source.py": "de3b107b571d2cc3cd672fbf44ffb97171dc3f9460301e87166df74590dc2a92"
+      },
+      "notified": true,
+      "result": {
+        "status": "error",
+        "exit_code": 7,
+        "stdout": "",
+        "stderr": "",
+        "output_truncated": false
+      },
+      "ended_at_monotonic": 2565791.209232907,
+      "elapsed_seconds": 0.015782749745994806,
+      "final_hashes": {
+        "source.py": "de3b107b571d2cc3cd672fbf44ffb97171dc3f9460301e87166df74590dc2a92"
+      }
+    }
+  ],
+  "background_events": [
+    {
+      "action": "start",
+      "id": "bg_595895b1",
+      "at": 2565791.123635698
+    },
+    {
+      "action": "ended",
+      "id": "bg_595895b1",
+      "at": 2565791.19159349
+    },
+    {
+      "action": "notified",
+      "id": "bg_595895b1",
+      "at": 2565791.19304774
+    },
+    {
+      "action": "start",
+      "id": "bg_2a1011d7",
+      "at": 2565791.19343199
+    },
+    {
+      "action": "start",
+      "id": "bg_f03ed657",
+      "at": 2565791.193774782
+    },
+    {
+      "action": "ended",
+      "id": "bg_f03ed657",
+      "at": 2565791.209232907
+    },
+    {
+      "action": "ended",
+      "id": "bg_2a1011d7",
+      "at": 2565791.247569865
+    },
+    {
+      "action": "notified",
+      "id": "bg_f03ed657",
+      "at": 2565791.248194615
+    },
+    {
+      "action": "notified",
+      "id": "bg_2a1011d7",
+      "at": 2565791.24832449
+    }
+  ],
+  "schedule_events": [
+    {
+      "action": "registered",
+      "job": {
+        "id": "cron_d6b107e4",
+        "cron": "1 9 * * *",
+        "prompt": "run tests",
+        "recurring": false,
+        "durable": true,
+        "pending_delivery": false,
+        "last_fired": null
+      }
+    },
+    {
+      "action": "due",
+      "job": {
+        "id": "cron_d6b107e4",
+        "cron": "1 9 * * *",
+        "prompt": "run tests",
+        "recurring": false,
+        "durable": true,
+        "pending_delivery": true,
+        "last_fired": "2026-11-16T09:01+08:00"
+      }
+    },
+    {
+      "action": "offered_to_model",
+      "job": {
+        "id": "cron_d6b107e4",
+        "cron": "1 9 * * *",
+        "prompt": "run tests",
+        "recurring": false,
+        "durable": true,
+        "pending_delivery": true,
+        "last_fired": "2026-11-16T09:01+08:00"
+      }
+    },
+    {
+      "action": "model_request_failed_queue_restored",
+      "ids": [
+        "cron_d6b107e4"
+      ]
+    }
+  ],
+  "restart_events": [
+    {
+      "action": "offered_to_model",
+      "job": {
+        "id": "cron_d6b107e4",
+        "cron": "1 9 * * *",
+        "prompt": "run tests",
+        "recurring": false,
+        "durable": true,
+        "pending_delivery": true,
+        "last_fired": "2026-11-16T09:01+08:00"
+      }
+    },
+    {
+      "action": "model_received_not_task_completed",
+      "ids": [
+        "cron_d6b107e4"
+      ]
+    }
+  ],
+  "native_ragas": {
+    "origin": "instructor_fixture_executing_native_ragas_helpers_not_a_provider_request",
+    "retry_attempts": [
+      1,
+      2
+    ],
+    "result": "second attempt returned",
+    "timeout_field_seconds": 1,
+    "function_elapsed_seconds": 1.0542807076126337,
+    "function_returned_without_automatic_timeout": true,
+    "token_totals": {
+      "input_tokens": 1500,
+      "output_tokens": 150,
+      "model": "illustrative-model"
+    },
+    "illustrative_cost_units": 0.0036,
+    "prices": {
+      "input_per_token": 2e-06,
+      "output_per_token": 4e-06
+    },
+    "price_origin": "instructor_defined_example_not_market_prices_or_subscription_bill",
+    "real_bill": null,
+    "model_requests": 0,
+    "passed": true
+  }
+}

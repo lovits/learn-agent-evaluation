@@ -42,7 +42,14 @@ class Links(HTMLParser):
 
 @pytest.mark.parametrize(
     "route,count",
-    [("/lesson", 2), ("/lesson8", 1), ("/lesson10", 1), ("/lesson12", 1), ("/lesson13", 1)],
+    [
+        ("/lesson", 2),
+        ("/lesson8", 1),
+        ("/lesson10", 1),
+        ("/lesson12", 1),
+        ("/lesson13", 1),
+        ("/lesson14", 1),
+    ],
 )
 def test_lesson_diagrams_load_from_the_rendered_page(reader, route, count):
     with urlopen(reader + route) as reply:
@@ -97,3 +104,4 @@ def test_reader_rejects_files_outside_its_reading_scope(reader, path):
     with pytest.raises(HTTPError) as error:
         urlopen(reader + path)
     assert error.value.code == 400
+    error.value.close()

@@ -30,6 +30,7 @@ def main():
             "e11",
             "e12",
             "e13",
+            "e14",
         ],
         default="e01",
     )
@@ -99,6 +100,12 @@ def main():
             "e13_planning",
             "计划、依赖与交接：拆开就能做完吗",
             "generation/e13-brief.md",
+        )
+    if lesson == "e14":
+        slug, title, brief_path = (
+            "e14_runtime",
+            "后台、调度与效率：少几步就更好吗",
+            "generation/e14-brief.md",
         )
     private = PROJECT / "generation/private" / lesson
     private.mkdir(parents=True, exist_ok=True)
@@ -238,6 +245,28 @@ def main():
                     "knowledge_base/e13/shipping.md",
                 ]
                 if lesson == "e13"
+                else []
+            ),
+            *(
+                [
+                    f"lessons/{slug}/{name}"
+                    for name in (
+                        "background.py",
+                        "scheduler.py",
+                        "cron.py",
+                        "tools.py",
+                        "resources.py",
+                        "controls.py",
+                    )
+                ]
+                + [
+                    "tools/model_bridge.py",
+                    "references/e14-reading.json",
+                    "references/e14-diagram.json",
+                    "references/e14-experiment-protocol.json",
+                    "knowledge_base/e14/shipping.md",
+                ]
+                if lesson == "e14"
                 else []
             ),
             "references/textbook-writing-standard.md",

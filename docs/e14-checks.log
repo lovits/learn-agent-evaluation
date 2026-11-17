@@ -1,0 +1,11 @@
+All checks passed!
+........................................................................ [ 36%]
+........................................................................ [ 73%]
+...................................................                      [100%]
+=============================== warnings summary ===============================
+tests/test_e03.py::test_judge_failure_is_unscored
+  /app/lessons/e03_judges/eval.py:108: DeprecationWarning: Passing 'children' to 'BinaryJudgementNode' (the bottom-up way of building a DAG) is deprecated and will be removed in a future release. Construct 'BinaryJudgementNode' without 'children' and use 'add_verdict()' to build the DAG top-down instead.
+    BinaryJudgementNode(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+195 passed, 1 warning in 19.68s

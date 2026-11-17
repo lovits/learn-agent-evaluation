@@ -2,10 +2,6 @@
 
 [教材](README.zh.md) · [循环](code.py) · [工具](tools.py) · [转换](samples.py)
 
-[![同一次运行的任务评分与样本转换](images/sample-evaluation.png)](https://lovits.github.io/learn-agent-evaluation/diagrams/sample-evaluation.html)
-
-[打开交互图：点击节点看说明，点击“静态”播放流程](https://lovits.github.io/learn-agent-evaluation/diagrams/sample-evaluation.html)
-
 ## 本课调用链
 
 `agent_loop → execute → HANDLERS` 执行动作。`execute` 将拒绝、参数错误和执行错误分别返回，循环把结果同时写入事件和工具消息。`to_deepeval` 只读取已有记录，生成一份 DeepEval 样本。

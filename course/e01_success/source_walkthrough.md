@@ -2,10 +2,6 @@
 
 [教材](README.zh.md) · [循环](code.py) · [评分](eval.py)
 
-[![运行与评分的代码结构](images/evaluation-code.png)](https://lovits.github.io/learn-agent-evaluation/diagrams/evaluation-code.html)
-
-[打开交互图：点击节点看说明，点击“静态”播放流程](https://lovits.github.io/learn-agent-evaluation/diagrams/evaluation-code.html)
-
 ## 从循环读到文件
 
 `agent_loop` 接收任务与工作目录，返回停止状态、最终回答和动作记录。`messages` 给模型继续工作，`events` 留给外部读取。

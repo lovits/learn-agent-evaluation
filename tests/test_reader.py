@@ -34,12 +34,10 @@ def test_new_course_pages_and_source_boundary():
         for lesson, slug in [(1, "e01_success"), (2, "e02_samples")]:
             with urlopen(base + f"/lesson{lesson}") as response:
                 body = response.read().decode()
-            diagram = next(d for d in diagrams if d["slug"] == slug and d["generator"] == "Archify")
-            assert f'href="/diagram?path={diagram["output"]}"' in body
-            with urlopen(base + "/diagram?path=" + diagram["output"]) as response:
-                assert b'data-motion-capable="true"' in response.read()
-            with urlopen(base + f"/image?path=course/{slug}/images/task-evaluation.drawio.svg") as response:
-                assert response.headers.get_content_type() == "image/svg+xml"
+            for diagram in (d for d in diagrams if d["slug"] == slug):
+                assert f'src="/image?path={diagram["output"]}"' in body
+                with urlopen(base + "/image?path=" + diagram["output"]) as response:
+                    assert response.headers.get_content_type() == "image/svg+xml"
         for path in [
             "/code",
             "/code?path=../../.env",

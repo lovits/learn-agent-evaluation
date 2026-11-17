@@ -12,13 +12,15 @@
 
 这一课把一次运行保存成样本。先给动作命名，再保存名字、参数和执行结果，最后转换成 DeepEval 的评测样本。
 
-[![工具执行与记录](images/tool-recording.png)](https://lovits.github.io/learn-agent-evaluation/diagrams/tool-recording.html)
-
-[打开交互图：点击节点看说明，点击“静态”播放流程](https://lovits.github.io/learn-agent-evaluation/diagrams/tool-recording.html)
-
 ## 解决方案
 
-给动作起名字，并把参数和执行结果留在同一条事件中。评分时就能从样本追回实际执行。
+给动作起名字，并把参数和执行结果留在同一条事件中。
+
+![模型与工具之间的循环](images/agent-loop.drawio.svg)
+
+评分时就能从样本追回实际执行。
+
+![运行记录、产物与独立评分](images/evaluation-path.drawio.svg)
 
 ## 工作原理
 
@@ -133,10 +135,6 @@ LLMTestCase(
 [eval.py](eval.py) 仍用小任务规则检查实际文件，样本导出单独保存。更多评分方法从第4课展开。
 
 评测先检查共同条件，再按任务选择读取成功或权限拒绝这条证据，最后汇总所有检查。
-
-[![任务评测流程](images/task-evaluation.png)](https://lovits.github.io/learn-agent-evaluation/diagrams/e02-task-evaluation.svg)
-
-[放大查看评测流程](https://lovits.github.io/learn-agent-evaluation/diagrams/e02-task-evaluation.svg)
 
 ## 试一下
 

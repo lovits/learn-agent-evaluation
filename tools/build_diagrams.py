@@ -27,8 +27,7 @@ def build(destination):
         '<title>从编程 Agent 学评测 · 流程图</title>'
         '<style>body{font:18px/1.8 system-ui;max-width:760px;margin:60px auto;padding:24px}'
         'a{color:#1760b5}li{margin:12px 0}</style>'
-        '<h1>从编程 Agent 学评测</h1><p>打开结构图后，可点击节点查看说明，'
-        '点击“静态”切换为动态流转。评测流程图用判断分支说明通过条件。</p><ul>'
+        '<h1>从编程 Agent 学评测</h1><p>图中用方框和箭头解释 Agent 循环与独立评测。</p><ul>'
         + "".join(links)
         + '</ul><a href="https://github.com/lovits/learn-agent-evaluation">返回课程</a></html>',
         encoding="utf-8",

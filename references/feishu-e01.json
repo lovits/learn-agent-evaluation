@@ -1,14 +1,17 @@
 {
-  "document_id": "ZIlFdoY5EoFvaExYY9dcvQnnnce",
-  "revision_id": 6,
+  "title": "e01: 定义成功",
   "url": "https://my.feishu.cn/docx/ZIlFdoY5EoFvaExYY9dcvQnnnce",
+  "document_id": "ZIlFdoY5EoFvaExYY9dcvQnnnce",
+  "revision_id": 18,
+  "verified_revision_id": 18,
   "verified": true,
-  "verified_revision": 6,
-  "image_count": 2,
-  "verified_code_blocks": 16,
-  "local_sha256": "e6be21537619cf5ee1a1b738103b08b4d490ba1afc48c356bbc1d642e10f5da6",
-  "cloud_sha256": "74b67c8854fc95fa1d3e09bee22401841904644dc4e8e995a30d74d014793bcd",
-  "title": "e01: Agent 循环 — 模型停下以后，再看任务",
-  "verified_revision_id": 13,
-  "content_source": "教材与源码导读"
+  "outline_version": 2,
+  "content_paths": [
+    "lessons/e01_agent_baseline/README.zh.md",
+    "lessons/e01_agent_baseline/source_walkthrough.md"
+  ],
+  "local_sha256": "f635ac30e1a69430e56ba7736b0bfe51e5fc88005d98f6835054b9a572d82cc8",
+  "cloud_content_sha256": "2fa1f93cc01abacfc77df99fa2aa7394dfe5c6a753f69529f4f739bf6a32b305",
+  "content_source": "教材与源码导读",
+  "image_count": 2
 }

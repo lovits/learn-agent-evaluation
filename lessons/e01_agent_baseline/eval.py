@@ -1,4 +1,4 @@
-"""Independent deterministic verification; run after the Agent, with private criteria mounted."""
+"""e01: judge observed actions and files against a task contract."""
 
 import argparse
 import ast
@@ -36,7 +36,7 @@ def check_rule(rule, tools, workspace):
             return ast.dump(ast.parse(target.read_text())) == ast.dump(ast.parse(rule["source"]))
         except (SyntaxError, UnicodeError):
             return False
-    raise ValueError(f"未知验收规则：{kind}")
+    raise ValueError(f"未知评分规则：{kind}")
 
 
 def evaluate(report, criteria, workspace):
@@ -56,7 +56,7 @@ def evaluate(report, criteria, workspace):
         "passed": all(c["passed"] for c in checks),
         "score": sum(c["passed"] for c in checks) / len(checks),
         "checks": checks,
-        "interpretation": "确定性任务合同验收；不评分最终解释的语义，也不是通用代码正确性证明。",
+        "interpretation": "按任务规则检查实际记录与文件；通过比例帮助定位，全部条件满足才记为完成。",
     }
 
 

@@ -1,9 +1,9 @@
 {
-  "run_id": "5ea29ba596224978a07e091438d86d60",
+  "run_id": "27884a167e1448f981e0e8e129b97bdc",
   "lesson": "e01",
   "mode": "live_codex_bridge",
-  "created_at": "2026-11-16T16:06:58.766501+00:00",
-  "image_id": "sha256:4dd29385fbe9ad2f48c21538935e44f988c743ea36173f1f5f18daa64050939b",
+  "created_at": "2026-11-17T15:29:59.565928+00:00",
+  "image_id": "sha256:8e0695a25fbe04c8fafe66c79cc3e56c2a4ed25d242eed44d8d6d7ef0587ca20",
   "platform": "linux/arm64",
   "summary": {
     "tasks": 4,
@@ -18,30 +18,38 @@
   "implementation": [
     {
       "path": "lessons/e01_agent_baseline/code.py",
-      "sha256": "b527f99a5202f5cafb7cbfdf8c4f24eead68800c8984645abc2f7c83b2a6eb06"
+      "sha256": "c6d14d6d6665c26a444942f1613af3d3bf3453ae05d2e693f163091f87527e7c"
     },
     {
       "path": "lessons/e01_agent_baseline/eval.py",
-      "sha256": "f4788d0fd93def6032a73654f74b07331daec0aa6a6d3ba44f91f67d6b61f5cb"
+      "sha256": "0a33a65fa6fd92cf30f4b3c9139c02779ee203801f758f1678d609511b022e9a"
     },
     {
       "path": "lessons/e01_agent_baseline/cases.jsonl",
       "sha256": "f4b0f8f3cadf28417270d5f6af72de7673854aabead09fedbc7d98c7c0d4afc9"
+    },
+    {
+      "path": "eval_course/runtime.py",
+      "sha256": "c3db5a390345be2e951398d02ada0cfae2d8543caff44477e954e275449ef786"
+    },
+    {
+      "path": "evaluation_private/e01.json",
+      "sha256": "7a0fe77d2cd122dcc8756b85296a9b13c579207226e2625e7b20d9ae0459a0ec"
     }
   ],
   "rows": [
     {
       "report": {
-        "run_id": "30df76455ea24b76a7d2cc9f1376de66",
+        "run_id": "4390723591404af8880ff42f29f23d50",
         "lesson": "e01",
         "mode": "live_codex_bridge",
         "case_id": "list_files",
         "task": "用Bash列出当前练习目录中的文件名，基于实际结果回答。",
-        "workspace_id": "30df76455ea24b76a7d2cc9f1376de66",
-        "created_at": "2026-11-16T16:05:47.583666+00:00",
-        "elapsed_seconds": 15.228,
+        "workspace_id": "4390723591404af8880ff42f29f23d50",
+        "created_at": "2026-11-17T15:29:11.905479+00:00",
+        "elapsed_seconds": 15.503,
         "status": "finished",
-        "final_answer": "当前练习目录中有：\nalpha.py\nnotes.txt",
+        "final_answer": "当前练习目录中有以下文件：\nalpha.py\nnotes.txt",
         "events": [
           {
             "type": "model",
@@ -57,16 +65,16 @@
             "model": {
               "usage": [
                 {
-                  "input_tokens": 15201,
+                  "input_tokens": 15233,
                   "cached_input_tokens": 0,
                   "cache_write_input_tokens": 0,
-                  "output_tokens": 61,
-                  "reasoning_output_tokens": 14
+                  "output_tokens": 82,
+                  "reasoning_output_tokens": 35
                 }
               ],
               "reported_model": null,
               "model_selection": "Codex CLI default; user config ignored",
-              "elapsed_seconds": 7.589,
+              "elapsed_seconds": 7.696,
               "transport_tool_events": 0,
               "prompt_sha256": "bf3a99e7a3873016a7a70f88c85de548da091793ecdfdb8c6dc2f6022a39481e"
             }
@@ -89,21 +97,21 @@
             "step": 2,
             "reply": {
               "tool_calls": [],
-              "answer": "当前练习目录中有：\nalpha.py\nnotes.txt"
+              "answer": "当前练习目录中有以下文件：\nalpha.py\nnotes.txt"
             },
             "model": {
               "usage": [
                 {
-                  "input_tokens": 15287,
+                  "input_tokens": 15325,
                   "cached_input_tokens": 0,
                   "cache_write_input_tokens": 0,
-                  "output_tokens": 32,
+                  "output_tokens": 34,
                   "reasoning_output_tokens": 0
                 }
               ],
               "reported_model": null,
               "model_selection": "Codex CLI default; user config ignored",
-              "elapsed_seconds": 7.607,
+              "elapsed_seconds": 7.78,
               "transport_tool_events": 0,
               "prompt_sha256": "bce8100ab1c94ec9be2604e0905f125f9f7b4258b9442726a3857e136d6d95ab"
             }
@@ -111,7 +119,7 @@
         ]
       },
       "grade": {
-        "run_id": "30df76455ea24b76a7d2cc9f1376de66",
+        "run_id": "4390723591404af8880ff42f29f23d50",
         "lesson": "e01",
         "mode": "live_codex_bridge",
         "case_id": "list_files",
@@ -135,22 +143,22 @@
             "passed": true
           }
         ],
-        "interpretation": "确定性任务合同验收；不评分最终解释的语义，也不是通用代码正确性证明。",
+        "interpretation": "按任务规则检查实际记录与文件；通过比例帮助定位，全部条件满足才记为完成。",
         "criteria_sha256": "7a0fe77d2cd122dcc8756b85296a9b13c579207226e2625e7b20d9ae0459a0ec"
       }
     },
     {
       "report": {
-        "run_id": "2c7a218011aa430a8401470bd6068e3f",
+        "run_id": "05237da117f643ed98090af30c2dbd81",
         "lesson": "e01",
         "mode": "live_codex_bridge",
         "case_id": "create_and_run",
         "task": "创建hello.py，内容只包含一条print(\"Hello, World!\")语句，然后使用python3运行它，报告实际结果。",
-        "workspace_id": "2c7a218011aa430a8401470bd6068e3f",
-        "created_at": "2026-11-16T16:06:12.768405+00:00",
-        "elapsed_seconds": 24.259,
+        "workspace_id": "05237da117f643ed98090af30c2dbd81",
+        "created_at": "2026-11-17T15:29:27.516386+00:00",
+        "elapsed_seconds": 14.676,
         "status": "finished",
-        "final_answer": "已创建并运行 `hello.py`。实际输出：\n\nHello, World!",
+        "final_answer": "已创建并运行 hello.py。实际输出：\nHello, World!",
         "events": [
           {
             "type": "model",
@@ -158,7 +166,7 @@
             "reply": {
               "tool_calls": [
                 {
-                  "command": "printf '%s\n' 'print(\"Hello, World!\")' > hello.py && python3 hello.py"
+                  "command": "printf '%s\\n' 'print(\"Hello, World!\")' > hello.py && python3 hello.py"
                 }
               ],
               "answer": ""
@@ -166,16 +174,16 @@
             "model": {
               "usage": [
                 {
-                  "input_tokens": 15213,
+                  "input_tokens": 15243,
                   "cached_input_tokens": 0,
                   "cache_write_input_tokens": 0,
-                  "output_tokens": 45,
-                  "reasoning_output_tokens": 0
+                  "output_tokens": 86,
+                  "reasoning_output_tokens": 38
                 }
               ],
               "reported_model": null,
               "model_selection": "Codex CLI default; user config ignored",
-              "elapsed_seconds": 10.422,
+              "elapsed_seconds": 7.856,
               "transport_tool_events": 0,
               "prompt_sha256": "42d94e1f1f6b17aa84fd73c811ccbf31a190a97befa61c7fd3060916df286793"
             }
@@ -184,7 +192,7 @@
             "type": "bash",
             "step": 1,
             "index": 0,
-            "command": "printf '%s\n' 'print(\"Hello, World!\")' > hello.py && python3 hello.py",
+            "command": "printf '%s\\n' 'print(\"Hello, World!\")' > hello.py && python3 hello.py",
             "result": {
               "stdout": "Hello, World!\n",
               "stderr": "",
@@ -198,29 +206,29 @@
             "step": 2,
             "reply": {
               "tool_calls": [],
-              "answer": "已创建并运行 `hello.py`。实际输出：\n\nHello, World!"
+              "answer": "已创建并运行 hello.py。实际输出：\nHello, World!"
             },
             "model": {
               "usage": [
                 {
-                  "input_tokens": 15300,
+                  "input_tokens": 15333,
                   "cached_input_tokens": 13440,
                   "cache_write_input_tokens": 0,
-                  "output_tokens": 37,
+                  "output_tokens": 34,
                   "reasoning_output_tokens": 0
                 }
               ],
               "reported_model": null,
               "model_selection": "Codex CLI default; user config ignored",
-              "elapsed_seconds": 13.802,
+              "elapsed_seconds": 6.792,
               "transport_tool_events": 0,
-              "prompt_sha256": "c5b8329e676f315b6e21d2856eef057774a0e3b0e7fbc65bed265e3948d57541"
+              "prompt_sha256": "ba376ac53a4f882433d39c7e9c3a62a13ce7533b09d51076120d3f1a81500437"
             }
           }
         ]
       },
       "grade": {
-        "run_id": "2c7a218011aa430a8401470bd6068e3f",
+        "run_id": "05237da117f643ed98090af30c2dbd81",
         "lesson": "e01",
         "mode": "live_codex_bridge",
         "case_id": "create_and_run",
@@ -244,20 +252,20 @@
             "passed": true
           }
         ],
-        "interpretation": "确定性任务合同验收；不评分最终解释的语义，也不是通用代码正确性证明。",
+        "interpretation": "按任务规则检查实际记录与文件；通过比例帮助定位，全部条件满足才记为完成。",
         "criteria_sha256": "7a0fe77d2cd122dcc8756b85296a9b13c579207226e2625e7b20d9ae0459a0ec"
       }
     },
     {
       "report": {
-        "run_id": "f34c991535d64aa0b602eb245508f7ab",
+        "run_id": "c0cdb00527814633a8ebbb15241a3e4d",
         "lesson": "e01",
         "mode": "live_codex_bridge",
         "case_id": "run_existing",
         "task": "用python3运行calculate.py，基于实际输出给出结果，不要修改脚本。",
-        "workspace_id": "f34c991535d64aa0b602eb245508f7ab",
-        "created_at": "2026-11-16T16:06:36.893848+00:00",
-        "elapsed_seconds": 23.231,
+        "workspace_id": "c0cdb00527814633a8ebbb15241a3e4d",
+        "created_at": "2026-11-17T15:29:43.256484+00:00",
+        "elapsed_seconds": 14.896,
         "status": "finished",
         "final_answer": "运行结果：42",
         "events": [
@@ -275,8 +283,8 @@
             "model": {
               "usage": [
                 {
-                  "input_tokens": 15202,
-                  "cached_input_tokens": 0,
+                  "input_tokens": 15236,
+                  "cached_input_tokens": 13440,
                   "cache_write_input_tokens": 0,
                   "output_tokens": 27,
                   "reasoning_output_tokens": 0
@@ -284,7 +292,7 @@
               ],
               "reported_model": null,
               "model_selection": "Codex CLI default; user config ignored",
-              "elapsed_seconds": 9.368,
+              "elapsed_seconds": 8.104,
               "transport_tool_events": 0,
               "prompt_sha256": "e74791d799a44cb7db5eecdf21612069d3ae6bbcfb995a025cf47861c7165ebc"
             }
@@ -312,7 +320,7 @@
             "model": {
               "usage": [
                 {
-                  "input_tokens": 15266,
+                  "input_tokens": 15304,
                   "cached_input_tokens": 13440,
                   "cache_write_input_tokens": 0,
                   "output_tokens": 22,
@@ -321,7 +329,7 @@
               ],
               "reported_model": null,
               "model_selection": "Codex CLI default; user config ignored",
-              "elapsed_seconds": 13.825,
+              "elapsed_seconds": 6.747,
               "transport_tool_events": 0,
               "prompt_sha256": "9cd6331713dafa290f552df52561625e04fc74d9e5b69c52b3f710e9c4a853b7"
             }
@@ -329,7 +337,7 @@
         ]
       },
       "grade": {
-        "run_id": "f34c991535d64aa0b602eb245508f7ab",
+        "run_id": "c0cdb00527814633a8ebbb15241a3e4d",
         "lesson": "e01",
         "mode": "live_codex_bridge",
         "case_id": "run_existing",
@@ -353,22 +361,22 @@
             "passed": true
           }
         ],
-        "interpretation": "确定性任务合同验收；不评分最终解释的语义，也不是通用代码正确性证明。",
+        "interpretation": "按任务规则检查实际记录与文件；通过比例帮助定位，全部条件满足才记为完成。",
         "criteria_sha256": "7a0fe77d2cd122dcc8756b85296a9b13c579207226e2625e7b20d9ae0459a0ec"
       }
     },
     {
       "report": {
-        "run_id": "b69155a37a0c4bff96372db0f0b0e9d0",
+        "run_id": "abc05f30a0a34c17a7bcd80a71deffc2",
         "lesson": "e01",
         "mode": "live_codex_bridge",
         "case_id": "command_error",
         "task": "用python3运行fail.py，如实报告实际错误，不要修改脚本或声称已修复。",
-        "workspace_id": "b69155a37a0c4bff96372db0f0b0e9d0",
-        "created_at": "2026-11-16T16:06:58.281534+00:00",
-        "elapsed_seconds": 20.474,
+        "workspace_id": "abc05f30a0a34c17a7bcd80a71deffc2",
+        "created_at": "2026-11-17T15:29:59.098879+00:00",
+        "elapsed_seconds": 15.028,
         "status": "finished",
-        "final_answer": "运行失败（退出码 1）。实际错误为：`RuntimeError: demo-failure`，发生在 `fail.py` 第 1 行。未修改脚本，也未修复。",
+        "final_answer": "运行失败（退出码 1）。实际错误：`RuntimeError: demo-failure`，发生在 `fail.py` 第 1 行。未修改脚本。",
         "events": [
           {
             "type": "model",
@@ -384,8 +392,8 @@
             "model": {
               "usage": [
                 {
-                  "input_tokens": 15201,
-                  "cached_input_tokens": 0,
+                  "input_tokens": 15239,
+                  "cached_input_tokens": 13440,
                   "cache_write_input_tokens": 0,
                   "output_tokens": 27,
                   "reasoning_output_tokens": 0
@@ -393,7 +401,7 @@
               ],
               "reported_model": null,
               "model_selection": "Codex CLI default; user config ignored",
-              "elapsed_seconds": 7.218,
+              "elapsed_seconds": 7.826,
               "transport_tool_events": 0,
               "prompt_sha256": "6e3aa1d3271df771b69db5e3f6669f5bc9ae606de6c03350aed3d43c2a02fb18"
             }
@@ -405,7 +413,7 @@
             "command": "python3 fail.py",
             "result": {
               "stdout": "",
-              "stderr": "Traceback (most recent call last):\n  File \"/data/workspaces/b69155a37a0c4bff96372db0f0b0e9d0/fail.py\", line 1, in <module>\n    raise RuntimeError(\"demo-failure\")\nRuntimeError: demo-failure\n",
+              "stderr": "Traceback (most recent call last):\n  File \"/data/workspaces/abc05f30a0a34c17a7bcd80a71deffc2/fail.py\", line 1, in <module>\n    raise RuntimeError(\"demo-failure\")\nRuntimeError: demo-failure\n",
               "exit_code": 1,
               "status": "error",
               "truncated": false
@@ -416,29 +424,29 @@
             "step": 2,
             "reply": {
               "tool_calls": [],
-              "answer": "运行失败（退出码 1）。实际错误为：`RuntimeError: demo-failure`，发生在 `fail.py` 第 1 行。未修改脚本，也未修复。"
+              "answer": "运行失败（退出码 1）。实际错误：`RuntimeError: demo-failure`，发生在 `fail.py` 第 1 行。未修改脚本。"
             },
             "model": {
               "usage": [
                 {
-                  "input_tokens": 15340,
+                  "input_tokens": 15372,
                   "cached_input_tokens": 13440,
                   "cache_write_input_tokens": 0,
-                  "output_tokens": 59,
+                  "output_tokens": 54,
                   "reasoning_output_tokens": 0
                 }
               ],
               "reported_model": null,
               "model_selection": "Codex CLI default; user config ignored",
-              "elapsed_seconds": 13.222,
+              "elapsed_seconds": 7.161,
               "transport_tool_events": 0,
-              "prompt_sha256": "abedd68d736d625bddbc2a75f0da0430b0f05084e160ed3f343344757387e22e"
+              "prompt_sha256": "002af097e667a31ebbeda48feaf2d562eaaa2116cc80c7087f9a58bc7e8dd9ef"
             }
           }
         ]
       },
       "grade": {
-        "run_id": "b69155a37a0c4bff96372db0f0b0e9d0",
+        "run_id": "abc05f30a0a34c17a7bcd80a71deffc2",
         "lesson": "e01",
         "mode": "live_codex_bridge",
         "case_id": "command_error",
@@ -462,7 +470,7 @@
             "passed": true
           }
         ],
-        "interpretation": "确定性任务合同验收；不评分最终解释的语义，也不是通用代码正确性证明。",
+        "interpretation": "按任务规则检查实际记录与文件；通过比例帮助定位，全部条件满足才记为完成。",
         "criteria_sha256": "7a0fe77d2cd122dcc8756b85296a9b13c579207226e2625e7b20d9ae0459a0ec"
       }
     }

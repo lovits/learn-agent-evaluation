@@ -1,9 +1,9 @@
 # PocketFlow 教材编排
 
-课程以 curriculum.json 保存学习顺序与每课核心问题，逐课教材和源码导读是审校后的内容。PocketFlow-Tutorial-Codebase-Knowledge 读取这些材料并组织章节。
+`curriculum.json` 保存完整16课学习顺序与每课核心问题。逐课实现完成后，教材与源码导读进入人工审校；`ready` 表示已迁移，`planned` 表示还在新大纲中。
 
-`tools/organize_course.py` 使用固定上游 FetchRepo 与 CombineTutorial，中间的 BindCourse 绑定已审校章节，输出到 generation/output/course。这个入口只做编排，不请求新模型，也不生成运行成绩。
+`tools/generate_lesson.py` 使用固定上游的 FetchRepo、WriteChapters 与 CombineTutorial，中间用 BindLesson 绑定已确定的本课范围。它读取真实代码，用本机已登录的模型生成草稿。原始草稿与正式教材分开；模型请求数、输入哈希和输出哈希保存在逐课 provenance 文件，不把生成结果直接当成审校后的教材。
 
-`tools/generate_lesson.py` 用于按当前写作标准生成新的逐课草稿，调用原生 WriteChapters；它使用本机模型接口，输出与正式教材分开。
+`tools/organize_course.py` 使用 FetchRepo 与 CombineTutorial，由 BindCourse 组织已经审校的 `ready` 章节。它不请求模型，也不生成运行成绩。新大纲下目前只编排第1课，后续课不会误用原编号内容。
 
-写作要求见[正文标准](../references/textbook-writing-standard.md)，课程顺序见[大纲](../docs/curriculum.md)。供应商接口适配在项目 tools 中，上游节点保持原样。
+[正文标准](../references/textbook-writing-standard.md) · [大纲](../docs/curriculum.md) · [制作规范](../docs/course-specification.md)

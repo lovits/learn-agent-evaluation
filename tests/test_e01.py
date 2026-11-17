@@ -91,6 +91,35 @@ def test_nonzero_output_does_not_pass_success_check(tmp_path):
     )
 
 
+def test_completion_depends_on_real_output_and_the_current_artifact(tmp_path):
+    replies = iter(
+        [
+            model_reply(["printf 'print(\"Hello, World!\")\\n' > hello.py", "python3 hello.py"]),
+            model_reply(answer="done"),
+        ]
+    )
+    run = agent_loop("create and run hello.py", tmp_path, model=lambda _: next(replies))
+    report = {"run_id": "c" * 32, "mode": "controlled_example", "case_id": "hello", **run}
+    criteria = {
+        "checks": [
+            {"name": "output", "kind": "successful_stdout_contains", "value": "Hello, World!"},
+            {
+                "name": "file",
+                "kind": "python_ast",
+                "path": "hello.py",
+                "source": 'print("Hello, World!")',
+            },
+        ]
+    }
+    assert evaluate(report, criteria, tmp_path)["passed"]
+
+    (tmp_path / "hello.py").write_text('print("Goodbye")\n')
+    grade = evaluate(report, criteria, tmp_path)
+    assert not grade["passed"]
+    assert grade["checks"][-2]["passed"]  # Old stdout remains, but the file changed.
+    assert not grade["checks"][-1]["passed"]
+
+
 def test_ast_contract_accepts_quotes_and_rejects_extra_statements(tmp_path):
     path = tmp_path / "unit.py"
     rule = {"kind": "python_ast", "path": "unit.py", "source": 'print("unit")'}

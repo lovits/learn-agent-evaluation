@@ -1,54 +1,71 @@
-# e01 源码导读：从动作到评分
+# e01 源码导读：成功条件写在哪里
 
-[教材](README.zh.md) · [Agent](code.py) · [评分器](eval.py)
+[教材](README.zh.md) · [循环](code.py) · [评分器](eval.py)
 
-## 沿着两个入口读
+## 先找两个入口
 
-```text
-code.py
-  prepare_workspace → agent_loop → call_model
-                            ↓
-                         run_bash
-                            ↓
-                  工具结果回填 messages
+`code.py:main` 读公开任务，创建新目录，调用 `agent_loop`，保存运行报告。`eval.py:main` 读这份报告与任务规则，调用 `evaluate`，保存逐项判断。
 
-eval.py
-  evaluate → check_rule → 文件 / 执行事件
-```
+两者之间传的是实际运行结果。`evaluate` 不调用模型，也不运行 Agent 生成的程序；它读执行事件和文件。Docker 中评分进程的工作目录挂载只读，评分标准不挂给 Agent。
 
-`messages` 给模型继续工作；`events` 给外部程序读取运行过程。两份数据服务于不同角色，评分器不从最终回答里的“成功”推导文件状态。
+| 位置 | 顺着什么读 |
+|---|---|
+| [code.py](code.py) | `load_cases → main → agent_loop` |
+| [runtime.py](../../eval_course/runtime.py) | `call_model`、`run_bash`、`prepare_workspace` |
+| [eval.py](eval.py) | `main → evaluate → check_rule` |
+| [run_e01.py](../../tools/run_e01.py) | 先执行任务，再启动独立评分容器 |
 
-`call_model` 检查动作结构。`agent_loop` 的空调用分支返回 `finished`，预算耗尽返回 `step_limit`，模型传输或结构异常返回 `model_error`。工具错误照常回填，给模型修正机会。
+`runtime.py` 收拢了传输和进程细节，供各课复用。原有导入入口仍可用；本课核心是 `agent_loop` 的请求、执行、回填和停止。
 
-`run_bash` 设置工作目录、收集 stdout/stderr 和退出码，并处理超时与输出截断。工作目录隔离避免旧文件干扰；Shell 阻断词只覆盖有限教学情形。
+## 循环里的数据
 
-## 先看评分标准读了什么
+`messages` 是模型可见历史。`events` 是运行记录，保留模型响应与 Bash 的命令和结果。只有执行框架写入的 Bash 事件，才能提供本课需要的动作证据。
 
-`check_rule` 按规则类型取证：
+`call_model` 调用宿主模型接口，检查返回的 `answer`、`tool_calls` 和命令结构。本机 Codex 只提供结构化响应，其自身工具关闭；实际命令由课程容器执行。
 
-- `successful_stdout_contains`：只接受退出码为0的对应输出。
-- `error_contains`：寻找非零退出及指定错误文本。
-- `file_sha256`：检查要求保留的文件内容。
-- `python_ast`：解析实际代码与要求的代码结构，再比较 AST。
+`run_bash` 保留输出、退出码、超时状态与截断标记。工具报错也回填模型。`prepare_workspace` 创建新目录、写入初始文件，拒绝越出该目录的初始路径。
 
-`evaluate` 汇总逐项检查。通过比例用于定位，全部满足才接受任务。它不评价最终解释是否清楚，也不证明任意 Python 程序功能等价。
+独立目录防止旧文件混入；进程工作目录和教学阻断词表不是完整的 Bash 权限边界。这里不把教学执行器当成通用安全隔离方案。
+
+## 评分器读哪些证据
+
+`evaluate` 先检查正常停止和实际 Bash 事件，再按 `criteria["checks"]` 调用 `check_rule`。
+
+| 规则 | 证据 | 能说明什么 |
+|---|---|---|
+| `successful_stdout_contains` | 退出码为0的对应 stdout | 某次成功命令输出了指定文字 |
+| `error_contains` | 非零退出的 stderr | 某次命令确实返回了指定错误 |
+| `python_ast` | 实际文件的 AST | 文件满足当前指定结构 |
+| `file_sha256` | 实际文件内容哈希 | 指定文件内容保持一致 |
+
+`python_ast` 解析文件与参考代码，比较 `ast.dump`。读取前会确认路径位于当前目录内。语法错误或无法解码不会通过。AST 相同不等于通用行为正确；stdout 命中也不保证某个特定命令来源。因此本课规则用于演示任务合同，不声称能抵抗任意投机。
+
+汇总中 `score = 通过项数 / 全部项数`，`passed = all(逐项判断)`。规则权重相同，诊断比例依赖你写了多少条规则，跨任务不能直接当作可比的能力分。
 
 ## 对照 Learn Claude Code
 
-[s01 的 agent_loop](https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s01_agent_loop/code.py) 也是模型请求、提取动作、执行 Bash、回填结果，没有动作就返回。本课在这个主干外增加工作目录、运行记录与独立评分。
+固定版本的 [s01 agent_loop](https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s01_agent_loop/code.py) 在没有 `tool_use` 时返回；有调用就执行 Bash，把 `tool_result` 放回消息。
 
-模型由宿主接口提供，工具在容器中执行。模型接口只返回动作；本课被评测的是课程 Agent。
+本课沿用这个循环。JSON 动作适配不同模型入口，增加步数上限和必要记录，再把任务评分放到循环之外。运行状态描述执行停在哪里，任务规则描述结果是否满足要求。
 
-## DeepEval 怎样分开样本与指标
+## DeepEval：预期、实际运行与指标
 
-[dataset.py](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/dataset/dataset.py) 分别组织 Golden、测试样本和运行结果。Golden 保存任务及预期，实际输出要由被测应用运行得到。
+先看 [Golden](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/dataset/golden.py) 和 [LLMTestCase](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/test_case/llm_test_case.py)。前者保存输入与预期，后者携带待评分的实际输出及相关字段。预期结果不能填成“实际运行已经做到”。
 
-[evaluate.py](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/evaluate/evaluate.py) 校验样本与指标配置，再选择同步或异步执行并整理结果。框架可以负责调度，业务上的“成功”仍由所选指标定义。
+再读 [evaluate](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/evaluate/evaluate.py)：
 
-对照[评测入门](https://deepeval.com/docs/evaluation-introduction)，本课的文件规则承担 metric 的职责，运行报告承担被评分记录的职责。
+1. `validate_evaluate_inputs` 校验样本与评分配置。
+2. 根据配置进入同步或异步执行分支，将样本交给指标。
+3. 汇集逐样本结果。选择什么指标，才决定怎样定义“好”。
 
-## Ragas 怎样把应用与评价接起来
+对照[官方评测入门](https://deepeval.com/docs/evaluation-introduction)，本课任务、报告和规则分别承担预期、实际记录和评分标准的职责。文件规则是本课自己的实现，没有调用 DeepEval 原生指标。
 
-[experiment.py](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/experiment.py) 把应用函数用于数据行，并收集逐行结果；数据载体见 [dataset.py](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/dataset.py)。[实验概念](https://docs.ragas.io/en/stable/concepts/experimentation/)解释这几个角色怎样配合。
+## Ragas：一行任务怎样得到结果
 
-这套分工让我们能替换 Agent 或评分器，而不用把两者写成一个函数。本课使用自己的确定性规则；两框架的样本接口从下一课开始接入。
+读 [Dataset](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/dataset.py) 与 [experiment.py](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/experiment.py)。`ExperimentWrapper.arun` 为数据行调用被装饰函数，将返回结果收进 `Experiment`。
+
+这个调度器不会替你定义“hello.py 写对了”。被装饰函数需要调用应用，并明确计算或携带评价结果。业务评分来自你选用的规则或指标。
+
+[官方实验概念](https://docs.ragas.io/en/stable/concepts/experimentation/)解释数据集、实验函数和评价的关系；[指标概览](https://docs.ragas.io/en/stable/concepts/metrics/overview/)解释端到端与组件评价。本课同样先运行、后评价，尚未调用 Ragas 原生指标。
+
+下一课才把运行记录转换成两框架的实际样本类型。本课先把一个前提立住：评分需要独立、可追溯的实际输入。

@@ -1,4 +1,4 @@
-"""Run the four live Docker tasks, then grade them in separate offline containers."""
+"""Run selected live Docker tasks, then grade in separate offline containers."""
 
 import argparse
 import hashlib
@@ -37,10 +37,13 @@ def main():
     parser.add_argument(
         "--publish-example", action="store_true", help="更新随教材发布的固定示例报告"
     )
+    parser.add_argument("--case", action="append", choices=[c["id"] for c in load_cases()])
     args = parser.parse_args()
     image = json.loads(docker(["image", "inspect", "learn-agent-evaluation:local"]))[0]
     rows = []
     for case in load_cases():
+        if args.case and case["id"] not in args.case:
+            continue
         print("Running live task:", case["id"], flush=True)
         text = docker(["compose", "run", "--rm", "-T", "course", "run", "--case", case["id"]])
         summary = next(
@@ -76,7 +79,7 @@ def main():
     }
     with tempfile.TemporaryDirectory() as folder:
         negative = evaluate(fake, criteria["create_and_run"], folder)
-    assert not negative["passed"], "假报成功未被验收器识别。"
+    assert not negative["passed"], "假报成功未被评分器识别。"
     result = {
         "run_id": uuid.uuid4().hex,
         "lesson": "e01",
@@ -102,6 +105,8 @@ def main():
                 "lessons/e01_agent_baseline/code.py",
                 "lessons/e01_agent_baseline/eval.py",
                 "lessons/e01_agent_baseline/cases.jsonl",
+                "eval_course/runtime.py",
+                "evaluation_private/e01.json",
             ]
         ],
         "rows": rows,

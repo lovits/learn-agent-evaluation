@@ -43,11 +43,16 @@ def main():
         for row in json.loads((PROJECT / "curriculum.json").read_text())["lessons"]
         if row["id"] == lesson
     )
+    if entry["implementation"] != "ready":
+        parser.error("本课尚未按新大纲迁移代码；请先完成代码，再生成对应教材。")
     slug, title = entry["slug"], entry["title"]
     private = PROJECT / "generation/private" / lesson
     private.mkdir(parents=True, exist_ok=True)
     brief = (
-        (PROJECT / "references/textbook-writing-standard.md").read_text()
+        (PROJECT / "generation/textbook_prompt.md").read_text()
+        + "\n\n"
+        + (PROJECT / "references/textbook-writing-standard.md").read_text()
+        + ("\n\n" + (PROJECT / "generation/lesson_brief.md").read_text() if lesson == "e01" else "")
         + "\n\n当前课程要求：\n"
         + json.dumps(entry, ensure_ascii=False, indent=2)
     )
@@ -76,6 +81,7 @@ def main():
 
     class BindLesson(Node):
         def post(self, shared, prep_res, exec_res):
+            shared["repo_url"] = "https://github.com/lovits/learn-agent-evaluation"
             shared["abstractions"][0]["files"] = list(range(len(shared["files"])))
 
     shared = {
@@ -147,6 +153,7 @@ def main():
                 else []
             ),
             "eval_course/records.py",
+            *(["eval_course/runtime.py"] if lesson == "e01" else []),
             *(
                 [
                     "eval_course/tinyrag.py",

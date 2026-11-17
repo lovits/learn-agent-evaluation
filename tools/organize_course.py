@@ -43,23 +43,23 @@ def main():
     class BindCourse(Node):
         def post(self, shared, prep_res, exec_res):
             files = dict(shared["files"])
+            shared["repo_url"] = "https://github.com/lovits/learn-agent-evaluation"
             course = json.loads(files["curriculum.json"])
+            lessons = [row for row in course["lessons"] if row["implementation"] == "ready"]
             shared["abstractions"] = [
-                {"name": row["title"], "description": row["core_question"]}
-                for row in course["lessons"]
+                {"name": row["title"], "description": row["core_question"]} for row in lessons
             ]
             shared["chapters"] = [
                 chapter(row["textbook"], files[row["textbook"]])
                 + "\n\n"
                 + chapter(row["source_walkthrough"], files[row["source_walkthrough"]])
-                for row in course["lessons"]
+                for row in lessons
             ]
-            shared["chapter_order"] = list(range(len(course["lessons"])))
+            shared["chapter_order"] = list(range(len(lessons)))
             shared["relationships"] = {
                 "summary": course["title"],
                 "details": [
-                    {"from": i, "to": i + 1, "label": "继续"}
-                    for i in range(len(course["lessons"]) - 1)
+                    {"from": i, "to": i + 1, "label": "继续"} for i in range(len(lessons) - 1)
                 ],
             }
 
@@ -71,6 +71,7 @@ def main():
         "include_patterns": {
             "curriculum.json",
             "README.md",
+            "docs/curriculum.md",
             "references/versions.json",
             "references/textbook-writing-standard.md",
             "lessons/*/README.zh.md",

@@ -6,12 +6,12 @@
 
 ```mermaid
 flowchart TD
-    A0["最小编程Agent与第一份评测协议"]
+    A0["定义成功"]
 ```
 
 ## Chapters
 
-1. [最小编程Agent与第一份评测协议](01_最小编程agent与第一份评测协议.md)
+1. [定义成功](01_定义成功.md)
 
 
 ---

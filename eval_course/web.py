@@ -16,7 +16,7 @@ from .knowledge import PROJECT, catalog, document, search
 
 READABLE_REPORT_NAME = re.compile(r"[A-Za-z0-9][A-Za-z0-9._-]{0,119}\.json")
 
-PAGES = {
+LEGACY_PAGES = {
     "/": ("课程首页", "README.md"),
     "/lesson": ("第1课：最小Agent", "lessons/e01_agent_baseline/README.zh.md"),
     "/lesson2": ("第2课：工具与轨迹", "lessons/e02_tools_traces/README.zh.md"),
@@ -37,7 +37,13 @@ PAGES = {
     "/curriculum": ("课程大纲", "docs/curriculum.md"),
     "/project": ("综合 Agent", "integrated_agent/README.md"),
 }
+PAGES = {
+    "/": ("课程首页", "README.md"),
+    "/curriculum": ("16课大纲", "docs/curriculum.md"),
+    "/lesson": ("第1课：定义成功", "lessons/e01_agent_baseline/README.zh.md"),
+}
 DOCUMENTS = {
+    **LEGACY_PAGES,
     **PAGES,
     "/source": ("第1课源码", "lessons/e01_agent_baseline/source_walkthrough.md"),
     "/exercises": ("第1课练习", "lessons/e01_agent_baseline/exercises.md"),
@@ -183,7 +189,10 @@ def render_page(path: str) -> str:
     source = PROJECT / path
     tokens = RENDERER.parse(source.read_text(encoding="utf-8"))
     routes = {(PROJECT / filename).resolve(): url for url, (_, filename) in DOCUMENTS.items()}
-    for block in tokens:
+    for index, block in enumerate(tokens):
+        if block.type == "heading_open":
+            heading = tokens[index + 1].content.lower().replace(" ", "-")
+            block.attrSet("id", re.sub(r"[^\w-]", "", heading))
         for token in block.children or []:
             if token.type == "image":
                 src = urlparse(token.attrGet("src") or "")

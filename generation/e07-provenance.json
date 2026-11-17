@@ -1,0 +1,26 @@
+{
+  "generator": "PocketFlow-Tutorial-Codebase-Knowledge",
+  "upstream_commit": "05b24cbbb0fe409c5e23c9791f0342f07524ffdc",
+  "nodes_run": [
+    "FetchRepo",
+    "BindLesson",
+    "WriteChapters",
+    "CombineTutorial"
+  ],
+  "actual_model_calls": 1,
+  "calls": [
+    {
+      "prompt_sha256": "42d6a1b1b6871a58d611981c9ae06ef907f0885b118043c515e953b1ff0ce40d",
+      "response_sha256": "46b2826bbf4849096226a61e957cfae0a6375598669c4e0d575b02c9de0c62b6",
+      "seconds": 86.73
+    }
+  ],
+  "input_sha256": {
+    "eval_course/runtime.py": "f4236018e4dea094fe4573c48cb3cc03fdcf4d837dac8ff30190367c1dc86fa4",
+    "course/e07_context_recall/code.py": "394d7a8570766cbea43453e2cb227cfc11ca53630f4d15b2aa060fce2c8b1a18",
+    "course/e07_context_recall/cases.jsonl": "6c77d5793c5b53436d61a196cfbfcddc0adefb5acc1c8496f011894c07e9206e",
+    "course/e07_context_recall/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "course/e07_context_recall/eval.py": "752c8d17d7034f21eb5f26b32727a175fb6a3789033457ecd5224117e7c2085c"
+  },
+  "note": "Raw draft is reviewed and condensed; final textbook is in course/. The agreed outline is not model-reordered."
+}

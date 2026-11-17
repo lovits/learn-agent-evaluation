@@ -269,20 +269,18 @@
       ],
       "activity": "删除一个关键片段，让返回资料保持相关；再补回片段，观察覆盖变化。",
       "understanding": "能指出漏掉的具体事实，并解释高精度为何不保证高召回。",
-      "textbook": null,
-      "source_walkthrough": null,
+      "textbook": "course/e07_context_recall/README.zh.md",
+      "source_walkthrough": "course/e07_context_recall/source_walkthrough.md",
       "outline_anchor": "07-上下文覆盖与召回",
-      "implementation": "planned",
+      "implementation": "ready",
       "source_paths": [
-        "deepeval/deepeval/metrics/contextual_precision/contextual_precision.py",
         "deepeval/deepeval/metrics/contextual_recall/contextual_recall.py",
-        "ragas/src/ragas/metrics/collections/context_precision/metric.py",
+        "deepeval/deepeval/metrics/contextual_recall/schema.py",
+        "deepeval/deepeval/metrics/contextual_recall/templates/generate_verdicts.txt",
         "ragas/src/ragas/metrics/collections/context_recall/metric.py",
-        "learn-claude-code/s07_skill_loading/code.py"
+        "ragas/src/ragas/metrics/collections/context_recall/util.py"
       ],
       "readings": [
-        "https://deepeval.com/docs/metrics-contextual-precision",
-        "https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/context_precision/",
         "https://deepeval.com/docs/metrics-contextual-recall",
         "https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/context_recall/"
       ]

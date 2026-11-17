@@ -1,6 +1,6 @@
 # e06: 有用的资料，排在了哪里？
 
-[e05](../e05_knowledge_context/README.zh.md) → `e06` → [e07](../../docs/curriculum.md#07-上下文覆盖与召回) → … → e16
+[e05](../e05_knowledge_context/README.zh.md) → `e06` → [e07](../e07_context_recall/README.zh.md) → … → e16
 
 > 先固定相关性判据，再分开看数量和顺序。
 

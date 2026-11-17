@@ -226,5 +226,41 @@
     "visual_review": "passed",
     "node_font_size": 16,
     "edge_font_size": 13
+  },
+  {
+    "name": "e07-coverage-flow",
+    "slug": "e07_context_recall",
+    "title": "第7课：参考事实与上下文覆盖",
+    "diagram_type": "flowchart",
+    "generator": "draw.io",
+    "candidate": "course/e07_context_recall/images/coverage-flow.drawio",
+    "output": "course/e07_context_recall/images/coverage-flow.drawio.svg",
+    "png": "course/e07_context_recall/images/coverage-flow.png",
+    "readme_preview": "course/e07_context_recall/images/coverage-flow.png",
+    "preview_url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e07-coverage-flow.png",
+    "url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e07-coverage-flow.svg",
+    "artifact_sha256": "2ef804f6988446e500423db16f08b3b92ce4370dafc1c94b1fdda40a2652cfcd",
+    "png_sha256": "6f8d5048258b1cc1d2c4f436b684cedadd0067eef540e2c09bd91f241b6c5a1e",
+    "visual_review": "Reviewed both exported PNGs: compact layout, legible 16px nodes and 13px edges, no overlaps.",
+    "node_font_size": 16,
+    "edge_font_size": 13
+  },
+  {
+    "name": "e07-scoring-flow",
+    "slug": "e07_context_recall",
+    "title": "第7课：原生归因与评分流程",
+    "diagram_type": "flowchart",
+    "generator": "draw.io",
+    "candidate": "course/e07_context_recall/images/scoring-flow.drawio",
+    "output": "course/e07_context_recall/images/scoring-flow.drawio.svg",
+    "png": "course/e07_context_recall/images/scoring-flow.png",
+    "readme_preview": "course/e07_context_recall/images/scoring-flow.png",
+    "preview_url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e07-scoring-flow.png",
+    "url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e07-scoring-flow.svg",
+    "artifact_sha256": "216676296a895587bde6a9a0d7540a4f12ceb235a5f16b78799ddf67c0a18193",
+    "png_sha256": "aa5270b17a996905633f084c1f91418e7739bd5e879345f0cf961967052b20e6",
+    "visual_review": "Reviewed both exported PNGs: compact layout, legible 16px nodes and 13px edges, no overlaps.",
+    "node_font_size": 16,
+    "edge_font_size": 13
   }
 ]

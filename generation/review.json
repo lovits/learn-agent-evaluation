@@ -1,6 +1,6 @@
 {
   "outline_version": 3,
-  "review": "第6课依据 PocketFlow 实际草稿压缩，核对普通精度、列表 AP、RR/NDCG 与原生 DeepEval 两种评分单位；修正草稿图片路径和普通精度参考依赖的过度概括。",
+  "review": "第7课依据 PocketFlow 实际草稿压缩，核对文档与事实召回分母、参考缩短反例及原生 DeepEval 逐句归因。删除虚构图片路径和冗余比喻，修正受控上下文与真实 Agent 输入、裁决与事实 ID 对齐的过度概括。",
   "published_sha256": {
     "course/run.py": "d4f0b75ebfc46cf0eeb897dfbe4c4b22db0626231aac9d72f30093a9caa2cb1c",
     "course/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
@@ -91,7 +91,7 @@
     "course/e05_knowledge_context/images/retrieval-flow.png": "b76fc2af75dca79377ddd500aea1ef2aeba2c9cd978ab10763265fac9b014973",
     "course/e05_knowledge_context/images/context-evaluation.png": "9c212f055cc23f5611bd4478c5ab9ed1cf793eb4c918c6e622883ec64218052d",
     "eval_course/tinyrag.py": "f86ebee411d59488023f13edf5129b81371617594a7a5807ed49d79c259adc6b",
-    "course/e06_context_precision/README.zh.md": "411de3794274f7931ca46e8bafbdb849497d2178cf147dd0cd32153c9a1344bf",
+    "course/e06_context_precision/README.zh.md": "3f311c1b776cdaac2d9ef7e3ebf1670841bbc669c1a3a636502f0f1ea51b370f",
     "course/e06_context_precision/solutions.md": "54f363a2fbe71fdfba41b93701726508df694ff472c2b3795b1d53191936d4c1",
     "course/e06_context_precision/assessment.json": "78cc5f9824005eecd13238129d2bfe42d45dde8295e9da240c851ecb4b171a04",
     "course/e06_context_precision/exercises.md": "6009beb2ce62c040de7954651e137dbe52d3f46bb660e5afb796ca84c4b2bb7d",
@@ -106,7 +106,23 @@
     "course/e06_context_precision/images/scoring-flow.drawio.svg": "a6f98e0ccc79ebcb836431a2f7ff8005f962280df311451fbcb92953fe7fc12a",
     "course/e06_context_precision/images/ranking-flow.drawio": "634ecc65b73adec0ca831f89d446b3d01ecd6a6a43c1bf046607cff54687fc40",
     "course/e06_context_precision/images/scoring-flow.drawio": "ebbb606782930efe47a7b017f8611e59db1cf358540438212e8888bbdbc04375",
-    "course/e06_context_precision/images/scoring-flow.png": "51c2b0c19db122e810dcaa2b745599a3cc309400455d4074e6a4d3279c65b34e"
+    "course/e06_context_precision/images/scoring-flow.png": "51c2b0c19db122e810dcaa2b745599a3cc309400455d4074e6a4d3279c65b34e",
+    "course/e07_context_recall/README.zh.md": "4de532db11aa5272d7aa42840dbdf37f31c26b896b01527a2b019c1f9da2b538",
+    "course/e07_context_recall/solutions.md": "1133ade20c7c5387a43fff15c0cbaff36bca94c97d57332183cbf41d2672346c",
+    "course/e07_context_recall/assessment.json": "40a0964fe059717f58c54de235b8d67939d9e1d9046d3863ff2230fd3e9a4add",
+    "course/e07_context_recall/exercises.md": "b18f04b59f88ae92ac25c02098c75de49a766c0c76852482ec8bca6e3b2f2080",
+    "course/e07_context_recall/code.py": "394d7a8570766cbea43453e2cb227cfc11ca53630f4d15b2aa060fce2c8b1a18",
+    "course/e07_context_recall/cases.jsonl": "6c77d5793c5b53436d61a196cfbfcddc0adefb5acc1c8496f011894c07e9206e",
+    "course/e07_context_recall/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "course/e07_context_recall/assessment.md": "94ead7797e2d3902db2c7e5fb2ea220e7315c6b3f17d0a78fd3698da3562b391",
+    "course/e07_context_recall/source_walkthrough.md": "af35ec199eca01df47fda7330ff863450541f0a5fb39dd008e9ec090c857cf85",
+    "course/e07_context_recall/eval.py": "752c8d17d7034f21eb5f26b32727a175fb6a3789033457ecd5224117e7c2085c",
+    "course/e07_context_recall/images/coverage-flow.drawio": "877f6822e941425398ada0dbdbcc794469f143df5d37368239be23aaa4958a99",
+    "course/e07_context_recall/images/scoring-flow.drawio.svg": "216676296a895587bde6a9a0d7540a4f12ceb235a5f16b78799ddf67c0a18193",
+    "course/e07_context_recall/images/coverage-flow.png": "6f8d5048258b1cc1d2c4f436b684cedadd0067eef540e2c09bd91f241b6c5a1e",
+    "course/e07_context_recall/images/coverage-flow.drawio.svg": "2ef804f6988446e500423db16f08b3b92ce4370dafc1c94b1fdda40a2652cfcd",
+    "course/e07_context_recall/images/scoring-flow.drawio": "2fa11c692ed1d77dbe9c62ca7a61cb5d5623dc6e2a4c3907c139e35ff372e3d4",
+    "course/e07_context_recall/images/scoring-flow.png": "aa5270b17a996905633f084c1f91418e7739bd5e879345f0cf961967052b20e6"
   },
   "provenance": [
     "generation/e01-provenance.json",
@@ -114,7 +130,8 @@
     "generation/e03-provenance.json",
     "generation/e04-provenance.json",
     "generation/e05-provenance.json",
-    "generation/e06-provenance.json"
+    "generation/e06-provenance.json",
+    "generation/e07-provenance.json"
   ],
   "runtime_evidence": "generation/runtime-evidence.json",
   "figures": "references/figures.json"

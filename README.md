@@ -14,7 +14,7 @@
 | 04 | [给样本评分](course/e04_scoring/README.zh.md) | 什么时候用规则，什么时候请模型判断？ |
 | 05 | [接通知识库](course/e05_knowledge_context/README.zh.md) | 检索出的资料，最后有哪些真的交给了模型？ |
 | 06 | [上下文相关性与排序](course/e06_context_precision/README.zh.md) | 找到了资料，为什么还要看相关性和顺序？ |
-| 07 | [上下文覆盖与召回](docs/curriculum.md#07-上下文覆盖与召回) | 资料看起来都相关，为什么问题仍答不全？ |
+| 07 | [上下文覆盖与召回](course/e07_context_recall/README.zh.md) | 资料看起来都相关，为什么问题仍答不全？ |
 | 08 | [回答对上下文的忠实度](docs/curriculum.md#08-回答对上下文的忠实度) | 回答里的每条事实，资料都支持吗？ |
 | 09 | [答案质量](docs/curriculum.md#09-答案质量) | 忠于资料，为什么仍可能没有回答好问题？ |
 | 10 | [上下文干扰与故障定位](docs/curriculum.md#10-上下文干扰与故障定位) | 答案错了，应该先改资料、检索还是生成？ |

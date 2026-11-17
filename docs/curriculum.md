@@ -194,6 +194,8 @@ Agent 接到任务，读文件、查资料、调用工具，最后给出回答�
 
 **学会的标志**：能指出漏掉的具体事实，并解释高精度为何不保证高召回。
 
+[教材](../course/e07_context_recall/README.zh.md) · [源码导读](../course/e07_context_recall/source_walkthrough.md)
+
 ## 08 回答对上下文的忠实度
 
 回答里的每条事实，资料都支持吗？

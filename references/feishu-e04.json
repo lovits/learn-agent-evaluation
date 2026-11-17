@@ -6,10 +6,12 @@
   "verified_revision": 7,
   "local_sha256": "2ede1b325d9ad7a30552814f52632520ed49015f48904bec5460e503d266e723",
   "cloud_sha256": "b20c6f73510b8992ed2d9b045c2954c5da53907e6bdda6595d5db8ae52369d06",
-  "verified_revision_id": 7,
+  "verified_revision_id": 11,
   "cloud_content_sha256": "b20c6f73510b8992ed2d9b045c2954c5da53907e6bdda6595d5db8ae52369d06",
   "rewrite_main_sections": 6,
   "rewrite_working_steps": 6,
   "main_code_blocks_verified": 15,
-  "untargeted_appendices_preserved": true
+  "untargeted_appendices_preserved": true,
+  "title": "e04: 检索质量 — 用 TinyRAG 找资料，再看找得怎样",
+  "content_source": "教材与源码导读"
 }

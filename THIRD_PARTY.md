@@ -1,12 +1,13 @@
 # 第三方代码与来源
 
-原创教学材料、应用代码与测试使用根目录MIT许可。
+原创教学材料、应用代码与测试使用根目录 MIT 许可；下表所列第三方内容适用各自许可。TinyRAG 副本与其改编文件使用 CC BY-NC-SA 4.0，详见 vendor/tinyrag/LICENSE.md。
 
 | 内容 | 来源及固定版本 | 许可 |
 |---|---|---|
 | vendor/pocketflow_tutorial | The-Pocket/PocketFlow-Tutorial-Codebase-Knowledge @ 05b24cbbb0fe409c5e23c9791f0342f07524ffdc | MIT，原文见vendor内LICENSE |
 | references/upstream/deepeval | confident-ai/deepeval @ 34db63dd005ebc9a905c8ef4741ae0687c93c14c | Apache-2.0 |
 | references/upstream/ragas | vibrantlabsai/ragas @ 8c63f10d500c44efbf24fdb9e2920de2104c321c | Apache-2.0 |
+| vendor/tinyrag | datawhalechina/tiny-universe/content/TinyRAG @ a5ae08d56bbefb20b1cf56fa34ed5a3157cdd2c2 | CC BY-NC-SA 4.0，包含原算法与已注明的适配 |
 | 编程Agent与教学组织依据 | shareAI-lab/learn-claude-code @ 448c75bb596917ad196cc1fb7558f459c5c50fdd | MIT；规划输入含前两课原始样本及许可 |
 
 课程规划输入中新增了 Learn Claude Code 的 s01/s02 README.zh.md 和 code.py 原始样本，

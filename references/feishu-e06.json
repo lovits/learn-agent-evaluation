@@ -6,10 +6,12 @@
   "verified_revision": 9,
   "local_sha256": "fce742a3bf3fca7f11b43fdd38986abc9507a8e8f0d2725aaa387c426655d34b",
   "cloud_sha256": "9505b2ced357bbc09bb0a95300b2b292f3cb245e05d1aa6c48361a8729861826",
-  "verified_revision_id": 9,
+  "verified_revision_id": 13,
   "cloud_content_sha256": "9505b2ced357bbc09bb0a95300b2b292f3cb245e05d1aa6c48361a8729861826",
   "rewrite_main_sections": 6,
   "rewrite_working_steps": 6,
   "main_code_blocks_verified": 9,
-  "untargeted_appendices_preserved": true
+  "untargeted_appendices_preserved": true,
+  "title": "e06: 答案质量 — 切题、答对、答全",
+  "content_source": "教材与源码导读"
 }

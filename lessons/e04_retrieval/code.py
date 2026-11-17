@@ -17,7 +17,7 @@ HERE = Path(__file__).parent
 
 def search_knowledge(query, root=None):
     return [
-        {"id": d["path"], "text": d["text"], "sha256": d["sha256"], "matches": d["matches"]}
+        {**d, "id": d["path"]}
         for d in search(query, limit=3, root=root)
     ]
 

@@ -1,104 +1,64 @@
-# 综合编程 Agent 与独立评测项目
+# 综合项目：一个会查知识库的编程 Agent
 
-固定版本的上游集成核心已经接入，真实组合任务、错误与边界实验通过了对应独立验收。[第16课](../lessons/e16_regression/README.zh.md)沿六步解释接线、采样与回归，[总体架构](architecture.md)展开完整调用链，[17项能力说明](capabilities.md)逐项区分真实任务、夹具控制和保留的限制。
+Agent 要修改运费函数与调用入口，查阅 TinyRAG 接入的项目规范，保留接口和原测试，再确认实际行为符合要求。
 
-## 代码从哪里来
+前面的课分别解释一个机制。这里把它们接到同一条执行循环上，再把真实记录送进评测。
 
-`vendor/learn_claude_code/` 保留原样的 s09记忆、s15集成、s16工作流、s17目标循环四个模块和MIT声明。[来源与文件哈希](https://github.com/lovits/learn-agent-evaluation/blob/main/vendor/learn_claude_code/provenance.json)对应commit `448c75bb596917ad196cc1fb7558f459c5c50fdd`。原始集成结构见[上游源码](https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s15_integrated_harness/code.py)。
+## 先看整体
 
-课程适配集中在以下文件，前15课的Agent实现保留独立入口。
+![Agent 执行与评测](../lessons/e16_regression/images/integrated-runtime.png)
 
-| 文件 | 职责 |
+```text
+用户任务 → Runtime → 模型 → 工具 → 工作区
+                ↑             ↓
+                └── 真实结果 ─┘
+
+挂载知识库 → TinyRAG → 文档片段 → 模型上下文
+
+请求与工具轨迹 → 评测样本 → DeepEval / Ragas
+实际工作区与状态 → 规则检查 → 关键条件门禁
+```
+
+模型选择动作，运行时执行。评分器读取已发生的行为；独立规则再检查实际文件与状态。
+
+## 从一个请求读起
+
+[Runtime.submit](runtime.py) 将请求写入 history，进入原生循环。每轮组装工具、记忆和按需知识，执行前检查权限，执行后回填结果。
+
+没有工具请求时，目标循环查看当前证据，决定返回还是带原因继续。后台仍在运行时可延后判断。模型停止以后，业务是否完成仍由外部状态检查确认。
+
+## 知识库只是一个工具来源
+
+`docs.search` 调用 [TinyRAG 适配](../eval_course/tinyrag.py)，从只读挂载目录取片段，返回文本、来源、版本与相似度。生成继续使用原 Agent 的模型入口。
+
+默认本地 TF-IDF 让检索不依赖额外密钥；它是词法向量基线。评价时仍要分别检查召回、证据忠实度和答案质量。
+
+## 任务长起来以后
+
+计划保存显式步骤，Task 保存依赖与归属。一次性子会话用新消息列表处理局部工作，持久队友通过邮箱和任务表接收后续工作。worktree 提供独立工作副本。
+
+上下文压缩保留当前请求与必要工具配对，磁盘记忆保存可跨会话的内容。后台进程稍后交回真实结果，调度提示收到以后还要执行相应动作。
+
+工作流用 journal 保存成功步骤，恢复时复用同一输入对应的结果。目标循环、工作流完成和业务规则通过各自表达不同状态。
+
+## 评测怎样接进来
+
+[第16课采样器](../lessons/e16_regression/code.py) 通过响应 ID 找 trace，保留工具参数、返回和来源 UUID。DeepEval 与 Ragas 按各自定义评价回答及工具行为。
+
+[verify.py](verify.py)读取实际代码并检查两个接口，`state.py` 核对任务、记忆、工作流与工作目录状态。关键条件有任何失败或未知，都阻止接受改动。
+
+## 源码地图
+
+| 文件 | 读什么 |
 |---|---|
-| [runtime.py](runtime.py) | 加载原生机制，记录真正发送的模型输入与响应，把公开目标审查放在返回边界 |
-| [transport.py](transport.py) | 让宿主Codex响应进入原生Messages协议；宿主执行模型，容器执行项目工具 |
-| [workflows.py](workflows.py) | 注册可信的审查脚本，执行并行检查、记录journal，再验证候选意见 |
-| [workflow_demo.py](workflow_demo.py) | 独立运行、中断和跨进程恢复工作流组件 |
-| [verify.py](verify.py)、[state.py](state.py)、[negative.py](negative.py) | 断网读取实际工作区，分别检查基础/组合任务的业务、原生状态与实际拒绝行为 |
-| [gates.py](gates.py) | 已知测试文件没有进入审查输入时，阻止把覆盖意见当成合格评审 |
-| [scenario.py](scenario.py) | 讲师声明阶段的组合实验，串起主轮、子任务、持久队友、后台、真实调度与工作流 |
-| [traces.py](traces.py) | 保存真实原生trace，保留同步父子关系与队友线程独立根 |
+| [runtime.py](runtime.py) | 请求怎样进入循环，目标判断怎样续轮 |
+| [transport.py](transport.py) | 模型响应怎样变成原生动作协议 |
+| [workflows.py](workflows.py) | 并行检查、日志与恢复 |
+| [traces.py](traces.py) | 实际模型与工具怎样被记录 |
+| [scenario.py](scenario.py) | 完整任务的阶段连接 |
+| [verify.py](verify.py)、[state.py](state.py) | 业务行为与持久状态怎样检查 |
+| [gates.py](gates.py) | 缺少关键上下文时怎样阻止接受结论 |
 
-MCP沿用上游的进程内工具适配方式。docs工具已经改为读取真实挂载目录，返回文档和哈希；上游deploy示例仍是模拟工具，没有实际部署服务。
+知识库默认使用 `knowledge_base/e16`，只读挂载；工作区与运行记录分别持久保存。需要运行时，让 Codex 根据 Docker 配置准备一次新的任务即可。
 
-## 运行一个任务
-
-先在宿主机的独立终端启动模型桥：
-
-```bash
-python3 tools/integrated_bridge.py
-```
-
-在项目根目录构建环境，并准备一个新的练习工作区。以下代码只复制公开练习文件；目录已存在时会停止：
-
-```bash
-docker compose build course
-python3 - <<'PY'
-import json
-from pathlib import Path
-case = json.loads(Path('integrated_agent/cases/foundation.json').read_text())
-workspace = Path('workspaces/my-project')
-workspace.mkdir()
-for name, text in case['files'].items():
-    (workspace / name).write_text(text)
-PY
-```
-
-Agent先读规范，再修改实现。下面只预授权实际回归所用的一条命令：
-
-```bash
-docker compose --profile capstone run --rm -T agent \
-  'Load repair skill, write todos, connect docs, read shipping v3, repair both APIs, preserve original tests and actually run python3 -m unittest -q.' \
-  --workspace /data/workspaces/my-project \
-  --report /data/runs/my-project.json \
-  --approve-command 'python3 -m unittest -q' \
-  --goal 'Both APIs follow the mounted contract, original tests are preserved, and the actual unittest command has passed.'
-```
-
-报告拒绝覆盖已有文件。`returned` 只表示Agent已返回，独立验收仍是另外一步：
-
-```bash
-docker compose --profile verify run --rm -T --entrypoint python verifier \
-  -m integrated_agent.verify --workspace /data/workspaces/my-project \
-  --criteria /verification/e16-foundation.json \
-  --report /data/runs/my-project-evaluation.json
-```
-
-这份验收条件适用于公开的v3基础练习。应用容器不挂载答案，验收容器断网并只读挂载工作区；基础profile接受业务四文件与经过格式、索引核对的原生记忆记录。自己的项目需要自己的业务与状态合同。
-
-完整组合实验使用全新目录，讲师脚本安排阶段，模型产生实际响应和工具动作。先完成上面的构建，再执行：
-
-```bash
-docker compose --profile capstone run --rm -T --entrypoint python agent \
-  -m integrated_agent.scenario --workspace /data/workspaces/my-capstone \
-  --report /data/runs/my-capstone.json
-docker compose --profile verify run --rm -T --entrypoint python verifier \
-  -m integrated_agent.verify --profile composed \
-  --workspace /data/workspaces/my-capstone \
-  --criteria /verification/e16-foundation.json \
-  --report /data/runs/my-capstone-evaluation.json
-```
-
-组合验收另外核对实际任务、已释放worktree、保留评审分支、记忆索引、定时交付和workflow日志。阶段排序、当前审批、Git提交归讲师脚本；评审内容的语义正确性仍需按具体发现复核。双框架评分命令见[第16课](../lessons/e16_regression/README.zh.md)。
-
-## 挂载与模型边界
-
-`agent`服务默认把 `knowledge_base/e16/` 只读挂到 `/data/knowledge`，工作区和报告分别持久化到宿主的 `workspaces/`、`runs/`。可用 `INTEGRATED_KNOWLEDGE_DIR` 指定自己的知识目录。
-
-模型登录留在宿主。容器中的 `course-local-codex` 是接口别名，不能当成供应商模型版本；精确版本与实际账单未知。桥接只支持非流式请求，不硬性实施供应商的 `max_tokens` 参数，也不提供logprobs。截断、重试和上下文错误分支已用明确的协议夹具验证，供应商请求数为0。
-
-一个Runtime对应一个工作区和一个进程。任务、记忆和工作流日志落盘；队友线程本身不跨进程存活。批处理只接受逐条预授权的Shell命令，异步轮仍遵守上游的交互权限限制。公开目标裁判只读取对话证据，最终业务门禁由外部验收器负责。
-
-## 已实际得到的证据
-
-基础任务使用9次工作模型响应、1次记忆支持响应和1次公开目标审查，修改了两处实现，实际执行五个原测试。断网独立检查覆盖两个API的44条输入，两份测试保持原字节，两条原生记忆通过格式和索引检查。见[原始运行](evidence/foundation-agent.json)、[独立结果](evidence/foundation-evaluation.json)与[冻结协议](../references/e16-foundation-v2-protocol.json)。
-
-首次连接失败和旧验收口径失败均保留，分别是适配器空鉴权值错误、旧验收器未包含原生记忆状态合同。两条记忆保留原样，修正状态合同后，仅重新执行独立验收。
-
-工作流先真实并行请求两个检查，讲师在日志写入后注入中断。新进程用同一run ID恢复，两个检查命中缓存，只新请求一次验证。见[中断报告](evidence/workflow-interrupted.json)、[恢复报告](evidence/workflow-resumed.json)、[journal](evidence/workflow.journal.jsonl)与[协议](../references/e16-workflow-component-protocol.json)。
-
-这次审查只看了两个实现文件，没有看到项目中的两个测试文件。工作流虽然完成，部分“没有测试”的项目级判断仍证据不足，见[门禁结果](evidence/context-gate.json)。这个真实bad case已经进入CI，完整上下文只能使意见具备接受语义复核的条件，不能自动证明意见正确。
-
-本轮[组合任务](evidence/composed-agent.json)实际33次响应、28条原生trace，业务44输入与完整状态[独立通过](evidence/composed-evaluation.json)。[命令拒绝](evidence/denial-evaluation.json)和[越界拒绝](evidence/boundary-evaluation.json)各有真实模型尝试及文件保持证据。两轮实际评分共20次裁判响应，修订只补采样中的工具参数，原Agent不重跑；[前后结果](../lessons/e16_regression/run_summary.md)完整保留。
-
-[第16课验收](../docs/e16-validation.md)与[能力范围](capabilities.md)列出每项适用条件。工作目录、进程组、最小schema和课程里的有限业务输入均有明确边界，不扩展成一般可靠性或通用安全承诺。
+[总体调用链](architecture.md) · [机制说明](capabilities.md) · [第16课](../lessons/e16_regression/README.zh.md) · [课程大纲](../docs/curriculum.md)

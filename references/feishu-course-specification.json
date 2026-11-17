@@ -1,5 +1,5 @@
 {
-  "title": "Learn Claude Code 编程Agent评测课程：16课详细设计与制作规范",
+  "title": "从编程 Agent 学评测：课程与大纲",
   "url": "https://my.feishu.cn/docx/V8CPdL3Y8oMZt4xJ8RCc4HfNnfb",
   "document_id": "V8CPdL3Y8oMZt4xJ8RCc4HfNnfb",
   "revision_id": 70,
@@ -22,7 +22,7 @@
   "e10_delivery_verified": true,
   "e11_delivery_verified": true,
   "e08_e11_implementation_status_verified": true,
-  "verified_revision_id": 70,
+  "verified_revision_id": 75,
   "verified": true,
   "implemented_lessons": [
     "e01",
@@ -62,5 +62,6 @@
   "verified_scope": "Current intro, e16 implementation status, historical phase heading and new delivery appendix patched individually and reread; lesson16/project complete text, code indentation/newlines and image separately verified.",
   "complete_lesson_count": 16,
   "final_github_code_commit": "b7ac8e49c9ff2ec9e1b9ed57d74a92a61e26e301",
-  "ci_url": "https://github.com/lovits/learn-agent-evaluation/actions/runs/44091272496"
+  "ci_url": "https://github.com/lovits/learn-agent-evaluation/actions/runs/44091272496",
+  "content_source": "课程正文"
 }

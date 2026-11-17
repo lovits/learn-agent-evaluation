@@ -1,4 +1,4 @@
-"""A small filesystem knowledge base; no vector database is required for this lesson."""
+"""Read-only mounted documents with TinyRAG retrieval."""
 
 import hashlib
 import os
@@ -38,10 +38,6 @@ def terms(text: str) -> set[str]:
 
 
 def search(query: str, limit: int = 3, root: Path | None = None) -> list[dict]:
-    if not query.strip() or not 1 <= limit <= 10:
-        raise ValueError("请输入查询内容，limit 必须在 1–10 之间。")
-    query_terms = terms(query)
-    hits = [{**doc, "matches": len(query_terms & terms(doc["text"]))} for doc in catalog(root)]
-    return sorted((x for x in hits if x["matches"]), key=lambda x: (-x["matches"], x["path"]))[
-        :limit
-    ]
+    from .tinyrag import retrieve
+
+    return retrieve(query, limit=limit, root=root)

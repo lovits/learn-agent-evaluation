@@ -1,302 +1,90 @@
-# 第4课：找到相关资料，还要看有没有找全
+# e04: 检索质量 — 用 TinyRAG 找资料，再看找得怎样
 
-## 问题
+[课程](../../README.md) · [上一课](../e03_judges/README.zh.md) · [下一课](../e05_faithfulness/README.zh.md) · [源码导读](source_walkthrough.md)
 
-现在要回答一个具体问题：接入 `POST /upload` 前，客户端必须知道什么？
+> 向量相似度负责排序，评测负责判断资料是否有用。
 
-答案分散在项目知识库的两份规范里：
+## 答案分散在两份文档里
 
-- `e04/auth.md`：认证头是 `X-Project-Token`。
-- `e04/limits.md`：最大文件大小是 `1048576` 字节，超过后返回 `HTTP 413`。
+Agent 要为 `POST /upload` 编写接入说明。`auth.md` 写认证头，`limits.md` 写最大1048576字节及超限状态413。
 
-如果把整个知识库一次性塞给模型，资料少时似乎可行，资料多了却会浪费上下文，还会混入无关内容。本课采用“需要时再给模型内容”的思路：Agent先提出查询，检索器读取磁盘上的候选文件，再把排序后的前三篇交给模型。
+只拿到认证文档，返回内容完全切题，却仍答不出后两项。本课接入 Datawhale TinyRAG，让已有 Agent 通过 `search_knowledge` 读取挂载知识库，再分别评价相关、覆盖与排序。
 
-这借鉴了固定版本 Learn Claude Code 中 `SkillLoader` 的按需加载思想，但没有完整移植技能的前置信息、注册系统和执行指令。我们做的只是一个小型合成项目规范检索器，不是语义检索，也不是生产级检索增强生成系统。
+## TinyRAG 只有几块
 
-本课只新增三个部分：
-
-1. `search_knowledge` 工具；
-2. 挂载到 `/data/knowledge` 的只读知识库；
-3. 检索结果的评分与独立验收。
-
-第2课已有的工具、权限和事件格式继续保留；循环在本课提供可读快照。本课不加入记忆、计划、子Agent、向量库或重排模型。这样可以只观察一个问题：模型是否找到了相关资料，而且有没有找全。
-
-## 解决方案
-
-知识库通过环境变量 `KNOWLEDGE_DIR` 指定。在容器中，它映射到只读目录 `/data/knowledge`。每个 Markdown 或文本文件就是一个证据单元：
-
-- `id` 使用相对于知识库根目录的路径；
-- `text` 是文件内容；
-- `sha256` 标识这份内容的版本；
-- `matches` 是查询词与文档词项的交集数。
-
-英文按单词处理，中文按相邻双字处理。结果先按交集数从高到低排序；分数相同时按路径排序，只返回前三篇。这个规则简单、可复现，但不理解同义词和语义。
-
-检索器为了计算分数，需要从磁盘读取候选文件；模型却只看到最终返回的前三篇。模型的上下文范围以实际返回结果为准。
-
-Agent获得资料后，把三个事实及其来源写入 `upload_notes.txt`。独立的 `verify.py` 随后在断网环境中读取真实文件和工具轨迹，检查：
-
-- Agent是否正常结束；
-- 轨迹结构是否有效；
-- 文件是否包含认证、字节上限和状态码；
-- 两份必要文档是否确实通过检索加载；
-- 文件内容是否与报告中的记录一致。
-
-工作目录在验收时只读，验收器不会执行Agent生成的代码。具体运行中，独立标准没有挂给Agent，模型凭据也只留在宿主机；但教学镜像同时包含教材例题，因此这不能称为严格盲测。
-
-## 工作原理
-
-下面按一次真实数据流阅读关键代码。片段均取自现有源码，并有省略，不能当作独立入口运行。
-
-**第1步：从真实挂载中读取证据**
-
-`eval_course/knowledge.py`先确定知识库根目录，再读取指定文件。路径必须留在挂载目录内，而且只能是 Markdown 或文本文件。
-
-```python
-def knowledge_root() -> Path:
-    return Path(os.environ.get(
-        "KNOWLEDGE_DIR", PROJECT / "knowledge_base"
-    )).resolve()
-
-def document(path: str, root: Path | None = None) -> dict:
-    root = (root or knowledge_root()).resolve()
-    target = (root / path).resolve()
+```text
+只读文档 → 切成片段 → 文本向量 → VectorStore
+                                      ↑
+问题 → 查询向量 → 余弦相似度 → top-k 片段 → Agent
 ```
 
-读取后，文件路径成为证据ID，内容的摘要成为版本标识：
+TinyRAG 的核心在于把文档与查询放到相同向量空间。`VectorStore` 保存向量，用余弦相似度排序，再返回最接近的片段。
+
+本课嵌入接口使用本地 TF-IDF：按语料中的词项及稀有程度形成向量，无需模型密钥。它是词法向量基线，不具备神经嵌入的同义理解；更换嵌入实现时，向量库的查询接口仍可复用。
+
+## 从挂载文件到片段
+
+[`catalog`](../../eval_course/knowledge.py) 读取只读挂载里的 Markdown 和文本。适配层按字符窗口分块，保留原文、起止位置和来源：
 
 ```python
-text = target.read_text(encoding="utf-8")
-return {
-    "path": path,
-    "text": text,
-    "sha256": hashlib.sha256(text.encode()).hexdigest(),
-}
+text = doc["text"][start : start + size]
 ```
 
-同一路径的内容发生变化时，`sha256`也会变化。因此旧报告中的证据不能仅凭路径与新文件混为一谈。每次搜索都会重新读取文件，替换挂载或修改内容后无需重建镜像。
+每个片段有 `chunk_id`、片段哈希和 `source_sha256`。同一文档可以产生多个片段，评价片段覆盖和评价文档覆盖时，要使用不同的 ID 单位。
 
-**第2步：用可解释规则搜索前三篇**
+课程窗口为1200字符、重叠150字符。短规范只有一个片段；长文档相邻窗口保留重叠。这里明确按字符计量，源码导读会对照上游分块方法。
 
-检索规则位于同一个文件。英文提取小写单词，连续中文提取相邻双字：
+## 建向量，再按问题查询
+
+[`retrieve`](../../eval_course/tinyrag.py) 把片段交给实际 TinyRAG `VectorStore`：
 
 ```python
-def terms(text: str) -> set[str]:
-    words = set(re.findall(r"[a-z0-9]+", text.lower()))
-    chinese = re.findall(r"[\u4e00-\u9fff]+", text)
-    return words | {
-        part[i:i + 2]
-        for part in chinese
-        for i in range(max(1, len(part) - 1))
-    }
+embedding = CorpusEmbeddings(list(entries))
+store = VectorStore(list(entries))
+store.get_vector(embedding)
+ranked = store.query(query, embedding, k=min(limit, len(entries)))
 ```
 
-随后计算查询与每篇文档的词项交集数，只保留有交集的结果：
+`get_vector` 对片段编码；`query` 对问题编码，再与已存向量比较。返回值映射回来源字段，并过滤没有向量重合的零相似度结果。
 
-```python
-query_terms = terms(query)
-hits = [
-    {**doc, "matches": len(query_terms & terms(doc["text"]))}
-    for doc in catalog(root)
-]
-return sorted(
-    (x for x in hits if x["matches"]),
-    key=lambda x: (-x["matches"], x["path"]),
-)[:limit]
-```
+为了让课程数据保持透明，这个小语料在查询时重建内存索引，更换挂载即可读取新内容。TinyRAG 也提供持久化接口，使用它时还要检查索引与文档、分块和嵌入版本是否一致。
 
-默认 `limit=3`。对于查询 `POST upload API token size limit`，认证规范和大小限制规范都会命中，无关的界面主题文档即使进入受控实验，也不应成为回答三个事实的必要证据。
+## Agent 循环只接一个新工具
 
-**第3步：把检索接入原有工具循环**
+[`dispatch`](code.py) 截获 `search_knowledge`，其他动作继续交给前课。检索结果作为普通工具结果回填，Agent 再据此写接入说明。
 
-`lessons/e04_retrieval/code.py`把公共搜索结果转换成工具返回格式：
+相似度是召回排序依据。它并不直接知道本题必须包含认证头、字节上限和状态码，不能当成业务正确率。
 
-```python
-def search_knowledge(query, root=None):
-    return [
-        {
-            "id": d["path"],
-            "text": d["text"],
-            "sha256": d["sha256"],
-            "matches": d["matches"],
-        }
-        for d in search(query, limit=3, root=root)
-    ]
-```
+## 相关与找全分别计算
 
-分发器只拦截这个新工具；其他工具继续交给第2课的 `previous_dispatch`：
+标注相关文档为 `{auth, limits}`，手算几种返回：
 
-```python
-def dispatch(call, workspace, approve=lambda n, a: False):
-    if call.get("name") != "search_knowledge":
-        return previous_dispatch(call, workspace, approve)
-    args = json.loads(call["arguments_json"])
-    hits = search_knowledge(args["query"])
-```
+| 返回 | 文档精度 | 文档召回 |
+|---|---:|---:|
+| `[auth]` | 1 | 1/2 |
+| `[auth, limits]` | 1 | 1 |
+| `[auth, limits, noise]` | 2/3 | 1 |
 
-其他工具仍沿用前课的权限和轨迹格式。真实成功运行中，Agent按需加载两份必要文档，写出了认证头、`1048576`、`413`及来源路径。
+精度的分母是返回数，召回的分母是应找回的相关总数。`ranking` 在文档级先按来源 ID 去重；若要评价长文片段，应改用 `chunk_id` 并准备相应标注。
 
-**第4步：分别衡量“相关”与“找全”**
+## 排序还改变什么
 
-`eval.py`先按文档ID去重，并保留第一次出现的位置：
+`[auth, limits, noise]` 与 `[noise, auth, limits]` 的精度和召回相同，相关位置的平均精度却分别为1与 `(1/2 + 2/3)/2 = 7/12`。
 
-```python
-def ranking(ids, relevant):
-    ids = list(dict.fromkeys(ids))
-    relevant = set(relevant)
-    if not relevant:
-        raise ValueError(
-            "No relevance annotation: recall is undefined, not perfect"
-        )
-    flags = [int(i in relevant) for i in ids]
-```
+`ap_retrieved` 除以本次相关命中数，`ap_reference` 除以全部标注相关数。MRR 只看首个相关位置，NDCG 给靠后位置打折。
 
-ID精度表示返回结果里有多少是相关文档：
+DeepEval 与 Ragas 的 Context Precision 让模型判断片段是否支持回答，再按顺序聚合；Context Recall 检查参考声明被支持的比例。DeepEval Contextual Relevancy 则检查上下文声明是否切题。
 
-`ID精度 = 找到的相关ID数 ÷ 返回的去重ID数`
-
-ID召回表示必要文档找回了多少：
-
-`ID召回 = 找到的相关ID数 ÷ 标注的相关ID数`
-
-例如只返回认证文档，而标注要求认证和限额两篇：
-
-- ID精度为 `1`，因为返回的一篇确实相关；
-- ID召回为 `0.5`，因为两篇必要文档只找到一篇；
-- `AP_retrieved`仍为 `1`，因为它以本次返回中的相关项数为分母。
-
-这说明“返回的全都相关”不等于“必要证据都找全”。若参考答案把认证、`1048576`和`413`拆成三条声明，LLM判断的声明召回约为 `1/3`。文档ID数与答案声明数不是同一种单位，不能直接当作同一量表。参考标注若漏掉必要证据，还会使召回虚高。
-
-空返回且标注已知非空时，规则分数记为 `0`；空标注不代表满分，而是无法定义召回并抛错。
-
-**第5步：检查相关文档是否排在前面**
-
-精度和召回忽略顺序。为了区分“先给相关资料”和“先给噪声”，代码还计算平均精度、首个相关项倒数排名和二元归一化折损累计增益。
-
-先看 `ranking` 怎样累计每个相关位置的精度，下面省略了其他返回字段：
-
-```python
-found = sum(flags)
-numerator = sum(sum(flags[: i + 1]) / (i + 1) for i, v in enumerate(flags) if v)
-return {
-    "ap_retrieved": numerator / found if found else 0.0,
-    "ap_reference": numerator / len(relevant),
-}
-```
-
-两篇相关资料和一篇噪声有两种顺序：
-
-- `[相关, 相关, 噪声]`：`AP_retrieved = 1`
-- `[噪声, 相关, 相关]`：`AP_retrieved = (1/2 + 2/3) ÷ 2 = 7/12 ≈ 0.5833`
-
-两种顺序的ID精度都是 `2/3`，召回都是 `1`，但第二种把有用资料推迟了。`AP_reference`改用全部标注相关数作为分母，不能与 `AP_retrieved`混名。MRR和二元NDCG的折扣方向、分母及全部边界见[源码导读](source_walkthrough.md)。这些规则都是分数越高越好。
-
-**第6步：对照原生SDK与独立验收**
-
-首次制作时实际运行了 DeepEval 的 `ContextualPrecisionMetric`、`ContextualRecallMetric`、`ContextualRelevancyMetric`，以及 Ragas collections 的 `ContextPrecisionWithReference`、`ContextRecall`。
-
-Ragas使用适配现代接口的 `InstructorBaseRagasLLM`：
-
-```python
-class ModernJudge(InstructorBaseRagasLLM):
-    def generate(self, prompt, response_model):
-        text = self.transport.ask(
-            prompt + "\nReturn JSON matching this schema:\n"
-            + json.dumps(response_model.model_json_schema())
-        )
-        return response_model.model_validate_json(text)
-```
-
-这个适配器发送原生提示词与结构化模式，再校验模型响应；异步入口通过线程调用同步实现。现代 collections 使用这套接口，第3课旧式接口的调用方式另见源码导读。完整的提示词、判决、聚合、同步与异步路径见[源码导读](source_walkthrough.md)，固定版本和官方链接见其中的来源说明。
-
-DeepEval 的相关性指标按问题判断声明是否相关，不需要参考答案；召回指标则检查参考答案中的声明能否从资料得到支持。分母和判断对象不同，同一个分数不能概括所有检索质量。模型分句还可能波动，相关性分数的变化不一定来自排序。
-
-本课阈值为 `0.7`。空检索在规则层计0，在SDK层明确跳过，不能把未运行写成SDK零分。参考依赖、浮点误差、未运行的WithoutReference口径和完整调用链见[源码导读](source_walkthrough.md)。
-
-最后，`verify.py`直接读取产物和执行记录：
-
-```python
-checks = {
-    "finished": report["status"] == "finished",
-    "trace_valid": not trace_errors(report),
-    "artifact_contents": all(
-        s in text for s in criteria["required_strings"]
-    ),
-    "required_documents_loaded":
-        set(criteria["required_documents"]) <= retrieved,
-    "artifact_matches_record": text == report["notes"],
-}
-```
-
-原始提示词、响应、裁判判决和Agent工具事件都保存在完整JSON中。规则结果、原生SDK分数和裁判运行错误分开记录，不能把运行失败当成有效的零分。
-
-## 相对上一课的变更
-
-| 项目 | 上一课 | 本课 |
-|---|---|---|
-| 工具 | 复用五个工具及权限 | 只新增 `search_knowledge` |
-| 上下文 | 任务与工具结果 | 增加按需返回的前三篇知识 |
-| 数据 | 工作目录 | 增加只读知识库挂载 |
-| 评价 | 模型裁判基础 | 增加ID精度、召回与排序评价 |
-| 未加入 | — | 记忆、计划、子Agent、向量库 |
-
-本课的 `good`、`late`、`missing`、`empty`是人为控制的检索扰动，不是四次Agent自然输出。真实Agent任务与这些评分样本必须分开理解。
-
-第一次实验曾出现宿主机提示残留和SDK裁决保存字段错误；原始记录与修复后的结果分开保留。它们分别属于运行配置与保存代码问题，不能统称为模型判断错误。详细轨迹、分数和两轮请求数见[历史运行摘要](run_summary.md)。
+认证、限额和413若拆成三条声明，只找到认证时，声明召回可能为1/3，而文档召回是1/2。先辨认单位，再解释分数。
 
 ## 试一下
 
-先进入项目目录。确保 Docker Desktop、Python可用，而且宿主机Codex已经登录。在两个宿主机终端分别保持以下进程运行：
+让 TinyRAG 检索同一个问题，再分别删掉限额命中、把噪声移到前面。哪些分数改变，哪些保持不变？
 
-```sh
-python3 tools/model_bridge.py
-```
+再把一份长文切成多个片段。文档已经命中，但关键片段没返回时，文档召回能发现什么，片段召回又能发现什么？
 
-```sh
-python3 tools/judge_bridge.py
-```
-
-更新过对应入口代码后，需要重启相应进程。然后执行：
-
-```sh
-docker compose build
-docker compose run --rm -T --entrypoint python course -m lessons.e04_retrieval.code
-docker compose --profile verify run --rm -T --entrypoint python verifier -m lessons.e04_retrieval.verify
-docker compose run --rm -T --entrypoint python course -m lessons.e04_retrieval.eval
-```
-
-默认报告写入：
-
-- `runs/e04-agent.json`
-- `runs/e04-agent-grade.json`
-- `runs/e04-evaluation.json`
-
-重跑会覆盖这些文件；比较两次结果前先复制。随教材提供的固定JSON不会被覆盖。本轮只是重写文档，没有重新运行历史Agent或裁判实验。
-
-若要验证只读挂载可以替换，先准备一个实际存在的绝对目录，再运行：
-
-```sh
-KNOWLEDGE_DIR=/绝对路径 docker compose run --rm -T --entrypoint python course -c 'from lessons.e04_retrieval.code import search_knowledge; print(search_knowledge("你的查询词"))'
-```
-
-`/绝对路径`只是占位符，不要原样执行。容器内仍映射为 `/data/knowledge`，更换目录不需要重建镜像。
-
-阅读网页版教材：
-
-```sh
-docker compose up -d
-```
-
-打开 `http://localhost:8765/lesson4`。
-
-查看报告时，尝试回答三个观察题：
-
-1. Agent实际加载了哪些文档ID？它们的 `sha256`记录在哪里？
-2. 为什么 `missing`的ID精度和 `AP_retrieved`都是 `1`，召回却只有 `0.5`？
-3. `late`与 `good`的ID精度、召回相同，为什么排序分数从 `1`降到约 `0.5833`？
-
-更多练习见[练习](exercises.md)，完成后再核对[参考答案](solutions.md)。完整实现可继续阅读[Agent与检索代码](code.py)、[评分代码](eval.py)、[独立验收代码](verify.py)和[知识库实现](../../eval_course/knowledge.py)。
+[TinyRAG 适配](../../eval_course/tinyrag.py) · [原生向量库](../../vendor/tinyrag/VectorBase.py) · [评分](eval.py) · [练习](exercises.md) · [参考答案](solutions.md)
 
 ## 接下来
 
-现在能分别检查资料是否相关、有没有漏检、排序是否把有用资料放在前面。模型拿到这些资料后仍可能写错数字，或者补出资料没有提到的行为。第5课沿用这里的检索快照，逐条检查回答声明是否得到证据支持。
+TinyRAG 找到资料以后，Agent 仍可能补出文档没有的重试次数。下一课逐条检查回答是否得到这些证据支持。

@@ -9,7 +9,7 @@
   ],
   "revision_id": 7,
   "url": "https://my.feishu.cn/docx/LEyndiChQo7i8Vx1zodcfvwSnD4",
-  "verified_revision_id": 7,
+  "verified_revision_id": 12,
   "verified": true,
   "local_sha256": "2fd6e2d38c8bd47139bb061330e2f09d875b39a5c772e6b62f9def0b155edabd",
   "cloud_content_sha256": "8554d6eeb704c45d49db664b007aad6a242a3c67ce784a2b990a0c3e3ae9f442",
@@ -24,5 +24,7 @@
     "solutions",
     "run_summary",
     "validation"
-  ]
+  ],
+  "title": "e13: 计划与协作 — 局部完成怎样接成整体",
+  "content_source": "教材与源码导读"
 }

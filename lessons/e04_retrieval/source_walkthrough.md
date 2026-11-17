@@ -1,47 +1,66 @@
-# 第4课源码导读
+# e04 源码导读：TinyRAG 的排序怎样进入评测
 
-这一课把项目资料接到编程Agent上。只增加search_knowledge；第2课的五种工具与权限继续复用，循环、父子span和hook在本课保留可读快照。没有向量库、重排模型、记忆或新Agent协作。
+[教材](README.zh.md) · [挂载读取](../../eval_course/knowledge.py) · [检索适配](../../eval_course/tinyrag.py) · [评分](eval.py)
 
-## 挂载与按需加载
+## 先沿 TinyRAG 走一遍
 
-[code.py](code.py)调用公共eval_course.knowledge.search：catalog从KNOWLEDGE_DIR读取Markdown/text，terms把英文分词、中文取相邻双字，按查询词交集数降序、路径升序打破平局，只返回前三篇。每篇文件就是一个证据单元，id用相对路径，sha256标识内容版本。路径解析拒绝越出目录的链接。每次查询重新读文件，所以换挂载或修改文本后不必重建镜像；这不是语义检索或通用中文分词。
+[上游 TinyRAG](https://github.com/datawhalechina/tiny-universe/tree/a5ae08d56bbefb20b1cf56fa34ed5a3157cdd2c2/content/TinyRAG) 将流程拆成读取、分块、嵌入、向量库与生成。本课保留实际 `VectorStore` 算法，生成继续交给已有 Agent 与模型入口。
 
-源头是固定Learn Claude Code提交448c75bb596917ad196cc1fb7558f459c5c50fdd的[SkillLoader](https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s07_skill_loading/code.py)。scan扫描*/SKILL.md、解析frontmatter并构建目录；catalog给摘要，load按名字返回全文。这里借用“需要时再把内容给模型”的组织方式，改成项目文档搜索。没有移植skill frontmatter、工具注册或执行指令。模型看到搜索结果，检索器在磁盘上仍须读取候选文件，二者要区分。
+```text
+catalog → chunks → CorpusEmbeddings
+                         ↓
+               VectorStore.get_vector
+                         ↓
+       VectorStore.query → 来源映射 → search_knowledge
+```
 
-知识库只读挂载，工作目录可写，runs保存轨迹。独立verify.py断网读取真实upload_notes.txt，检查三个事实和来源路径，以及检索与工具轨迹。它不执行生成代码。这个教学镜像同时提供教材和例题答案，不能当严格防作弊的盲测环境。
+## query 只做三件事
 
-## ID口径与排序口径
+[VectorBase.py](../../vendor/tinyrag/VectorBase.py) 的原生主干是：
 
-[eval.py](eval.py)的ranking先按ID保留第一次出现，避免重复命中虚增召回。precision的分母为去重后的返回数；recall的分母为标注相关ID数。
+```python
+query_vector = EmbeddingModel.get_embedding(query)
+result = np.array([self.get_similarity(query_vector, vector)
+                   for vector in self.vectors])
+return np.array(self.document)[result.argsort()[-k:][::-1]].tolist()
+```
 
-ap_retrieved把每个相关位置的P@i相加，再除以本次返回中相关项数，模拟本课两个框架Context Precision的聚合形式。ap_reference改用全部标注相关ID数，漏检会被扣分。两者不要同名。MRR只看首个相关项；二元NDCG使用1/log2(rank+1)折扣，理想排序长度取min(返回数,相关总数)。它们的目标不同。
+余弦比较方向，分数高的先返回。相同内容可能来自不同文档，适配层给索引条目附来源前缀，返回后映射回片段及来源哈希。
 
-两篇必要资料中只返回认证文档，ID precision=1、recall=0.5、ap_retrieved=1、ap_reference=0.5。把噪声从末尾移到开头时，precision/recall不变，ap_retrieved从1降到7/12，约0.5833。返回空集且已有非空标注时，这些规则分数约定为0；标注集合本身为空时抛错，不能把未知参考当满分。
+`BaseEmbeddings.cosine_similarity` 使用点积除以范数乘积，零向量返回0。课程裁掉供应商导入及修改环境变量的副作用，保留计算；来源与许可见 [TinyRAG 说明](../../vendor/tinyrag/LICENSE.md)。
 
-## DeepEval：先判有用性，再聚合
+## 嵌入与分块有哪些适配
 
-固定提交34db63dd005ebc9a905c8ef4741ae0687c93c14c（4.3.4）。
+`CorpusEmbeddings` 在当前语料上拟合 TF-IDF，再提供 `get_embedding`。词项沿用英文单词与中文相邻双字。这是无密钥词法向量，不把它解释成预训练语义模型。
 
-- [Contextual Precision文档](https://deepeval.com/docs/metrics-contextual-precision)与[源码](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/contextual_precision/contextual_precision.py)：prepare_measure校验input、expected_output、retrieval_context；_generate_verdicts经模板和结构化schema对每个节点给yes/no和理由，_calculate_score对相关位置的累计precision求均值，分母为本次相关节点数，不是库中全部相关资料数。没有相关节点则0。
-- [Contextual Recall文档](https://deepeval.com/docs/metrics-contextual-recall)与[源码](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/contextual_recall/contextual_recall.py)：同样依赖expected_output。模型判断参考答案的声明能否从检索资料归因，再按yes比例评分。因此分母是声明，而非文档。认证一条、限额一条、413一条，对应三条声明；只有认证时可能得到1/3，而ID召回是1/2。
-- [Contextual Relevancy源码](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/contextual_relevancy/contextual_relevancy.py)：仅需input与retrieval_context，不要求参考答案。逐文档提取声明并判断与问题相关性，_calculate_score展平verdicts_list后求相关声明比例。它不是文档集合precision。precision/recall对象用verdicts，relevancy对象用嵌套verdicts_list；本课曾在保存时混用字段，已保留初次失败报告并修正。
+`chunks` 按字符窗口保留空白和原文偏移。上游 `ReadFiles.get_chunk` 同时使用 token 长度与字符切片，并会去空格；本课改用明确的字符单位，避免把代码空白或长行丢掉。[上游工具副本](../../vendor/tinyrag/upstream/utils.py.txt)用于对照，不作为本课读取入口。
 
-measure和a_measure分别提供同步、异步入口。实验用同步DeepEval接口，每个情景独立实例；include_reason=False省去额外总结请求，逐项verdict理由仍保存。阈值0.7是教学约定，不是官方推荐的业务门槛。
+`sha256` 标识当前片段，`source_sha256` 标识原文件。`matches` 仅保留词项交集计数供旧调用者读取，排序由 `similarity` 决定。换文档后重建当前小型索引，不复用旧向量。
 
-## Ragas collections：参考答案与参考无关口径
+## 文档与片段是两种标注
 
-固定提交8c63f10d500c44efbf24fdb9e2920de2104c321c（0.4.4）。
+`ranking` 先按传入 ID 去重。文档级用来源路径，片段级用 `chunk_id`；标注集合必须采用相同单位。
 
-- [Context Precision文档](https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/context_precision/)与[collections实现](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/metrics/collections/context_precision/metric.py)：ContextPrecisionWithReference.ascore逐个把question、reference、context交给prompt和结构化ContextPrecisionOutput，收集0/1；_calculate_average_precision采用相关位置precision的和，分母cumsum+1e-10，因此接近1可能显示0.99999999995。
-- 同文件ContextPrecisionWithoutReference把response替代reference，并非完全脱离答案的纯检索相关性。如果回答遗漏了事实，用回答反查上下文可能掩盖问题。本课实测WithReference；WithoutReference做源码对照，不声称已跑其模型实验。
-- [Context Recall文档](https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/context_recall/)与[collections实现](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/metrics/collections/context_recall/metric.py)：ascore要求非空问题、reference和retrieved_contexts，把contexts合并后生成classifications，分数为attributed声明数/总声明数；无classifications返回NaN。本课有限数校验将非有限结果记为未评分，不保存成正常0分。
+precision 分母为返回 ID 数，recall 分母为标注相关总数；AP 累计相关位置的 `P@i`，再按 retrieved 或 reference 口径归一化。MRR 是首相关排名倒数；二元 NDCG 用 `1/log2(rank+1)` 折扣。
 
-本课ModernJudge继承InstructorBaseRagasLLM，agenerate调用宿主机传输后按response_model校验JSON。没有把第3课legacy BaseRagasLLM直接塞进collections；接口与返回MetricResult.value均按固定版本执行。
+已知标注非空而返回为空时规则记0；标注本身为空则无法定义召回。
 
-## 实验边界与失败记录
+## DeepEval 的判定对象
 
-一条真实Agent任务检验挂载、检索动作、产物与引用。good/late/missing/empty则是同一问题的受控检索扰动，不冒充四次Agent自然检索结果。原生SDK对前三种情景实测，empty只跑规则，明确记录skip，避免掩盖collections Recall拒绝空输入的差异。
+[Contextual Precision 文档](https://deepeval.com/docs/metrics-contextual-precision) · [实现](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/contextual_precision/contextual_precision.py)
 
-参考不完整时，召回可能虚高。本课把标注缩成只有认证文档，返回认证会得ID recall=1，但依然答不出限额和413。评价reference的完整性，需要独立人工检查。
+`prepare_measure` 检查问题、expected_output 与 retrieval_context；`_generate_verdicts` 逐片段给有用性判断；`_calculate_score` 对相关位置累计精度，再除以本次相关数。
 
-首次Agent入口误带第2课故障注入提示，产生无关Bash动作并被拒绝；清理提示后重跑。初次轨迹与提示、初次SDK保存错误均单独保留。正常报告与这些失败记录分开，不用人工标签覆盖模型verdict。score=null和error表示运行失败；score=0才是有效评分的不通过。
+[Contextual Recall 文档](https://deepeval.com/docs/metrics-contextual-recall) · [实现](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/contextual_recall/contextual_recall.py)按参考声明是否能归因到片段计算 yes 比例。它的分母是声明数。
+
+[Contextual Relevancy](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/contextual_relevancy/contextual_relevancy.py) 不需要参考，按上下文声明是否与问题相关聚合。嵌套 `verdicts_list` 展平后计数，长片段可能贡献更多声明。
+
+## Ragas 的参考口径
+
+[Context Precision 文档](https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/context_precision/) · [实现](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/metrics/collections/context_precision/metric.py)
+
+WithReference 逐片段判断问题、reference 与 context 的支持关系，再计算平均精度。WithoutReference 用回答替换 reference，回答自己的遗漏也可能掩盖检索缺口。
+
+[Context Recall 文档](https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/context_recall/) · [实现](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/metrics/collections/context_recall/metric.py)合并上下文，按参考声明的 attributed 比例评分；无 classifications 可返回 NaN，必要输入为空则更早报错。
+
+现代 collections 使用 `InstructorBaseRagasLLM`，与旧接口分开适配。模型分数、未定义和请求错误分别记录；相似度只影响召回，不能代替这些质量判断。

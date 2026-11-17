@@ -1,6 +1,5 @@
 {
-  "title": "从 Learn Claude Code 编程 Agent 学 RAG 与 Agent 评测",
-  "status": "e01-e12_implemented_other_lessons_planned",
+  "title": "从编程 Agent 学评测",
   "audience": "会 Python，了解 RAG/Agent，系统学习评测",
   "versions": {
     "deepeval": {
@@ -20,23 +19,32 @@
     "pocketflow_tutorial": {
       "repository": "https://github.com/The-Pocket/PocketFlow-Tutorial-Codebase-Knowledge",
       "commit": "05b24cbbb0fe409c5e23c9791f0342f07524ffdc"
+    },
+    "tinyrag": {
+      "repository": "https://github.com/datawhalechina/tiny-universe",
+      "path": "content/TinyRAG",
+      "commit": "a5ae08d56bbefb20b1cf56fa34ed5a3157cdd2c2",
+      "license": "CC BY-NC-SA 4.0",
+      "embedding": "local-tfidf lexical baseline"
     }
   },
   "lesson_count": 16,
   "lessons": [
     {
       "id": "e01",
-      "title": "最小编程 Agent 与第一份评测协议",
-      "status": "implemented_live_docker_verified",
-      "original_lessons": [
-        "s01",
-        "s09"
+      "slug": "e01_agent_baseline",
+      "title": "Agent 循环",
+      "core_question": "模型停下了，任务就完成了吗？",
+      "learn": "用最小循环连接模型与 Bash，分清运行结果和任务评分。",
+      "knowledge": [
+        "任务、样本、评分标准",
+        "消息与工具结果回填",
+        "停止状态与完成状态",
+        "文件、输出和退出码的证据"
       ],
+      "textbook": "lessons/e01_agent_baseline/README.zh.md",
+      "source_walkthrough": "lessons/e01_agent_baseline/source_walkthrough.md",
       "agent_increment": "仅 agent_loop、run_bash、必要运行记录",
-      "assess": "真实工具执行、停止与任务完成",
-      "knowledge": "任务、样本、判分器、数据集、阈值、运行配置；模型能力与应用质量；离线评测与线上观察。; 最小 RAG 链路、组件与端到端评测、运行 ID、模型/提示词/数据版本、scorecard。",
-      "experiment": "在临时练习仓库列目录、创建并运行 hello.py，再注入假报成功",
-      "acceptance": "以文件内容与退出码验收；保存输入输出、版本与轨迹；区分回放和真实调用",
       "source_paths": [
         "deepeval/deepeval/dataset/dataset.py",
         "deepeval/deepeval/evaluate/evaluate.py",
@@ -49,25 +57,23 @@
         "https://docs.ragas.io/en/stable/concepts/experimentation/",
         "https://deepeval.com/tutorials/rag-qa-agent/evaluation",
         "https://docs.ragas.io/en/stable/tutorials/rag/"
-      ],
-      "agent_sources": [
-        "learn-claude-code/s01_agent_loop/code.py"
-      ],
-      "source_analysis": "按所选指标适用部分追踪输入校验、prompt/schema、模型调用、verdict、聚合、异步与结果对象；规则指标说明不适用项。"
+      ]
     },
     {
       "id": "e02",
-      "title": "工具、权限、轨迹与统一评测样本",
-      "status": "implemented_live_docker_verified",
-      "original_lessons": [
-        "s02",
-        "s13"
+      "slug": "e02_tools_traces",
+      "title": "评测样本",
+      "core_question": "怎样把一次工具调用变成可评测的记录？",
+      "learn": "给动作命名，保存权限、参数和结果，再转换成两套框架的样本。",
+      "knowledge": [
+        "工具声明与分发",
+        "参数错误、拒绝与执行失败",
+        "trace、span 与调用归属",
+        "单轮、多轮和统一字段"
       ],
+      "textbook": "lessons/e02_tools_traces/README.zh.md",
+      "source_walkthrough": "lessons/e02_tools_traces/source_walkthrough.md",
       "agent_increment": "read/write/edit/glob dispatch、权限检查和记录 hook",
-      "assess": "工具决策与结果、权限拒绝、字段适配",
-      "knowledge": "input/actual_output/expected_output/retrieval_context；user_input/response/reference/retrieved_contexts；工具调用与多轮消息；必需字段；数据版本与开发/校准/留出集。; trace、span、轨迹、工具事件、输入输出、异常；端到端/完整轨迹/组件边界；trace 树和工具归属。",
-      "experiment": "构造成功、缺参、被拒绝、工具异常轨迹，转为两框架样本",
-      "acceptance": "逐字段可追溯；拒绝不当成功；数据分开发/校准/留出",
       "source_paths": [
         "deepeval/deepeval/test_case/conversational_test_case.py",
         "deepeval/deepeval/test_case/llm_test_case.py",
@@ -83,27 +89,23 @@
         "https://docs.ragas.io/en/stable/concepts/components/eval_dataset/",
         "https://deepeval.com/guides/guides-tracing-ai-agents",
         "https://deepeval.com/docs/evaluation-trajectory-based-llm-evals"
-      ],
-      "agent_sources": [
-        "learn-claude-code/s02_tool_use/code.py",
-        "learn-claude-code/s03_permission/code.py",
-        "learn-claude-code/s04_hooks/code.py"
-      ],
-      "source_analysis": "按所选指标适用部分追踪输入校验、prompt/schema、模型调用、verdict、聚合、异步与结果对象；规则指标说明不适用项。"
+      ]
     },
     {
       "id": "e03",
-      "title": "规则评分与 LLM 裁判",
-      "status": "implemented_live_docker_judges_verified",
-      "original_lessons": [
-        "s03",
-        "s04"
+      "slug": "e03_judges",
+      "title": "评分标准",
+      "core_question": "什么交给规则，什么交给 LLM 裁判？",
+      "learn": "从同义回答出发，明确评分单位与 rubric，读懂 G-Eval、DAG 和 AspectCritic。",
+      "knowledge": [
+        "精确匹配与 JSON 合同",
+        "集合 precision、recall、F1",
+        "评分步骤、结构化裁决与阈值",
+        "有效零分与评分失败"
       ],
+      "textbook": "lessons/e03_judges/README.zh.md",
+      "source_walkthrough": "lessons/e03_judges/source_walkthrough.md",
       "agent_increment": "复用前课 Agent，仅加独立判分适配",
-      "assess": "格式、精确结果与语义标准",
-      "knowledge": "精确匹配、集合 precision/recall/F1、结构校验、规则断言；规则覆盖范围；对语义等价的误判。; LLM-as-a-Judge、评分维度、rubric、G-Eval、Aspect Critic、结构化 verdict 与理由；DAG 评分分支。",
-      "experiment": "手算规则/F1，再比较 G-Eval、Aspect 类标准与 DAG 边界",
-      "acceptance": "rubric 与字段一致；记录 verdict/理由；分清确定控制与模型随机性",
       "source_paths": [
         "deepeval/deepeval/metrics/dag/dag.py",
         "deepeval/deepeval/metrics/g_eval/g_eval.py",
@@ -116,23 +118,23 @@
         "https://deepeval.com/docs/metrics-llm-evals",
         "https://deepeval.com/guides/guides-g-eval-examples",
         "https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/aspect_critic/"
-      ],
-      "agent_sources": [],
-      "source_analysis": "按所选指标适用部分追踪输入校验、prompt/schema、模型调用、verdict、聚合、异步与结果对象；规则指标说明不适用项。"
+      ]
     },
     {
       "id": "e04",
-      "title": "知识库检索：精度、召回与排序",
-      "status": "implemented_live_docker_retrieval_verified",
-      "original_lessons": [
-        "s05",
-        "s06"
+      "slug": "e04_retrieval",
+      "title": "检索质量",
+      "core_question": "找到相关资料，就算找全了吗？",
+      "learn": "挂载知识库，沿相关性、覆盖和排序解释检索指标。",
+      "knowledge": [
+        "TinyRAG 文档、分块、向量与 top-k",
+        "片段与文档的来源版本",
+        "精度、召回、AP、MRR、NDCG",
+        "Context Precision、Recall、Relevancy"
       ],
-      "agent_increment": "知识库挂载与 search_knowledge，参考 SkillLoader 按需知识加载",
-      "assess": "相关性排序与 API/规范证据覆盖",
-      "knowledge": "Context Precision、相关性判定、排序敏感性；基于标注 ID 与基于 LLM/参考答案的口径；分母与空结果。; Context Recall、参考答案中的 claims、标注证据集合；coverage 与 precision 的区别；参考不完整时的局限。",
-      "experiment": "查项目 API 文档，重排、加噪声、删必需片段",
-      "acceptance": "构造高 precision 低 recall；记录文档 ID/版本；区分 ID/reference/LLM 口径",
+      "textbook": "lessons/e04_retrieval/README.zh.md",
+      "source_walkthrough": "lessons/e04_retrieval/source_walkthrough.md",
+      "agent_increment": "只读知识库、TinyRAG 分块与向量检索、search_knowledge",
       "source_paths": [
         "deepeval/deepeval/metrics/contextual_precision/contextual_precision.py",
         "deepeval/deepeval/metrics/contextual_recall/contextual_recall.py",
@@ -145,24 +147,23 @@
         "https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/context_precision/",
         "https://deepeval.com/docs/metrics-contextual-recall",
         "https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/context_recall/"
-      ],
-      "agent_sources": [
-        "learn-claude-code/s07_skill_loading/code.py"
-      ],
-      "source_analysis": "按所选指标适用部分追踪输入校验、prompt/schema、模型调用、verdict、聚合、异步与结果对象；规则指标说明不适用项。"
+      ]
     },
     {
       "id": "e05",
-      "title": "Faithfulness：解释是否忠于检索证据",
-      "status": "implemented_live_docker_faithfulness_verified",
-      "original_lessons": [
-        "s07"
+      "slug": "e05_faithfulness",
+      "title": "证据忠实度",
+      "core_question": "回答的每条声明都有依据吗？",
+      "learn": "把回答拆成声明，比较 DeepEval 与 Ragas 的支持判定和聚合。",
+      "knowledge": [
+        "claim 拆解与 NLI",
+        "支持、矛盾与信息不足",
+        "borderline 与二元支持",
+        "空声明和证据变化"
       ],
+      "textbook": "lessons/e05_faithfulness/README.zh.md",
+      "source_walkthrough": "lessons/e05_faithfulness/source_walkthrough.md",
       "agent_increment": "复用检索 Agent，加逐声明 SDK 记录",
-      "assess": "回答声明相对本次证据的支持程度",
-      "knowledge": "Faithfulness、claim 拆解、支持/矛盾/信息不足、NLI；证据内一致性与外部事实正确性；不同框架的判定口径。",
-      "experiment": "支持、未支持、矛盾、混合、空声明五类，接入已有回放再评真实输出",
-      "acceptance": "手算固定版本分数；解释 borderline/NaN；证据变化拒用旧标注",
       "source_paths": [
         "deepeval/deepeval/metrics/faithfulness/faithfulness.py",
         "ragas/src/ragas/metrics/collections/faithfulness/metric.py"
@@ -170,22 +171,23 @@
       "readings": [
         "https://deepeval.com/docs/metrics-faithfulness",
         "https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/faithfulness/"
-      ],
-      "agent_sources": [],
-      "source_analysis": "按所选指标适用部分追踪输入校验、prompt/schema、模型调用、verdict、聚合、异步与结果对象；规则指标说明不适用项。"
+      ]
     },
     {
       "id": "e06",
-      "title": "答案相关性、正确性、完整性与拒答",
-      "status": "implemented_live_docker_answer_quality_verified",
-      "original_lessons": [
-        "s08"
+      "slug": "e06_answer_quality",
+      "title": "答案质量",
+      "core_question": "忠于证据的回答，为什么仍可能不合格？",
+      "learn": "区分切题、事实正确、需求覆盖与合理拒答。",
+      "knowledge": [
+        "问题、证据与 reference 的职责",
+        "双向 NLI、TP/FP/FN 与 F-beta",
+        "事实分与嵌入相似度",
+        "完整性与拒答政策"
       ],
+      "textbook": "lessons/e06_answer_quality/README.zh.md",
+      "source_walkthrough": "lessons/e06_answer_quality/source_walkthrough.md",
       "agent_increment": "同一 Agent，加入 reference 和不可回答任务",
-      "assess": "切题、正确、覆盖及适当拒答",
-      "knowledge": "Answer/Response Relevancy、Answer Correctness、Factual Correctness、语义相似度；reference 依赖；precision/recall 侧重；拒答与不可回答问题。",
-      "experiment": "相关但错、忠于旧文档、正确但答偏、证据不足编造四类",
-      "acceptance": "组合指标解释失败；核实 reference/版本；不用单一忠实度概括质量",
       "source_paths": [
         "deepeval/deepeval/metrics/answer_relevancy/answer_relevancy.py",
         "ragas/src/ragas/metrics/collections/answer_correctness/metric.py",
@@ -195,22 +197,23 @@
         "https://deepeval.com/docs/metrics-answer-relevancy",
         "https://deepeval.com/guides/guides-answer-correctness-metric",
         "https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/factual_correctness/"
-      ],
-      "agent_sources": [],
-      "source_analysis": "按所选指标适用部分追踪输入校验、prompt/schema、模型调用、verdict、聚合、异步与结果对象；规则指标说明不适用项。"
+      ]
     },
     {
       "id": "e07",
-      "title": "通过故障实验定位 RAG 失败",
-      "status": "implemented_live_docker_fault_diagnosis_verified",
-      "original_lessons": [
-        "s10"
+      "slug": "e07_failure_diagnosis",
+      "title": "失败定位",
+      "core_question": "错误从资料、检索还是生成开始？",
+      "learn": "只改一个位置，沿阶段证据定位 RAG 失败。",
+      "knowledge": [
+        "受控干预",
+        "检索前后快照",
+        "产物与阶段诊断",
+        "Noise Sensitivity 的方向与分母"
       ],
+      "textbook": "lessons/e07_failure_diagnosis/README.zh.md",
+      "source_walkthrough": "lessons/e07_failure_diagnosis/source_walkthrough.md",
       "agent_increment": "文档/检索/生成三个位置的可控故障开关",
-      "assess": "没找到、找错、噪声干扰还是生成出错",
-      "knowledge": "故障注入、错误分类、Noise Sensitivity、检索/生成分离诊断、bad case 分析。",
-      "experiment": "分别删 API 关键段、加旧规范/噪声、改提示词，控制其他变量",
-      "acceptance": "预期与实测分开；bad case 可定位到阶段和证据",
       "source_paths": [
         "deepeval/deepeval/metrics/contextual_relevancy/contextual_relevancy.py",
         "ragas/src/ragas/metrics/collections/noise_sensitivity/metric.py"
@@ -218,22 +221,23 @@
       "readings": [
         "https://deepeval.com/guides/guides-rag-evaluation",
         "https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/noise_sensitivity/"
-      ],
-      "agent_sources": [],
-      "source_analysis": "按所选指标适用部分追踪输入校验、prompt/schema、模型调用、verdict、聚合、异步与结果对象；规则指标说明不适用项。"
+      ]
     },
     {
       "id": "e08",
-      "title": "构建、生成与审查评测数据集",
-      "status": "implemented_live_docker_native_generation_verified",
-      "original_lessons": [
-        "s11"
+      "slug": "e08_datasets",
+      "title": "评测数据集",
+      "core_question": "怎样把一次坏案例变成能反复使用的题目？",
+      "learn": "从文档生成候选，经参考审核、去重和题族划分形成数据集。",
+      "knowledge": [
+        "Golden 与实际输出",
+        "Synthesizer 与演化",
+        "图谱、persona、单跳与多跳",
+        "审核、来源和数据泄漏"
       ],
+      "textbook": "lessons/e08_datasets/README.zh.md",
+      "source_walkthrough": "lessons/e08_datasets/source_walkthrough.md",
       "agent_increment": "独立于被测 Agent 的离线数据生成与审核",
-      "assess": "任务覆盖、标注有效性与泄漏",
-      "knowledge": "DeepEval Synthesizer、Ragas TestsetGenerator、knowledge graph、personas、单跳/多跳、evolutions、质量过滤、重复与数据泄漏。",
-      "experiment": "从规范文档用 Synthesizer/TestsetGenerator 生成候选题，补编程种子、单/多跳与不可回答样本",
-      "acceptance": "来源/类别/难度、去重、人工待审与数据划分齐全；合成题不是已执行轨迹",
       "source_paths": [
         "deepeval/deepeval/synthesizer/synthesizer.py",
         "ragas/src/ragas/testset/synthesizers/generate.py"
@@ -242,23 +246,23 @@
         "https://deepeval.com/guides/guides-using-synthesizer",
         "https://docs.ragas.io/en/stable/concepts/test_data_generation/rag/",
         "https://docs.ragas.io/en/stable/howtos/customizations/testgenerator/"
-      ],
-      "agent_sources": [],
-      "source_analysis": "按所选指标适用部分追踪输入校验、prompt/schema、模型调用、verdict、聚合、异步与结果对象；规则指标说明不适用项。"
+      ]
     },
     {
       "id": "e09",
-      "title": "版本比较、实验控制与统计解释",
-      "status": "implemented_live_docker_paired_comparison_verified",
-      "original_lessons": [
-        "s12",
-        "s20"
+      "slug": "e09_comparison",
+      "title": "版本比较",
+      "core_question": "分数上涨，怎样判断是不是改动带来的？",
+      "learn": "冻结条件，先按任务配对，再看分层变化和不确定性。",
+      "knowledge": [
+        "单因素比较与重复执行",
+        "开发选择与留出验证",
+        "配对差值与题族 bootstrap",
+        "质量、延迟和成本"
       ],
+      "textbook": "lessons/e09_comparison/README.zh.md",
+      "source_walkthrough": "lessons/e09_comparison/source_walkthrough.md",
       "agent_increment": "只改一个检索/提示词因素，保留 Agent 功能可比",
-      "assess": "可靠改进、分层退化与成本权衡",
-      "knowledge": "受控实验、配对样本、提示词/检索参数迭代、质量/成本/延迟权衡；开发集选择与留出集验证。; 逐样本配对差值、重复评分、分层报告、均值与失败率；bootstrap 区间入门、业务最小改进与统计不确定性。",
-      "experiment": "配对比较，重复评分，做分层与 bootstrap 区间",
-      "acceptance": "报告逐样本差值/区间；留出不调参；统计为方法补充",
       "source_paths": [
         "ragas/src/ragas/experiment.py"
       ],
@@ -270,22 +274,23 @@
         "https://docs.ragas.io/en/stable/concepts/datasets/",
         "https://deepeval.com/guides/guides-regression-testing-in-cicd",
         "https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.bootstrap.html"
-      ],
-      "agent_sources": [],
-      "source_analysis": "按所选指标适用部分追踪输入校验、prompt/schema、模型调用、verdict、聚合、异步与结果对象；规则指标说明不适用项。"
+      ]
     },
     {
       "id": "e10",
-      "title": "工具选择、参数、调用顺序与 MCP",
-      "status": "implemented_live_docker_tool_evaluation_verified",
-      "original_lessons": [
-        "s14"
+      "slug": "e10_tool_evaluation",
+      "title": "工具调用质量",
+      "core_question": "工具名字对了，调用就对了吗？",
+      "learn": "借动态工具池理解名字、参数、序列和集合各在评价什么。",
+      "knowledge": [
+        "MCP 发现、绑定与授权",
+        "ToolCorrectness 与 ArgumentCorrectness",
+        "ToolCallAccuracy 与 ToolCallF1",
+        "决策时上下文与合法路径"
       ],
+      "textbook": "lessons/e10_tool_evaluation/README.zh.md",
+      "source_walkthrough": "lessons/e10_tool_evaluation/source_walkthrough.md",
       "agent_increment": "现有工具加 MCP tool pool 最小片段和本地模拟服务",
-      "assess": "选工具、参数、顺序、漏调误调与重复",
-      "knowledge": "ToolCorrectness、ToolCallAccuracy、ToolCallF1、ArgumentCorrectness；集合与序列；额外参数、重复调用、无调用边界。",
-      "experiment": "读文件→编辑→运行测试，注入错路径/错参/乱序/重复，比较工具池接入前后",
-      "acceptance": "解释 ToolCorrectness/ArgumentCorrectness、ToolCallAccuracy/F1；集合 F1 不承担重复惩罚；接受多合法路径",
       "source_paths": [
         "deepeval/deepeval/metrics/tool_correctness/tool_correctness.py",
         "ragas/src/ragas/metrics/collections/tool_call_accuracy/metric.py",
@@ -296,25 +301,23 @@
         "https://deepeval.com/docs/metrics-tool-correctness",
         "https://deepeval.com/docs/metrics-argument-correctness",
         "https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/agents/"
-      ],
-      "agent_sources": [
-        "learn-claude-code/s14_mcp_plugin/code.py"
-      ],
-      "source_analysis": "按所选指标适用部分追踪输入校验、prompt/schema、模型调用、verdict、聚合、异步与结果对象；规则指标说明不适用项。"
+      ]
     },
     {
       "id": "e11",
-      "title": "代码任务真实完成与自定义指标",
-      "status": "implemented_live_docker_task_completion_verified",
-      "original_lessons": [
-        "s15",
-        "s21"
+      "slug": "e11_task_completion",
+      "title": "任务完成度",
+      "core_question": "谁来确认代码真的修好了？",
+      "learn": "用外部状态检查完成目标，再把业务规则写成自定义指标。",
+      "knowledge": [
+        "停止审查与继续执行",
+        "行为、边界与文件保护",
+        "TaskCompletion 与 AgentGoalAccuracy",
+        "BaseMetric 与关键条件组合"
       ],
+      "textbook": "lessons/e11_task_completion/README.zh.md",
+      "source_walkthrough": "lessons/e11_task_completion/source_walkthrough.md",
       "agent_increment": "目标状态和停止审查片段，独立外部验收器",
-      "assess": "真实修复与完成声明是否一致",
-      "knowledge": "Task Completion、AgentGoalAccuracy、reference outcome、外部状态断言；结果与路径；停止条件与证据。; 规则/LLM/复合指标、BaseMetric、结构化输出、measure/a_measure/ascore、解释与错误状态；适用域。",
-      "experiment": "真实修复、只改说明、删测试、假报成功、重复改；实现业务指标",
-      "acceptance": "独立核验文件/diff/验收测试；区分模型推断与状态事实；自定义指标有反例/适用域",
       "source_paths": [
         "deepeval/deepeval/metrics/base_metric.py",
         "deepeval/deepeval/metrics/task_completion/task_completion.py",
@@ -327,24 +330,23 @@
         "https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/agents/",
         "https://deepeval.com/guides/guides-building-custom-metrics",
         "https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/general_purpose/"
-      ],
-      "agent_sources": [
-        "learn-claude-code/s17_goal_loop/code.py"
-      ],
-      "source_analysis": "按所选指标适用部分追踪输入校验、prompt/schema、模型调用、verdict、聚合、异步与结果对象；规则指标说明不适用项。"
+      ]
     },
     {
       "id": "e12",
-      "title": "多轮、上下文压缩与持久记忆",
-      "status": "implemented_live_docker_multiturn_verified",
-      "original_lessons": [
-        "s16"
+      "slug": "e12_conversation",
+      "title": "跨轮约束",
+      "core_question": "会话变长以后，哪些要求还应有效？",
+      "learn": "通过压缩与记忆理解多轮评测，检查新旧规则和场景覆盖。",
+      "knowledge": [
+        "可见上下文与原始轨迹",
+        "配对保护、转存与分页恢复",
+        "持久记忆与版本过滤",
+        "知识保留、会话完整性与模拟用户"
       ],
+      "textbook": "lessons/e12_conversation/README.zh.md",
+      "source_walkthrough": "lessons/e12_conversation/source_walkthrough.md",
       "agent_increment": "ContextCompactor 与记忆读写，保留工具和权限",
-      "assess": "跨轮约束、压缩和旧记忆影响",
-      "knowledge": "ConversationalTestCase、Turn、MultiTurnSample、上下文保持、指令变化、知识保留、对话完整性、模拟器终止与场景覆盖。",
-      "experiment": "先要求保留函数签名，再加约束和长输出，比较压缩前后，固定场景模拟用户",
-      "acceptance": "轮级与会话级分开；证据对齐；不得丢约束或错用记忆；模拟器单独复核",
       "source_paths": [
         "deepeval/deepeval/simulator/conversation_simulator.py",
         "deepeval/deepeval/test_case/conversational_test_case.py",
@@ -355,25 +357,23 @@
         "https://deepeval.com/guides/guides-multi-turn-evaluation",
         "https://deepeval.com/guides/guides-multi-turn-simulation",
         "https://docs.ragas.io/en/stable/howtos/applications/evaluating_multi_turn_conversations/"
-      ],
-      "agent_sources": [
-        "learn-claude-code/s08_context_compact/code.py",
-        "learn-claude-code/s09_memory/code.py"
-      ],
-      "source_analysis": "按所选指标适用部分追踪输入校验、prompt/schema、模型调用、verdict、聚合、异步与结果对象；规则指标说明不适用项。"
+      ]
     },
     {
       "id": "e13",
-      "title": "计划、任务依赖、子 Agent 与协作",
-      "status": "planned",
-      "original_lessons": [
-        "s17"
+      "slug": "e13_planning",
+      "title": "计划与协作",
+      "core_question": "子任务都完成，整体就完成了吗？",
+      "learn": "沿依赖和交接分别评价计划质量、遵从及整体结果。",
+      "knowledge": [
+        "显式计划与执行证据",
+        "依赖、认领与完成声明",
+        "子会话、邮箱与文件归属",
+        "原生 trace、PlanQuality 与 PlanAdherence"
       ],
+      "textbook": "lessons/e13_planning/README.zh.md",
+      "source_walkthrough": "lessons/e13_planning/source_walkthrough.md",
       "agent_increment": "TodoManager、TaskStore、子任务隔离、最小协作接口依次引入",
-      "assess": "计划质量/遵从、依赖与组件/整体结果",
-      "knowledge": "Plan Quality、Plan Adherence、可观察计划与执行证据；任务依赖；多 Agent 的组件与整体评价。",
-      "experiment": "跨文件 bug，好/坏/缺计划，依赖未满足、交接丢信息和并行冲突",
-      "acceptance": "只评显式计划与事件；无计划默认分单独标记；依赖/子任务可追溯；无需唯一轨迹",
       "source_paths": [
         "deepeval/deepeval/metrics/plan_adherence/plan_adherence.py",
         "deepeval/deepeval/metrics/plan_quality/plan_quality.py",
@@ -386,27 +386,23 @@
         "https://deepeval.com/docs/metrics-plan-quality",
         "https://deepeval.com/docs/metrics-plan-adherence",
         "https://deepeval.com/guides/guides-ai-agent-evaluation-metrics"
-      ],
-      "agent_sources": [
-        "learn-claude-code/s05_todo_write/code.py",
-        "learn-claude-code/s10_task_system/code.py",
-        "learn-claude-code/s06_subagent/code.py",
-        "learn-claude-code/s13_agent_teams/code.py"
-      ],
-      "source_analysis": "按所选指标适用部分追踪输入校验、prompt/schema、模型调用、verdict、聚合、异步与结果对象；规则指标说明不适用项。"
+      ]
     },
     {
       "id": "e14",
-      "title": "后台任务、调度、效率、成本与稳定性",
-      "status": "planned",
-      "original_lessons": [
-        "s18"
+      "slug": "e14_runtime",
+      "title": "执行效率",
+      "core_question": "怎样评价等待、重试和后台工作？",
+      "learn": "追踪后台结果与调度交付，在任务完成的前提下讨论效率。",
+      "knowledge": [
+        "占位结果与完成通知",
+        "到期、送达与实际执行",
+        "StepEfficiency、超时与重试",
+        "墙钟、token、缓存与费用"
       ],
+      "textbook": "lessons/e14_runtime/README.zh.md",
+      "source_walkthrough": "lessons/e14_runtime/source_walkthrough.md",
       "agent_increment": "后台通知、受控调度与既有协作记录",
-      "assess": "长命令/超时/重试/通知/定时触发与效率",
-      "knowledge": "Step Efficiency、步数/重试/异常、工具调用成本、token/延迟、预算、重复运行成功率；计划效率与实际效率。",
-      "experiment": "模拟测试超时、重复检索、后台完成、定时触发，重复同一任务",
-      "acceptance": "成功率与步数/延迟分报；应用和裁判成本分开；少步骤不必然更优；受控时钟/状态验收",
       "source_paths": [
         "deepeval/deepeval/metrics/step_efficiency/step_efficiency.py",
         "learn-claude-code/s11_background_tasks/code.py",
@@ -416,25 +412,23 @@
         "https://deepeval.com/docs/metrics-step-efficiency",
         "https://docs.ragas.io/en/stable/howtos/customizations/run_config/",
         "https://docs.ragas.io/en/stable/howtos/customizations/metrics/_cost/"
-      ],
-      "agent_sources": [
-        "learn-claude-code/s11_background_tasks/code.py",
-        "learn-claude-code/s12_cron_scheduler/code.py"
-      ],
-      "source_analysis": "按所选指标适用部分追踪输入校验、prompt/schema、模型调用、verdict、聚合、异步与结果对象；规则指标说明不适用项。"
+      ]
     },
     {
       "id": "e15",
-      "title": "裁判校准、偏差与中文适配",
-      "status": "planned",
-      "original_lessons": [
-        "s19"
+      "slug": "e15_calibration",
+      "title": "裁判校准",
+      "core_question": "评分器自己的判断可靠吗？",
+      "learn": "用独立标签检查误判，再调整标准、少样本和语言提示。",
+      "knowledge": [
+        "混淆矩阵、agreement 与 κ",
+        "训练、开发和留出隔离",
+        "G-Eval 标准与 Ragas align",
+        "中文适配、位置和篇幅偏差"
       ],
+      "textbook": "lessons/e15_calibration/README.zh.md",
+      "source_walkthrough": "lessons/e15_calibration/source_walkthrough.md",
       "agent_increment": "Agent 不变，只调整裁判，保留独立复核集",
-      "assess": "裁判对齐及顺序/篇幅/措辞偏差",
-      "knowledge": "人工复核集、Judge alignment、位置/篇幅/自偏好、裁判提示词、中文适配、分歧分析；局部改进与留出验证。",
-      "experiment": "打乱顺序、改写长度、双语改写，校准后在留出检验",
-      "acceptance": "保留独立标签、版本和分歧；未审核明确标记；中文适配标准不漂移",
       "source_paths": [
         "deepeval/deepeval/metrics/g_eval/g_eval.py",
         "ragas/src/ragas/experiment.py"
@@ -443,24 +437,23 @@
         "https://docs.ragas.io/en/stable/howtos/applications/align-llm-as-judge/",
         "https://docs.ragas.io/en/stable/howtos/customizations/metrics/metrics_language_adaptation/",
         "https://arxiv.org/abs/2306.05685"
-      ],
-      "agent_sources": [],
-      "source_analysis": "按所选指标适用部分追踪输入校验、prompt/schema、模型调用、verdict、聚合、异步与结果对象；规则指标说明不适用项。"
+      ]
     },
     {
       "id": "e16",
-      "title": "综合回归、完整调用链与结课评测",
-      "status": "planned",
-      "original_lessons": [
-        "s22",
-        "s23",
-        "s24"
+      "slug": "e16_regression",
+      "title": "持续回归",
+      "core_question": "怎样把这些评测接回完整 Agent？",
+      "learn": "串起运行、证据采样、双框架评分和关键条件门禁。",
+      "knowledge": [
+        "集成运行时与目标循环",
+        "工作流日志与恢复",
+        "响应、trace 与样本来源",
+        "业务规则、语义指标和回归门禁"
       ],
+      "textbook": "lessons/e16_regression/README.zh.md",
+      "source_walkthrough": "lessons/e16_regression/source_walkthrough.md",
       "agent_increment": "到结课才引入集成视图、workflow journal/续跑，并核对全部17机制",
-      "assess": "功能保留、完整任务与回归",
-      "knowledge": "pytest/CI、质量门禁、关键失败单独拦截、夜间较重评测、生产 trace 转样本、版本与成本记录。; 指标基类、输入校验、prompt/schema、模型调用、聚合、异步；同名指标实现差异；文档、实现与测试三方对照。; 评测协议、数据审计、指标选型、双框架复现、受控实验、错误分析、可靠性、成本、回归的完整闭环。",
-      "experiment": "bad case 入 CI；流程中断续跑；追踪 Faithfulness 与工具指标调用链；基线/改进报告",
-      "acceptance": "交付数据/配置/代码/逐样本结果/复现命令；关键失败门禁；能力清单有归属与测试计划；未实现不标完成",
       "source_paths": [
         "deepeval/deepeval/evaluate/evaluate.py",
         "deepeval/deepeval/metrics/faithfulness/faithfulness.py",
@@ -480,27 +473,13 @@
         "https://deepeval.com/guides/guides-ai-agent-evaluation",
         "https://deepeval.com/guides/guides-rag-evaluation",
         "https://docs.ragas.io/en/stable/tutorials/agent/"
-      ],
-      "agent_sources": [
-        "learn-claude-code/s15_integrated_harness/code.py",
-        "learn-claude-code/s16_workflow_runtime/code.py"
-      ],
-      "source_analysis": "按所选指标适用部分追踪输入校验、prompt/schema、模型调用、verdict、聚合、异步与结果对象；规则指标说明不适用项。"
+      ]
     }
   ],
-  "runtime_status": "e01-e12 implemented; e13-e16 planned",
-  "implemented_lessons": [
-    "e01",
-    "e02",
-    "e03",
-    "e04",
-    "e05",
-    "e06",
-    "e07",
-    "e08",
-    "e09",
-    "e10",
-    "e11",
-    "e12"
-  ]
+  "knowledge_project": {
+    "name": "TinyRAG",
+    "repository": "https://github.com/datawhalechina/tiny-universe",
+    "path": "content/TinyRAG",
+    "role": "知识库接入和检索评测对象"
+  }
 }

@@ -34,14 +34,17 @@ PAGES = {
     "/lesson14": ("第14课：后台与调度", "lessons/e14_runtime/README.zh.md"),
     "/lesson15": ("第15课：裁判校准", "lessons/e15_calibration/README.zh.md"),
     "/lesson16": ("第16课：综合回归", "lessons/e16_regression/README.zh.md"),
+    "/curriculum": ("课程大纲", "docs/curriculum.md"),
+    "/project": ("综合 Agent", "integrated_agent/README.md"),
+}
+DOCUMENTS = {
+    **PAGES,
     "/source": ("第1课源码", "lessons/e01_agent_baseline/source_walkthrough.md"),
     "/exercises": ("第1课练习", "lessons/e01_agent_baseline/exercises.md"),
     "/solutions": ("第1课答案", "lessons/e01_agent_baseline/solutions.md"),
     "/docker": ("Docker 与知识库", "docs/docker.md"),
-    "/generation": ("PocketFlow 生成记录", "generation/README.md"),
-}
-DOCUMENTS = {
-    **PAGES,
+    "/generation": ("PocketFlow 编排", "generation/README.md"),
+    "/tinyrag-license": ("TinyRAG 来源与许可", "vendor/tinyrag/LICENSE.md"),
     "/project": ("综合项目：当前实现", "integrated_agent/README.md"),
     "/integration-status": ("综合项目阶段", "docs/e16-integration-status.md"),
     "/delivery": ("全套课程交付核验", "docs/final-delivery-audit.md"),
@@ -162,7 +165,7 @@ def layout(title: str, body: str) -> bytes:
     navigation = "".join(
         f'<a href="{url}">{html.escape(label)}</a>' for url, (label, _) in PAGES.items()
     )
-    navigation += '<a href="/knowledge">挂载知识库</a><a href="/reports">实验结果</a>'
+    navigation += '<a href="/knowledge">知识库</a>'
     template = (PROJECT / "eval_course/page.html").read_text(encoding="utf-8")
     return (
         template.replace("{{TITLE}}", html.escape(title))
@@ -289,7 +292,14 @@ class Handler(BaseHTTPRequestHandler):
                 target = (PROJECT / query.get("path", [""])[0]).resolve()
                 allowed = [
                     PROJECT / n
-                    for n in ("lessons", "eval_course", "references", "tools", "integrated_agent")
+                    for n in (
+                        "lessons",
+                        "eval_course",
+                        "references",
+                        "tools",
+                        "integrated_agent",
+                        "vendor/tinyrag",
+                    )
                 ]
                 if target.suffix not in {".py", ".txt", ".json", ".jsonl", ".drawio"} or not any(
                     target.is_relative_to(x) for x in allowed

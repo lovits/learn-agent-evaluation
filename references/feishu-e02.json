@@ -1,9 +1,9 @@
 {
-  "title": "第2课：工具、权限、轨迹与统一评测样本",
+  "title": "e02: 评测样本 — 把一次调用记完整",
   "document_id": "KVAkdoPHlofNEOxSPQqcfXuenfn",
   "revision_id": 7,
   "url": "https://my.feishu.cn/docx/KVAkdoPHlofNEOxSPQqcfXuenfn",
-  "verified_revision_id": 7,
+  "verified_revision_id": 11,
   "local_path": "lessons/e02_tools_traces/README.zh.md",
   "local_sha256": "7956a19cd73f76812f3313143b305c875cc6f677974e761c7083be70e1ae326f",
   "cloud_content_sha256": "2d9b7185641b1bba4eeded3fa052b55c45c436db52a8bd9533193a20dbbaac5f",
@@ -20,5 +20,6 @@
   "rewrite_working_steps": 6,
   "main_code_blocks_verified": 17,
   "untargeted_appendices_preserved": true,
-  "verified_revision": 7
+  "verified_revision": 7,
+  "content_source": "教材与源码导读"
 }

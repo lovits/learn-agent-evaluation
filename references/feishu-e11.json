@@ -1,7 +1,7 @@
 {
   "document_id": "K7hJd2iAVoIJYcxCEC4c5AKInBe",
   "revision_id": 6,
-  "verified_revision_id": 6,
+  "verified_revision_id": 10,
   "url": "https://my.feishu.cn/docx/K7hJd2iAVoIJYcxCEC4c5AKInBe",
   "verified": true,
   "local_sha256": "1ebe4ca0630a0af4937e0954c42ad9e5019cb557363f070ed7714bbbff9c37d2",
@@ -19,5 +19,7 @@
     "validation"
   ],
   "numbered_answers_continue_at": 5,
-  "creation_warning_resolved": "unsupported ol start converted to seq; one existing list item patched, no duplicate document created"
+  "creation_warning_resolved": "unsupported ol start converted to seq; one existing list item patched, no duplicate document created",
+  "title": "e11: 任务完成度 — 谁来确认代码修好了",
+  "content_source": "教材与源码导读"
 }

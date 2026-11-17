@@ -1,116 +1,65 @@
-# 第13课：计划、依赖与交接，拆开就能做完吗
+# e13: 计划与协作 — 局部完成怎样接成整体
 
-## 问题
+[课程](../../README.md) · [上一课](../e12_conversation/README.zh.md) · [下一课](../e14_runtime/README.zh.md) · [源码导读](source_walkthrough.md)
 
-这次要修两个文件。`shipping.py` 提供核心函数 `shipping_fee`，`checkout.py` 提供入口函数 `quote`。按照 v3 规则，两者应当采用完全相同的计费结果：
+> 计划、执行记录和最终结果，分别评价。
 
-- 前 1000 克收费 600 分；
-- 每开始增加 1000 克，加收 200 分；
-- 加急加收 400 分；
-- 重量上限为 6000 克；
-- 重量必须是精确的 `int`，不能用 `bool` 冒充；加急标志必须是精确的 `bool`。
+## 两个角色都说完成了
 
-初始代码有两个跨文件问题。核心使用整除，导致 `shipping_fee(1001)` 仍返回 600，正确结果应为 800。入口调用核心时没有传递 `expedited`，导致 `quote(1000, True)` 也返回 600，正确结果应为 1000。
+这次修两个文件：`shipping.py` 计算费用，`checkout.py` 的 `quote` 调用它。
 
-修复时还必须保持两个公开函数签名、原有测试文件字节不变，并且只能修改 `shipping.py` 和 `checkout.py`。两个角色都说“完成”以后，还要检查依赖顺序、真实调用关系、文件内容和输出。完成声明可能与产物不一致。
+核心函数修好，入口却漏传 `expedited`，加急订单仍然算错。即使两个任务都标成 `completed`，整条调用链也没有完成。
 
-本课复用第4课的执行循环与文件、Bash 权限，也复用第12课的可恢复上下文压缩。在此基础上加入显式计划、持久任务依赖、一次性子任务上下文、角色文件守卫、最小结果邮箱和原生 SDK 轨迹。
+本课加入显式计划、任务依赖和一次性子会话，观察局部结果怎样交接，再分别评价计划是否合理、执行是否遵从、整体是否正确。
 
-本课同步运行一次性子任务。持久队友的 `WORK/IDLE` 生命周期、工作树、审批关机和跨进程协调留到综合项目；本课也不提前加入后台执行、定时器、自动重试或工作流日志。
+## 清单说明打算，任务表说明归属
 
-## 解决方案
-
-文件清单说明允许修改什么；`TaskStore` 说明任务的依赖、归属和声明状态；原始轨迹说明模型、工具和子会话实际发生过什么。父角色和子角色是 Agent，工具负责执行受限动作，裁判负责评分，验收器负责重新运行检查，不能把它们都叫成 Agent。
-
-[![计划、认领与交接](images/plan-and-handoff.png)](images/plan-and-handoff.png)
-
-可编辑图源见 [GitHub 上的 draw.io 文件](https://github.com/lovits/learn-agent-evaluation/blob/main/lessons/e13_planning/images/plan-and-handoff.drawio)。
-
-父角色先声明计划，再创建“修核心”和“修入口”两个任务。拿到运行时返回的真实任务 ID 后，才把入口任务设为依赖核心任务。核心任务完成并通过局部公开检查后，入口任务才可以认领。两个子任务都使用新消息列表，不继承父会话历史，因此交接文字必须包含仍然有效的接口约束。
-
-结果摘要经邮箱送回父角色，但摘要不是验收。父角色仍需运行公开测试；外部验收器还要使用保留输入重新执行两个 API，并核对任务事件、保护测试和项目文件范围。
-
-## 工作原理
-
-下面是当前实现的关键选段；省略的校验和上下文见各模块，片段不能单独运行。
-
-**第1步：先声明计划，但不把计划当作执行**
-
-`TodoManager` 先验证整个数组，确认有 1 至 20 项、字段正确，并且最多只有一项 `in_progress`，然后才整体替换。这样不会出现前半段已经写入、后半段才报错的残缺计划。
+`TodoManager` 保存声明的步骤。更新前先校验整个数组，再整体替换，避免写入半份计划。
 
 ```python
-# TodoManager.update：此前已验证整个数组的字段与状态
 if sum(i["status"] == "in_progress" for i in items) > 1:
     raise ValueError("Only one todo may be in_progress")
 self.items = copy.deepcopy(items)
 self.rounds_without_update = 0
-return self.items
 ```
 
-带 `content` 和 `status` 的数组交给这个方法后，返回替换后的计划；调用它的是 `todo_write` 工具。计划状态只是声明，不会修改代码，也不能证明任务已经执行。完整实现见 [state.py](state.py)。
+清单本身不会修改代码。持久的 `TaskStore` 另存任务 ID、依赖、owner 和状态。
 
-当前宿主依据工具定义生成类型化输出结构，`todos`、`blocked_by` 和 `files` 都直接是数组，再为旧循环规范化一次成 `arguments_json`。原始 `wire_reply` 和规范化结果都会保存。早期运行曾把数组包进多层 JSON 字符串，产生额外文本并被严格解析拒绝；系统不会截掉非法尾部假装成功。
+父角色先创建任务，取得真实 ID，再加依赖。核心完成后，入口任务才可以认领。
 
-连续三个工具轮没有调用 `todo_write` 才提醒更新计划；一轮中调用多个工具仍只算一轮。正式协议使用 30000 个输入字符、50 条消息触发裁剪，模型步上限仍为 20。旧的 5000/16 只是前课压力配置，记录时必须分开。
+## 依赖在认领时检查
 
-**第2步：用真实任务 ID 建立依赖，再原子认领**
-
-父角色必须先 `create` 两个节点，取得真实 ID，再调用 `add_dependencies`。环、不存在的前置任务和未满足依赖都会在保存前拒绝。
+[`TaskStore.claim`](state.py) 在共享锁内读取依赖，再修改归属：
 
 ```python
-# TaskStore.claim：此前已验证owner和其现有任务
 if any(self.load(d)["status"] != "completed" for d in task["blocked_by"]):
     raise ValueError("Dependencies are incomplete")
 task.update(owner=owner, status="in_progress")
 return self.save(task, "claim", owner)
 ```
 
-输入是任务 ID 和认领者，输出是进入 `in_progress` 的任务记录；接入点是 `task_claim`，委派工具也会调用同一个认领方法。读取状态、检查前置任务和写入归属都位于同一把共享锁中。状态先写临时文件，再用 `replace` 替换正式记录。
+依赖图还要拒绝环和不存在的节点。记录的 `completed` 是完成声明，工具层的局部检查为它提供依据，整体仍需独立检查。
 
-这里的 `RLock` 保护同一进程中共享同一 `TaskStore` 实例的线程；多个进程还需要另外协调。完成事件记为 `complete_claim`，强调它仍是一项声明。
+![计划、认领与结果交接](images/plan-and-handoff.png)
 
-子角色通过 `task_complete` 提交时，运行时会对分配组件运行 8 个公开输入并保护两份测试的原始字节；失败时任务保持 `in_progress`。核心组件通过时，不要求尚未执行的入口组件也已完成。Agent 之外的验收器再对每个 API 运行 22 个保留输入。局部结果中的 `whole_project_assessment=not_assessed` 表示整体尚未评估，不表示已知失败。
+## 子会话知道什么
 
-**第3步：给子任务一段足够的新上下文**
-
-`Runtime.run_child` 不复制父历史，只组合任务说明、显式交接文字和角色约束，创建新的用户消息。
+[`run_child`](code.py) 给子角色新消息列表，只放任务说明、交接内容和文件范围，不复制父角色全部历史。
 
 ```python
-# Runtime.run_child：context已包含描述、prompt、文件与完成边界
 pool = PlanningPool(self, owner, task_id, files)
 before = copy.deepcopy(task)
 result = self.run_session(context, pool)
 task = self.store.load(task_id)
 ```
 
-输入是 `task_id`、`prompt` 和允许修改的文件数组，输出是一次子会话结果；接入点是父角色的 `task` 工具。子角色共享工作目录，但没有 `task` 工具，不能继续递归委派。
+接口签名、当前费用与测试保护必须明确交接，或让子角色查询知识库。父角色不能假定新会话天然知道前面说过什么。
 
-接口签名、计费规则和测试保护必须明确传入，或让子角色查询挂载资料，不能假定新会话知道父历史。子角色可以分页读取文件、修改被分配文件，并运行限定的 `unittest` 命令；原有工具测试仍在 Docker 中真实执行。完整循环见 [code.py](code.py)，工具池见 [tools.py](tools.py)。
+子角色只能通过专用工具修改分配文件；预期哈希用于拒绝过期覆盖。结果带任务 ID 写入邮箱，由父循环在下一次模型请求前消费一次。
 
-**第4步：只投递一次结果，并阻止过期覆盖**
+## 原生轨迹把这些关系连起来
 
-子结果带 `task_id` 写入磁盘邮箱。父循环是唯一消费者，并在下一次模型请求前投递；模型不用轮询。
-
-```python
-def consume(self, recipient):
-    with self.lock:
-        path = self.path(recipient)
-        if not path.exists():
-            return []
-        rows = [json.loads(line) for line in path.read_text().splitlines()]
-        path.unlink()
-        return rows
-```
-
-输入是收件角色，输出是尚未消费的消息列表；第二次消费为空。接入点位于父角色调用模型之前。摘要只说明子角色报告了什么，不能独立证明代码正确。
-
-专用修改工具还会在锁内比较预期哈希。两个角色若都基于同一旧版本修改，后写者会因 `stale` 被拒绝，避免静默覆盖。Worker 只有在任务为 `in_progress` 且归属自己时才能修改分配文件；完成后继续修改也会被拒绝。当前正式运行与控制使用同一份权限源码；旧镜像的结果另存。
-
-Lead 的任意 Bash 不受这套专用工具守卫约束，文件冲突也尚未交给 Git 合并。受控并发确实执行了认领、状态写盘和文件修改，但调用由讲师构造，不能当作真实模型并行故障率。
-
-**第5步：保存原生层级，再分别评价计划质量与遵从**
-
-运行时用 `@observe` 标记 `agent`、`llm` 和 `tool`。父任务调用 `task` 时，子 Agent 会真正嵌套在父工具跨度下面。
+DeepEval `@observe` 分别标记 agent、llm 和 tool。父角色调用 `task` 的工具跨度下，会出现真实执行的子 Agent。
 
 ```python
 @observe(type="tool", name="role_tool")
@@ -120,114 +69,28 @@ def dispatch(call, workspace, approve):
         input={"actor": pool.actor, "task_id": pool.task_id, "call": copy.deepcopy(call)},
     )
     policy, result = pool.dispatch(call, workspace, approve)
-    update_current_span(output={"permission": policy, "result": copy.deepcopy(result)})
-    return policy, result
 ```
 
-旧执行循环通过这个分发器提交真实调用，返回权限决定与工具结果，同时把它们记进轨迹。关闭后的 Trace 用 `model_dump(mode="json")` 导出。`create_nested_spans_dict` 的结果还要经过 SDK 的 `serialize_to_json`，把嵌套的 `ToolCall` 对象转换为普通数据。此前序列化失败已作为历史归档，不能补造一份新报告。
+这里摘出观察与执行的接入点，完整函数还保存返回值。父子关系帮助我们定位计划、认领和文件修改的来源，函数正常返回并不等于业务完成。
 
-评分投影省略重复的模型请求历史，但保留真实回复、工具参数和结果；完整原始记录仍在报告中。固定版本的低层 `measure` 需要绑定 `_trace_dict`，官方自动 `observe` 或数据集流程通常负责这一内部步骤，这里只是固定版本适配。
+## 计划质量和遵从为什么分开
 
-DeepEval 先从任务和轨迹提取 `AgentPlan`，再评价计划质量；计划遵从还会查看实际执行。好计划可能没有执行，坏计划也可能得到较高遵从。没有提取到计划时，原生默认值为 1，必须单列说明，它不表示完美或完成。
+DeepEval `PlanQuality` 从任务与显式计划判断覆盖和顺序，`PlanAdherence` 再看执行是否符合计划。
 
-Ragas 使用现代 `DomainSpecificRubrics`，分别定义质量与遵从的 1 至 5 级标准，并不是同名原生计划指标。质量看首次声明，遵从加入执行证据；输入范围和量尺不同，不能直接比较。无计划示例中，原生的 1 是默认最高端，Ragas 定制的 1 是最低档。完整指标、结构、提示与异步调用见 [source_walkthrough.md](source_walkthrough.md)，实现见 [eval.py](eval.py)。
+好计划可能没有执行完，坏计划也可能被严格照做。固定版本没有提取到计划时默认返回1，必须同时检查“是否有计划”，不能理解成完美规划。
 
-**第6步：重新执行文件和依赖验收**
+Ragas 在这里用 `DomainSpecificRubrics` 定义质量和遵从的1至5级标准。量尺与输入选择不同，不直接比较两个框架的裸分。
 
-验收先重放任务事件，确认每条 `claim` 发生时前置任务已经 `completed`，再从实际工作目录检查两个 API、保护测试和额外项目文件。
-
-```python
-# verify：已读取真实artifacts；core结果另外保存
-combined = quote_source(artifacts["shipping.py"], artifacts["checkout.py"])
-with tempfile.TemporaryDirectory() as directory:
-    root = Path(directory)
-    (root / "shipping.py").write_text(combined)
-    (root / "test_shipping.py").write_text(artifacts["test_shipping.py"] or "")
-    entry = probe(root, case, criteria)
-```
-
-输入是实际工作目录、原始任务和独立条件，输出是核心与入口的分别检查结果；接入点是外部 `evaluate`。即使核心已经正确，只要 `quote` 漏传 `expedited`，`quote(1000, True)` 仍会以 600 对 1000 失败。
-
-入口只允许声明的 `from shipping import shipping_fee`。验收器在内存中把入口绑定到真实核心，再用前课受限执行器对两个 API 分别运行相同的 22 个保留输入，共 44 次函数输入执行；这些条件只挂给验收器，用于教学回归；它们并非未见盲测，与 Bash 公开测试分开记录。缺少签名或删除测试是已知失败；不支持的导入则保留为 `unscored`，不能伪装成零分。
-
-最终结果综合文件、依赖顺序、正常停止、显式计划和真实子会话。最后一次交接异常时，即使文件碰巧正确也不能通过；早先失败记录保留在 `child_attempt_errors`；最后一次交接及整体验收通过后，才可能同时标记 `completed_after_child_retries`。外部还检查未声明项目文件，不能只看函数值。完整实现见 [verify.py](verify.py) 和 [controls.py](controls.py)。
-
-## 相对上一课的变更
-
-| 能力 | 已有或新增 | 本课含义 |
-|---|---|---|
-| 执行循环、工具权限 | 保留 | 继续真实读取、修改和运行测试 |
-| 可恢复上下文压缩 | 保留 | 长会话裁剪后仍能恢复必要证据 |
-| 显式计划 | 新增 | 保存声明及更新时机，不代替执行 |
-| 持久任务依赖 | 新增 | 先建节点，再用真实 ID 加边和认领 |
-| 子任务上下文 | 新增 | 一次性新消息列表，共享工作目录 |
-| 交接邮箱与文件守卫 | 新增 | 单次投递结果，拒绝越权和过期修改 |
-| 原生跨度与计划指标 | 新增 | 区分计划质量、遵从和业务验收 |
-
-各模块分别是 [code.py](code.py)、[state.py](state.py)、[tools.py](tools.py)、[verify.py](verify.py)、[controls.py](controls.py) 与 [eval.py](eval.py)。已有磁盘记忆机制见前课；综合项目才会统一全部 17 项机制，本课不冒称全功能系统。
-
-正式运行的父子会话均正常结束，独立验收通过；具体数值见[运行记录](run_summary.md)。早期父请求502、嵌套参数解析、报告序列化和步数耗尽分别留有原记录。各轮协议不同，不能拼成一次性能比较。
+整体检查重新运行核心和入口，确认调用传参、文件范围与保护要求。只有局部通过，仍不足以接受整个项目。
 
 ## 试一下
 
-先在宿主机两个独立终端启动桥接器：
+让核心返回正确费用，但让 `quote` 忘记传加急参数。写出一个能区分“核心完成”和“整体完成”的输入。
 
-```bash
-python3 tools/model_bridge.py
-```
+再比较“好计划未执行”和“坏计划照做”。分别给计划质量、遵从与结果写出判断理由。
 
-```bash
-python3 tools/judge_bridge.py
-```
-
-它们分别监听 8766 和 8768，使用同一登录后端承担不同角色，并非两个独立模型。更新协议后要重启旧桥。凭据只留在宿主机。
-
-然后构建并运行：
-
-```bash
-docker compose build
-docker compose run --rm -T --entrypoint python course \
-  -m lessons.e13_planning.code
-```
-
-```bash
-docker compose --profile verify run --rm -T \
-  --entrypoint python verifier -m lessons.e13_planning.controls
-```
-
-```bash
-docker compose --profile verify run --rm -T \
-  --entrypoint python verifier -m lessons.e13_planning.eval
-```
-
-```bash
-docker compose run --rm -T --entrypoint python course \
-  -m lessons.e13_planning.eval --judge
-```
-
-`knowledge_base` 整体只读挂载，当前任务检索其中 `e13/shipping.md`，`runs` 与 `workspaces` 持久化；私有条件只提供给断网的验收容器。重跑前先另存旧结果，避免混淆不同协议。主要产物是：
-
-- `e13-agent.json`
-- `e13-controls.json`
-- `e13-evaluation.json`
-- `e13-judges.json`
-
-启动阅读站点：
-
-```bash
-docker compose up -d
-```
-
-访问 `http://localhost:8765/lesson13`。阅读记录时回答三个问题：
-
-1. 第一次计划出现在哪个动作之前，后来修改了什么？
-2. 后续任务在哪条 `claim` 前等到了前置任务完成？
-3. 核心正确但入口漏传参数时，哪个输入失败？为什么全部任务都是 `completed` 仍不能代替验收？
-
-延伸材料包括 [源码导读](source_walkthrough.md)、[运行结果](run_summary.md)、[练习](exercises.md)、[解答](solutions.md)、[验收说明](../../docs/e13-validation.md) 和 [生成凭证](../../generation/e13-README.md)。
+[协作循环](code.py) · [任务与邮箱](state.py) · [评分](eval.py) · [练习](exercises.md) · [参考答案](solutions.md)
 
 ## 接下来
 
-子任务现在可以按依赖执行并交回结果。如果测试需要等很久，同步循环仍会停在工具调用处。
-
-第14课将加入后台任务、调度、效率与恢复：什么时候等待通知，怎样计算实际成本，以及失败后是否值得重试。
+同步子任务结束以后才能继续。如果一项检查需要等待，下一课把执行放到后台，并评价通知、调度和效率。

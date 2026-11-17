@@ -1,231 +1,91 @@
-# 第10课：工具、参数与MCP，分开看才评得准
+# e10: 工具调用质量 — 名字对了，还要看参数
 
-## 问题
+[课程](../../README.md) · [上一课](../e09_comparison/README.zh.md) · [下一课](../e11_task_completion/README.zh.md) · [源码导读](source_walkthrough.md)
 
-工作区里的 `calculate.py` 是：
+> 工具匹配、执行成功和任务完成，各自需要证据。
 
-```python
-quantity = 6
-unit_price = 7
-print(quantity * unit_price)
-```
+## read_file 读错文件算对吗
 
-挂载的项目文档规定，本次演示账单应使用 `quantity=6`、`unit_price=8`。编程 Agent 要读取文档、把脚本修好、真实运行程序，再把标准输出 `48` 保存到 `result.txt`。
+Agent 需要读取程序，把 `6 * 7` 改成 `6 * 8`，运行并保存结果。它确实调用了 `read_file`，但读的是另一个文件。
 
-困难在于，同一个正确结果可能来自两条路径：Agent 可以调用内置的 `search_knowledge`，也可以先连接教学用 MCP 服务，再调用动态发现的 `mcp__docs__search`。只检查最终文件，无法知道它是否遵守指定路由；只检查工具名，又无法知道参数、顺序、权限和文件是否正确。
+只数工具名，会把这次调用当成命中。再往下看，还可能发生漏调用、顺序错误，或用不同合法方法完成修改。
 
-验收时分别记录：
+本课通过动态工具池连接新的工具来源，重点看每种工具指标究竟比较哪一部分。
 
-1. 工具名是否合适；
-2. 参数是否符合接口；
-3. 调用顺序是否满足任务；
-4. 宿主策略是否允许运行；
-5. 工具是否真实执行成功；
-6. 最终文件是否满足业务合同。
+## 工具先发现，下一轮才能选择
 
-任务要求修改文件并留下运行证据。只回复 `48`，甚至把程序直接改成 `print(48)`，都没有完成“用6和8相乘”的任务。
+本课沿用 Learn Claude Code s14 的进程内 MCP 模拟：连接配置好的 docs 服务，发现 `mcp__docs__search`，下一轮再把它交给模型。
 
-## 解决方案
+![动态工具池与分发](images/dynamic-tool-pool.png)
 
-本课复用第4课已有的 Agent 循环、文件工具、权限判断和事件轨迹，只加入两部分：进程内模拟的 MCP 工具发现与分发，以及独立的工具调用评分。完整入口见 [code.py](code.py)、[mcp_tools.py](mcp_tools.py)、[metrics.py](metrics.py) 和 [eval.py](eval.py)。
-
-这里的 MCP 与 Learn Claude Code 固定版本的 `s14` 一样，使用进程内模拟服务，覆盖发现与分发。本课没有接入标准输入输出或HTTP传输。
-
-![动态工具池](images/dynamic-tool-pool.png)
-
-[放大查看动态工具池](images/dynamic-tool-pool.png)
-
-图中只画出获准执行的路径。未获批准的调用直接返回工具结果，循环再交给模型处理。模型桥运行在宿主机，只返回受限的 JSON 动作；文件、检索和命令工具仍在 Docker 中真实执行。是否放行由宿主配置决定，服务端写了“只读”或 `readOnlyHint` 并不会自动获得权限。
-
-正式记录中，两版任务的业务合同都通过：内置版走 `search_knowledge`，MCP 能力版走 `connect_mcp` 和 `mcp__docs__search`，最后都得到真实的 `48\n`。MCP版另有明确的路由要求，两次运行用于验证接入能力，不能归因比较性能。
-
-## 工作原理
-
-**第1步：每一轮重新组装模型当前能看见的工具**
-
-连接前，工具池里还没有服务端工具。`run_case` 中的闭包先组装工具，再保存快照并请求宿主机模型桥：
+模型调用前重新组装工具：
 
 ```python
 def model(messages):
     tools = pool.assemble()
     snapshots.append({"model_turn": len(snapshots) + 1, "tools": tools})
     return call_model(messages, tools)
-
-result = agent_loop(task, workspace, model=model, max_steps=10, tool_dispatch=pool.dispatch)
 ```
 
-摘自 [code.py](code.py)，局部省略。`messages` 是截至当前轮的对话，`tools` 是这一轮允许模型选择的接口。启用MCP的首轮只有原生工具、知识库搜索和 `connect_mcp`，还没有 `mcp__docs__search`。模型返回动作后，第4课循环把调用交给 `pool.dispatch`，工具结果仍按原流程回填。
+`ToolPool` 保存规范化工具名与实际处理器的绑定。宿主策略决定能否运行，服务端的“只读”描述不能自己授予权限。
 
-**第2步：连接服务后，下一轮才加入发现的工具**
+这里关注发现与分发，没有实现 MCP 的 stdio 或 HTTP 线协议。
 
-`connect` 只允许连接宿主预先配置的 `docs` 服务，并把工具定义和处理器保存在客户端中。
+## 先确定比较单位
 
-下一轮调用 `assemble` 时，工具名按 `mcp__{server}__{tool}` 规范化并检查冲突和长度。下面这段把服务端的 `inputSchema` 转换成模型侧的 `input_schema`，并保存原名绑定：
+| 比较单位 | 能发现什么 | 容易漏什么 |
+|---|---|---|
+| 工具名 | 选择了哪种动作 | 参数错误 |
+| 名字与参数 | 路径、内容等是否匹配 | 先后顺序 |
+| 调用序列 | 是否按要求先读后改 | 其他合法执行路径 |
+| 调用集合 | 覆盖与多余调用种类 | 相同调用的重复次数 |
+| 实际产物 | 业务是否完成 | 过程中的越权或浪费 |
 
-```python
-schema = tool.get("inputSchema")
-if not isinstance(schema, dict) or schema.get("type") != "object":
-    raise ValueError("Server tool inputSchema must describe an object")
-tools.append(
-    {
-        "name": name,
-        "description": tool.get("description", ""),
-        "input_schema": copy.deepcopy(schema),
-    }
-)
-bindings[name] = (client, tool["name"])
-```
+参考轨迹是一条可行路径。除非任务明确要求路线，否则不能把它当成唯一正确解。
 
-摘自 [mcp_tools.py](mcp_tools.py)，局部省略。规范化后的名字不能冲突，也不能超过64个字符。原生5个工具和 `search_knowledge` 都继续存在；连接后的工具与它们一同交给模型。
+## DeepEval 的配置改变匹配规则
 
-**第3步：分发时分别检查绑定、权限和参数**
-
-模型给出的 `arguments_json` 先被解码为字典。分发器随后从内部绑定表取出固定的客户端和原始工具名：
-
-```python
-self.assemble()
-client, raw = self.bindings[name]
-policy = HOST_POLICY.get((client.name, raw), "confirm")
-if policy != "allow" and not approve(name, args):
-    return {"decision": "deny", "reason": "host_mcp_policy"}, {
-        "status": "denied",
-        "output": "External tool not approved",
-    }
-# client and raw are fixed local bindings, never overridable argument defaults.
-return {"decision": "allow", "reason": "host_mcp_policy"}, client.call_tool(raw, args)
-```
-
-摘自 [mcp_tools.py](mcp_tools.py)，局部省略。`HOST_POLICY` 才是授权依据。批量运行默认不会替模型确认未知工具，因此未批准调用会被拒绝。参数中的 `tool` 也不能改写已经绑定的 `raw`。
-
-获准后，参数进入处理器。缺参、类型错误或多传字段会返回具体错误，模型可以据此修正。`mcp__docs__search` 读取实际挂载的知识库，结果中保留文档正文与哈希。非 MCP 工具则继续交给已有的 `previous_dispatch`。
-
-**第4步：从原始事件生成不同用途的评分样本**
-
-原始事件保留调用名、原始参数、顺序、权限决策和执行结果。确定性评分只取教学所需的局部投影：
-
-```python
-for event in row["events"]:
-    if event["type"] != "tool":
-        continue
-    call = event["call"]
-    args = json.loads(call["arguments_json"])
-    if call["name"] == "read_file" and args.get("path") == "result.txt":
-        continue
-    if call["name"] in {"read_file", "edit_file", "write_file", "bash"}:
-        selected.append({"name": call["name"], "args": args, "source_span": event["span_id"]})
-```
-
-摘自 [metrics.py](metrics.py)，局部省略。11条 `micro_traces` 是明确编写、没有执行的控制样本；两条真实轨迹只投影读、改、写、运行等动作，并用 `source_span` 指回原事件。这些投影只回答对应的指标问题，整项任务另行验收。
-
-业务验收另读实际文件和已有执行证据，并接受 `edit_file`、`write_file` 等不同合法路径。它只验证直线整数乘法这个小合同，不重新执行任意生成程序，也不声称能证明一般 Python 程序等价。
-
-**第5步：名字、参数、序列和集合会给出不同答案**
-
-本课直接调用 DeepEval 与 Ragas 的固定版本接口：
+`ToolCorrectnessMetric` 默认按工具名与类型匹配。加入参数评价以后，再比较 `input_parameters`；开启 ordering 后，按加权最长公共子序列计算覆盖；exact match 则严格比较整个列表。
 
 ```python
 metric = ToolCorrectnessMetric(
     model=model, eval_mode="llm", async_mode=False, **options
 )
 scores[name] = metric.measure(sample, _show_indicator=False)
-# 其余options及循环省略；随后取得三个Ragas原生分数。
-scores.update(asyncio.run(ragas_scores(row)))
 ```
 
-摘自 [metrics.py](metrics.py)，局部省略。DeepEval 的 `ToolCorrectness` 默认匹配工具名及类型；加入 `INPUT_PARAMETERS` 后，按双方参数键的并集计算匹配比例。开启排序时使用加权最长公共子序列并除以预期调用数；精确模式则严格比较整个列表。只有传入 `available_tools`，才会额外请求模型判断工具选择，并取规则分与选择分的较小值。本课真实运行了这个分支。
+`options` 在 [`metrics.py`](metrics.py) 中分别设置这些策略。仅凭类名无法知道这次用了哪一种。
 
-Ragas 的严格模式比较完整名字序列；灵活模式可以排序，但重复调用导致长度不同仍会失败。它的参数比较只遍历参考参数，并以字符串形式比较值，所以多余参数或类型错误可能被放过。实际处理器仍可能拒绝这些输入。
+非精确覆盖以预期调用数为分母，额外重复调用不一定扣分。传入 `available_tools` 时，原生实现还会请求模型判断工具选择，再取选择分与匹配分的较小值。
 
-例如，正确的三次调用后又重复一次相同的 `read_file`：集合中的元素没有增加，因此完整 `(name, args)` 集合 F1 仍是1；严格序列因长度不同得到0。默认分数不能代替业务合同。双方空调用时，Ragas F1 为0而 Accuracy 为1，具体边界和完整矩阵见 [源码导读](source_walkthrough.md) 与 [运行摘要](run_summary.md)。
+## Ragas 的序列与集合
 
-**第6步：语义参数评分必须看到决策当时的证据**
+`ToolCallAccuracy` 先检查名字序列对齐，再比较参数。flexible 模式允许调整顺序，但重复导致长度不同仍可能失败。
 
-`ArgumentCorrectness` 让裁判根据 `input` 判断每次参数是否合理，再按原生 `Verdicts` 中 `yes` 的比例聚合。这里要先确认：`input` 必须属于那次模型决策。
+`ToolCallF1` 把完整 `(name, args)` 放入集合，用交集计算 precision、recall 和 F1。相同调用重复一次不会产生新集合元素。
 
-```python
-if pending:
-    messages.append({"role": "tool", "content": pending})
-    pending = []
-calls = event["reply"]["tool_calls"]
-if calls:
-    index = int(event["span_id"].removeprefix("model-")) - 1
+手算假设正确三次调用后，又重复同一次读取：集合 F1 可以仍为1，严格序列却不通过。次数与效率应另行观察。
+
+## 评价参数，要看当时知道什么
+
+`ArgumentCorrectness` 让裁判判断参数是否合理。输入必须保留决策时已有的消息和工具结果。
+
+```text
+此前消息 + 已返回结果 → 当前模型决定 → 本轮工具调用
 ```
 
-摘自 [metrics.py](metrics.py)，局部省略。`pending` 保存上一轮已经发生的工具结果；进入下一模型轮前才回填。随后用同一轮的工具快照和此前消息构造评分输入，绝不加入本轮尚未发生的未来结果。
+[`decision_contexts`](metrics.py) 先回填上一轮结果，再构造本轮评分输入。它不把本轮尚未发生的结果塞回过去，也不裁掉连接和资料后，再指责模型没有依据。
 
-第一次评分把 MCP 轨迹裁掉了连接和文档检索，却保留完整任务要求，裁判因此把三次核心动作中的一次判错。完整运行记录中已有连接和文档；裁判收到的投影丢掉了这些信息。修订后只重建 `decision_contexts` 并重新评分，没有修改文件，也没有重跑 Agent。最终9个非空决策轮中的11次工具调用均由自动裁判判为 `yes`，逐轮还核对了verdict数量与调用数；人工复核尚未完成。
-
-本课固定版本中，没有工具调用时，`ArgumentCorrectness` 返回1且不请求裁判。这只表示“没有参数可判”，不能推出任务已经完成。两轮评分协议不同，分数变化也不能称为 Agent 改善。
-
-## 相对上一课的变更
-
-| 范围 | 上一课已有 | 本课新增 |
-|---|---|---|
-| Agent 执行 | 循环、知识库、文件工具、权限、轨迹 | 原样保留 |
-| 工具来源 | 启动时已有工具 | 连接后下一轮动态发现 |
-| 工具分发 | 原生工具分发 | MCP 名字绑定与宿主策略 |
-| 评估重点 | 数量与统计比较 | 名字、参数、序列、集合分别评分 |
-| 任务验收 | 独立检查结果 | 继续与工具指标分开 |
-
-循环实现沿用已讲版本；目标审查、计划和记忆按后续课程继续引入。详细调用链、公式、原生裁判结构和边界差异放在 [source_walkthrough.md](source_walkthrough.md)。
+参数通过 schema、权限放行、执行成功和裁判认为合理，仍是不同判断。最终文件还要按业务要求检查。
 
 ## 试一下
 
-先在宿主机启动模型桥。若旧进程是在代码更新前启动的，请先按 `Ctrl+C` 停止，再重新运行：
+保留工具名，换成错误路径；再保留正确参数，只交换顺序；最后重复一次相同调用。预测不同配置会给出什么判断。
 
-```bash
-python3 tools/model_bridge.py
-```
+再比较 `edit_file` 与 `write_file` 两种合法修改路径：哪一种条件是用户要求，哪一种只是参考实现的写法？
 
-它监听8766端口。另开一个终端启动语义裁判桥：
-
-```bash
-python3 tools/judge_bridge.py
-```
-
-它监听8768端口，凭据始终留在宿主机。然后构建镜像并运行两版真实 Agent：
-
-```bash
-docker compose build
-docker compose run --rm -T --entrypoint python course \
-  -m lessons.e10_tool_evaluation.code
-```
-
-执行断网的规则评分和只读业务验收：
-
-```bash
-docker compose --profile verify run --rm -T \
-  --entrypoint python verifier \
-  -m lessons.e10_tool_evaluation.eval
-```
-
-最后执行需要裁判桥的语义阶段：
-
-```bash
-docker compose run --rm -T --entrypoint python course \
-  -m lessons.e10_tool_evaluation.eval --judge
-```
-
-三步会分别覆盖 `runs/e10-agents.json`、`runs/e10-evaluation.json` 和 `runs/e10-judges.json`。要比较旧结果，请先另存旧文件。运行中写出的 `e10-agents.partial.json` 只表示已经保存部分进度，不表示所有轮次完成。
-
-启动课程页面：
-
-```bash
-docker compose up -d
-```
-
-浏览器打开 `http://localhost:8765/lesson10`。实际证据和限制以 [run_summary.md](run_summary.md) 为准，验收过程见 [e10-validation.md](../../docs/e10-validation.md)，生成记录见 [e10-README.md](../../generation/e10-README.md)。
-
-运行后尝试回答三个问题：
-
-1. 首轮与连接后的工具快照中，哪两个新名字出现了？
-2. 为什么重复一次相同调用时，集合 F1 仍为1，而严格序列为0？
-3. MCP 首次误判是 Agent 缺少证据，还是评分输入丢失证据？
-
-更多练习见 [exercises.md](exercises.md)，完成后再对照 [solutions.md](solutions.md)。
+[动态工具](mcp_tools.py) · [工具指标](metrics.py) · [练习](exercises.md) · [参考答案](solutions.md)
 
 ## 接下来
 
-即使两个 Agent 都写出 `48`，保留下来的工具事件仍能说明各自走了什么路径。
-
-第11课进一步检查真实代码任务：怎样核对目标状态，怎样识别假报完成，以及怎样把外部验收合同写成自定义指标。
+工具层的正确不足以保证代码任务完成。下一课进入真实行为检查，并把这些检查写成自定义指标。

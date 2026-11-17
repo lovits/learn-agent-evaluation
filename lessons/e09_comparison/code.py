@@ -39,6 +39,9 @@ def manifest(cases):
     sources = [
         "lessons/e04_retrieval/code.py",
         "eval_course/knowledge.py",
+        "eval_course/tinyrag.py",
+        "vendor/tinyrag/VectorBase.py",
+        "vendor/tinyrag/embeddings.py",
         "tools/model_bridge.py",
         "lessons/e09_comparison/code.py",
         "lessons/e09_comparison/statistics.py",

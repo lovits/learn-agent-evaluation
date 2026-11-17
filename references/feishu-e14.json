@@ -9,7 +9,7 @@
   ],
   "revision_id": 7,
   "url": "https://my.feishu.cn/docx/Y2DBdLG3Nouii3xym8NcjZNsnjg",
-  "verified_revision_id": 7,
+  "verified_revision_id": 12,
   "verified": true,
   "local_sha256": "11725537e7a03bf92d4c8196a455d5b80271167a89abc23a7f4194698f3c2cde",
   "cloud_content_sha256": "c833ed57f7308aacb7db11dc1d5ea28262f51974b2646e73d76710858e3a5770",
@@ -24,5 +24,7 @@
     "solutions",
     "run_summary",
     "validation"
-  ]
+  ],
+  "title": "e14: 执行效率 — 等待也属于轨迹",
+  "content_source": "教材与源码导读"
 }

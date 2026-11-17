@@ -6,10 +6,12 @@
   "verified_revision": 14,
   "local_sha256": "d8c836cdeca3e6fd17fba2fecb7f5b3035f104c66907998fae1d1ddd54239546",
   "cloud_sha256": "49d8cc42f5f70b7beff8f54244f26cce27a8bb5bcfcc89fd2f09e4c436a9b801",
-  "verified_revision_id": 14,
+  "verified_revision_id": 18,
   "cloud_content_sha256": "49d8cc42f5f70b7beff8f54244f26cce27a8bb5bcfcc89fd2f09e4c436a9b801",
   "rewrite_main_sections": 6,
   "rewrite_working_steps": 6,
   "main_code_blocks_verified": 13,
-  "untargeted_appendices_preserved": true
+  "untargeted_appendices_preserved": true,
+  "title": "e05: Faithfulness — 每条声明都能找到依据吗",
+  "content_source": "教材与源码导读"
 }

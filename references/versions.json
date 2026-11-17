@@ -16,5 +16,12 @@
   "pocketflow_tutorial": {
     "repository": "https://github.com/The-Pocket/PocketFlow-Tutorial-Codebase-Knowledge",
     "commit": "05b24cbbb0fe409c5e23c9791f0342f07524ffdc"
+  },
+  "tinyrag": {
+    "repository": "https://github.com/datawhalechina/tiny-universe",
+    "path": "content/TinyRAG",
+    "commit": "a5ae08d56bbefb20b1cf56fa34ed5a3157cdd2c2",
+    "license": "CC BY-NC-SA 4.0",
+    "embedding": "local-tfidf lexical baseline"
   }
 }

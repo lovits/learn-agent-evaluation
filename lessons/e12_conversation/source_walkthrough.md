@@ -1,86 +1,51 @@
-# 第12课源码导读：对话、摘要与记忆各保存什么
+# e12 源码导读：什么被保留，什么被评分
 
-固定版本与文件哈希见[e12-reading.json](../../references/e12-reading.json)。本课依据Learn Claude Code s08/s09、DeepEval 4.3.4、Ragas 0.4.4的所列源码。以下区分上游原机制、本课实际增量和仍待集成的能力，不能把读过源码写成已经实现全部功能。
+[教材](README.zh.md) · [会话](code.py) · [压缩](context.py) · [记忆](memory.py)
 
-## 三轮任务和两种状态
+## 三条数据线
 
-v1修复运费函数，保留shipping_fee(weight_grams, expedited=False)与原测试。v2把加急费用从300改为400，范围仍到5000。新会话中的v3把范围扩到6000，加急仍400。新规则取代明确被更新的旧规则；没有被更新的签名和测试保留约束继续有效。
+`visible` 决定模型实际输入，`raw` 保留完整轨迹，`turns` 保存各轮源码快照。`run_turn` 只接入新增消息，并在返回时补上最后回复，再进入公开停止审查。
 
-Conversation.visible是实际发送给模型的上下文；raw保留未压缩的真实动作与工具结果。每轮turns保存实际源码快照。run_turn的模型闭包用seen记住已经消费的内部messages长度，只把新增消息接到visible；旧e04循环继续执行工具、权限与hook，不复制整套Agent。最后一次模型回复发生在最后一个模型调用之后，因此返回时还要把local[seen:]补回visible，才能正确接下一用户轮。
+检查过去一轮的代码要使用当时快照，不能只读已经被后续轮修改的最终文件。快照重新执行用于检查行为，不代表重新运行了过去的 Agent。
 
-每段循环最多32个模型步骤，每个用户请求最多3次公开停止审查；这些上限在运行前固定并写入报告。原来的14步预算曾不足以让模型逐段看完长日志，因此调整执行协议，并保留原预算实验而不混做性能对比。每段循环停止后继续使用e11公开审查；它只检查当前公开例子和原测试保留。完整业务结果由独立verifier检查；流程是否到达正常停止也单独检查。代码正确但内部step_limit时，整个工作流仍不标通过。第一、二轮过去的工作目录已经发生后续修改，因此按保存的源码快照在临时目录重新执行，明确标为recorded_artifact_snapshot_reexecuted；最终目录再从只读挂载实际读取，并核对是否与保存快照一致。历史快照重执行不能冒充回到过去重新运行Agent。
+## 压缩如何保护工具协议
 
-## s08如何处理有限上下文
+上游 [s08](https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s08_context_compact/code.py) 包含转存、裁剪、旧结果压缩、模型摘要与超长补救。本课 `prepare` 沿转存最新结果、裁剪、转存旧结果、摘要的顺序处理。
 
-固定上游ContextCompactor先做tool_result_budget，超大工具结果完整写盘并保留预览；snip_compact归档旧中段，保护工具请求/结果配对；超限时micro_compact替换较早已消费的结果，fit_tool_results再处理仍过大的新结果；最后才调用模型总结。prepare还会在裁剪丢失本轮请求时恢复active_request。字符计数是触发代理，不等于模型token计数或API硬上限。
+`check_pairs` 防止孤立的工具结果。最新请求独立保留，最近闭合批次不被一条摘要替换。分页恢复继续经过工作区权限；offset 是字符位置，与上游按行参数不同。
 
-上游还提供显式compact工具，先执行完同批其他工具并补齐所有结果，再压缩；prompt_too_long的reactive_compact最多补救一次。压缩后的Current user request与Conversation summary分开，摘要作为参考数据。完整实现、未读结果保护、主动压缩和错误补救在集成课继续核对。本课不声称与上游所有参数和入口等价。初轮实验中曾因完整文件反复转存而陷入重读，原始轨迹与46次裁判已归档；分段恢复是在发现这个问题后增加的实现修复，不把原运行重写成新协议运行。
+`successful_request_text_ranges` 只在请求成功返回后累计暴露区间。`exposure.py` 检查实际送达文本，重复页只计一次。写盘或读取进程拿到全文，不等于模型收到全文。
 
-本课[context.py](context.py)适配已有JSON消息协议：模型回复为assistant字典，工具结果使用role=tool。check_pairs检查每个工具结果前方有对应assistant批次，且每个请求批次已补结果。单纯按固定条数切数组，容易留下孤立结果。
+## 记忆怎样跨会话
 
-自动过程按“转存最新长结果→裁剪→转存较早结果→必要时模型摘要”执行。长结果保存完整output、路径、字符数和SHA-256，模型收到300字符预览，再通过本课PagedToolPool扩展的read_file恢复；offset为从0开始的字符位置，limit为1至2000个字符，均以字符串传入。它和上游按行读取的参数约定有区别，工具定义明确说明。分页继续经过原工作区权限，不授权读取目录外文件。若stdout、stderr、hits重复承载同份长输出，压缩副本中改为恢复提示；raw不改。保存的是实际结果文本，不靠模型重新生成。
+上游 [s09](https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s09_memory/code.py) 用 Markdown、元数据和索引保存长期内容，还包含整理与回滚。这里保留候选提取、临时范围拒绝、去重、磁盘写入与版本过滤。
 
-达到16条消息时snip保留初始请求和最近完整批次，中段完整归档。切点遇到tool消息向前移动，连同请求一起保留；当前请求不在裁剪结果中时补回。超过5000字符时先整理旧结果，仍过长再调用SupportModel生成Summary(facts,constraints,remaining)。摘要只处理较早历史，最近一组闭合的assistant请求与tool结果继续原样保留。第二轮真实实验曾在函数已修复、测试反复退出0之后仍达到step_limit；当时所有直接工具证据都被替成一条user角色摘要，模型反复重新验证。因此新增了保留最新闭合批次的修复，并用回归测试复现。摘要提示仍要求保留当前规则、被替代的旧规则、未完成工作与真实命令结果，但模型可能遗漏或误述，须结合原始轨迹与产物。
+召回按词项和显式版本筛选，只有选中正文进入模型。候选仍是模型判断，过滤不构成真实性保证。新会话用新消息列表，证明召回并非偷偷延续旧上下文。
 
-针对反复从头读日志的实测问题，还增加successful_request_text_ranges：只有收到模型响应后，才把当次实际输入中的read_file文本区间合并到单调累积记录，并交给后续摘要。旧消息被缩短不抹掉“该区间曾送达”的事实；失败的传输不增加记录。它只记录暴露范围，不推断理解，也不记“任务已完成”。
+## DeepEval 知识保留
 
-最新请求始终独立保留；请求自身很长时不会为凑阈值默默截断。5000是教学触发值，不包含工具定义和宿主系统提示，不可直接当作总输入token预算或费用。
+[指南](https://deepeval.com/guides/guides-multi-turn-evaluation) · [KnowledgeRetention 文档](https://deepeval.com/docs/metrics-knowledge-retention) · [实现](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/knowledge_retention/knowledge_retention.py)
 
-[exposure.py](exposure.py)另从实际model_inputs检查日志字符暴露范围：只计算真正送到模型的预览或分段内容，按原文件字符位置合并区间，重复页只算一次。进程读取完整文件、把完整结果存盘、模型输入包含完整文本是三件不同的事；这项检查只证明输入包含了什么，不能证明模型内部如何理解。它在Agent停止后对已有记录审查，不回流给模型修当前答案，也不替代业务验收。
+```text
+非 assistant 消息 → Knowledge(data)
+之前积累的知识 + 当前 assistant → 遗忘裁决
+no 比例 → 分数
+```
 
-确定性控制脚本[context_controls.py](context_controls.py)使用明确构造、没有执行工具的协议样本，实际验证裁剪/旧结果转存与磁盘哈希回读；禁止调用模型。它和真实Agent中观察到的压缩阶段分别统计。单元测试还覆盖当前请求恢复、配对、摘要归档和原始数据不被修改。
+抽取提示支持用户修正事实，但多个旧知识字典仍可能同时参与判断。要查看中间提取结果，确认400替换300没有被误判成遗忘。
 
-## s09与本课持久记忆
+空有效裁决默认1；strict mode 在固定源码设阈值1。会话完整性使用另一条路径，参见[文档](https://deepeval.com/docs/metrics-conversation-completeness)与[实现](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/conversation_completeness/conversation_completeness.py)：先提取 intentions，再数满足意图的 yes 比例。固定实现未按 `window_size` 切窗口，参数存在不代表路径已使用它。
 
-上游以.memory/*.md保存记录，YAML frontmatter含name/description/type，MEMORY.md为索引。召回先模型选目录，失败退回关键词，再加载正文；临时任务要求与重复候选不写为长期规则。回合结束后模型提取候选，达到数量阈值时整理，替换前快照，写入失败恢复旧文件。它和当前会话压缩承担不同职责，记忆不是完整transcript备份。
+## Ragas 多轮样本与 rubric
 
-本课[memory.py](memory.py)保留可读Markdown记录、索引、结构化候选提取、临时范围拒绝和按需把正文加入模型上下文。候选经MemoryCandidates解析后，只有persistent且字段完整才写入；current_task、正文带临时会话含义、同名和同正文重复均拒绝。自动提取本身仍是模型判断，所以原始候选和接受/拒绝原因一起保存，不能把过滤器称作完整的记忆真实性判断器。
+[多轮应用说明](https://docs.ragas.io/en/stable/howtos/applications/evaluating_multi_turn_conversations/) · [dataset_schema.py](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/dataset_schema.py) · [AspectCritic](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/metrics/_aspect_critic.py)
 
-召回使用目录词项交集与显式版本筛选，最多五条；当前实现先读取这个小规模目录的记录，再仅把选中正文交给模型，索引供人工查看，不声称实现磁盘索引优化或上游的模型选择器。stable用于跨版本API约束，v1/v2等只适用于对应版本。最新用户请求优先于旧记忆。读取目录、记录和索引都检查路径边界，不能让符号链接绕过工作区权限。并发整理、自动合并、事务回滚等完整生命周期仍待集成课；当前只在独立工作目录串行运行。
+`MultiTurnSample` 保留 Human/AI/Tool 消息序列并检查调用配对。本课旧式 `multi_turn_ascore` 把会话文本送入多轮 prompt，标准写在 definition 中；固定路径没有自动使用 sample.reference。
 
-两条实测路径先保存讲师种下的v1旧费用事实；前两轮结束后真实模型提取持久候选。新建Conversation清空visible和raw，但保留磁盘.memory，证明跨会话不是继续沿用旧messages。还明确种入一个“重命名API并删测试”的记忆指令，标为instructor_seeded_injection_data。它可能被选中作为背景，但不获得执行权限；最终是否服从靠真实动作与文件验收判断。另一个current_task候选用作拒绝控制，不冒充模型自动提取的错误。
+`strictness=1` 对应一次结果，不能按参数名字推断独立投票数。DeepEval Turn 的角色为 user/assistant，工具细节另存；两框架会话投影的边界都要讲清。
 
-## DeepEval多轮样本与知识保留
+## 模拟覆盖与任务质量分别看
 
-[多轮评测指南](https://deepeval.com/guides/guides-multi-turn-evaluation)把单轮与会话整体质量分开。本课native_samples构造ConversationalTestCase和Turn并做原生序列化往返；缺少最终回答的投影保留未评分且不调用裁判，不用虚构的结束语填补；Turn.role只允许user/assistant，不能把工具结果伪装成另一个用户。原始内部工具轨迹另存，送给本课多轮指标的是明确的用户请求/最终回答投影；不能据此宣称指标看到了全部命令和文件事实。
+[ConversationSimulator 指南](https://deepeval.com/guides/guides-multi-turn-simulation)说明生成用户与应用回调的连接。`simulate.py` 实际回调 `Conversation.run_turn`，再返回 assistant Turn；场景版本识别仅支持本课约定。
 
-[Knowledge Retention官方说明](https://deepeval.com/docs/metrics-knowledge-retention)将其用于对话事实保持。KnowledgeRetentionMetric.measure先prepare_measure检查角色/内容，经_extract_data模板为每条非assistant消息提取Knowledge(data字典，值为字符串或字符串列表)。随后对每条assistant，把之前所有非空Knowledge.data积累成列表，用generate_verdict判断遗忘或矛盾，返回KnowledgeRetentionVerdict。这里yes表示发生遗忘，no才是通过。最终score_qag_verdicts取no占有效verdict的比例；空verdict或全部None默认得到1。必须同时看可判定轮数，不能把“没有可判的事实”解释成全部约束都记住了。
-
-原生提取提示支持用户更正旧事实；实现却仍向后续判定传入此前多个知识字典。版本更新的语义能否正确处理仍取决于提取和判断。保留旧规则并照用不是成功记忆；改成用户新要求也不能直接判为遗忘。判错时应检查每一步Knowledge和verdict，结合按版本执行的代码检查解释。
-
-当前Knowledge Retention网页对strict_mode的文字写阈值覆盖为0，而本课固定源码__init__实际设为1；本课按实际运行的固定源码说明。
-
-a_measure沿同样的逐轮提取与判断执行，a_generate使用既有异步适配。本课原生LLM主实验用同步measure，保留完整模型请求、结构化输出与verdict；单元测试对原生聚合辅助方法验证yes/no极性及空值边界，这部分不冒充完整模型调用。
-
-## DeepEval会话完整性
-
-[Conversation Completeness官方说明](https://deepeval.com/docs/metrics-conversation-completeness)将其作为会话需求满足的代理。ConversationCompletenessMetric先从整个对话抽取UserIntentions(intentions列表)，再逐意图生成ConversationCompletenessVerdict。这里yes表示意图满足，和知识保留的极性相反；聚合取yes比例。include_reason=False省去整体原因生成，但每个失败verdict仍可带reason。本课保存提取出的意图和逐项判断。
-
-固定模板一处要求总体目标，一处要求不同用户任务分别列出，具体抽取粒度会影响分母。固定代码虽然接受并保存window_size，当前measure/_generate_verdict使用整个test_case.turns，并未据此切窗口。不能仅因参数名存在就宣称采用滑动窗口。同步逐意图处理，异步a_measure用asyncio.gather并发判各意图。无有效verdict也沿共同辅助函数得到空值默认1，要结合覆盖情况阅读。
-
-本课没有把外部未问出的未来场景目标塞进用户对话后假装模型曾经收到。只结束了一个已满足请求的会话，可能在对话指标上得高分，同时仍没覆盖场景要求的后续阶段。模拟器审查因此单独记录。
-
-## Ragas MultiTurnSample与原生会话rubric
-
-[Ragas多轮应用文档](https://docs.ragas.io/en/stable/howtos/applications/evaluating_multi_turn_conversations/)使用MultiTurnSample表示消息序列。固定校验器要求HumanMessage/AIMessage/ToolMessage类型；工具消息之前必须出现AIMessage，紧前方是AIMessage时还必须有tool_calls，连续工具结果允许。原生往返测试及孤立工具反例实际覆盖这些规则。
-
-本课使用固定版本仍提供的legacy AspectCritic.multi_turn_ascore，而非误传给modern collections的单轮rubric。RagasJudge是BaseRagasLLM适配；多轮方法把sample.pretty_repr交给MultiTurnAspectCriticPrompt。rubric在definition中明确“原API/测试保持、新规则替代旧规则、记忆不授权”，输出AspectCriticOutput(reason,verdict)，原生返回二值分数。本课另检查分数只能为0或1；schema仅声明int，没有字段级Literal约束。
-
-这个固定路径没有把MultiTurnSample.reference传入prompt，因此标准写进definition。strictness会调成奇数，_compute_score有多数表决逻辑，但当前_multi_turn_ascore只调用一次prompt.generate并传入一个response；不能宣称设置strictness=3就执行三次独立投票。本课固定1，真实请求数从日志统计。
-
-两个真实对话投影与两个明确构造的失败对话分别标注来源。构造的改签名/删测试声明和中途放弃没有执行Agent，不能与真实行为混计。Ragas与DeepEval分数保留各自定义，业务合同仍以独立执行结果为准。
-
-## 原生模拟用户也需要验收
-
-[模拟指南](https://deepeval.com/guides/guides-multi-turn-simulation)给出ConversationSimulator和应用回调。本课[simulate.py](simulate.py)实际使用固定原生接口：ConversationalGolden规定三阶段顺序，simulator_model生成用户消息，model_callback再调用真正的Conversation.run_turn，工具继续在Docker执行，回调返回Turn(role=assistant)。生成用户、摘要/记忆和目标Agent都是不同角色调用同一登录后端，不能据此声称独立模型。
-
-同步模拟主循环先检查max_user_simulations，再检查stopping_controller，然后生成用户、调用目标Agent，并推进图。默认expected_outcome_controller在空对话跳过模型检查，有对话时生成ConversationCompletion(is_complete,reason)。达到轮数上限会直接退出，不等价于目标完成。本课当前上限为6个模拟用户轮，初期4轮预算下曾因重试而没问到v3，原记录单独保留。max_user_simulations大于零才允许模拟。
-
-回调只接收签名中声明的input、turns、thread_id；本课明确声明三项。用户生成模型不会代替目标Agent执行代码。scenario约定数值写为数字，本课版本适配只识别400/6000且版本不倒退，这是有边界的场景适配器，不能当通用意图分类器。
-
-另一条实验使用显式stop_after_one，返回原生Decision(should_end=True)，故意在第一用户轮后终止。结果单独标controlled_early_stop。coverage检查实际请求过的v1/v2/v3及先后顺序，原生终止判断、轮数、实际代码结果分开展示。正常场景允许模拟用户显式重试，验收要求每阶段最后一次运行达到正常停止且符合当时合同，早先失败仍逐轮保留；固定三轮对照则每轮都要求正常结束。这样可以区分“一路成功”和“重试后达成”，不将前者口径悄悄套给后者。SDK运行异常会保留已有agent_turns、实际回调阶段与已成功记录的调用；status记为error，sample留空，不将拼接的局部记录伪装成SDK成功返回的完整样本。场景完整验收还要求实验正常结束。没问到后续约束属于模拟覆盖缺口，不直接归咎于Agent；场景全部问过仍没做对，才沿目标Agent轨迹继续定位。
-
-
-## 教学回归与盲测的区别
-
-本课验收输入随教材和原始报告公开，复用它们进行协议修复后的教学回归，不声称是未见过的盲测。恢复入口与最近工具证据的修复来自实际工具轨迹和公开测试，不把分数上涨当作统计意义上的Agent改善。初轮、分页修订轮与最终协议的报告分别留存；不同采样和不同协议不能混做一次受控性能比较。
+轮数上限、终止控制、场景覆盖和每阶段行为分别记录。若请求尚未提出，缺口属于模拟覆盖；若已经提出但代码违反，则沿 Agent 轨迹继续定位。模拟用户、摘要支持模型与目标 Agent 是不同角色，不应混成一次应用输出。

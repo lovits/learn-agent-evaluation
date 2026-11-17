@@ -38,92 +38,19 @@ def main():
     )
     args = parser.parse_args()
     lesson = args.lesson
-    slug = "e01_agent_baseline" if lesson == "e01" else "e02_tools_traces"
-    title = "最小编程Agent与第一份评测协议" if lesson == "e01" else "工具、权限、轨迹与统一评测样本"
-    brief_path = "generation/lesson_brief.md" if lesson == "e01" else "generation/e02-brief.md"
-    if lesson == "e03":
-        slug, title, brief_path = "e03_judges", "规则评分与LLM裁判", "generation/e03-brief.md"
-    if lesson == "e04":
-        slug, title, brief_path = (
-            "e04_retrieval",
-            "知识库检索：精度、召回与排序",
-            "generation/e04-brief.md",
-        )
-    if lesson == "e05":
-        slug, title, brief_path = (
-            "e05_faithfulness",
-            "Faithfulness：回答是否忠于证据",
-            "generation/e05-brief.md",
-        )
-    if lesson == "e06":
-        slug, title, brief_path = (
-            "e06_answer_quality",
-            "答案相关性、正确性、完整性与拒答",
-            "generation/e06-brief.md",
-        )
-    if lesson == "e07":
-        slug, title, brief_path = (
-            "e07_failure_diagnosis",
-            "RAG故障定位：只改一个位置",
-            "generation/e07-brief.md",
-        )
-    if lesson == "e08":
-        slug, title, brief_path = (
-            "e08_datasets",
-            "评测数据集：从候选题到可审核样本",
-            "generation/e08-brief.md",
-        )
-    if lesson == "e09":
-        slug, title, brief_path = (
-            "e09_comparison",
-            "版本比较：先配对再看均值",
-            "generation/e09-brief.md",
-        )
-    if lesson == "e10":
-        slug, title, brief_path = (
-            "e10_tool_evaluation",
-            "工具、参数与MCP：分开看才评得准",
-            "generation/e10-brief.md",
-        )
-    if lesson == "e11":
-        slug, title, brief_path = (
-            "e11_task_completion",
-            "任务完成：先检查，再允许结束",
-            "generation/e11-brief.md",
-        )
-    if lesson == "e12":
-        slug, title, brief_path = (
-            "e12_conversation",
-            "多轮、压缩与记忆：约束还在吗",
-            "generation/e12-brief.md",
-        )
-    if lesson == "e13":
-        slug, title, brief_path = (
-            "e13_planning",
-            "计划、依赖与交接：拆开就能做完吗",
-            "generation/e13-brief.md",
-        )
-    if lesson == "e14":
-        slug, title, brief_path = (
-            "e14_runtime",
-            "后台、调度与效率：少几步就更好吗",
-            "generation/e14-brief.md",
-        )
-    if lesson == "e15":
-        slug, title, brief_path = (
-            "e15_calibration",
-            "裁判校准：分数对了，标准也对了吗",
-            "generation/e15-brief.md",
-        )
-    if lesson == "e16":
-        slug, title, brief_path = (
-            "e16_regression",
-            "综合回归：从运行证据到发布门禁",
-            "generation/e16-brief.md",
-        )
+    entry = next(
+        row
+        for row in json.loads((PROJECT / "curriculum.json").read_text())["lessons"]
+        if row["id"] == lesson
+    )
+    slug, title = entry["slug"], entry["title"]
     private = PROJECT / "generation/private" / lesson
     private.mkdir(parents=True, exist_ok=True)
-    brief = (PROJECT / brief_path).read_text()
+    brief = (
+        (PROJECT / "references/textbook-writing-standard.md").read_text()
+        + "\n\n当前课程要求：\n"
+        + json.dumps(entry, ensure_ascii=False, indent=2)
+    )
     calls = []
 
     def call_llm(prompt, use_cache=False):
@@ -167,7 +94,6 @@ def main():
                     "code.py",
                     "eval.py",
                     "cases.jsonl",
-                    "run_summary.md" if lesson != "e01" else "example_report.json",
                     "source_walkthrough.md",
                     "exercises.md",
                     "solutions.md",
@@ -191,12 +117,7 @@ def main():
             ),
             *([f"lessons/{slug}/reference.json"] if lesson == "e06" else []),
             *(["tools/refine_e03.py"] if lesson == "e03" else []),
-            *(
-                ["lessons/e04_retrieval/code.py", "references/e07-teaching-pattern.md"]
-                if lesson == "e07"
-                else []
-            ),
-            *(["references/e01-rewrite-plan.md"] if lesson == "e01" else []),
+            *(["lessons/e04_retrieval/code.py"] if lesson == "e07" else []),
             *(
                 [f"lessons/{slug}/dataset.py", "references/e08-reading.json"]
                 if lesson == "e08"
@@ -226,6 +147,15 @@ def main():
                 else []
             ),
             "eval_course/records.py",
+            *(
+                [
+                    "eval_course/tinyrag.py",
+                    "eval_course/knowledge.py",
+                    "vendor/tinyrag/VectorBase.py",
+                ]
+                if lesson in {"e04", "e07", "e09", "e16"}
+                else []
+            ),
             *(
                 [
                     f"lessons/{slug}/{name}"

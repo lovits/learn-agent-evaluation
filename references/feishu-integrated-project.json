@@ -2,7 +2,7 @@
   "document_id": "Odeld6l1Co6pWlx3qBTcItBLn3d",
   "revision_id": 5,
   "url": "https://my.feishu.cn/docx/Odeld6l1Co6pWlx3qBTcItBLn3d",
-  "verified_revision_id": 5,
+  "verified_revision_id": 10,
   "verified": true,
   "all_main_and_appendix_text_verified_whitespace_normalized": true,
   "code_blocks_verified": 5,
@@ -27,5 +27,7 @@
     "integrated_agent/README.md": "7a3cf098408007fc219f66fe74409b199ea893ba1d8d7d0a9dc75bdfe5e1454b",
     "integrated_agent/architecture.md": "745ca5ca01e83c26f2b3a469ac7891a69f25f9fbf9d97297035e56e915912554",
     "integrated_agent/capabilities.md": "50bc1198263a9ab9ad79fc9514430a9ea3e23ce358e711c2c2082dd0555cdf7f"
-  }
+  },
+  "title": "综合项目：一个会查知识库的编程 Agent",
+  "content_source": "课程正文"
 }

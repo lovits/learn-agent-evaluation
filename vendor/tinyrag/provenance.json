@@ -1,0 +1,33 @@
+{
+  "repository": "https://github.com/datawhalechina/tiny-universe",
+  "commit": "a5ae08d56bbefb20b1cf56fa34ed5a3157cdd2c2",
+  "path": "content/TinyRAG",
+  "license": "CC BY-NC-SA 4.0",
+  "author": "不要葱姜蒜 and Datawhale contributors",
+  "files": [
+    {
+      "path": "upstream/Embeddings.py.txt",
+      "source_url": "https://github.com/datawhalechina/tiny-universe/blob/a5ae08d56bbefb20b1cf56fa34ed5a3157cdd2c2/content/TinyRAG/RAG/Embeddings.py",
+      "sha256": "52d7e9c9bde10a5f64e094959d14efb6bcedbd34fd2c05edb8ed6bc5feb7bac6",
+      "modification": "unmodified text snapshot"
+    },
+    {
+      "path": "upstream/utils.py.txt",
+      "source_url": "https://github.com/datawhalechina/tiny-universe/blob/a5ae08d56bbefb20b1cf56fa34ed5a3157cdd2c2/content/TinyRAG/RAG/utils.py",
+      "sha256": "0acac47d26b1fa7c6634b25fa5941e0f352997105fa1e5178261a0ea70ae56b6",
+      "modification": "unmodified text snapshot"
+    },
+    {
+      "path": "upstream/LLM.py.txt",
+      "source_url": "https://github.com/datawhalechina/tiny-universe/blob/a5ae08d56bbefb20b1cf56fa34ed5a3157cdd2c2/content/TinyRAG/RAG/LLM.py",
+      "sha256": "feb90d0a896dd45f534a980a8449f8e63e8974346255f1fe78eba7544f0218fa",
+      "modification": "unmodified text snapshot"
+    },
+    {
+      "path": "VectorBase.py",
+      "source_url": "https://github.com/datawhalechina/tiny-universe/blob/a5ae08d56bbefb20b1cf56fa34ed5a3157cdd2c2/content/TinyRAG/RAG/VectorBase.py",
+      "sha256": "da98774310331f26ac0dcd495db5db39e7b79b05cf83a0882dc995e6253d0429",
+      "modification": "Embedding import points to local side-effect-free base"
+    }
+  ]
+}

@@ -1,27 +1,11 @@
-# 已确认需求与交付边界
+# 项目目标与范围
 
-读者会Python、了解RAG/Agent；学习评测实践与关键源码。
+通过 Learn Claude Code 形式的编程 Agent，系统学习 Agent 和 RAG 评测，理解 DeepEval、Ragas 背后的原理与关键源码。
 
-被测对象明确为已拉取固定版本的Learn Claude Code编程Agent。接入项目说明、API、架构与开发规范知识库。
-每课根据评测要求引入必要代码，完整代码可执行；第1课不贴整套集成Agent。
-简化重复实现、启动方式和教学组织；原仓库实际能力的保留以逐项合同和回归任务验收。
+课程保留16课递进路线，每课讲清一个核心知识点，只引入需要的代码。知识库接入使用 Datawhale TinyRAG，保持可挂载、可运行，生成沿用现有模型入口。
 
-原24课合并为16课，知识内容原文保留在新课程JSON中，并建立24→16映射。
-Learn Claude Code的17个机制均安排引入或评测课；这些归属目前是实施计划。
+首页提供课程介绍、大纲、学习收获及阅读入口。教材从具体问题引出机制，源码导读解释输入、裁决、聚合及重要边界。语言与章节节奏参考 Learn Claude Code 实际课文。
 
-每课说明：评测对象、知识点、Agent代码增量、实验、验收、DeepEval/Ragas文档与固定源码依据。
-PocketFlow基于显式材料完成教学抽象、先修关系、顺序和课程设计；后续按课输入代码与实测结果生成教材。
+不在主阅读路线放改写记录、验收报告、成绩计数或教材服务启动说明。已有数据与运行基础保留，构造例子和实际结果如实区分。
 
-## 已有交付
-
-- 私有GitHub仓库、Docker阅读器、知识库只读挂载、结果持久化。
-- 旧Faithfulness样章及专属回放实现已清理；从第1课最小循环与Bash重新制作。
-- 此前飞书Docs/Guides/Tutorials的323条来源覆盖与解释正文阅读核验；完整原始响应保留在原工作区。
-
-## 当前与后续
-
-完整逐课制作要求见course-specification.md，并已写入飞书。当前已制作并验证第1至11课；其余5课的Agent增量、数据和真实模型评测仍需按批次实施，不能把计划标成已运行。
-教材生成复用已确认的本机Codex登录；Agent、裁判、生成器、模拟用户分别记录模型配置。
-
-详见[教学方法](teaching-method.md)、[评测能力地图](evaluation-landscape.md)、
-[逐课大纲](curriculum.md)、[制作计划](course-production-plan.md)与[PocketFlow规划记录](../generation/curriculum-README.md)。
+[课程大纲](curriculum.md) · [课程说明](course-specification.md) · [综合项目](../integrated_agent/README.md)

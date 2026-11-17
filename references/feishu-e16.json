@@ -2,7 +2,7 @@
   "document_id": "UzRzdHS2ioW8m1x3702cX54onOh",
   "revision_id": 6,
   "url": "https://my.feishu.cn/docx/UzRzdHS2ioW8m1x3702cX54onOh",
-  "verified_revision_id": 6,
+  "verified_revision_id": 11,
   "verified": true,
   "all_main_and_appendix_text_verified_whitespace_normalized": true,
   "code_blocks_verified": 16,
@@ -45,5 +45,7 @@
   },
   "main_sections": 6,
   "working_steps": 6,
-  "local_sha256": "6f07be565116e361a18b15c5062f4d49122cbf37e55879280039c99adb751edc"
+  "local_sha256": "6f07be565116e361a18b15c5062f4d49122cbf37e55879280039c99adb751edc",
+  "title": "e16: 持续回归 — 把评测接回完整 Agent",
+  "content_source": "教材与源码导读"
 }

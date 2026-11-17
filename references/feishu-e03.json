@@ -6,10 +6,12 @@
   "verified_revision": 7,
   "local_sha256": "dec64c9be263c0b4809e267e4593387f4b5254a222159387adb2a12e11245a02",
   "cloud_sha256": "5c58fb064ea3a42f01a13c7c99e03d386b7364e554b2954068dc4b9d67474490",
-  "verified_revision_id": 7,
+  "verified_revision_id": 11,
   "cloud_content_sha256": "5c58fb064ea3a42f01a13c7c99e03d386b7364e554b2954068dc4b9d67474490",
   "rewrite_main_sections": 6,
   "rewrite_working_steps": 6,
   "main_code_blocks_verified": 13,
-  "untargeted_appendices_preserved": true
+  "untargeted_appendices_preserved": true,
+  "title": "e03: 评分标准 — 同一个 48，为什么分数不同",
+  "content_source": "教材与源码导读"
 }

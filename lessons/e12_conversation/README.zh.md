@@ -1,59 +1,43 @@
-# 第12课：多轮、压缩与记忆，约束还在吗
+# e12: 跨轮约束 — 新要求来了，旧要求还剩什么
 
-## 问题
+[课程](../../README.md) · [上一课](../e11_task_completion/README.zh.md) · [下一课](../e13_planning/README.zh.md) · [源码导读](source_walkthrough.md)
 
-同一个运费函数会连续收到三轮需求。第一轮修复 v1：重量上限是 5000 克，加急费是 300 分。第二轮升级到 v2：只把加急费改为 400 分。第三轮开启新会话，再升级到 v3：重量上限改为 6000 克，加急费仍是 400 分。
+> 明确更新的规则被替换，未更新的约束继续有效。
 
-三轮中，函数签名保持不变：
+## 从 300 改成 400，不该顺便改接口
+
+运费任务连续收到需求：先修复函数，再把加急费从300改成400，最后在新会话把重量上限从5000扩到6000。
+
+函数签名始终保持：
 
 ```python
 shipping_fee(weight_grams, expedited=False)
 ```
 
-原有的 `test_shipping.py` 也必须一直保留。用户明确更新了加急费，Agent 就应接受 400，不能死守旧的 300；用户没有要求改变函数签名，Agent 也不能顺手改掉它。
+记住旧费用并照用，是过期；改成400却把签名也改了，是丢约束。多轮评测要跟踪每条要求何时生效、何时被明确替换。
 
-诊断日志很长，反复完整读取会让上下文迅速膨胀；压缩摘要可能漏掉约束，也可能把已经读过的日志误写成“只看过预览”。到了新会话，旧消息已经清空，只能从磁盘记忆中找回长期约束。旧记忆又可能过期，甚至夹带“改接口、删测试”之类的指令。
+本课通过上下文压缩和持久记忆，让这个问题真正出现。
 
-评测时要追踪模型实际收到的文本、跨轮约束的执行情况，以及新规则与旧记忆冲突时采用了哪一项。
+## 模型看到的历史与完整记录分开
 
-## 解决方案
-
-我们保留前面已经使用的 e04 循环、文件和 Bash 工具、权限检查、MCP 工具池，以及 e11 的公开停止审查，只增加五部分：
-
-- `Conversation` 保存会话中的可见消息和原始轨迹。
-- `ContextCompactor` 转存、裁剪并在必要时摘要旧上下文。
-- `PagedToolPool` 让长结果可以按字符位置恢复。
-- `MemoryStore` 在磁盘保存可跨会话召回的长期事实。
-- 独立评测分别检查多轮回答、实际文件和模拟器覆盖范围。
-
-![上下文与记忆](images/context-and-memory.png)
-
-[放大查看同一张 PNG](images/context-and-memory.png)；可编辑图源见 [context-and-memory.drawio](https://github.com/lovits/learn-agent-evaluation/blob/main/lessons/e12_conversation/images/context-and-memory.drawio)。
-
-图中只展开本课新增的上下文与记忆支路。`raw` 保存原始动作，供报告和追查使用；`visible` 才是模型实际收到的消息。新建 `Conversation` 会清空旧的 `visible` 和 `raw`，但仍可从工作目录中的记忆文件召回相关内容。
-
-## 工作原理
-
-**第1步：只把本轮新增消息接入可见上下文**
-
-内部 Agent 循环每次调用模型时，都会传入累积的 `messages`。如果每次把整个列表追加到 `visible`，历史就会重复；如果只在模型调用时追加，又可能漏掉最后一次回复。`seen` 记录已经接入的位置，循环结束后再补一次尾部。
+`Conversation.visible` 是送给模型的消息；`raw` 保存未压缩动作。内部循环每次传来的 messages 已经累积，不能反复整段追加：
 
 ```python
-# 摘自 code.py，省略循环与审查
 self.visible.extend(copy.deepcopy(messages[seen:]))
 seen = len(messages)
 if self.compactor:
     self.visible = self.compactor.prepare(self.visible, active_request)
 ```
 
-完整实现见 [code.py](code.py)。工具池和权限检查仍由原循环使用。`GoalState` 只判断公开条件是否足以停止；完整文件、签名和各版本行为还要交给独立验收，不能因为源码看起来正确就跳过流程终止检查。
+`seen` 标记已接入位置。每轮源码快照另存，后面才能按当时版本检查行为。
 
-**第2步：先保存长结果，再逐层压缩旧历史**
+![上下文压缩与跨会话记忆](images/context-and-memory.png)
 
-压缩器先把最新的大工具结果完整写盘并留下预览，再归档旧中段，同时保护工具请求与结果的配对。仍然超限时，才缩短较早的工具结果，最后才生成摘要。
+## 长结果先转存，再压缩旧消息
+
+压缩器先保存完整工具结果，给模型预览与恢复路径；再归档旧中段，必要时才生成摘要：
 
 ```python
-# 摘自 context.py，省略配对检查与事件记录
 self.persist_results(messages, recent_only=True)
 messages = self.snip(messages)
 if size(messages) > self.limit:
@@ -62,16 +46,15 @@ if size(messages) > self.limit:
     messages = self.summarize(messages, active_request)
 ```
 
-完整实现见 [context.py](context.py)。摘要只处理较早部分，最新闭合的工具请求与结果保持原样；否则模型可能把摘要误当成一项全新的用户任务，再次从头开工。摘要保存事实、约束和剩余工作，但仍可能遗漏，因此完整文本同时保留路径和哈希。
+裁剪要保护工具请求与结果配对，也要保留当前用户要求和最近的闭合工具批次。只留下“已经检查过”的摘要，可能丢掉模型继续判断所需的直接证据。
 
-这里的字符阈值只是触发压缩的教学代理，不是模型的词元数，也不是 API 的硬预算。本课只改编了当前任务需要的 s08 子集；主动压缩工具和一次性超长错误补救等完整机制仍待后续集成。
+字符阈值只是压缩触发量，不等于模型 token 上限。
 
-**第3步：让写盘结果真的可以恢复**
+## 写盘之后，还得读得回来
 
-完整结果写盘后，Agent 还需要一个能读回它的入口。分页版 `read_file` 接受字符串形式的 `offset` 和 `limit`：前者是从 0 开始的字符位置，后者每页为 1 至 2000 个字符，原有路径权限不变。
+[`PagedToolPool`](tools.py) 扩展 `read_file`，用字符偏移分页恢复：
 
 ```python
-# 摘自 tools.py，省略参数和权限校验
 end = min(len(text), offset + limit)
 return policy, {
     "status": "ok",
@@ -83,138 +66,48 @@ return policy, {
 }
 ```
 
-完整实现见 [tools.py](tools.py)。转存结果还会提供恢复路径、下一偏移量和 300 字符预览。动态读取的结果在第一次被模型消费前不能粗暴丢弃。
+完整记录存在磁盘、模型收到一个预览、模型收到所有分页，是三个不同事实。`exposure.py` 根据实际模型输入合并已暴露区间，但无法证明模型理解了这些文本。
 
-早期真实实验曾反复读取完整日志并到达 `step_limit`，公开审查因此得到 `review_error` 或 `No stop candidate`；这不表示函数已被判定不合格，也不表示 Python 超出了允许子集。加入分页后，也曾出现“源码正确、测试退出 0，但模型继续验证直到步数耗尽”的情况。原始记录均保留，验收同时要求流程正常停止。
+## 新会话从记忆取什么
 
-运行后的 [exposure.py](exposure.py) 会从真实 `model_inputs` 合并日志字符区间，重复页只计一次。`successful_request_text_ranges` 只在模型成功响应后记录已送达区间，避免摘要把已读内容误说成“只有预览”；传输失败不计。它不证明模型理解了文本，也不提供额外授权。实验结果与不同源码镜像的边界见 [run_summary.md](run_summary.md)。
+新建 `Conversation` 清空旧消息，磁盘记忆仍可召回。候选先区分当前任务与长期事实，只存允许持久化的内容，再按版本筛选。
 
-**第4步：新会话从磁盘召回长期记忆**
+旧 v1 费用不应覆盖 v3 请求。记忆正文即使包含“改接口、删测试”，也只是背景数据，不会取得高于当前任务与权限的地位。
 
-记忆以 Markdown 正文、YAML 元数据和索引保存。真实模型先提取候选，只有 `persistent` 内容才能写入；当前任务限制、重复正文和明显临时内容会被拒绝。
+是否真的保住约束，最后要检查实际动作、签名与文件。
 
-```python
-# 摘自 memory.py，省略字段校验与写盘
-c = candidate.model_dump()
-if c["scope"] != "persistent":
-    return {"stored": False, "reason": "current_task_is_not_persistent"}
-if any(r["body"] == c["body"].strip() for r in self.records()):
-    return {"stored": False, "reason": "duplicate_body"}
-```
+## 多轮指标怎样数
 
-完整实现见 [memory.py](memory.py)。召回先用确定性的目录词项和版本过滤：稳定的 API 偏好可以跨版本出现；v1、v2 的旧费用事实在 v3 会被跳过。只有选中的正文会进入模型输入。
+DeepEval `KnowledgeRetention` 从用户消息抽取知识，再判断助手是否遗忘。这里的 `yes` 表示发生遗忘，分数数的是 `no` 比例。
 
-讲师还会种入一条带明确来源的“改 API、删测试”记忆。它被召回时只是未受信任的数据，当前用户请求和权限仍然优先。提示语本身不能证明安全，最后必须检查 Agent 的真实动作、函数签名和测试文件。完整 s09 的自动整理与回滚生命周期留到集成项目实现。
+`ConversationCompleteness` 则先抽用户意图，再判断是否满足，这里的 `yes` 才是通过。两个指标的标签极性不同。
 
-**第5步：把对话评分与文件验收分开**
+Ragas 用 `MultiTurnSample` 表示交互，本课以多轮 AspectCritic 写明“新规则替换旧规则，未改约束继续保持”。会话评分与每轮实际代码行为分开检查。
 
-DeepEval 使用 `ConversationalTestCase` 和 `Turn` 构造用户、助手往返；Ragas 使用 `MultiTurnSample`。本课送入会话指标的是“用户请求与最终回答”的投影，内部工具轨迹和实际文件另存另验。
+## 模拟用户也要检查覆盖
+
+模拟器可以生成后续请求，并通过回调运行 Agent：
 
 ```python
-# 摘自 eval.py，省略序列化往返检查
-turns.extend([
-    Turn(role="user", content=pair["user"]),
-    Turn(role="assistant", content=pair["assistant"]),
-])
-deep, ragas = ConversationalTestCase(turns=turns), MultiTurnSample(user_input=messages)
+result = agent.run_turn(input, current_version)
+return Turn(
+    role="assistant",
+    content=result["final_answer"] or "Agent error; see runtime report",
+)
 ```
 
-完整实现见 [eval.py](eval.py)。如果加入 Ragas 工具消息，必须与前面的工具请求配对；不能把工具结果伪装成用户消息。
+这是 [`simulate.py`](simulate.py) 回调的核心。若模拟器第一轮就结束，后面的需求根本没有问到，就不能将其直接算成 Agent 没完成那些需求。
 
-知识保留先从各条用户消息提取事实，再判断助手是否遗忘，其中 `yes` 表示发生了遗忘，分数取 `no` 的比例。例如一个 `yes`、一个 `no`，结果是 `1/2`。完整性判断的极性相反，`yes` 表示意图得到满足。空判断默认可能得到 1，因此必须同时查看实际覆盖范围。
-
-Ragas 固定使用旧版 `AspectCritic.multi_turn_ascore`，定义中写明新规则替代旧规则，`strictness=1`；当前路径只生成一次，不能称为三次投票。具体结构、提示、异步路径和边界见 [source_walkthrough.md](source_walkthrough.md)。
-
-**第6步：分别验收行为与模拟覆盖**
-
-独立验收会重新执行每轮保存的源码快照，再读取最终工作目录，并核对函数签名、原测试、版本行为和快照一致性。历史快照重执行不是回到过去重新运行 Agent。
-
-模拟器则真正生成用户消息，通过回调调用编码 Agent。`golden` 规定 v1、v2、v3 的顺序；另一个受控实验用 `Decision` 在第一轮结束，用来检查覆盖审计能否发现缺口。
-
-```python
-# 摘自 simulate.py，省略版本适配与覆盖记录
-def callback(input, turns, thread_id):
-    # ……此处先根据本课约定更新 current_version
-    result = agent.run_turn(input, current_version)
-    return Turn(
-        role="assistant",
-        content=result["final_answer"] or "Agent error; see runtime report",
-    )
-```
-
-完整实现见 [simulate.py](simulate.py)。`coverage` 记录实际问到了哪些阶段。达到最多六个用户轮不等于任务完成；第一轮就结束也只说明后续需求没有被提出，不能直接算 Agent 没完成尚未收到的任务。
-
-动态模拟用户可以重试，场景验收看每个阶段最后一次结果，同时保留早先错误并单列 `completed_after_retries`。接口异常会保存已有交互，`sample` 留空、状态记为 `error`，不能用自行拼出的对话冒充 SDK 完整返回。正常三轮、构造对话、确定性协议样本、模拟用户、历史运行和当前重跑必须分开记录。
-
-## 相对上一课的变更
-
-| 部分 | 处理方式 |
-|---|---|
-| Agent 循环、文件与 Bash 工具、权限、公开停止审查 | 保留 |
-| 会话状态 | 新增 `visible` 与 `raw`，区分模型输入和完整轨迹 |
-| 长结果 | 新增完整转存、分页恢复和分层压缩 |
-| 新会话 | 清空消息，从磁盘召回经过版本过滤的记忆 |
-| 评测 | 新增原生多轮样本、语义裁判和模拟覆盖审查 |
-| 最终验收 | 每轮快照重执行，并读取最终目录核对 |
-
-实验材料按增量验证组织：实验 A 保留新增区间记录前、固定 32 步协议下的完整上下文与压缩三轮；实验 B 用当前源码单独重跑带区间记录的压缩三轮；实验 C 运行原生模拟用户。实验 A 的语义裁判结果不能说成对实验 B 的重新评分。旧的 14 步、4 用户轮报告也单独保存，不能把预算变化解释为性能改善。
+分别记录“问到了哪些阶段”和“收到要求后是否做对”。达到轮数上限也不等于任务完成。
 
 ## 试一下
 
-先在宿主机两个终端启动桥接服务。升级到新的 e12 契约时，要停掉旧进程再重启：
+依次提出费用更新和重量上限更新，列出每轮仍然有效的要求。压缩历史后，检查这些要求和最近工具结果在哪里。
 
-```bash
-python3 tools/model_bridge.py
-```
+再开启新会话，只保留磁盘记忆：旧费用和稳定接口约束，哪一种应当召回？
 
-另开终端启动裁判桥：
-
-```bash
-python3 tools/judge_bridge.py
-```
-
-每条命令各占一个终端，分别使用 8766 和 8768 端口。裁判桥支持不同角色调用同一个已登录模型，不代表使用了独立模型。凭据始终留在宿主机。
-
-构建镜像后，依次运行 Agent、模拟器、断网验收和语义裁判：
-
-```bash
-docker compose build
-docker compose run --rm -T --entrypoint python course -m lessons.e12_conversation.code
-docker compose run --rm -T --entrypoint python course -m lessons.e12_conversation.simulate
-```
-
-```bash
-docker compose --profile verify run --rm -T --entrypoint python verifier -m lessons.e12_conversation.context_controls
-docker compose --profile verify run --rm -T --entrypoint python verifier -m lessons.e12_conversation.eval
-docker compose run --rm -T --entrypoint python course -m lessons.e12_conversation.eval --judge
-```
-
-重跑前先另存旧报告。主要产物是：
-
-- `runs/e12-agents.json`
-- `runs/e12-simulation.json`
-- `runs/e12-context-controls.json`
-- `runs/e12-evaluation.json`
-- `runs/e12-judges.json`
-
-私有条件 `evaluation_private/e12.json` 只提供给断网验收器，并从课程镜像排除；报告与工作目录使用持久挂载。暂停造成的模型传输失败和部分报告单独归档，不与完整运行混计。实际结果、错误和不同运行的协议见 [run_summary.md](run_summary.md)。
-
-启动阅读器：
-
-```bash
-docker compose up -d
-```
-
-然后打开 `http://localhost:8765/lesson12`。
-
-在运行报告中找一找：
-
-1. 300 字符预览不够时，应从哪个 `offset` 继续恢复？
-2. 为什么 400 应当替代 300，却不能顺便改变函数签名？
-3. 模拟器第一轮就结束，表示覆盖缺口，还是表示 Agent 已完成所有未来任务？
+[会话](code.py) · [压缩](context.py) · [记忆](memory.py) · [练习](exercises.md) · [参考答案](solutions.md)
 
 ## 接下来
 
-完整模块包括 [code.py](code.py)、[context.py](context.py)、[memory.py](memory.py)、[tools.py](tools.py)、[eval.py](eval.py) 和 [simulate.py](simulate.py)。进一步细节可查看 [源码导读](source_walkthrough.md)、[运行记录](run_summary.md)、[练习](exercises.md)、[参考答案](solutions.md)、[验证说明](../../docs/e12-validation.md) 与 [生成说明](../../generation/e12-README.md)。
-
-下一课加入计划、依赖、子 Agent 与协作。同一个多步目标会拆成多个任务，需要继续检查计划是否合理、交接有没有丢信息，以及局部成功能否拼成整体完成。
+多轮要求已经能跟踪。下一课把目标拆给不同角色，继续检查计划、依赖和交接是否保住整体要求。

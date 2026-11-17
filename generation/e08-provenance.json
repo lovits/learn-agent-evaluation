@@ -1,0 +1,26 @@
+{
+  "generator": "PocketFlow-Tutorial-Codebase-Knowledge",
+  "upstream_commit": "05b24cbbb0fe409c5e23c9791f0342f07524ffdc",
+  "nodes_run": [
+    "FetchRepo",
+    "BindLesson",
+    "WriteChapters",
+    "CombineTutorial"
+  ],
+  "actual_model_calls": 1,
+  "calls": [
+    {
+      "prompt_sha256": "a39ebec091d7dbc1bd466ba62a777d19436b9285239827a6f751e7dff7af32ca",
+      "response_sha256": "2d1078166972d65673a7aabb40e93410f51fc5f792739ed0a1ed16a9d16d9a81",
+      "seconds": 67.58
+    }
+  ],
+  "input_sha256": {
+    "eval_course/runtime.py": "f4236018e4dea094fe4573c48cb3cc03fdcf4d837dac8ff30190367c1dc86fa4",
+    "course/e08_faithfulness/code.py": "713a0863c4e8c639501870a5097429b20b2cf1a1c40c105a32b5e8fc47a2a1c1",
+    "course/e08_faithfulness/cases.jsonl": "f7d04a1520a908901679997b73a5c6d8b299d2f32f8789ffdb9474edc5b8b305",
+    "course/e08_faithfulness/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "course/e08_faithfulness/eval.py": "aa8fb6bd9033b7f3052a106cbe1fd5aaaebdceb1370d966afa8aec00bb124283"
+  },
+  "note": "Raw draft is reviewed and condensed; final textbook is in course/. The agreed outline is not model-reordered."
+}

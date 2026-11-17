@@ -220,6 +220,8 @@ Agent 接到任务，读文件、查资料、调用工具，最后给出回答�
 
 **学会的标志**：能逐条解释失去支持的位置，区分证据忠实度与客观事实正确性。
 
+[教材](../course/e08_faithfulness/README.zh.md) · [源码导读](../course/e08_faithfulness/source_walkthrough.md)
+
 ## 09 答案质量
 
 忠于资料，为什么仍可能没有回答好问题？

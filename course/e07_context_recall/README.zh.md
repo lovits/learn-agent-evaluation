@@ -1,6 +1,6 @@
 # e07: 资料都相关，为什么还答不全？
 
-[e06](../e06_context_precision/README.zh.md) → `e07` → [e08](../../docs/curriculum.md#08-回答对上下文的忠实度) → … → e16
+[e06](../e06_context_precision/README.zh.md) → `e07` → [e08](../e08_faithfulness/README.zh.md) → … → e16
 
 > 先列出必要事实，再检查哪些证据还没找到。
 

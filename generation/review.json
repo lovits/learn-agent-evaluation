@@ -1,6 +1,6 @@
 {
   "outline_version": 3,
-  "review": "第7课依据 PocketFlow 实际草稿压缩，核对文档与事实召回分母、参考缩短反例及原生 DeepEval 逐句归因。删除虚构图片路径和冗余比喻，修正受控上下文与真实 Agent 输入、裁决与事实 ID 对齐的过度概括。",
+  "review": "第8课依据 PocketFlow 实际草稿压缩，核对 DeepEval truths/claims/verdicts 三阶段、默认 borderline 通过与明确支持比例、原生空值及对齐边界；补充真实记录的执行证据范围与来源编号抽取损失。删除草稿虚构配图和冗余比喻，修正零分含义及默认比例不能等同支持比例的解释。",
   "published_sha256": {
     "course/run.py": "d4f0b75ebfc46cf0eeb897dfbe4c4b22db0626231aac9d72f30093a9caa2cb1c",
     "course/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
@@ -107,7 +107,7 @@
     "course/e06_context_precision/images/ranking-flow.drawio": "634ecc65b73adec0ca831f89d446b3d01ecd6a6a43c1bf046607cff54687fc40",
     "course/e06_context_precision/images/scoring-flow.drawio": "ebbb606782930efe47a7b017f8611e59db1cf358540438212e8888bbdbc04375",
     "course/e06_context_precision/images/scoring-flow.png": "51c2b0c19db122e810dcaa2b745599a3cc309400455d4074e6a4d3279c65b34e",
-    "course/e07_context_recall/README.zh.md": "4de532db11aa5272d7aa42840dbdf37f31c26b896b01527a2b019c1f9da2b538",
+    "course/e07_context_recall/README.zh.md": "c32452bd49ef7f4e2354cb91278ea4aa642e18f12f2ccbbdf494779c62d7abd2",
     "course/e07_context_recall/solutions.md": "1133ade20c7c5387a43fff15c0cbaff36bca94c97d57332183cbf41d2672346c",
     "course/e07_context_recall/assessment.json": "40a0964fe059717f58c54de235b8d67939d9e1d9046d3863ff2230fd3e9a4add",
     "course/e07_context_recall/exercises.md": "b18f04b59f88ae92ac25c02098c75de49a766c0c76852482ec8bca6e3b2f2080",
@@ -122,7 +122,23 @@
     "course/e07_context_recall/images/coverage-flow.png": "6f8d5048258b1cc1d2c4f436b684cedadd0067eef540e2c09bd91f241b6c5a1e",
     "course/e07_context_recall/images/coverage-flow.drawio.svg": "2ef804f6988446e500423db16f08b3b92ce4370dafc1c94b1fdda40a2652cfcd",
     "course/e07_context_recall/images/scoring-flow.drawio": "2fa11c692ed1d77dbe9c62ca7a61cb5d5623dc6e2a4c3907c139e35ff372e3d4",
-    "course/e07_context_recall/images/scoring-flow.png": "aa5270b17a996905633f084c1f91418e7739bd5e879345f0cf961967052b20e6"
+    "course/e07_context_recall/images/scoring-flow.png": "aa5270b17a996905633f084c1f91418e7739bd5e879345f0cf961967052b20e6",
+    "course/e08_faithfulness/README.zh.md": "86e92d7ba2efaa6a65b4044240db39ed5fe7fc6efbb4de9c39c2378075eae085",
+    "course/e08_faithfulness/solutions.md": "5c28683f502e56e5d0168f520f907ab01d89b93fba961b80580255cd5015d202",
+    "course/e08_faithfulness/assessment.json": "071578ffdc6136f1e2586c7e4c741dcece66dce832f38572b72ab62ceaea8f44",
+    "course/e08_faithfulness/exercises.md": "c51925efe0adb5dad817f1267cfa858778ea6896a358a7eb7e27cff277d54681",
+    "course/e08_faithfulness/code.py": "713a0863c4e8c639501870a5097429b20b2cf1a1c40c105a32b5e8fc47a2a1c1",
+    "course/e08_faithfulness/cases.jsonl": "f7d04a1520a908901679997b73a5c6d8b299d2f32f8789ffdb9474edc5b8b305",
+    "course/e08_faithfulness/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "course/e08_faithfulness/assessment.md": "cd68bd89de67b720cd98b475be47f3f26d558ac3ff2aa8b94ecb1839c2d5dbe4",
+    "course/e08_faithfulness/source_walkthrough.md": "fe66cfc804c428bd98c3a132ff641999c05c4d2d5abe01a717c2793c10323a95",
+    "course/e08_faithfulness/eval.py": "aa8fb6bd9033b7f3052a106cbe1fd5aaaebdceb1370d966afa8aec00bb124283",
+    "course/e08_faithfulness/images/claim-flow.drawio": "440c2e1442b8e6e2853dd0d617f47a3434035c0acf78d24df65354bef9bf517e",
+    "course/e08_faithfulness/images/claim-flow.png": "ad3e75e8ef479cbb600911a235b4e4e02e119925ea857b201267dd7af5d11ed0",
+    "course/e08_faithfulness/images/scoring-flow.drawio.svg": "5f9fd0681dabc60308e423419d8e5127aa05c70535a67a0f5213ae1ab9ea5b1c",
+    "course/e08_faithfulness/images/claim-flow.drawio.svg": "195228180b9472c54270b44eb25792760302f2ba52c06ec8be919ac0a99b9e87",
+    "course/e08_faithfulness/images/scoring-flow.drawio": "1ecab3f4d2209b7612a1b9a2fcaf68be805f8783fc576ec07d5c140fb31f7cf2",
+    "course/e08_faithfulness/images/scoring-flow.png": "7d104e81a71b2e2a061082c21c1600df242783fdd43d393d2dd01bada24aa327"
   },
   "provenance": [
     "generation/e01-provenance.json",
@@ -131,7 +147,8 @@
     "generation/e04-provenance.json",
     "generation/e05-provenance.json",
     "generation/e06-provenance.json",
-    "generation/e07-provenance.json"
+    "generation/e07-provenance.json",
+    "generation/e08-provenance.json"
   ],
   "runtime_evidence": "generation/runtime-evidence.json",
   "figures": "references/figures.json"

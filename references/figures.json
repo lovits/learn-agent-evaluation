@@ -262,5 +262,41 @@
     "visual_review": "Reviewed both exported PNGs: compact layout, legible 16px nodes and 13px edges, no overlaps.",
     "node_font_size": 16,
     "edge_font_size": 13
+  },
+  {
+    "name": "e08-claim-flow",
+    "slug": "e08_faithfulness",
+    "title": "第8课：事实、声明与裁决",
+    "diagram_type": "flowchart",
+    "generator": "draw.io",
+    "candidate": "course/e08_faithfulness/images/claim-flow.drawio",
+    "output": "course/e08_faithfulness/images/claim-flow.drawio.svg",
+    "png": "course/e08_faithfulness/images/claim-flow.png",
+    "readme_preview": "course/e08_faithfulness/images/claim-flow.png",
+    "preview_url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e08-claim-flow.png",
+    "url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e08-claim-flow.svg",
+    "artifact_sha256": "195228180b9472c54270b44eb25792760302f2ba52c06ec8be919ac0a99b9e87",
+    "png_sha256": "ad3e75e8ef479cbb600911a235b4e4e02e119925ea857b201267dd7af5d11ed0",
+    "visual_review": "passed",
+    "node_font_size": 16,
+    "edge_font_size": 13
+  },
+  {
+    "name": "e08-scoring-flow",
+    "slug": "e08_faithfulness",
+    "title": "第8课：两种聚合口径",
+    "diagram_type": "flowchart",
+    "generator": "draw.io",
+    "candidate": "course/e08_faithfulness/images/scoring-flow.drawio",
+    "output": "course/e08_faithfulness/images/scoring-flow.drawio.svg",
+    "png": "course/e08_faithfulness/images/scoring-flow.png",
+    "readme_preview": "course/e08_faithfulness/images/scoring-flow.png",
+    "preview_url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e08-scoring-flow.png",
+    "url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e08-scoring-flow.svg",
+    "artifact_sha256": "5f9fd0681dabc60308e423419d8e5127aa05c70535a67a0f5213ae1ab9ea5b1c",
+    "png_sha256": "7d104e81a71b2e2a061082c21c1600df242783fdd43d393d2dd01bada24aa327",
+    "visual_review": "passed",
+    "node_font_size": 16,
+    "edge_font_size": 13
   }
 ]

@@ -15,7 +15,7 @@
         "README.md",
         "docs/curriculum.md"
       ],
-      "verified_revision": 23
+      "verified_revision": 24
     },
     "e01": {
       "title": "第1课：模型停下了，任务完成了吗？",
@@ -179,6 +179,27 @@
         "course/e07_context_recall/source_walkthrough.md",
         "course/e07_context_recall/exercises.md",
         "course/e07_context_recall/solutions.md"
+      ],
+      "verified_revision": 6
+    },
+    "assessment8": {
+      "title": "第8课：样本与评测记录",
+      "document_id": "QPe2dpkmwoggDCxTJy2cx1ksn4e",
+      "url": "https://my.feishu.cn/docx/QPe2dpkmwoggDCxTJy2cx1ksn4e",
+      "paths": [
+        "course/e08_faithfulness/assessment.md"
+      ],
+      "verified_revision": 3
+    },
+    "e08": {
+      "title": "第8课：回答对上下文的忠实度",
+      "document_id": "WcRpdvG1wogYpExw00ncOI2Jnrf",
+      "url": "https://my.feishu.cn/docx/WcRpdvG1wogYpExw00ncOI2Jnrf",
+      "paths": [
+        "course/e08_faithfulness/README.zh.md",
+        "course/e08_faithfulness/source_walkthrough.md",
+        "course/e08_faithfulness/exercises.md",
+        "course/e08_faithfulness/solutions.md"
       ],
       "verified_revision": 5
     }

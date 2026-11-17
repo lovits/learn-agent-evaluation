@@ -66,7 +66,7 @@ python3 tools/run_e01.py
 ## 项目状态
 
 旧Faithfulness样章和专属回放实现已清理；该主题已在第5课以编程案例重新制作。
-当前第1至12课已制作，第1至7课按统一正文标准完成重写与复核，第8至12课沿同一写法制作，其余4课保留详细设计。DeepEval/Ragas用于评测方法和源码依据，
+当前第1至13课已制作，第1至7课按统一正文标准完成重写与复核，第8至13课沿同一写法制作，其余3课保留详细设计。DeepEval/Ragas用于评测方法和源码依据，
 第一课先用确定性任务合同判断文件、输出和退出码，后续再逐步引入框架接口与模型裁判。
 
 教材通过 [PocketFlow流程](generation/README.md)组织，来源与许可见 [第三方说明](THIRD_PARTY.md)。
@@ -226,3 +226,18 @@ docker compose run --rm -T --entrypoint python course -m lessons.e12_conversatio
 需先分别启动8766模型桥和8768裁判桥，再构建当前镜像。阅读地址：http://localhost:8765/lesson12 。固定两路径、区间记录增量运行与模拟用户有各自原始报告；32步/6用户轮协议与旧预算实验分开，接口失败保留未评分。完整主动压缩、记忆整理和回滚继续留到综合项目核验。
 
 [第12课飞书完整教材](https://my.feishu.cn/docx/FxDedeXzmoburRxNAJpczv10nyd)。
+
+## 第13课：计划、依赖与交接
+
+[教材](lessons/e13_planning/README.zh.md)、[源码导读](lessons/e13_planning/source_walkthrough.md)、[实验结果](lessons/e13_planning/run_summary.md)、[练习](lessons/e13_planning/exercises.md)、[验收](docs/e13-validation.md)。先声明计划，再用真实ID建依赖图，分别委派核心计算和入口转发；父子新上下文、共享文件、结果邮箱、原生SDK树与独立验收分开追踪。
+
+```bash
+docker compose run --rm -T --entrypoint python course -m lessons.e13_planning.code
+docker compose --profile verify run --rm -T --entrypoint python verifier -m lessons.e13_planning.controls
+docker compose --profile verify run --rm -T --entrypoint python verifier -m lessons.e13_planning.eval
+docker compose run --rm -T --entrypoint python course -m lessons.e13_planning.eval --judge
+```
+
+先分别启动宿主8766模型桥与8768裁判桥，再构建当前镜像。阅读地址：http://localhost:8765/lesson13 。真实应用与两个API独立验收通过；计划质量、遵从与业务结果有不同含义，保留低分、空计划默认及裁判分歧。同步一次性子任务不代表完整持久团队；其他机制继续在综合项目核验。
+
+[第13课飞书完整教材](https://my.feishu.cn/docx/LEyndiChQo7i8Vx1zodcfvwSnD4)。

@@ -1,6 +1,6 @@
 # Learn Claude Code 编程Agent评测课程：16课详细设计与制作规范
 
-本说明先于第1课实施完成，是逐课制作与验收的共同依据。被测对象为固定版本 Learn Claude Code 编程 Agent；每课只引入当前评测需要的可执行代码。原24课知识合并为16课，后续按小节递进。目前已制作第1、2、3、4、5、6、7、8、9、10、11、12课，其余4课保持设计状态。
+本说明先于第1课实施完成，是逐课制作与验收的共同依据。被测对象为固定版本 Learn Claude Code 编程 Agent；每课只引入当前评测需要的可执行代码。原24课知识合并为16课，后续按小节递进。目前已制作第1、2、3、4、5、6、7、8、9、10、11、12、13课，其余3课保持设计状态。
 
 ## 课程目标与制作范围
 
@@ -610,7 +610,7 @@ Agent代码增量：TodoManager、TaskStore、子任务隔离、最小协作接�
 - 文档依据：https://deepeval.com/docs/metrics-plan-adherence
 - 文档依据：https://deepeval.com/guides/guides-ai-agent-evaluation-metrics
 
-原课知识映射：s17。实施状态：后续逐课制作，本说明不代表已实现。
+原课知识映射：s17。实施状态：已制作并验证；显式计划、持久依赖、同步独立子会话、角色文件守卫、结果邮箱、原生SDK计划评分及独立两API验收完成。完整持久团队与跨进程协调留综合项目。
 
 ### e14 后台任务、调度、效率、成本与稳定性
 
@@ -818,3 +818,7 @@ pocketflow_tutorial：https://github.com/The-Pocket/PocketFlow-Tutorial-Codebase
 ### 第12课交付记录
 
 [完整教材与实验](https://my.feishu.cn/docx/FxDedeXzmoburRxNAJpczv10nyd)已同步飞书并回读；固定两路径和区间记录增量运行通过业务验收，模拟用户重试后覆盖完整场景，受控一轮停止正确识别缺口。Docker断网152项测试通过，源码、生成与润色记录保留。第13至16课与综合项目继续实施。
+
+### 第13课交付记录
+
+[完整教材与实验](https://my.feishu.cn/docx/LEyndiChQo7i8Vx1zodcfvwSnD4)：跨文件修复按依赖委派，正式父模型10次、两个子模型7与6次响应，断网验收两API各22个保留输入通过。7项构造协议控制符合预期；原生计划指标及定制Ragas评分30次成功响应、0个指标错误，保留计划质量/遵从分歧与空计划默认。本地和Docker断网175项测试通过。PocketFlow实际生成并全篇润色，六部分、六步及结构图已同步并回读；第14至16课与综合项目继续实施。

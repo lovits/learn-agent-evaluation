@@ -1,0 +1,1829 @@
+{
+  "lesson": "e13",
+  "mode": "actual_files_and_task_events_independent_reexecution",
+  "checks": {
+    "actual_artifacts_match_report": true,
+    "both_apis_and_original_tests": true,
+    "persistent_tasks_match_report": true,
+    "persistent_tasks_match_event_states": true,
+    "nonempty_task_graph_with_dependency": true,
+    "all_tasks_claimed_complete": true,
+    "dependency_claim_order": true,
+    "graph_created_before_delegation": true,
+    "lead_finished": true,
+    "separate_components_delegated": true,
+    "latest_task_handoffs_finished": true,
+    "explicit_plan_recorded": true,
+    "explicit_plan_before_delegation_or_edits": true,
+    "fresh_child_contexts": true,
+    "native_sdk_trace_recorded": true
+  },
+  "passed": true,
+  "artifacts": {
+    "status": "scored",
+    "passed": true,
+    "checks": {
+      "test_shipping.py": true,
+      "test_checkout.py": true,
+      "core_behavior": true,
+      "quote_behavior": true,
+      "no_unexpected_project_files": true
+    },
+    "core": {
+      "status": "scored",
+      "cases": [
+        {
+          "id": "w1-expFalse",
+          "actual": {
+            "value": 600,
+            "type": "int"
+          },
+          "expected": {
+            "value": 600,
+            "type": "int"
+          },
+          "passed": true
+        },
+        {
+          "id": "w1-expTrue",
+          "actual": {
+            "value": 1000,
+            "type": "int"
+          },
+          "expected": {
+            "value": 1000,
+            "type": "int"
+          },
+          "passed": true
+        },
+        {
+          "id": "w999-expFalse",
+          "actual": {
+            "value": 600,
+            "type": "int"
+          },
+          "expected": {
+            "value": 600,
+            "type": "int"
+          },
+          "passed": true
+        },
+        {
+          "id": "w999-expTrue",
+          "actual": {
+            "value": 1000,
+            "type": "int"
+          },
+          "expected": {
+            "value": 1000,
+            "type": "int"
+          },
+          "passed": true
+        },
+        {
+          "id": "w1999-expFalse",
+          "actual": {
+            "value": 800,
+            "type": "int"
+          },
+          "expected": {
+            "value": 800,
+            "type": "int"
+          },
+          "passed": true
+        },
+        {
+          "id": "w1999-expTrue",
+          "actual": {
+            "value": 1200,
+            "type": "int"
+          },
+          "expected": {
+            "value": 1200,
+            "type": "int"
+          },
+          "passed": true
+        },
+        {
+          "id": "w2001-expFalse",
+          "actual": {
+            "value": 1000,
+            "type": "int"
+          },
+          "expected": {
+            "value": 1000,
+            "type": "int"
+          },
+          "passed": true
+        },
+        {
+          "id": "w2001-expTrue",
+          "actual": {
+            "value": 1400,
+            "type": "int"
+          },
+          "expected": {
+            "value": 1400,
+            "type": "int"
+          },
+          "passed": true
+        },
+        {
+          "id": "w5000-expFalse",
+          "actual": {
+            "value": 1400,
+            "type": "int"
+          },
+          "expected": {
+            "value": 1400,
+            "type": "int"
+          },
+          "passed": true
+        },
+        {
+          "id": "w5000-expTrue",
+          "actual": {
+            "value": 1800,
+            "type": "int"
+          },
+          "expected": {
+            "value": 1800,
+            "type": "int"
+          },
+          "passed": true
+        },
+        {
+          "id": "invalid-0",
+          "actual": {
+            "exception": "ValueError"
+          },
+          "expected": {
+            "exception": "ValueError"
+          },
+          "passed": true
+        },
+        {
+          "id": "invalid--1",
+          "actual": {
+            "exception": "ValueError"
+          },
+          "expected": {
+            "exception": "ValueError"
+          },
+          "passed": true
+        },
+        {
+          "id": "invalid-5001",
+          "actual": {
+            "value": 1600,
+            "type": "int"
+          },
+          "expected": {
+            "value": 1600,
+            "type": "int"
+          },
+          "passed": true
+        },
+        {
+          "id": "type-0",
+          "actual": {
+            "exception": "TypeError"
+          },
+          "expected": {
+            "exception": "TypeError"
+          },
+          "passed": true
+        },
+        {
+          "id": "type-1",
+          "actual": {
+            "exception": "TypeError"
+          },
+          "expected": {
+            "exception": "TypeError"
+          },
+          "passed": true
+        },
+        {
+          "id": "type-2",
+          "actual": {
+            "exception": "TypeError"
+          },
+          "expected": {
+            "exception": "TypeError"
+          },
+          "passed": true
+        },
+        {
+          "id": "type-3",
+          "actual": {
+            "exception": "TypeError"
+          },
+          "expected": {
+            "exception": "TypeError"
+          },
+          "passed": true
+        },
+        {
+          "id": "exp-type-0",
+          "actual": {
+            "exception": "TypeError"
+          },
+          "expected": {
+            "exception": "TypeError"
+          },
+          "passed": true
+        },
+        {
+          "id": "exp-type-1",
+          "actual": {
+            "exception": "TypeError"
+          },
+          "expected": {
+            "exception": "TypeError"
+          },
+          "passed": true
+        },
+        {
+          "id": "exp-type-2",
+          "actual": {
+            "exception": "TypeError"
+          },
+          "expected": {
+            "exception": "TypeError"
+          },
+          "passed": true
+        },
+        {
+          "id": "v3-6000",
+          "actual": {
+            "value": 1600,
+            "type": "int"
+          },
+          "expected": {
+            "value": 1600,
+            "type": "int"
+          },
+          "passed": true
+        },
+        {
+          "id": "v3-6001",
+          "actual": {
+            "exception": "ValueError"
+          },
+          "expected": {
+            "exception": "ValueError"
+          },
+          "passed": true
+        }
+      ],
+      "limits": {
+        "cpu_seconds": 2,
+        "memory_bytes": 268435456,
+        "platform": "linux"
+      },
+      "source_sha256": "5eef9fde6c9c3a1cfb7a14c87ea71dc6526848f31256218977074b0817757bdb",
+      "protected_tests_retained": true,
+      "source_changed": true,
+      "checks": {
+        "protected_tests_retained": true,
+        "w1-expFalse": true,
+        "w1-expTrue": true,
+        "w999-expFalse": true,
+        "w999-expTrue": true,
+        "w1999-expFalse": true,
+        "w1999-expTrue": true,
+        "w2001-expFalse": true,
+        "w2001-expTrue": true,
+        "w5000-expFalse": true,
+        "w5000-expTrue": true,
+        "invalid-0": true,
+        "invalid--1": true,
+        "invalid-5001": true,
+        "type-0": true,
+        "type-1": true,
+        "type-2": true,
+        "type-3": true,
+        "exp-type-0": true,
+        "exp-type-1": true,
+        "exp-type-2": true,
+        "v3-6000": true,
+        "v3-6001": true
+      },
+      "passed": true
+    },
+    "quote_via_bound_core": {
+      "status": "scored",
+      "cases": [
+        {
+          "id": "w1-expFalse",
+          "actual": {
+            "value": 600,
+            "type": "int"
+          },
+          "expected": {
+            "value": 600,
+            "type": "int"
+          },
+          "passed": true
+        },
+        {
+          "id": "w1-expTrue",
+          "actual": {
+            "value": 1000,
+            "type": "int"
+          },
+          "expected": {
+            "value": 1000,
+            "type": "int"
+          },
+          "passed": true
+        },
+        {
+          "id": "w999-expFalse",
+          "actual": {
+            "value": 600,
+            "type": "int"
+          },
+          "expected": {
+            "value": 600,
+            "type": "int"
+          },
+          "passed": true
+        },
+        {
+          "id": "w999-expTrue",
+          "actual": {
+            "value": 1000,
+            "type": "int"
+          },
+          "expected": {
+            "value": 1000,
+            "type": "int"
+          },
+          "passed": true
+        },
+        {
+          "id": "w1999-expFalse",
+          "actual": {
+            "value": 800,
+            "type": "int"
+          },
+          "expected": {
+            "value": 800,
+            "type": "int"
+          },
+          "passed": true
+        },
+        {
+          "id": "w1999-expTrue",
+          "actual": {
+            "value": 1200,
+            "type": "int"
+          },
+          "expected": {
+            "value": 1200,
+            "type": "int"
+          },
+          "passed": true
+        },
+        {
+          "id": "w2001-expFalse",
+          "actual": {
+            "value": 1000,
+            "type": "int"
+          },
+          "expected": {
+            "value": 1000,
+            "type": "int"
+          },
+          "passed": true
+        },
+        {
+          "id": "w2001-expTrue",
+          "actual": {
+            "value": 1400,
+            "type": "int"
+          },
+          "expected": {
+            "value": 1400,
+            "type": "int"
+          },
+          "passed": true
+        },
+        {
+          "id": "w5000-expFalse",
+          "actual": {
+            "value": 1400,
+            "type": "int"
+          },
+          "expected": {
+            "value": 1400,
+            "type": "int"
+          },
+          "passed": true
+        },
+        {
+          "id": "w5000-expTrue",
+          "actual": {
+            "value": 1800,
+            "type": "int"
+          },
+          "expected": {
+            "value": 1800,
+            "type": "int"
+          },
+          "passed": true
+        },
+        {
+          "id": "invalid-0",
+          "actual": {
+            "exception": "ValueError"
+          },
+          "expected": {
+            "exception": "ValueError"
+          },
+          "passed": true
+        },
+        {
+          "id": "invalid--1",
+          "actual": {
+            "exception": "ValueError"
+          },
+          "expected": {
+            "exception": "ValueError"
+          },
+          "passed": true
+        },
+        {
+          "id": "invalid-5001",
+          "actual": {
+            "value": 1600,
+            "type": "int"
+          },
+          "expected": {
+            "value": 1600,
+            "type": "int"
+          },
+          "passed": true
+        },
+        {
+          "id": "type-0",
+          "actual": {
+            "exception": "TypeError"
+          },
+          "expected": {
+            "exception": "TypeError"
+          },
+          "passed": true
+        },
+        {
+          "id": "type-1",
+          "actual": {
+            "exception": "TypeError"
+          },
+          "expected": {
+            "exception": "TypeError"
+          },
+          "passed": true
+        },
+        {
+          "id": "type-2",
+          "actual": {
+            "exception": "TypeError"
+          },
+          "expected": {
+            "exception": "TypeError"
+          },
+          "passed": true
+        },
+        {
+          "id": "type-3",
+          "actual": {
+            "exception": "TypeError"
+          },
+          "expected": {
+            "exception": "TypeError"
+          },
+          "passed": true
+        },
+        {
+          "id": "exp-type-0",
+          "actual": {
+            "exception": "TypeError"
+          },
+          "expected": {
+            "exception": "TypeError"
+          },
+          "passed": true
+        },
+        {
+          "id": "exp-type-1",
+          "actual": {
+            "exception": "TypeError"
+          },
+          "expected": {
+            "exception": "TypeError"
+          },
+          "passed": true
+        },
+        {
+          "id": "exp-type-2",
+          "actual": {
+            "exception": "TypeError"
+          },
+          "expected": {
+            "exception": "TypeError"
+          },
+          "passed": true
+        },
+        {
+          "id": "v3-6000",
+          "actual": {
+            "value": 1600,
+            "type": "int"
+          },
+          "expected": {
+            "value": 1600,
+            "type": "int"
+          },
+          "passed": true
+        },
+        {
+          "id": "v3-6001",
+          "actual": {
+            "exception": "ValueError"
+          },
+          "expected": {
+            "exception": "ValueError"
+          },
+          "passed": true
+        }
+      ],
+      "limits": {
+        "cpu_seconds": 2,
+        "memory_bytes": 268435456,
+        "platform": "linux"
+      },
+      "source_sha256": "8eb949bb855c5c8fa03fcd9c9955d42d30bef203bb55fd67a99fbb23e7f395ef",
+      "protected_tests_retained": true,
+      "source_changed": true,
+      "checks": {
+        "protected_tests_retained": true,
+        "w1-expFalse": true,
+        "w1-expTrue": true,
+        "w999-expFalse": true,
+        "w999-expTrue": true,
+        "w1999-expFalse": true,
+        "w1999-expTrue": true,
+        "w2001-expFalse": true,
+        "w2001-expTrue": true,
+        "w5000-expFalse": true,
+        "w5000-expTrue": true,
+        "invalid-0": true,
+        "invalid--1": true,
+        "invalid-5001": true,
+        "type-0": true,
+        "type-1": true,
+        "type-2": true,
+        "type-3": true,
+        "exp-type-0": true,
+        "exp-type-1": true,
+        "exp-type-2": true,
+        "v3-6000": true,
+        "v3-6001": true
+      },
+      "passed": true
+    },
+    "quote_binding": "declared import removed and names bound for the restricted runner; not a new Agent execution",
+    "artifact_hashes": {
+      "shipping.py": "5eef9fde6c9c3a1cfb7a14c87ea71dc6526848f31256218977074b0817757bdb",
+      "checkout.py": "554a7c372aa478ca5ad37454357751b2bf75dd3d842837b43045775c50cc2c50",
+      "test_shipping.py": "4dc6ca500387427266db0b3f131c15e76a5c0139b76201ae01997818fc99abef",
+      "test_checkout.py": "13ec3c5f86c4fa61348baf1543161dcf8eafc3132d3700e47ba7fb074ba74e6f"
+    },
+    "unexpected_project_files": []
+  },
+  "graph": {
+    "all_claims_after_dependency_completion": true,
+    "claims_observed": 2,
+    "initial_graph_before_first_claim": true,
+    "final_event_states": {
+      "task_367f1c07": {
+        "id": "task_367f1c07",
+        "subject": "Repair core shipping calculation",
+        "description": "Modify only shipping.py so shipping_fee(weight_grams, expedited=False) follows e13/shipping.md v3: exact int weight excluding bool, exact bool expedited, type errors before range validation, weight 1..6000 inclusive, 600 cents for first 1000g, 200 cents for each started additional 1000g, and 400-cent expedited surcharge. Preserve the public signature and do not edit tests or runtime files.",
+        "status": "completed",
+        "owner": "worker-1",
+        "blocked_by": []
+      },
+      "task_6a0a2d6c": {
+        "id": "task_6a0a2d6c",
+        "subject": "Repair quote argument forwarding",
+        "description": "After the core shipping calculation task completes, modify only checkout.py so quote(weight_grams, expedited=False) calls the imported shipping_fee and forwards both arguments without duplicating pricing logic. Preserve the public signature and do not edit tests or runtime files.",
+        "status": "completed",
+        "owner": "worker-2",
+        "blocked_by": [
+          "task_367f1c07"
+        ]
+      }
+    }
+  },
+  "child_attempt_errors": [],
+  "completed_after_child_retries": false,
+  "judge_requests": 0,
+  "state_controls": [
+    {
+      "id": "lost_forwarding",
+      "origin": "instructor_constructed_artifact_state_reexecuted",
+      "verification": {
+        "status": "scored",
+        "passed": false,
+        "checks": {
+          "test_shipping.py": true,
+          "test_checkout.py": true,
+          "core_behavior": true,
+          "quote_behavior": false,
+          "no_unexpected_project_files": true
+        },
+        "core": {
+          "status": "scored",
+          "cases": [
+            {
+              "id": "w1-expFalse",
+              "actual": {
+                "value": 600,
+                "type": "int"
+              },
+              "expected": {
+                "value": 600,
+                "type": "int"
+              },
+              "passed": true
+            },
+            {
+              "id": "w1-expTrue",
+              "actual": {
+                "value": 1000,
+                "type": "int"
+              },
+              "expected": {
+                "value": 1000,
+                "type": "int"
+              },
+              "passed": true
+            },
+            {
+              "id": "w999-expFalse",
+              "actual": {
+                "value": 600,
+                "type": "int"
+              },
+              "expected": {
+                "value": 600,
+                "type": "int"
+              },
+              "passed": true
+            },
+            {
+              "id": "w999-expTrue",
+              "actual": {
+                "value": 1000,
+                "type": "int"
+              },
+              "expected": {
+                "value": 1000,
+                "type": "int"
+              },
+              "passed": true
+            },
+            {
+              "id": "w1999-expFalse",
+              "actual": {
+                "value": 800,
+                "type": "int"
+              },
+              "expected": {
+                "value": 800,
+                "type": "int"
+              },
+              "passed": true
+            },
+            {
+              "id": "w1999-expTrue",
+              "actual": {
+                "value": 1200,
+                "type": "int"
+              },
+              "expected": {
+                "value": 1200,
+                "type": "int"
+              },
+              "passed": true
+            },
+            {
+              "id": "w2001-expFalse",
+              "actual": {
+                "value": 1000,
+                "type": "int"
+              },
+              "expected": {
+                "value": 1000,
+                "type": "int"
+              },
+              "passed": true
+            },
+            {
+              "id": "w2001-expTrue",
+              "actual": {
+                "value": 1400,
+                "type": "int"
+              },
+              "expected": {
+                "value": 1400,
+                "type": "int"
+              },
+              "passed": true
+            },
+            {
+              "id": "w5000-expFalse",
+              "actual": {
+                "value": 1400,
+                "type": "int"
+              },
+              "expected": {
+                "value": 1400,
+                "type": "int"
+              },
+              "passed": true
+            },
+            {
+              "id": "w5000-expTrue",
+              "actual": {
+                "value": 1800,
+                "type": "int"
+              },
+              "expected": {
+                "value": 1800,
+                "type": "int"
+              },
+              "passed": true
+            },
+            {
+              "id": "invalid-0",
+              "actual": {
+                "exception": "ValueError"
+              },
+              "expected": {
+                "exception": "ValueError"
+              },
+              "passed": true
+            },
+            {
+              "id": "invalid--1",
+              "actual": {
+                "exception": "ValueError"
+              },
+              "expected": {
+                "exception": "ValueError"
+              },
+              "passed": true
+            },
+            {
+              "id": "invalid-5001",
+              "actual": {
+                "value": 1600,
+                "type": "int"
+              },
+              "expected": {
+                "value": 1600,
+                "type": "int"
+              },
+              "passed": true
+            },
+            {
+              "id": "type-0",
+              "actual": {
+                "exception": "TypeError"
+              },
+              "expected": {
+                "exception": "TypeError"
+              },
+              "passed": true
+            },
+            {
+              "id": "type-1",
+              "actual": {
+                "exception": "TypeError"
+              },
+              "expected": {
+                "exception": "TypeError"
+              },
+              "passed": true
+            },
+            {
+              "id": "type-2",
+              "actual": {
+                "exception": "TypeError"
+              },
+              "expected": {
+                "exception": "TypeError"
+              },
+              "passed": true
+            },
+            {
+              "id": "type-3",
+              "actual": {
+                "exception": "TypeError"
+              },
+              "expected": {
+                "exception": "TypeError"
+              },
+              "passed": true
+            },
+            {
+              "id": "exp-type-0",
+              "actual": {
+                "exception": "TypeError"
+              },
+              "expected": {
+                "exception": "TypeError"
+              },
+              "passed": true
+            },
+            {
+              "id": "exp-type-1",
+              "actual": {
+                "exception": "TypeError"
+              },
+              "expected": {
+                "exception": "TypeError"
+              },
+              "passed": true
+            },
+            {
+              "id": "exp-type-2",
+              "actual": {
+                "exception": "TypeError"
+              },
+              "expected": {
+                "exception": "TypeError"
+              },
+              "passed": true
+            },
+            {
+              "id": "v3-6000",
+              "actual": {
+                "value": 1600,
+                "type": "int"
+              },
+              "expected": {
+                "value": 1600,
+                "type": "int"
+              },
+              "passed": true
+            },
+            {
+              "id": "v3-6001",
+              "actual": {
+                "exception": "ValueError"
+              },
+              "expected": {
+                "exception": "ValueError"
+              },
+              "passed": true
+            }
+          ],
+          "limits": {
+            "cpu_seconds": 2,
+            "memory_bytes": 268435456,
+            "platform": "linux"
+          },
+          "source_sha256": "5eef9fde6c9c3a1cfb7a14c87ea71dc6526848f31256218977074b0817757bdb",
+          "protected_tests_retained": true,
+          "source_changed": true,
+          "checks": {
+            "protected_tests_retained": true,
+            "w1-expFalse": true,
+            "w1-expTrue": true,
+            "w999-expFalse": true,
+            "w999-expTrue": true,
+            "w1999-expFalse": true,
+            "w1999-expTrue": true,
+            "w2001-expFalse": true,
+            "w2001-expTrue": true,
+            "w5000-expFalse": true,
+            "w5000-expTrue": true,
+            "invalid-0": true,
+            "invalid--1": true,
+            "invalid-5001": true,
+            "type-0": true,
+            "type-1": true,
+            "type-2": true,
+            "type-3": true,
+            "exp-type-0": true,
+            "exp-type-1": true,
+            "exp-type-2": true,
+            "v3-6000": true,
+            "v3-6001": true
+          },
+          "passed": true
+        },
+        "quote_via_bound_core": {
+          "status": "scored",
+          "cases": [
+            {
+              "id": "w1-expFalse",
+              "actual": {
+                "value": 600,
+                "type": "int"
+              },
+              "expected": {
+                "value": 600,
+                "type": "int"
+              },
+              "passed": true
+            },
+            {
+              "id": "w1-expTrue",
+              "actual": {
+                "value": 600,
+                "type": "int"
+              },
+              "expected": {
+                "value": 1000,
+                "type": "int"
+              },
+              "passed": false
+            },
+            {
+              "id": "w999-expFalse",
+              "actual": {
+                "value": 600,
+                "type": "int"
+              },
+              "expected": {
+                "value": 600,
+                "type": "int"
+              },
+              "passed": true
+            },
+            {
+              "id": "w999-expTrue",
+              "actual": {
+                "value": 600,
+                "type": "int"
+              },
+              "expected": {
+                "value": 1000,
+                "type": "int"
+              },
+              "passed": false
+            },
+            {
+              "id": "w1999-expFalse",
+              "actual": {
+                "value": 800,
+                "type": "int"
+              },
+              "expected": {
+                "value": 800,
+                "type": "int"
+              },
+              "passed": true
+            },
+            {
+              "id": "w1999-expTrue",
+              "actual": {
+                "value": 800,
+                "type": "int"
+              },
+              "expected": {
+                "value": 1200,
+                "type": "int"
+              },
+              "passed": false
+            },
+            {
+              "id": "w2001-expFalse",
+              "actual": {
+                "value": 1000,
+                "type": "int"
+              },
+              "expected": {
+                "value": 1000,
+                "type": "int"
+              },
+              "passed": true
+            },
+            {
+              "id": "w2001-expTrue",
+              "actual": {
+                "value": 1000,
+                "type": "int"
+              },
+              "expected": {
+                "value": 1400,
+                "type": "int"
+              },
+              "passed": false
+            },
+            {
+              "id": "w5000-expFalse",
+              "actual": {
+                "value": 1400,
+                "type": "int"
+              },
+              "expected": {
+                "value": 1400,
+                "type": "int"
+              },
+              "passed": true
+            },
+            {
+              "id": "w5000-expTrue",
+              "actual": {
+                "value": 1400,
+                "type": "int"
+              },
+              "expected": {
+                "value": 1800,
+                "type": "int"
+              },
+              "passed": false
+            },
+            {
+              "id": "invalid-0",
+              "actual": {
+                "exception": "ValueError"
+              },
+              "expected": {
+                "exception": "ValueError"
+              },
+              "passed": true
+            },
+            {
+              "id": "invalid--1",
+              "actual": {
+                "exception": "ValueError"
+              },
+              "expected": {
+                "exception": "ValueError"
+              },
+              "passed": true
+            },
+            {
+              "id": "invalid-5001",
+              "actual": {
+                "value": 1600,
+                "type": "int"
+              },
+              "expected": {
+                "value": 1600,
+                "type": "int"
+              },
+              "passed": true
+            },
+            {
+              "id": "type-0",
+              "actual": {
+                "exception": "TypeError"
+              },
+              "expected": {
+                "exception": "TypeError"
+              },
+              "passed": true
+            },
+            {
+              "id": "type-1",
+              "actual": {
+                "exception": "TypeError"
+              },
+              "expected": {
+                "exception": "TypeError"
+              },
+              "passed": true
+            },
+            {
+              "id": "type-2",
+              "actual": {
+                "exception": "TypeError"
+              },
+              "expected": {
+                "exception": "TypeError"
+              },
+              "passed": true
+            },
+            {
+              "id": "type-3",
+              "actual": {
+                "exception": "TypeError"
+              },
+              "expected": {
+                "exception": "TypeError"
+              },
+              "passed": true
+            },
+            {
+              "id": "exp-type-0",
+              "actual": {
+                "value": 600,
+                "type": "int"
+              },
+              "expected": {
+                "exception": "TypeError"
+              },
+              "passed": false
+            },
+            {
+              "id": "exp-type-1",
+              "actual": {
+                "value": 600,
+                "type": "int"
+              },
+              "expected": {
+                "exception": "TypeError"
+              },
+              "passed": false
+            },
+            {
+              "id": "exp-type-2",
+              "actual": {
+                "value": 600,
+                "type": "int"
+              },
+              "expected": {
+                "exception": "TypeError"
+              },
+              "passed": false
+            },
+            {
+              "id": "v3-6000",
+              "actual": {
+                "value": 1600,
+                "type": "int"
+              },
+              "expected": {
+                "value": 1600,
+                "type": "int"
+              },
+              "passed": true
+            },
+            {
+              "id": "v3-6001",
+              "actual": {
+                "exception": "ValueError"
+              },
+              "expected": {
+                "exception": "ValueError"
+              },
+              "passed": true
+            }
+          ],
+          "limits": {
+            "cpu_seconds": 2,
+            "memory_bytes": 268435456,
+            "platform": "linux"
+          },
+          "source_sha256": "8ddbafc4b761b315bc08960ae9a209c7ebee33c0d104b303dea45785c1d5af9b",
+          "protected_tests_retained": true,
+          "source_changed": true,
+          "checks": {
+            "protected_tests_retained": true,
+            "w1-expFalse": true,
+            "w1-expTrue": false,
+            "w999-expFalse": true,
+            "w999-expTrue": false,
+            "w1999-expFalse": true,
+            "w1999-expTrue": false,
+            "w2001-expFalse": true,
+            "w2001-expTrue": false,
+            "w5000-expFalse": true,
+            "w5000-expTrue": false,
+            "invalid-0": true,
+            "invalid--1": true,
+            "invalid-5001": true,
+            "type-0": true,
+            "type-1": true,
+            "type-2": true,
+            "type-3": true,
+            "exp-type-0": false,
+            "exp-type-1": false,
+            "exp-type-2": false,
+            "v3-6000": true,
+            "v3-6001": true
+          },
+          "passed": false
+        },
+        "quote_binding": "declared import removed and names bound for the restricted runner; not a new Agent execution",
+        "artifact_hashes": {
+          "shipping.py": "5eef9fde6c9c3a1cfb7a14c87ea71dc6526848f31256218977074b0817757bdb",
+          "checkout.py": "d3076233c0e5936bae5bb11935e1b3f3ae131f4807f0b24a6f726b1fb9db321e",
+          "test_shipping.py": "4dc6ca500387427266db0b3f131c15e76a5c0139b76201ae01997818fc99abef",
+          "test_checkout.py": "13ec3c5f86c4fa61348baf1543161dcf8eafc3132d3700e47ba7fb074ba74e6f"
+        },
+        "unexpected_project_files": []
+      },
+      "expected_failure_observed": true
+    },
+    {
+      "id": "deleted_tests",
+      "origin": "instructor_constructed_artifact_state_reexecuted",
+      "verification": {
+        "status": "scored",
+        "passed": false,
+        "checks": {
+          "test_shipping.py": true,
+          "test_checkout.py": false,
+          "core_behavior": true,
+          "quote_behavior": true,
+          "no_unexpected_project_files": true
+        },
+        "core": {
+          "status": "scored",
+          "cases": [
+            {
+              "id": "w1-expFalse",
+              "actual": {
+                "value": 600,
+                "type": "int"
+              },
+              "expected": {
+                "value": 600,
+                "type": "int"
+              },
+              "passed": true
+            },
+            {
+              "id": "w1-expTrue",
+              "actual": {
+                "value": 1000,
+                "type": "int"
+              },
+              "expected": {
+                "value": 1000,
+                "type": "int"
+              },
+              "passed": true
+            },
+            {
+              "id": "w999-expFalse",
+              "actual": {
+                "value": 600,
+                "type": "int"
+              },
+              "expected": {
+                "value": 600,
+                "type": "int"
+              },
+              "passed": true
+            },
+            {
+              "id": "w999-expTrue",
+              "actual": {
+                "value": 1000,
+                "type": "int"
+              },
+              "expected": {
+                "value": 1000,
+                "type": "int"
+              },
+              "passed": true
+            },
+            {
+              "id": "w1999-expFalse",
+              "actual": {
+                "value": 800,
+                "type": "int"
+              },
+              "expected": {
+                "value": 800,
+                "type": "int"
+              },
+              "passed": true
+            },
+            {
+              "id": "w1999-expTrue",
+              "actual": {
+                "value": 1200,
+                "type": "int"
+              },
+              "expected": {
+                "value": 1200,
+                "type": "int"
+              },
+              "passed": true
+            },
+            {
+              "id": "w2001-expFalse",
+              "actual": {
+                "value": 1000,
+                "type": "int"
+              },
+              "expected": {
+                "value": 1000,
+                "type": "int"
+              },
+              "passed": true
+            },
+            {
+              "id": "w2001-expTrue",
+              "actual": {
+                "value": 1400,
+                "type": "int"
+              },
+              "expected": {
+                "value": 1400,
+                "type": "int"
+              },
+              "passed": true
+            },
+            {
+              "id": "w5000-expFalse",
+              "actual": {
+                "value": 1400,
+                "type": "int"
+              },
+              "expected": {
+                "value": 1400,
+                "type": "int"
+              },
+              "passed": true
+            },
+            {
+              "id": "w5000-expTrue",
+              "actual": {
+                "value": 1800,
+                "type": "int"
+              },
+              "expected": {
+                "value": 1800,
+                "type": "int"
+              },
+              "passed": true
+            },
+            {
+              "id": "invalid-0",
+              "actual": {
+                "exception": "ValueError"
+              },
+              "expected": {
+                "exception": "ValueError"
+              },
+              "passed": true
+            },
+            {
+              "id": "invalid--1",
+              "actual": {
+                "exception": "ValueError"
+              },
+              "expected": {
+                "exception": "ValueError"
+              },
+              "passed": true
+            },
+            {
+              "id": "invalid-5001",
+              "actual": {
+                "value": 1600,
+                "type": "int"
+              },
+              "expected": {
+                "value": 1600,
+                "type": "int"
+              },
+              "passed": true
+            },
+            {
+              "id": "type-0",
+              "actual": {
+                "exception": "TypeError"
+              },
+              "expected": {
+                "exception": "TypeError"
+              },
+              "passed": true
+            },
+            {
+              "id": "type-1",
+              "actual": {
+                "exception": "TypeError"
+              },
+              "expected": {
+                "exception": "TypeError"
+              },
+              "passed": true
+            },
+            {
+              "id": "type-2",
+              "actual": {
+                "exception": "TypeError"
+              },
+              "expected": {
+                "exception": "TypeError"
+              },
+              "passed": true
+            },
+            {
+              "id": "type-3",
+              "actual": {
+                "exception": "TypeError"
+              },
+              "expected": {
+                "exception": "TypeError"
+              },
+              "passed": true
+            },
+            {
+              "id": "exp-type-0",
+              "actual": {
+                "exception": "TypeError"
+              },
+              "expected": {
+                "exception": "TypeError"
+              },
+              "passed": true
+            },
+            {
+              "id": "exp-type-1",
+              "actual": {
+                "exception": "TypeError"
+              },
+              "expected": {
+                "exception": "TypeError"
+              },
+              "passed": true
+            },
+            {
+              "id": "exp-type-2",
+              "actual": {
+                "exception": "TypeError"
+              },
+              "expected": {
+                "exception": "TypeError"
+              },
+              "passed": true
+            },
+            {
+              "id": "v3-6000",
+              "actual": {
+                "value": 1600,
+                "type": "int"
+              },
+              "expected": {
+                "value": 1600,
+                "type": "int"
+              },
+              "passed": true
+            },
+            {
+              "id": "v3-6001",
+              "actual": {
+                "exception": "ValueError"
+              },
+              "expected": {
+                "exception": "ValueError"
+              },
+              "passed": true
+            }
+          ],
+          "limits": {
+            "cpu_seconds": 2,
+            "memory_bytes": 268435456,
+            "platform": "linux"
+          },
+          "source_sha256": "5eef9fde6c9c3a1cfb7a14c87ea71dc6526848f31256218977074b0817757bdb",
+          "protected_tests_retained": true,
+          "source_changed": true,
+          "checks": {
+            "protected_tests_retained": true,
+            "w1-expFalse": true,
+            "w1-expTrue": true,
+            "w999-expFalse": true,
+            "w999-expTrue": true,
+            "w1999-expFalse": true,
+            "w1999-expTrue": true,
+            "w2001-expFalse": true,
+            "w2001-expTrue": true,
+            "w5000-expFalse": true,
+            "w5000-expTrue": true,
+            "invalid-0": true,
+            "invalid--1": true,
+            "invalid-5001": true,
+            "type-0": true,
+            "type-1": true,
+            "type-2": true,
+            "type-3": true,
+            "exp-type-0": true,
+            "exp-type-1": true,
+            "exp-type-2": true,
+            "v3-6000": true,
+            "v3-6001": true
+          },
+          "passed": true
+        },
+        "quote_via_bound_core": {
+          "status": "scored",
+          "cases": [
+            {
+              "id": "w1-expFalse",
+              "actual": {
+                "value": 600,
+                "type": "int"
+              },
+              "expected": {
+                "value": 600,
+                "type": "int"
+              },
+              "passed": true
+            },
+            {
+              "id": "w1-expTrue",
+              "actual": {
+                "value": 1000,
+                "type": "int"
+              },
+              "expected": {
+                "value": 1000,
+                "type": "int"
+              },
+              "passed": true
+            },
+            {
+              "id": "w999-expFalse",
+              "actual": {
+                "value": 600,
+                "type": "int"
+              },
+              "expected": {
+                "value": 600,
+                "type": "int"
+              },
+              "passed": true
+            },
+            {
+              "id": "w999-expTrue",
+              "actual": {
+                "value": 1000,
+                "type": "int"
+              },
+              "expected": {
+                "value": 1000,
+                "type": "int"
+              },
+              "passed": true
+            },
+            {
+              "id": "w1999-expFalse",
+              "actual": {
+                "value": 800,
+                "type": "int"
+              },
+              "expected": {
+                "value": 800,
+                "type": "int"
+              },
+              "passed": true
+            },
+            {
+              "id": "w1999-expTrue",
+              "actual": {
+                "value": 1200,
+                "type": "int"
+              },
+              "expected": {
+                "value": 1200,
+                "type": "int"
+              },
+              "passed": true
+            },
+            {
+              "id": "w2001-expFalse",
+              "actual": {
+                "value": 1000,
+                "type": "int"
+              },
+              "expected": {
+                "value": 1000,
+                "type": "int"
+              },
+              "passed": true
+            },
+            {
+              "id": "w2001-expTrue",
+              "actual": {
+                "value": 1400,
+                "type": "int"
+              },
+              "expected": {
+                "value": 1400,
+                "type": "int"
+              },
+              "passed": true
+            },
+            {
+              "id": "w5000-expFalse",
+              "actual": {
+                "value": 1400,
+                "type": "int"
+              },
+              "expected": {
+                "value": 1400,
+                "type": "int"
+              },
+              "passed": true
+            },
+            {
+              "id": "w5000-expTrue",
+              "actual": {
+                "value": 1800,
+                "type": "int"
+              },
+              "expected": {
+                "value": 1800,
+                "type": "int"
+              },
+              "passed": true
+            },
+            {
+              "id": "invalid-0",
+              "actual": {
+                "exception": "ValueError"
+              },
+              "expected": {
+                "exception": "ValueError"
+              },
+              "passed": true
+            },
+            {
+              "id": "invalid--1",
+              "actual": {
+                "exception": "ValueError"
+              },
+              "expected": {
+                "exception": "ValueError"
+              },
+              "passed": true
+            },
+            {
+              "id": "invalid-5001",
+              "actual": {
+                "value": 1600,
+                "type": "int"
+              },
+              "expected": {
+                "value": 1600,
+                "type": "int"
+              },
+              "passed": true
+            },
+            {
+              "id": "type-0",
+              "actual": {
+                "exception": "TypeError"
+              },
+              "expected": {
+                "exception": "TypeError"
+              },
+              "passed": true
+            },
+            {
+              "id": "type-1",
+              "actual": {
+                "exception": "TypeError"
+              },
+              "expected": {
+                "exception": "TypeError"
+              },
+              "passed": true
+            },
+            {
+              "id": "type-2",
+              "actual": {
+                "exception": "TypeError"
+              },
+              "expected": {
+                "exception": "TypeError"
+              },
+              "passed": true
+            },
+            {
+              "id": "type-3",
+              "actual": {
+                "exception": "TypeError"
+              },
+              "expected": {
+                "exception": "TypeError"
+              },
+              "passed": true
+            },
+            {
+              "id": "exp-type-0",
+              "actual": {
+                "exception": "TypeError"
+              },
+              "expected": {
+                "exception": "TypeError"
+              },
+              "passed": true
+            },
+            {
+              "id": "exp-type-1",
+              "actual": {
+                "exception": "TypeError"
+              },
+              "expected": {
+                "exception": "TypeError"
+              },
+              "passed": true
+            },
+            {
+              "id": "exp-type-2",
+              "actual": {
+                "exception": "TypeError"
+              },
+              "expected": {
+                "exception": "TypeError"
+              },
+              "passed": true
+            },
+            {
+              "id": "v3-6000",
+              "actual": {
+                "value": 1600,
+                "type": "int"
+              },
+              "expected": {
+                "value": 1600,
+                "type": "int"
+              },
+              "passed": true
+            },
+            {
+              "id": "v3-6001",
+              "actual": {
+                "exception": "ValueError"
+              },
+              "expected": {
+                "exception": "ValueError"
+              },
+              "passed": true
+            }
+          ],
+          "limits": {
+            "cpu_seconds": 2,
+            "memory_bytes": 268435456,
+            "platform": "linux"
+          },
+          "source_sha256": "8eb949bb855c5c8fa03fcd9c9955d42d30bef203bb55fd67a99fbb23e7f395ef",
+          "protected_tests_retained": true,
+          "source_changed": true,
+          "checks": {
+            "protected_tests_retained": true,
+            "w1-expFalse": true,
+            "w1-expTrue": true,
+            "w999-expFalse": true,
+            "w999-expTrue": true,
+            "w1999-expFalse": true,
+            "w1999-expTrue": true,
+            "w2001-expFalse": true,
+            "w2001-expTrue": true,
+            "w5000-expFalse": true,
+            "w5000-expTrue": true,
+            "invalid-0": true,
+            "invalid--1": true,
+            "invalid-5001": true,
+            "type-0": true,
+            "type-1": true,
+            "type-2": true,
+            "type-3": true,
+            "exp-type-0": true,
+            "exp-type-1": true,
+            "exp-type-2": true,
+            "v3-6000": true,
+            "v3-6001": true
+          },
+          "passed": true
+        },
+        "quote_binding": "declared import removed and names bound for the restricted runner; not a new Agent execution",
+        "artifact_hashes": {
+          "shipping.py": "5eef9fde6c9c3a1cfb7a14c87ea71dc6526848f31256218977074b0817757bdb",
+          "checkout.py": "554a7c372aa478ca5ad37454357751b2bf75dd3d842837b43045775c50cc2c50",
+          "test_shipping.py": "4dc6ca500387427266db0b3f131c15e76a5c0139b76201ae01997818fc99abef",
+          "test_checkout.py": null
+        },
+        "unexpected_project_files": []
+      },
+      "expected_failure_observed": true
+    }
+  ],
+  "protocol_controls": {
+    "dependency_claim_rejected": true,
+    "cycle_rejected": true,
+    "one_concurrent_claim": true,
+    "wrong_owner_rejected": true,
+    "dependency_unlocks_after_completion_claim": true,
+    "one_edit_applied_one_stale_denied": true,
+    "one_consumer_delivery": true
+  }
+}

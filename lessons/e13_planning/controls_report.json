@@ -1,0 +1,231 @@
+{
+  "lesson": "e13",
+  "origin": "instructor_protocol_fixture_with_real_file_operations",
+  "model_requests": 0,
+  "checks": {
+    "dependency_claim_rejected": true,
+    "cycle_rejected": true,
+    "one_concurrent_claim": true,
+    "wrong_owner_rejected": true,
+    "dependency_unlocks_after_completion_claim": true,
+    "one_edit_applied_one_stale_denied": true,
+    "one_consumer_delivery": true
+  },
+  "passed": true,
+  "dependency_attempt": [
+    {
+      "decision": "not_executed",
+      "reason": "planning_boundary_error"
+    },
+    {
+      "status": "error",
+      "output": "ValueError: Dependencies are incomplete"
+    }
+  ],
+  "cycle_attempt": [
+    {
+      "decision": "not_executed",
+      "reason": "planning_boundary_error"
+    },
+    {
+      "status": "error",
+      "output": "ValueError: Dependency cycle"
+    }
+  ],
+  "claims": [
+    {
+      "status": "rejected",
+      "error": "Task is already claimed or completed"
+    },
+    {
+      "status": "claimed",
+      "task": {
+        "id": "task_10899bdc",
+        "subject": "core",
+        "description": "",
+        "status": "in_progress",
+        "owner": "worker-b",
+        "blocked_by": []
+      }
+    }
+  ],
+  "wrong_owner": [
+    {
+      "decision": "not_executed",
+      "reason": "planning_boundary_error"
+    },
+    {
+      "status": "error",
+      "output": "ValueError: Only the active owner may complete a task"
+    }
+  ],
+  "edits": [
+    [
+      {
+        "decision": "allow",
+        "reason": "workspace_policy"
+      },
+      {
+        "status": "ok",
+        "output": "Edited shipping.py",
+        "truncated": false
+      }
+    ],
+    [
+      {
+        "decision": "deny",
+        "reason": "Stale file: reassign after reviewing the concurrent change"
+      },
+      {
+        "status": "denied",
+        "output": "Stale file: reassign after reviewing the concurrent change"
+      }
+    ]
+  ],
+  "actual_source": "edit-0\n",
+  "task_events": [
+    {
+      "sequence": 0,
+      "action": "create",
+      "actor": "lead",
+      "task": {
+        "id": "task_10899bdc",
+        "subject": "core",
+        "description": "",
+        "status": "pending",
+        "owner": null,
+        "blocked_by": []
+      }
+    },
+    {
+      "sequence": 1,
+      "action": "create",
+      "actor": "lead",
+      "task": {
+        "id": "task_6d4dcf8c",
+        "subject": "entry",
+        "description": "",
+        "status": "pending",
+        "owner": null,
+        "blocked_by": []
+      }
+    },
+    {
+      "sequence": 2,
+      "action": "add_dependencies",
+      "actor": "lead",
+      "task": {
+        "id": "task_6d4dcf8c",
+        "subject": "entry",
+        "description": "",
+        "status": "pending",
+        "owner": null,
+        "blocked_by": [
+          "task_10899bdc"
+        ]
+      }
+    },
+    {
+      "sequence": 3,
+      "action": "claim",
+      "actor": "worker-b",
+      "task": {
+        "id": "task_10899bdc",
+        "subject": "core",
+        "description": "",
+        "status": "in_progress",
+        "owner": "worker-b",
+        "blocked_by": []
+      }
+    },
+    {
+      "sequence": 4,
+      "action": "complete_claim",
+      "actor": "worker-b",
+      "task": {
+        "id": "task_10899bdc",
+        "subject": "core",
+        "description": "",
+        "status": "completed",
+        "owner": "worker-b",
+        "blocked_by": []
+      }
+    },
+    {
+      "sequence": 5,
+      "action": "claim",
+      "actor": "lead",
+      "task": {
+        "id": "task_6d4dcf8c",
+        "subject": "entry",
+        "description": "",
+        "status": "in_progress",
+        "owner": "lead",
+        "blocked_by": [
+          "task_10899bdc"
+        ]
+      }
+    },
+    {
+      "sequence": 6,
+      "action": "create",
+      "actor": "lead",
+      "task": {
+        "id": "task_cd9e3460",
+        "subject": "edit a",
+        "description": "",
+        "status": "pending",
+        "owner": null,
+        "blocked_by": []
+      }
+    },
+    {
+      "sequence": 7,
+      "action": "create",
+      "actor": "lead",
+      "task": {
+        "id": "task_39ca10e7",
+        "subject": "edit b",
+        "description": "",
+        "status": "pending",
+        "owner": null,
+        "blocked_by": []
+      }
+    },
+    {
+      "sequence": 8,
+      "action": "claim",
+      "actor": "editor-a",
+      "task": {
+        "id": "task_cd9e3460",
+        "subject": "edit a",
+        "description": "",
+        "status": "in_progress",
+        "owner": "editor-a",
+        "blocked_by": []
+      }
+    },
+    {
+      "sequence": 9,
+      "action": "claim",
+      "actor": "editor-b",
+      "task": {
+        "id": "task_39ca10e7",
+        "subject": "edit b",
+        "description": "",
+        "status": "in_progress",
+        "owner": "editor-b",
+        "blocked_by": []
+      }
+    }
+  ],
+  "mail_events": [
+    {
+      "sender": "worker-b",
+      "recipient": "lead",
+      "task_id": "task_10899bdc",
+      "content": "Instructor fixture summary",
+      "status": "completed_claim"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "image": "sha256:ed9cb84736812a33b068aabf2a63e86bfde65ad72470446eaeab52a6b9a3d304",
+  "run_id": "5dfd5e6a5d6e4255873bc9ba9f0b5c3d",
+  "lead_status": "step_limit",
+  "full_sdk_trace_saved": true,
+  "context_characters": 5000,
+  "snip_trigger_messages": 16,
+  "driver_exit_status_not_workflow_acceptance": true,
+  "correction": "Original driver report field report_filename_only_differs_from_module_cli is inaccurate: this diagnostic driver also omitted CLI workflow-status exit handling. Preserve original raw report; step_limit is a workflow failure regardless of shell exit 0.",
+  "comparison": "Subsequent protocol changes are not a controlled causal comparison.",
+  "independent_regrade": "Regraded after the run using normal-profile verifier source; source adds an extra-project-file check not present in the original application image. Exact application image sources retained. Both APIs pass all44 input executions; protected bytes unchanged; pytest cache files fail the newly explicit file-scope check; lead step_limit already fails original workflow."
+}

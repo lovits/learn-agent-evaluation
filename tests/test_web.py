@@ -41,7 +41,8 @@ class Links(HTMLParser):
 
 
 @pytest.mark.parametrize(
-    "route,count", [("/lesson", 2), ("/lesson8", 1), ("/lesson10", 1), ("/lesson12", 1)]
+    "route,count",
+    [("/lesson", 2), ("/lesson8", 1), ("/lesson10", 1), ("/lesson12", 1), ("/lesson13", 1)],
 )
 def test_lesson_diagrams_load_from_the_rendered_page(reader, route, count):
     with urlopen(reader + route) as reply:

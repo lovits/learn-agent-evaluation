@@ -13,4 +13,4 @@ jobs:
       - name: Check authored code
         run: docker run --rm --network none --entrypoint ruff learn-agent-evaluation:ci check eval_course lessons tests tools
       - name: Test Bash loop and independent grading without internet
-        run: docker run --rm --network none --entrypoint python learn-agent-evaluation:ci -m pytest -q
+        run: docker run --rm --network none --mount "type=bind,source=${GITHUB_WORKSPACE}/evaluation_private,target=/app/evaluation_private,readonly" --entrypoint python learn-agent-evaluation:ci -m pytest -q

@@ -1,0 +1,35 @@
+{
+  "image": "sha256:b984625b235ce0494513ad8ad46bfc74ed235e33131103e86477bc140213fa1d",
+  "run_id": "78b542aed5974df68c056bd424e2a890",
+  "stopped_by_instructor_after_concrete_component_scope_fix": true,
+  "full_report_available": false,
+  "native_full_trace_available": false,
+  "captured_at": "2026-11-17T07:54:11.395396+00:00",
+  "reason": "Retire the old protocol after adding explicit scoped public component stop review; not an observation-timeout restart and not a successful run.",
+  "observed_tasks": [
+    {
+      "id": "task_6f96556c",
+      "subject": "Repair quote forwarding",
+      "description": "After the core calculation task is actually completed, modify only checkout.py so quote(weight_grams, expedited=False) calls shipping.shipping_fee and forwards both arguments without duplicating pricing logic. Preserve the exact public signature, both original test files byte-for-byte, shipping.py, and runtime files. Use the verified core result supplied in the delegation prompt, run relevant checks, and explicitly call task_complete only after successful implementation and verification.",
+      "status": "pending",
+      "owner": null,
+      "blocked_by": [
+        "task_07ce14ae"
+      ]
+    },
+    {
+      "id": "task_07ce14ae",
+      "subject": "Repair shipping_fee core calculation",
+      "description": "Modify only shipping.py to implement e13/shipping.md v3 while preserving shipping_fee(weight_grams, expedited=False). Require exact int weight excluding bool, exact bool expedited, type validation before range validation, valid range 1..6000, 600 cents for first 1000g, 200 cents per started additional 1000g, and 400 cents expedited surcharge. Preserve both original test files byte-for-byte and do not edit checkout.py or runtime files. Run relevant checks and explicitly call task_complete only after successful implementation and verification.",
+      "status": "in_progress",
+      "owner": "worker-1",
+      "blocked_by": []
+    }
+  ],
+  "artifacts": {
+    "shipping.py": "def shipping_fee(weight_grams, expedited=False):\n    if type(weight_grams) is not int or type(expedited) is not bool:\n        raise TypeError\n    if weight_grams < 1 or weight_grams > 6000:\n        raise ValueError\n\n    extra = max(0, (weight_grams - 1) // 1000)\n    return 600 + extra * 200 + (400 if expedited else 0)\n",
+    "checkout.py": "from shipping import shipping_fee\n\ndef quote(weight_grams, expedited=False):\n    return shipping_fee(weight_grams)\n",
+    "test_shipping.py": "import unittest\nfrom shipping import shipping_fee\n\nclass ShippingTests(unittest.TestCase):\n    def test_first(self):\n        self.assertEqual(shipping_fee(1000), 600)\n    def test_whole_step(self):\n        self.assertEqual(shipping_fee(2000), 800)\n    def test_started_step(self):\n        self.assertEqual(shipping_fee(1001), 800)\n\nif __name__ == \"__main__\":\n    unittest.main()\n",
+    "test_checkout.py": "import unittest\nfrom checkout import quote\n\nclass CheckoutTests(unittest.TestCase):\n    def test_standard(self):\n        self.assertEqual(quote(1000), 600)\n\n    def test_expedited(self):\n        self.assertEqual(quote(1000, True), 1000)\n"
+  }
+}

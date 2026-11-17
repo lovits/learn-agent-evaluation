@@ -1,0 +1,16 @@
+{
+  "lesson": "e13",
+  "authoring": "native draw.io XML",
+  "preview": "Pillow preview rendered from the same node/edge graph; not a Desktop export",
+  "scope": "new plan, task dependency, child-context and mailbox branches plus separate grading evidence",
+  "desktop_cli_available": false,
+  "width": 940,
+  "height": 660,
+  "nodes": 10,
+  "edges": 11,
+  "files": {
+    "plan-and-handoff.png": "9f03836e97ce1cc12af4b6d404e813075d5a593196469dc015d6cfd437b9f17f",
+    "plan-and-handoff.drawio": "5effe4d81a6a7fc04ee03a3243c925f686d56d0bff5eff4eead6f99b5fee149a"
+  },
+  "final_preview_visually_inspected": true
+}

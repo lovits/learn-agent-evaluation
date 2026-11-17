@@ -1,0 +1,101 @@
+{
+  "generator": "The-Pocket/PocketFlow-Tutorial-Codebase-Knowledge",
+  "upstream_commit": "05b24cbbb0fe409c5e23c9791f0342f07524ffdc",
+  "backend": "local authenticated Codex CLI with tools disabled",
+  "actual_model_calls": 1,
+  "calls": [
+    {
+      "prompt_sha256": "01e408e754a0c7ce790f976ea888ffebfe849ec9f984ee3d692b35db7d64fb53",
+      "response_sha256": "33fc039b454a2e2d28d0687b32a21bea245de03346f0ea4eaae51009ea883ac2",
+      "elapsed_seconds": 78.351
+    }
+  ],
+  "nodes_run": [
+    "FetchRepo",
+    "BindLesson (fixed lesson adapter)",
+    "WriteChapters",
+    "CombineTutorial"
+  ],
+  "not_run": [
+    "IdentifyAbstractions",
+    "AnalyzeRelationships",
+    "OrderChapters"
+  ],
+  "reason": "The sixteen-lesson outline and current lesson are already fixed.",
+  "input_manifest": [
+    {
+      "path": "eval_course/records.py",
+      "sha256": "940890c3876981a2273497e8d0d06da4a882d7e65cea6098f6217f87de498181"
+    },
+    {
+      "path": "tools/model_bridge.py",
+      "sha256": "020375ad322a30abe56d3d18b6e4fd035df71bdad40c6c4490f9d7e52b6a01cf"
+    },
+    {
+      "path": "references/e13-diagram.json",
+      "sha256": "9b575bdc326c258e3a9599e822ac67ad5237775adf3bb510bcb977e18a4005d5"
+    },
+    {
+      "path": "references/textbook-writing-standard.md",
+      "sha256": "f5b37acb847f10b22c835e46865394eb1b12d0119af01aa030faab4a817f0109"
+    },
+    {
+      "path": "references/e13-reading.json",
+      "sha256": "17729192e489fb278a5f49609afc5e1aa773286f476e177442af6c541f391199"
+    },
+    {
+      "path": "references/versions.json",
+      "sha256": "75831131b2e85e8f0edd2ddd4534642f169a6d0cd0d5ac89d47c5465581ce99c"
+    },
+    {
+      "path": "lessons/e13_planning/controls.py",
+      "sha256": "f8304d52245b8c274aa69b5fa035007decf714304644fd394d636f7f21499906"
+    },
+    {
+      "path": "lessons/e13_planning/solutions.md",
+      "sha256": "766b840dfd8273648dacce7df541cf96389345ec110374e0d440b0377669c0ea"
+    },
+    {
+      "path": "lessons/e13_planning/run_summary.md",
+      "sha256": "4658ab0e90316d2afeaac1aac2942cea22cdf572a19ae5ca203687c9c46e6d85"
+    },
+    {
+      "path": "lessons/e13_planning/exercises.md",
+      "sha256": "809080c1a23d216cde76140cf20ac0f4d27fec25c87a4385241915b9d5dd494e"
+    },
+    {
+      "path": "lessons/e13_planning/tools.py",
+      "sha256": "6a2cee18e592ac506255544c8c03da53d532e99feaab8442672ab247732f2c7a"
+    },
+    {
+      "path": "lessons/e13_planning/code.py",
+      "sha256": "4bba4e87b48ee0aa2d776cd2a2d2d22b1e3f08c22ee9322be17444e6dc690bdc"
+    },
+    {
+      "path": "lessons/e13_planning/cases.jsonl",
+      "sha256": "6c0d3a293de787abe9f8851f7cffff125ee3b873883deb296e0415c97d001c24"
+    },
+    {
+      "path": "lessons/e13_planning/source_walkthrough.md",
+      "sha256": "64cca3fa80f5937c4450c31b3a0a458bdf16fb7686a342e61c5b432074e4b2c3"
+    },
+    {
+      "path": "lessons/e13_planning/eval.py",
+      "sha256": "c0fcc569eb9a134d2b4f46388ae3d144102e23e941347aa5bc43676d88dc620b"
+    },
+    {
+      "path": "lessons/e13_planning/verify.py",
+      "sha256": "1037af7667f750319260b404db52e018cc730c5d2b4428abb71c00b4b65b9034"
+    },
+    {
+      "path": "lessons/e13_planning/state.py",
+      "sha256": "7a15f714645ba114dab08c16629070a87550530dd257a05ee5884a34d6f1240d"
+    },
+    {
+      "path": "knowledge_base/e13/shipping.md",
+      "sha256": "ba7f9e8c4b4b5f1306153bef43e4b5918b29dc645c5843168e252e86f54d8453"
+    }
+  ],
+  "brief_sha256": "bc07e35cdd00acd12217a56d5130a3bc9a3025c73430c7d0edf3f4ad65e62274",
+  "raw_output_directory": "generation/output/e13_planning"
+}

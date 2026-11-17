@@ -1,0 +1,14 @@
+ppingTests.test_whole_step) ... ok
+
+======================================================================
+FAIL: test_expedited (test_checkout.CheckoutTests.test_expedited)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/data/workspaces/78b542aed5974df68c056bd424e2a890/test_checkout.py", line 9, in test_expedited
+    self.assertEqual(quote(1000, True), 1000)
+AssertionError: 600 != 1000
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.001s
+
+FAILED (failures=1)

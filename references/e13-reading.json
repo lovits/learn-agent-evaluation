@@ -1,0 +1,200 @@
+{
+  "lesson": "e13",
+  "scope": "Selected implementation methods, templates and schemas; file hashes identify source versions, not a claim that every line of each large upstream file was read. CodeGraph was used before locating indexed upstream code.",
+  "coverage": {
+    "learn_claude_code": [
+      "TodoManager.update/reminder",
+      "TaskStore create/dependencies/claim/complete",
+      "fresh-context run_subagent",
+      "MessageBus send/consume and team atomic ownership; persistent team lifecycle reserved for integration"
+    ],
+    "deepeval": [
+      "plan measure/a_measure and empty-plan branch",
+      "Task/AgentPlan/score schemas and prompt templates",
+      "observe/context updates, closed trace serialization and official nested-span metric binding",
+      "prepare_measure field validation"
+    ],
+    "ragas": [
+      "DomainSpecificRubrics ascore",
+      "RubricScoreInput/Output prompt and default examples",
+      "BaseMetric input/output boundaries"
+    ]
+  },
+  "files": [
+    {
+      "repository": "learn-claude-code",
+      "commit": "448c75bb596917ad196cc1fb7558f459c5c50fdd",
+      "path": "s05_todo_write/code.py",
+      "sha256": "4195fca02d7417f524fa31c591b4e2878fbd68e09ee5caf91c51a3a63f483581",
+      "url": "https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s05_todo_write/code.py"
+    },
+    {
+      "repository": "learn-claude-code",
+      "commit": "448c75bb596917ad196cc1fb7558f459c5c50fdd",
+      "path": "s05_todo_write/README.zh.md",
+      "sha256": "c71212f2f290ba1b8a8e5b0db1a48aee105ec017d5301eb9d421423b3585c722",
+      "url": "https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s05_todo_write/README.zh.md"
+    },
+    {
+      "repository": "learn-claude-code",
+      "commit": "448c75bb596917ad196cc1fb7558f459c5c50fdd",
+      "path": "s10_task_system/code.py",
+      "sha256": "4e88e100c7a41a17144f091fb59b35596074b841f20af29dedbb942b777b2f21",
+      "url": "https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s10_task_system/code.py"
+    },
+    {
+      "repository": "learn-claude-code",
+      "commit": "448c75bb596917ad196cc1fb7558f459c5c50fdd",
+      "path": "s10_task_system/README.zh.md",
+      "sha256": "bba15ce369f69e5b06a6d274df2dc040ad69f6ca794f5fcde010fd66ac2d70e7",
+      "url": "https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s10_task_system/README.zh.md"
+    },
+    {
+      "repository": "learn-claude-code",
+      "commit": "448c75bb596917ad196cc1fb7558f459c5c50fdd",
+      "path": "s06_subagent/code.py",
+      "sha256": "59f6adbfe81aa48c6b83341adb4b83de35236678039ea7a1042c5282afc1d0a5",
+      "url": "https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s06_subagent/code.py"
+    },
+    {
+      "repository": "learn-claude-code",
+      "commit": "448c75bb596917ad196cc1fb7558f459c5c50fdd",
+      "path": "s13_agent_teams/code.py",
+      "sha256": "7e3e56642cb973fc9ca56684130ddab1f3dcb4cfead530c9ac6c19bc9925cce3",
+      "url": "https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s13_agent_teams/code.py"
+    },
+    {
+      "repository": "learn-claude-code",
+      "commit": "448c75bb596917ad196cc1fb7558f459c5c50fdd",
+      "path": "s13_agent_teams/README.zh.md",
+      "sha256": "111ee08cb51ae2ba9572a21cfd8f64fc66f9533cab5d874c51d10a5d6c5116ef",
+      "url": "https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s13_agent_teams/README.zh.md"
+    },
+    {
+      "repository": "deepeval",
+      "commit": "34db63dd005ebc9a905c8ef4741ae0687c93c14c",
+      "path": "deepeval/utils.py",
+      "sha256": "1791052ce66d4b2207f99d6d568fd70949b7aa50c878df57847eca00441b08c9",
+      "url": "https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/utils.py"
+    },
+    {
+      "repository": "deepeval",
+      "commit": "34db63dd005ebc9a905c8ef4741ae0687c93c14c",
+      "path": "deepeval/metrics/plan_quality/plan_quality.py",
+      "sha256": "040776da8df20fd70569d4ac3bbb415244993027b26a169f8eaba4aa57e631bd",
+      "url": "https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/plan_quality/plan_quality.py"
+    },
+    {
+      "repository": "deepeval",
+      "commit": "34db63dd005ebc9a905c8ef4741ae0687c93c14c",
+      "path": "deepeval/metrics/plan_quality/schema.py",
+      "sha256": "c5f74dfea8b400cfa934821c8bb25d0dd15daff5cbae33d3044b693ab5e68263",
+      "url": "https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/plan_quality/schema.py"
+    },
+    {
+      "repository": "deepeval",
+      "commit": "34db63dd005ebc9a905c8ef4741ae0687c93c14c",
+      "path": "deepeval/metrics/plan_quality/templates/evaluate_plan_quality.txt",
+      "sha256": "6a40e0681a41505b3d4472008ddebdb12d2a562f316e01450b10ad49b5d1ffd0",
+      "url": "https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/plan_quality/templates/evaluate_plan_quality.txt"
+    },
+    {
+      "repository": "deepeval",
+      "commit": "34db63dd005ebc9a905c8ef4741ae0687c93c14c",
+      "path": "deepeval/metrics/plan_adherence/plan_adherence.py",
+      "sha256": "982ac55bff5bd60689893051b83c4da2efcb5b54f28a09074f302e0d43da90ba",
+      "url": "https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/plan_adherence/plan_adherence.py"
+    },
+    {
+      "repository": "deepeval",
+      "commit": "34db63dd005ebc9a905c8ef4741ae0687c93c14c",
+      "path": "deepeval/metrics/plan_adherence/schema.py",
+      "sha256": "e0f82e1f6200cb70b7946ad8ea79a19c2d78c4535ac6da9e5c25b3701c49ba29",
+      "url": "https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/plan_adherence/schema.py"
+    },
+    {
+      "repository": "deepeval",
+      "commit": "34db63dd005ebc9a905c8ef4741ae0687c93c14c",
+      "path": "deepeval/metrics/plan_adherence/templates/extract_plan_from_trace.txt",
+      "sha256": "d384d68ab84a1196bc8c08afe01740141c47ad46b00efbd88669f9662e060b90",
+      "url": "https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/plan_adherence/templates/extract_plan_from_trace.txt"
+    },
+    {
+      "repository": "deepeval",
+      "commit": "34db63dd005ebc9a905c8ef4741ae0687c93c14c",
+      "path": "deepeval/metrics/plan_adherence/templates/evaluate_adherence.txt",
+      "sha256": "0644f918c7d13ce405ba7f438fbd4ff216f5ab9c98c0e89cf5086b059d79aa4b",
+      "url": "https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/plan_adherence/templates/evaluate_adherence.txt"
+    },
+    {
+      "repository": "deepeval",
+      "commit": "34db63dd005ebc9a905c8ef4741ae0687c93c14c",
+      "path": "deepeval/metrics/step_efficiency/templates/extract_task_from_trace.txt",
+      "sha256": "cc6fa8dd3648972c610604de7c067d4528ca0a5f3d22990746adcffb68aeb7c4",
+      "url": "https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/step_efficiency/templates/extract_task_from_trace.txt"
+    },
+    {
+      "repository": "deepeval",
+      "commit": "34db63dd005ebc9a905c8ef4741ae0687c93c14c",
+      "path": "deepeval/metrics/utils/test_case.py",
+      "sha256": "b1315e9423a7100d4c5a7191f687bd7724a5cfc0534ea816748d0948fa50bc7c",
+      "url": "https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/utils/test_case.py"
+    },
+    {
+      "repository": "deepeval",
+      "commit": "34db63dd005ebc9a905c8ef4741ae0687c93c14c",
+      "path": "deepeval/tracing/tracing.py",
+      "sha256": "a397071a242492a94d01483b2b0af261ce35039169849dc4d3bb80a7f5bf5c94",
+      "url": "https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/tracing/tracing.py"
+    },
+    {
+      "repository": "deepeval",
+      "commit": "34db63dd005ebc9a905c8ef4741ae0687c93c14c",
+      "path": "deepeval/tracing/context.py",
+      "sha256": "cc36a1c96504f93eb0cb1c1a5d8488f6bf23658235c6a54c0066b0d0e88ad317",
+      "url": "https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/tracing/context.py"
+    },
+    {
+      "repository": "deepeval",
+      "commit": "34db63dd005ebc9a905c8ef4741ae0687c93c14c",
+      "path": "deepeval/evaluate/execute/trace_scope.py",
+      "sha256": "007121697516c8420c57ad0e864e68220b407cefa67093b387ed1fab78e7e5b4",
+      "url": "https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/evaluate/execute/trace_scope.py"
+    },
+    {
+      "repository": "ragas",
+      "commit": "8c63f10d500c44efbf24fdb9e2920de2104c321c",
+      "path": "src/ragas/metrics/collections/domain_specific_rubrics/metric.py",
+      "sha256": "8831e8a9e347d2587788134e7e7a305ffe4082642f6b51d51c8d98e4a7cee46f",
+      "url": "https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/metrics/collections/domain_specific_rubrics/metric.py"
+    },
+    {
+      "repository": "ragas",
+      "commit": "8c63f10d500c44efbf24fdb9e2920de2104c321c",
+      "path": "src/ragas/metrics/collections/domain_specific_rubrics/util.py",
+      "sha256": "0a219eddaea3b018ee3cbf5f87000d99a7ef24880e68205cd05cc38dd4f8d6da",
+      "url": "https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/metrics/collections/domain_specific_rubrics/util.py"
+    },
+    {
+      "repository": "ragas",
+      "commit": "8c63f10d500c44efbf24fdb9e2920de2104c321c",
+      "path": "src/ragas/metrics/collections/base.py",
+      "sha256": "92e1fac17953d10a931227045daa8277bcc66f11b90535da5b45d706079de679",
+      "url": "https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/metrics/collections/base.py"
+    }
+  ],
+  "official_documents": [
+    {
+      "url": "https://deepeval.com/docs/metrics-plan-quality",
+      "read": "usage and LLM calculation/empty-plan sections"
+    },
+    {
+      "url": "https://deepeval.com/docs/metrics-plan-adherence",
+      "read": "usage and LLM calculation/empty-plan sections"
+    },
+    {
+      "url": "https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/general_purpose/",
+      "read": "rubrics based criteria section; current example uses legacy RubricsScore while this lesson pins modern collections DomainSpecificRubrics"
+    }
+  ]
+}

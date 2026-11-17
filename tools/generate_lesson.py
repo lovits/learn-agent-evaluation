@@ -29,6 +29,7 @@ def main():
             "e10",
             "e11",
             "e12",
+            "e13",
         ],
         default="e01",
     )
@@ -92,6 +93,12 @@ def main():
             "e12_conversation",
             "多轮、压缩与记忆：约束还在吗",
             "generation/e12-brief.md",
+        )
+    if lesson == "e13":
+        slug, title, brief_path = (
+            "e13_planning",
+            "计划、依赖与交接：拆开就能做完吗",
+            "generation/e13-brief.md",
         )
     private = PROJECT / "generation/private" / lesson
     private.mkdir(parents=True, exist_ok=True)
@@ -219,6 +226,20 @@ def main():
                 else []
             ),
             "references/versions.json",
+            *(
+                [
+                    f"lessons/{slug}/{name}"
+                    for name in ("state.py", "tools.py", "verify.py", "controls.py")
+                ]
+                + [
+                    "tools/model_bridge.py",
+                    "references/e13-reading.json",
+                    "references/e13-diagram.json",
+                    "knowledge_base/e13/shipping.md",
+                ]
+                if lesson == "e13"
+                else []
+            ),
             "references/textbook-writing-standard.md",
         },
         "exclude_patterns": {

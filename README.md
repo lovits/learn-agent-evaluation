@@ -66,7 +66,7 @@ python3 tools/run_e01.py
 ## 项目状态
 
 旧Faithfulness样章和专属回放实现已清理；该主题已在第5课以编程案例重新制作。
-当前第1至10课已制作，第1至7课按统一正文标准完成重写与复核，第8至10课沿同一写法制作，其余6课保留详细设计。DeepEval/Ragas用于评测方法和源码依据，
+当前第1至11课已制作，第1至7课按统一正文标准完成重写与复核，第8至11课沿同一写法制作，其余5课保留详细设计。DeepEval/Ragas用于评测方法和源码依据，
 第一课先用确定性任务合同判断文件、输出和退出码，后续再逐步引入框架接口与模型裁判。
 
 教材通过 [PocketFlow流程](generation/README.md)组织，来源与许可见 [第三方说明](THIRD_PARTY.md)。
@@ -196,3 +196,17 @@ docker compose run --rm -T --entrypoint python course -m lessons.e10_tool_evalua
 阅读地址：http://localhost:8765/lesson10 。runs/e10-*重跑覆盖，比较前先另存。控制轨迹明确标为构造；MCP为进程内模拟；两轮评分协议与原始误判均保留。评分协议修订时没有重跑Agent或改动产物。
 
 [第10课飞书完整教材](https://my.feishu.cn/docx/YszVdRUrLoT6CpxsUIpcJJIgnQe)。
+
+## 第11课：真实任务完成与自定义指标
+
+[教材](lessons/e11_task_completion/README.zh.md)、[源码导读](lessons/e11_task_completion/source_walkthrough.md)、[实际实验](lessons/e11_task_completion/run_summary.md)、[练习](lessons/e11_task_completion/exercises.md)、[验收](docs/e11-validation.md)。在已有编程Agent外增加公开停止审查，修复挂载知识库约束下的运费函数，再由独立容器检查边界、类型和测试保留。原生TaskCompletion、AgentGoalAccuracy与业务规则分开展示，保留真实裁判误判。
+
+```sh
+docker compose run --rm -T --entrypoint python course -m lessons.e11_task_completion.code
+docker compose --profile verify run --rm -T --entrypoint python verifier -m lessons.e11_task_completion.eval
+docker compose run --rm -T --entrypoint python course -m lessons.e11_task_completion.eval --judge
+```
+
+阅读地址：http://localhost:8765/lesson11 。报告前缀runs/e11-*，重跑前另存需要比较的记录。六个负例状态是讲师构造、真实执行验收；显式首轮故障注入不是自然错误率。完整SDK trace采集与完整s17会话控制仍待集成课核验。
+
+[第11课飞书完整教材](https://my.feishu.cn/docx/K7hJd2iAVoIJYcxCEC4c5AKInBe)。

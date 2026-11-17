@@ -116,3 +116,16 @@ docker compose run --rm -T --entrypoint python course -m lessons.e10_tool_evalua
 ```
 
 断网阶段运行原生确定性指标并只读核对产物；--judge联网调用宿主机裁判，根据每次决策之前的消息构造输入，不重新执行Agent。只读知识库、可写工作目录与持久化报告继续使用相同挂载。自定义知识库时保留本课e10/billing.md或明确更新案例合同；不要把不同资料版本混作同一实验。
+
+## 第11课：公开停止审查与独立验收
+
+复用8766模型桥和8768裁判桥。知识库需包含e11/shipping.md。Agent只能拿公开三个例子和原始业务合同续轮；evaluation_private/e11.json是随仓库提供的教学保留规则，构建镜像时排除，只挂给断网verifier，不是保密测评平台。
+
+```sh
+docker compose build
+docker compose run --rm -T --entrypoint python course -m lessons.e11_task_completion.code
+docker compose --profile verify run --rm -T --entrypoint python verifier -m lessons.e11_task_completion.eval
+docker compose run --rm -T --entrypoint python course -m lessons.e11_task_completion.eval --judge
+```
+
+三步分别保存Agent轨迹、独立执行/自定义指标、原生语义裁判。最后一步只评分已有记录，不执行产物。重跑覆盖runs/e11-*，先另存旧报告。新的Agent入口还包含声明式冲突预检，0次模型请求；本轮该分支在普通运行之后单独Docker实测，原记录保留。子进程只接受声明的纯Python教学子集，Linux有CPU/地址空间限制，不是任意恶意代码沙箱。正文与源码链接在/lesson11。

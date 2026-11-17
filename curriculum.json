@@ -1,6 +1,6 @@
 {
   "title": "从 Learn Claude Code 编程 Agent 学 RAG 与 Agent 评测",
-  "status": "e01-e10_implemented_other_lessons_planned",
+  "status": "e01-e11_implemented_other_lessons_planned",
   "audience": "会 Python，了解 RAG/Agent，系统学习评测",
   "versions": {
     "deepeval": {
@@ -305,7 +305,7 @@
     {
       "id": "e11",
       "title": "代码任务真实完成与自定义指标",
-      "status": "planned",
+      "status": "implemented_live_docker_task_completion_verified",
       "original_lessons": [
         "s15",
         "s21"
@@ -488,7 +488,7 @@
       "source_analysis": "按所选指标适用部分追踪输入校验、prompt/schema、模型调用、verdict、聚合、异步与结果对象；规则指标说明不适用项。"
     }
   ],
-  "runtime_status": "e01-e10 implemented; e11-e16 planned",
+  "runtime_status": "e01-e11 implemented; e12-e16 planned",
   "implemented_lessons": [
     "e01",
     "e02",
@@ -499,6 +499,7 @@
     "e07",
     "e08",
     "e09",
-    "e10"
+    "e10",
+    "e11"
   ]
 }

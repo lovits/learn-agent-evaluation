@@ -1,0 +1,91 @@
+{
+  "lesson": "e11",
+  "scope": "Selected task completion, goal review and custom metric sources; not exhaustive framework reading",
+  "official_documents": [
+    "https://deepeval.com/docs/metrics-task-completion",
+    "https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/agents/",
+    "https://deepeval.com/guides/guides-building-custom-metrics",
+    "https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/general_purpose/"
+  ],
+  "access_note": "Indexed DeepEval and Ragas first explored with local codegraph CLI; targeted missing ranges and template text read afterwards. Learn Claude Code has no index.",
+  "sources": [
+    {
+      "repository": "learn-claude-code",
+      "commit": "448c75bb596917ad196cc1fb7558f459c5c50fdd",
+      "path": "s01_agent_loop/README.zh.md",
+      "sha256": "00ce3791e20530d2e950c32fc9f62c9e3c182d78e44e0f2cb913acb8072ef572"
+    },
+    {
+      "repository": "learn-claude-code",
+      "commit": "448c75bb596917ad196cc1fb7558f459c5c50fdd",
+      "path": "s17_goal_loop/README.zh.md",
+      "sha256": "3b65a0ff23bb65480ca7f7c6b7d22ce057ea566f32ab06d7bc0b606eee3bcd20"
+    },
+    {
+      "repository": "learn-claude-code",
+      "commit": "448c75bb596917ad196cc1fb7558f459c5c50fdd",
+      "path": "s17_goal_loop/code.py",
+      "sha256": "ecce68f327aef9b564d41c50068d7a2a72a23ae780d81c32a0c00fd59a3d31f5"
+    },
+    {
+      "repository": "deepeval",
+      "commit": "34db63dd005ebc9a905c8ef4741ae0687c93c14c",
+      "path": "deepeval/metrics/base_metric.py",
+      "sha256": "b0533aa52abfd2d6172c6c592601044e88dc765372adbed1d090fbe0a9abd6cb"
+    },
+    {
+      "repository": "deepeval",
+      "commit": "34db63dd005ebc9a905c8ef4741ae0687c93c14c",
+      "path": "deepeval/metrics/task_completion/task_completion.py",
+      "sha256": "14f58aaa64d9a5cf043e92a387455da6895542f6c0b0728ddb5f9e5d1cece0d7"
+    },
+    {
+      "repository": "deepeval",
+      "commit": "34db63dd005ebc9a905c8ef4741ae0687c93c14c",
+      "path": "deepeval/metrics/task_completion/schema.py",
+      "sha256": "25f9d991b0a1eec916beb112cbae46128e91be8d050c952a3fa1f5bb204292ce"
+    },
+    {
+      "repository": "deepeval",
+      "commit": "34db63dd005ebc9a905c8ef4741ae0687c93c14c",
+      "path": "deepeval/metrics/task_completion/templates/extract_goal_and_outcome.txt",
+      "sha256": "7bf4716e88bce8941eb52a56bac3b4fd74cb5fabfaec7508c1bc1a1d8fd83808"
+    },
+    {
+      "repository": "deepeval",
+      "commit": "34db63dd005ebc9a905c8ef4741ae0687c93c14c",
+      "path": "deepeval/metrics/task_completion/templates/extract_task_and_outcome_from_trace.txt",
+      "sha256": "c61208671ff366a71af675e5b156bd9c359799ba3bcbeb9f9a08a360dba79398"
+    },
+    {
+      "repository": "deepeval",
+      "commit": "34db63dd005ebc9a905c8ef4741ae0687c93c14c",
+      "path": "deepeval/metrics/task_completion/templates/generate_verdict.txt",
+      "sha256": "34bdb59496393fad4bcaeb057767ad75a348f727cc00db8cb55308706ac4291c"
+    },
+    {
+      "repository": "deepeval",
+      "commit": "34db63dd005ebc9a905c8ef4741ae0687c93c14c",
+      "path": "deepeval/metrics/utils/test_case.py",
+      "sha256": "b1315e9423a7100d4c5a7191f687bd7724a5cfc0534ea816748d0948fa50bc7c"
+    },
+    {
+      "repository": "ragas",
+      "commit": "8c63f10d500c44efbf24fdb9e2920de2104c321c",
+      "path": "src/ragas/metrics/collections/base.py",
+      "sha256": "92e1fac17953d10a931227045daa8277bcc66f11b90535da5b45d706079de679"
+    },
+    {
+      "repository": "ragas",
+      "commit": "8c63f10d500c44efbf24fdb9e2920de2104c321c",
+      "path": "src/ragas/metrics/collections/agent_goal_accuracy/metric.py",
+      "sha256": "e7958d417a30eec2b7e962d334371c6773c342ce10aecdc26a1a5409022a468e"
+    },
+    {
+      "repository": "ragas",
+      "commit": "8c63f10d500c44efbf24fdb9e2920de2104c321c",
+      "path": "src/ragas/metrics/collections/agent_goal_accuracy/util.py",
+      "sha256": "018d1de66356e7edefc967739ea086f633c82d155e277dbba956d20a7f7d050b"
+    }
+  ]
+}

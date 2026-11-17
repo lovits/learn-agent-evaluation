@@ -1,0 +1,23 @@
+{
+  "lesson": "e11",
+  "agent_and_native_judge_image": "sha256:d09ced431a274072ae36e37e41750ec4129c3c03d39beea888ac14bdb82b4bb0",
+  "agent_runtime_source_archive": "generation/archive/e11-agent-runtime/runtime_sources.json",
+  "agent_runtime_sha256": {
+    "verify.py": "a082599fea70cca1efec4386b32da175fe7577c4401dc07cb527aa60b129052d",
+    "__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "metrics.py": "e2222120911f246d780863324177cd34bd884a2066e0f8eed1aa502ddbed95a8",
+    "runner.py": "bb48f1d6adc614e642214c18f9e26d61fba3b268a5e82cce19c8e33cffbb958e",
+    "eval.py": "62cd1dc41f6e64ada351061abc84be67006dc6d72324e640bb8c45168745e489",
+    "code.py": "d2203647c02c5412e8579fe0c5b18ca3035df4c8ee11f833d87c1c1f20cc4a12"
+  },
+  "constraint_preflight_image": "sha256:c757a7446696fed68ae7b25cb12f9a2ff02faa3aafe26729e9e9f4d35d0098af",
+  "note": "Constraint conflict preflight added after two actual Agent runs and native judges; normal branch unchanged. Separate actual Docker preflight run, no forged Agent rerun.",
+  "implementation_sha256": {
+    "metrics.py": "e2222120911f246d780863324177cd34bd884a2066e0f8eed1aa502ddbed95a8",
+    "runner.py": "bb48f1d6adc614e642214c18f9e26d61fba3b268a5e82cce19c8e33cffbb958e",
+    "code.py": "e476b3edf483f62d257852ee4c315c0a2069fbd36fca6f812e00a3a74c64fd7d",
+    "__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "eval.py": "c50e42f204a0887a9639d6ee11ef3f6cbf3597936ef2fccec6bd7ea25f5c4705",
+    "verify.py": "a082599fea70cca1efec4386b32da175fe7577c4401dc07cb527aa60b129052d"
+  }
+}

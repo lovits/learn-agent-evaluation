@@ -1,6 +1,6 @@
 # Learn Claude Code 编程Agent评测课程：16课详细设计与制作规范
 
-本说明先于第1课实施完成，是逐课制作与验收的共同依据。被测对象为固定版本 Learn Claude Code 编程 Agent；每课只引入当前评测需要的可执行代码。原24课知识合并为16课，后续按小节递进。目前已制作第1、2、3、4、5、6、7、8、9、10课，其余6课保持设计状态。
+本说明先于第1课实施完成，是逐课制作与验收的共同依据。被测对象为固定版本 Learn Claude Code 编程 Agent；每课只引入当前评测需要的可执行代码。原24课知识合并为16课，后续按小节递进。目前已制作第1、2、3、4、5、6、7、8、9、10、11课，其余5课保持设计状态。
 
 ## 课程目标与制作范围
 
@@ -399,7 +399,7 @@ Agent代码增量：独立于被测 Agent 的离线数据生成与审核
 - 文档依据：https://docs.ragas.io/en/stable/concepts/test_data_generation/rag/
 - 文档依据：https://docs.ragas.io/en/stable/howtos/customizations/testgenerator/
 
-原课知识映射：s11。实施状态：后续逐课制作，本说明不代表已实现。
+原课知识映射：s11。实施状态：已制作并通过本课适用Docker实验；完整机制仍按集成课逐项核验。
 
 ### e09 版本比较、实验控制与统计解释
 
@@ -442,7 +442,7 @@ Agent代码增量：只改一个检索/提示词因素，保留 Agent 功能可�
 - 文档依据：https://deepeval.com/guides/guides-regression-testing-in-cicd
 - 文档依据：https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.bootstrap.html
 
-原课知识映射：s12, s20。实施状态：后续逐课制作，本说明不代表已实现。
+原课知识映射：s12, s20。实施状态：已制作并通过本课适用Docker实验；完整机制仍按集成课逐项核验。
 
 ### e10 工具选择、参数、调用顺序与 MCP
 
@@ -483,7 +483,7 @@ Agent代码增量：现有工具加 MCP tool pool 最小片段和本地模拟服
 - 文档依据：https://deepeval.com/docs/metrics-argument-correctness
 - 文档依据：https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/agents/
 
-原课知识映射：s14。实施状态：后续逐课制作，本说明不代表已实现。
+原课知识映射：s14。实施状态：已制作并通过本课适用Docker实验；完整机制仍按集成课逐项核验。
 
 ### e11 代码任务真实完成与自定义指标
 
@@ -528,7 +528,7 @@ Agent代码增量：目标状态和停止审查片段，独立外部验收器
 - 文档依据：https://deepeval.com/guides/guides-building-custom-metrics
 - 文档依据：https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/general_purpose/
 
-原课知识映射：s15, s21。实施状态：后续逐课制作，本说明不代表已实现。
+原课知识映射：s15, s21。实施状态：已制作并通过本课适用Docker实验；完整机制仍按集成课逐项核验。
 
 ### e12 多轮、上下文压缩与持久记忆
 
@@ -809,3 +809,8 @@ pocketflow_tutorial：https://github.com/The-Pocket/PocketFlow-Tutorial-Codebase
 [第4课新版](https://my.feishu.cn/docx/SPD5dOh7vo7LVtxrbykc7tgSn4g) · [第5课新版](https://my.feishu.cn/docx/VnU4dKOOHoMJhEx55jpcQ83fn4e) · [第6课新版](https://my.feishu.cn/docx/IrtXdlfrVoYPZcxNPkLccRzHn0b) · [第7课新版](https://my.feishu.cn/docx/Yueedp2OAo3ljdxc5Fich78ZnWc)
 
 第4至7课已按统一六部分正文与六步关键代码重新生成并审校，每课PocketFlow本轮写作调用1次、humanizer审校12节。原执行代码、样本与固定报告保持一致，历史实验明确保留。本地与Docker断网78项测试通过；四篇飞书原文档已局部更新，主文代码与发布稿逐块回读一致，源码/练习/答案保留。第1至7课现均落实新写法，第8至16课与综合项目继续制作。
+
+
+### 第11课交付记录
+
+[飞书完整教材](https://my.feishu.cn/docx/K7hJd2iAVoIJYcxCEC4c5AKInBe)：公开停止审查、独立运费合同验收、自定义指标和原生语义裁判均实际运行。两条模型修复通过，五个已评分控制失败，一个不适用控制未评分；声明式冲突0次模型请求。保留裁判缺证据误判与四种评分投影，区分评分输入变化与Agent改善。本地和Docker断网各122项测试通过；完整SDK trace与完整s17会话功能留集成课核验。

@@ -48,7 +48,7 @@
       "paths": [
         "docs/course-specification.md"
       ],
-      "verified_revision": 10
+      "verified_revision": 11
     },
     "assessment1": {
       "title": "第1课：样本与评测记录",
@@ -75,7 +75,7 @@
       "paths": [
         "docs/course-requirements.md"
       ],
-      "verified_revision": 3
+      "verified_revision": 5
     }
   }
 }

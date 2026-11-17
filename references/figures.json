@@ -334,5 +334,41 @@
     "visual_review": "passed",
     "node_font_size": 16,
     "edge_font_size": 13
+  },
+  {
+    "name": "e10-pipeline-flow",
+    "slug": "e10_rag_diagnosis",
+    "title": "第10课：阶段快照与生成回放",
+    "diagram_type": "flowchart",
+    "generator": "draw.io",
+    "candidate": "course/e10_rag_diagnosis/images/pipeline-flow.drawio",
+    "output": "course/e10_rag_diagnosis/images/pipeline-flow.drawio.svg",
+    "png": "course/e10_rag_diagnosis/images/pipeline-flow.png",
+    "readme_preview": "course/e10_rag_diagnosis/images/pipeline-flow.png",
+    "preview_url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e10-pipeline-flow.png",
+    "url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e10-pipeline-flow.svg",
+    "artifact_sha256": "cfc166de7571593f423bae6763a310dd0978b9cb21abfe13cf3deec0e111998e",
+    "png_sha256": "6033049a64981881bfc1b855ee9b36251ef6fc534fd76cd9f551a3a0bb9cf87c",
+    "visual_review": "passed",
+    "node_font_size": 16,
+    "edge_font_size": 13
+  },
+  {
+    "name": "e10-diagnosis-flow",
+    "slug": "e10_rag_diagnosis",
+    "title": "第10课：证据缺口的排查顺序",
+    "diagram_type": "flowchart",
+    "generator": "draw.io",
+    "candidate": "course/e10_rag_diagnosis/images/diagnosis-flow.drawio",
+    "output": "course/e10_rag_diagnosis/images/diagnosis-flow.drawio.svg",
+    "png": "course/e10_rag_diagnosis/images/diagnosis-flow.png",
+    "readme_preview": "course/e10_rag_diagnosis/images/diagnosis-flow.png",
+    "preview_url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e10-diagnosis-flow.png",
+    "url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e10-diagnosis-flow.svg",
+    "artifact_sha256": "25f4059ce1ab14a8c4d4346cd598db3e4342380ba212c2274fb7df6c278c4629",
+    "png_sha256": "a1eb9dc7be0efd2a2511617437dfb4c615ad85581fbafa26e9d95f0bafea4131",
+    "visual_review": "passed",
+    "node_font_size": 16,
+    "edge_font_size": 13
   }
 ]

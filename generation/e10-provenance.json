@@ -1,0 +1,26 @@
+{
+  "generator": "PocketFlow-Tutorial-Codebase-Knowledge",
+  "upstream_commit": "05b24cbbb0fe409c5e23c9791f0342f07524ffdc",
+  "nodes_run": [
+    "FetchRepo",
+    "BindLesson",
+    "WriteChapters",
+    "CombineTutorial"
+  ],
+  "actual_model_calls": 1,
+  "calls": [
+    {
+      "prompt_sha256": "9c97472d9f4c2025eb80f5ebc5923f99f3d71f353f20e32d2d9488231bcedbcb",
+      "response_sha256": "c083edec4bf939f0046a50db465296ab8e8000c2405a61ee2c8f10fc38e57b48",
+      "seconds": 77.35
+    }
+  ],
+  "input_sha256": {
+    "eval_course/runtime.py": "f4236018e4dea094fe4573c48cb3cc03fdcf4d837dac8ff30190367c1dc86fa4",
+    "course/e10_rag_diagnosis/code.py": "f46e009c2e286d6a7c629005eb66a16acdafcb7d724bc4b6ef33b6e0f17b6017",
+    "course/e10_rag_diagnosis/cases.jsonl": "806c2d1fa687b37322d0e5b28892126b09e68dda87d7daff8910aa8a5218680c",
+    "course/e10_rag_diagnosis/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "course/e10_rag_diagnosis/eval.py": "af53cf0e44a0d58cb51e3c1009382d4407f3f7bc4586026f510e2603eeb66a17"
+  },
+  "note": "Raw draft is reviewed and condensed; final textbook is in course/. The agreed outline is not model-reordered."
+}

@@ -272,6 +272,8 @@ Agent 接到任务，读文件、查资料、调用工具，最后给出回答�
 
 **学会的标志**：能用阶段证据提出下一步排查，不从一个总分直接推断根因。
 
+[教材](../course/e10_rag_diagnosis/README.zh.md) · [源码导读](../course/e10_rag_diagnosis/source_walkthrough.md)
+
 ## 11 工具调用质量
 
 名字选对了，工具就用对了吗？

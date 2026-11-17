@@ -17,7 +17,7 @@
 | 07 | [上下文覆盖与召回](course/e07_context_recall/README.zh.md) | 资料看起来都相关，为什么问题仍答不全？ |
 | 08 | [回答对上下文的忠实度](course/e08_faithfulness/README.zh.md) | 回答里的每条事实，资料都支持吗？ |
 | 09 | [答案质量](course/e09_answer_quality/README.zh.md) | 忠于资料，为什么仍可能没有回答好问题？ |
-| 10 | [上下文干扰与故障定位](docs/curriculum.md#10-上下文干扰与故障定位) | 答案错了，应该先改资料、检索还是生成？ |
+| 10 | [上下文干扰与故障定位](course/e10_rag_diagnosis/README.zh.md) | 答案错了，应该先改资料、检索还是生成？ |
 | 11 | [工具调用质量](docs/curriculum.md#11-工具调用质量) | 名字选对了，工具就用对了吗？ |
 | 12 | [任务完成度](docs/curriculum.md#12-任务完成度) | 怎样确认 Agent 真的交付了用户要的结果？ |
 | 13 | [会话上下文与约束保持](docs/curriculum.md#13-会话上下文与约束保持) | 用户改了要求以后，Agent 还记得哪一版？ |

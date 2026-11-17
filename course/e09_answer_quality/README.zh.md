@@ -1,6 +1,6 @@
 # e09: 资料没说错，问题答好了吗？
 
-[e08](../e08_faithfulness/README.zh.md) → `e09` → [e10](../../docs/curriculum.md#10-上下文干扰与故障定位) → … → e16
+[e08](../e08_faithfulness/README.zh.md) → `e09` → [e10](../e10_rag_diagnosis/README.zh.md) → … → e16
 
 > 切题、正确、完整，要分别检查。
 

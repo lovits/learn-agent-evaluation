@@ -15,7 +15,7 @@
         "README.md",
         "docs/curriculum.md"
       ],
-      "verified_revision": 25
+      "verified_revision": 26
     },
     "e01": {
       "title": "第1课：模型停下了，任务完成了吗？",
@@ -221,6 +221,27 @@
         "course/e09_answer_quality/source_walkthrough.md",
         "course/e09_answer_quality/exercises.md",
         "course/e09_answer_quality/solutions.md"
+      ],
+      "verified_revision": 6
+    },
+    "assessment10": {
+      "title": "第10课：样本与评测记录",
+      "document_id": "LIyLddeh1oIbA6xfuIacl5nknPh",
+      "url": "https://my.feishu.cn/docx/LIyLddeh1oIbA6xfuIacl5nknPh",
+      "paths": [
+        "course/e10_rag_diagnosis/assessment.md"
+      ],
+      "verified_revision": 3
+    },
+    "e10": {
+      "title": "第10课：上下文干扰与故障定位",
+      "document_id": "FkwJdi8NbopIWzxUHvWc5vyCn0Y",
+      "url": "https://my.feishu.cn/docx/FkwJdi8NbopIWzxUHvWc5vyCn0Y",
+      "paths": [
+        "course/e10_rag_diagnosis/README.zh.md",
+        "course/e10_rag_diagnosis/source_walkthrough.md",
+        "course/e10_rag_diagnosis/exercises.md",
+        "course/e10_rag_diagnosis/solutions.md"
       ],
       "verified_revision": 5
     }

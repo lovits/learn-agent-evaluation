@@ -246,6 +246,8 @@ Agent 接到任务，读文件、查资料、调用工具，最后给出回答�
 
 **学会的标志**：能选出对应问题的指标，避免用忠实度或相似度代替全部答案质量。
 
+[教材](../course/e09_answer_quality/README.zh.md) · [源码导读](../course/e09_answer_quality/source_walkthrough.md)
+
 ## 10 上下文干扰与故障定位
 
 答案错了，应该先改资料、检索还是生成？

@@ -298,5 +298,41 @@
     "visual_review": "passed",
     "node_font_size": 16,
     "edge_font_size": 13
+  },
+  {
+    "name": "e09-quality-flow",
+    "slug": "e09_answer_quality",
+    "title": "第9课：答案质量的比较对象",
+    "diagram_type": "flowchart",
+    "generator": "draw.io",
+    "candidate": "course/e09_answer_quality/images/quality-flow.drawio",
+    "output": "course/e09_answer_quality/images/quality-flow.drawio.svg",
+    "png": "course/e09_answer_quality/images/quality-flow.png",
+    "readme_preview": "course/e09_answer_quality/images/quality-flow.png",
+    "preview_url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e09-quality-flow.png",
+    "url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e09-quality-flow.svg",
+    "artifact_sha256": "118ffed9090f2acab7288174fa0dcaefbc968ba621617169a5778fa9cc775cbe",
+    "png_sha256": "31e6a1bf52c63789c9611fe5f0cff101c36767043fe96c651fb9fe053afcb90b",
+    "visual_review": "passed",
+    "node_font_size": 16,
+    "edge_font_size": 13
+  },
+  {
+    "name": "e09-scoring-flow",
+    "slug": "e09_answer_quality",
+    "title": "第9课：回答与拒答的任务标准",
+    "diagram_type": "flowchart",
+    "generator": "draw.io",
+    "candidate": "course/e09_answer_quality/images/scoring-flow.drawio",
+    "output": "course/e09_answer_quality/images/scoring-flow.drawio.svg",
+    "png": "course/e09_answer_quality/images/scoring-flow.png",
+    "readme_preview": "course/e09_answer_quality/images/scoring-flow.png",
+    "preview_url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e09-scoring-flow.png",
+    "url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e09-scoring-flow.svg",
+    "artifact_sha256": "07026a2f5a18e9c6b27e51aa3f58bdd1e98d7d528eb09c07792b83f40a97bb63",
+    "png_sha256": "6b5bea6c24bf45b22b543d55155a9ec29f685138b7139e2a23526fe30fd0ef5b",
+    "visual_review": "passed",
+    "node_font_size": 16,
+    "edge_font_size": 13
   }
 ]

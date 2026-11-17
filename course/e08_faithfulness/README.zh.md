@@ -1,6 +1,6 @@
 # e08: 回答里的话，资料支持吗？
 
-[e07](../e07_context_recall/README.zh.md) → `e08` → [e09](../../docs/curriculum.md#09-答案质量) → … → e16
+[e07](../e07_context_recall/README.zh.md) → `e08` → [e09](../e09_answer_quality/README.zh.md) → … → e16
 
 > 从回答拆出声明，再逐条寻找证据。
 

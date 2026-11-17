@@ -15,7 +15,7 @@
         "README.md",
         "docs/curriculum.md"
       ],
-      "verified_revision": 24
+      "verified_revision": 25
     },
     "e01": {
       "title": "第1课：模型停下了，任务完成了吗？",
@@ -200,6 +200,27 @@
         "course/e08_faithfulness/source_walkthrough.md",
         "course/e08_faithfulness/exercises.md",
         "course/e08_faithfulness/solutions.md"
+      ],
+      "verified_revision": 6
+    },
+    "assessment9": {
+      "title": "第9课：样本与评测记录",
+      "document_id": "I3gQdEwTioSBUZxTwAScARVMnKh",
+      "url": "https://my.feishu.cn/docx/I3gQdEwTioSBUZxTwAScARVMnKh",
+      "paths": [
+        "course/e09_answer_quality/assessment.md"
+      ],
+      "verified_revision": 3
+    },
+    "e09": {
+      "title": "第9课：答案质量",
+      "document_id": "FP8vdm5pmoY9lDxNUZAcYi2Znkg",
+      "url": "https://my.feishu.cn/docx/FP8vdm5pmoY9lDxNUZAcYi2Znkg",
+      "paths": [
+        "course/e09_answer_quality/README.zh.md",
+        "course/e09_answer_quality/source_walkthrough.md",
+        "course/e09_answer_quality/exercises.md",
+        "course/e09_answer_quality/solutions.md"
       ],
       "verified_revision": 5
     }

@@ -1,0 +1,1687 @@
+{
+  "lesson": "e09",
+  "source_note": "六个答案与上下文选择为教学控制条件，事实ID为作者标注；live_agent 是复用既有Agent在Docker里的新真实运行。原生DeepEval相关性与G-Eval共21次裁判请求，未运行Ragas或嵌入模型。",
+  "cases_sha256": "5027e2e43d10a474d9f0693c1d76f7338ebe8617359ebc942e13e22dad70d8a0",
+  "authored_fact_experiment": {
+    "run_id": "7c7b58577c2a4feaae88ef3cc6a7424d",
+    "spec": {
+      "query": "Atlas 补丁发布前在哪个目录运行什么命令、什么条件下才能提交发布、检查失败该怎么处理？",
+      "reference": "在项目根目录运行 python -m pytest -q；全部检查通过才可提交发布；失败时先修复，不跳过失败项。",
+      "reference_fact_ids": [
+        "command",
+        "gate",
+        "fix"
+      ],
+      "sources": {
+        "atlas/release.md": "db65230825cd6997c1e512c65a489941f6caf92d920a6cb94f5a51d395a1d98e",
+        "atlas/logs.md": "3b2ad1b6898fb79cabedf2e0e1f9c509ae2b2315fc5fb9c07ee80939bce42032"
+      },
+      "annotation_origin": "course_author_ai; illustrative fact-ID matching, not independent human gold or a Ragas run",
+      "fact_definitions": {
+        "command": "发布前在项目根目录运行 python -m pytest -q",
+        "gate": "只有全部检查通过才能提交发布",
+        "fix": "失败先修复，不跳过失败项",
+        "logs": "审计日志保留14天；未在本题发布参考中",
+        "wrong_command": "发布前运行 python -m unittest",
+        "wrong_gate": "检查失败也能提交发布"
+      }
+    },
+    "conditions": {
+      "off_topic": {
+        "case": {
+          "id": "off_topic",
+          "answer": "Atlas 审计日志保留 14 天。",
+          "fact_ids": [
+            "logs"
+          ],
+          "context_paths": [
+            "atlas/release.md",
+            "atlas/logs.md"
+          ],
+          "spec": {
+            "query": "Atlas 补丁发布前在哪个目录运行什么命令、什么条件下才能提交发布、检查失败该怎么处理？",
+            "reference": "在项目根目录运行 python -m pytest -q；全部检查通过才可提交发布；失败时先修复，不跳过失败项。",
+            "reference_fact_ids": [
+              "command",
+              "gate",
+              "fix"
+            ],
+            "sources": {
+              "atlas/release.md": "db65230825cd6997c1e512c65a489941f6caf92d920a6cb94f5a51d395a1d98e",
+              "atlas/logs.md": "3b2ad1b6898fb79cabedf2e0e1f9c509ae2b2315fc5fb9c07ee80939bce42032"
+            },
+            "annotation_origin": "course_author_ai; illustrative fact-ID matching, not independent human gold or a Ragas run",
+            "fact_definitions": {
+              "command": "发布前在项目根目录运行 python -m pytest -q",
+              "gate": "只有全部检查通过才能提交发布",
+              "fix": "失败先修复，不跳过失败项",
+              "logs": "审计日志保留14天；未在本题发布参考中",
+              "wrong_command": "发布前运行 python -m unittest",
+              "wrong_gate": "检查失败也能提交发布"
+            }
+          },
+          "origin": "constructed teaching answer and controlled context selection; not an observed Agent output"
+        },
+        "sample": {
+          "input": "Atlas 补丁发布前在哪个目录运行什么命令、什么条件下才能提交发布、检查失败该怎么处理？",
+          "actual_output": "Atlas 审计日志保留 14 天。",
+          "expected_output": "在项目根目录运行 python -m pytest -q；全部检查通过才可提交发布；失败时先修复，不跳过失败项。",
+          "context": null,
+          "retrieval_context": [
+            "# Atlas 补丁发布\n\nAtlas 补丁发布前先在项目根目录运行 `python -m pytest -q`。\n只有全部检查通过才能提交发布；出现失败时先修复，不跳过失败项。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+            "# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+          ],
+          "metadata": null,
+          "tools_called": null,
+          "comments": null,
+          "expected_tools": null,
+          "token_cost": null,
+          "input_token_count": null,
+          "output_token_count": null,
+          "completion_time": null,
+          "flaky": false,
+          "multimodal": false,
+          "name": null,
+          "tags": null,
+          "mcp_servers": null,
+          "mcp_tools_called": null,
+          "mcp_resources_called": null,
+          "mcp_prompts_called": null,
+          "custom_column_key_values": null,
+          "expectations": null,
+          "expected_labels": null
+        },
+        "authored_facts": {
+          "tp": 0,
+          "fp": 1,
+          "fn": 3,
+          "precision": 0.0,
+          "recall": 0.0,
+          "fbeta": 0.0,
+          "beta": 1.0
+        }
+      },
+      "on_topic_wrong": {
+        "case": {
+          "id": "on_topic_wrong",
+          "answer": "发布前在根目录运行 python -m unittest，检查失败也可以提交发布。",
+          "fact_ids": [
+            "wrong_command",
+            "wrong_gate"
+          ],
+          "context_paths": [
+            "atlas/release.md",
+            "atlas/logs.md"
+          ],
+          "origin": "constructed teaching answer and controlled context selection; not an observed Agent output"
+        },
+        "sample": {
+          "input": "Atlas 补丁发布前在哪个目录运行什么命令、什么条件下才能提交发布、检查失败该怎么处理？",
+          "actual_output": "发布前在根目录运行 python -m unittest，检查失败也可以提交发布。",
+          "expected_output": "在项目根目录运行 python -m pytest -q；全部检查通过才可提交发布；失败时先修复，不跳过失败项。",
+          "context": null,
+          "retrieval_context": [
+            "# Atlas 补丁发布\n\nAtlas 补丁发布前先在项目根目录运行 `python -m pytest -q`。\n只有全部检查通过才能提交发布；出现失败时先修复，不跳过失败项。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+            "# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+          ],
+          "metadata": null,
+          "tools_called": null,
+          "comments": null,
+          "expected_tools": null,
+          "token_cost": null,
+          "input_token_count": null,
+          "output_token_count": null,
+          "completion_time": null,
+          "flaky": false,
+          "multimodal": false,
+          "name": null,
+          "tags": null,
+          "mcp_servers": null,
+          "mcp_tools_called": null,
+          "mcp_resources_called": null,
+          "mcp_prompts_called": null,
+          "custom_column_key_values": null,
+          "expectations": null,
+          "expected_labels": null
+        },
+        "authored_facts": {
+          "tp": 0,
+          "fp": 2,
+          "fn": 3,
+          "precision": 0.0,
+          "recall": 0.0,
+          "fbeta": 0.0,
+          "beta": 1.0
+        }
+      },
+      "incomplete": {
+        "case": {
+          "id": "incomplete",
+          "answer": "发布前在项目根目录运行 python -m pytest -q。",
+          "fact_ids": [
+            "command"
+          ],
+          "context_paths": [
+            "atlas/release.md",
+            "atlas/logs.md"
+          ],
+          "origin": "constructed teaching answer and controlled context selection; not an observed Agent output"
+        },
+        "sample": {
+          "input": "Atlas 补丁发布前在哪个目录运行什么命令、什么条件下才能提交发布、检查失败该怎么处理？",
+          "actual_output": "发布前在项目根目录运行 python -m pytest -q。",
+          "expected_output": "在项目根目录运行 python -m pytest -q；全部检查通过才可提交发布；失败时先修复，不跳过失败项。",
+          "context": null,
+          "retrieval_context": [
+            "# Atlas 补丁发布\n\nAtlas 补丁发布前先在项目根目录运行 `python -m pytest -q`。\n只有全部检查通过才能提交发布；出现失败时先修复，不跳过失败项。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+            "# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+          ],
+          "metadata": null,
+          "tools_called": null,
+          "comments": null,
+          "expected_tools": null,
+          "token_cost": null,
+          "input_token_count": null,
+          "output_token_count": null,
+          "completion_time": null,
+          "flaky": false,
+          "multimodal": false,
+          "name": null,
+          "tags": null,
+          "mcp_servers": null,
+          "mcp_tools_called": null,
+          "mcp_resources_called": null,
+          "mcp_prompts_called": null,
+          "custom_column_key_values": null,
+          "expectations": null,
+          "expected_labels": null
+        },
+        "authored_facts": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 2,
+          "precision": 1.0,
+          "recall": 0.3333333333333333,
+          "fbeta": 0.5,
+          "beta": 1.0
+        }
+      },
+      "complete": {
+        "case": {
+          "id": "complete",
+          "answer": "在项目根目录运行 python -m pytest -q；全部检查通过才可提交发布；失败时先修复，不跳过失败项。",
+          "fact_ids": [
+            "command",
+            "gate",
+            "fix"
+          ],
+          "context_paths": [
+            "atlas/release.md",
+            "atlas/logs.md"
+          ],
+          "origin": "constructed teaching answer and controlled context selection; not an observed Agent output"
+        },
+        "sample": {
+          "input": "Atlas 补丁发布前在哪个目录运行什么命令、什么条件下才能提交发布、检查失败该怎么处理？",
+          "actual_output": "在项目根目录运行 python -m pytest -q；全部检查通过才可提交发布；失败时先修复，不跳过失败项。",
+          "expected_output": "在项目根目录运行 python -m pytest -q；全部检查通过才可提交发布；失败时先修复，不跳过失败项。",
+          "context": null,
+          "retrieval_context": [
+            "# Atlas 补丁发布\n\nAtlas 补丁发布前先在项目根目录运行 `python -m pytest -q`。\n只有全部检查通过才能提交发布；出现失败时先修复，不跳过失败项。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+            "# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+          ],
+          "metadata": null,
+          "tools_called": null,
+          "comments": null,
+          "expected_tools": null,
+          "token_cost": null,
+          "input_token_count": null,
+          "output_token_count": null,
+          "completion_time": null,
+          "flaky": false,
+          "multimodal": false,
+          "name": null,
+          "tags": null,
+          "mcp_servers": null,
+          "mcp_tools_called": null,
+          "mcp_resources_called": null,
+          "mcp_prompts_called": null,
+          "custom_column_key_values": null,
+          "expectations": null,
+          "expected_labels": null
+        },
+        "authored_facts": {
+          "tp": 3,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "fbeta": 1.0,
+          "beta": 1.0
+        }
+      },
+      "unsupported_answer": {
+        "case": {
+          "id": "unsupported_answer",
+          "answer": "在项目根目录运行 python -m pytest -q；全部检查通过才可提交发布；失败时先修复，不跳过失败项。",
+          "fact_ids": [
+            "command",
+            "gate",
+            "fix"
+          ],
+          "context_paths": [
+            "atlas/logs.md"
+          ],
+          "origin": "constructed teaching answer and controlled context selection; not an observed Agent output"
+        },
+        "sample": {
+          "input": "Atlas 补丁发布前在哪个目录运行什么命令、什么条件下才能提交发布、检查失败该怎么处理？",
+          "actual_output": "在项目根目录运行 python -m pytest -q；全部检查通过才可提交发布；失败时先修复，不跳过失败项。",
+          "expected_output": "在项目根目录运行 python -m pytest -q；全部检查通过才可提交发布；失败时先修复，不跳过失败项。",
+          "context": null,
+          "retrieval_context": [
+            "# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+          ],
+          "metadata": null,
+          "tools_called": null,
+          "comments": null,
+          "expected_tools": null,
+          "token_cost": null,
+          "input_token_count": null,
+          "output_token_count": null,
+          "completion_time": null,
+          "flaky": false,
+          "multimodal": false,
+          "name": null,
+          "tags": null,
+          "mcp_servers": null,
+          "mcp_tools_called": null,
+          "mcp_resources_called": null,
+          "mcp_prompts_called": null,
+          "custom_column_key_values": null,
+          "expectations": null,
+          "expected_labels": null
+        },
+        "authored_facts": {
+          "tp": 3,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "fbeta": 1.0,
+          "beta": 1.0
+        }
+      },
+      "reasonable_refusal": {
+        "case": {
+          "id": "reasonable_refusal",
+          "answer": "资料不足，无法确认这些发布要求。请补充发布规范后再回答。",
+          "fact_ids": [],
+          "context_paths": [
+            "atlas/logs.md"
+          ],
+          "origin": "constructed teaching answer and controlled context selection; not an observed Agent output"
+        },
+        "sample": {
+          "input": "Atlas 补丁发布前在哪个目录运行什么命令、什么条件下才能提交发布、检查失败该怎么处理？",
+          "actual_output": "资料不足，无法确认这些发布要求。请补充发布规范后再回答。",
+          "expected_output": "在项目根目录运行 python -m pytest -q；全部检查通过才可提交发布；失败时先修复，不跳过失败项。",
+          "context": null,
+          "retrieval_context": [
+            "# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+          ],
+          "metadata": null,
+          "tools_called": null,
+          "comments": null,
+          "expected_tools": null,
+          "token_cost": null,
+          "input_token_count": null,
+          "output_token_count": null,
+          "completion_time": null,
+          "flaky": false,
+          "multimodal": false,
+          "name": null,
+          "tags": null,
+          "mcp_servers": null,
+          "mcp_tools_called": null,
+          "mcp_resources_called": null,
+          "mcp_prompts_called": null,
+          "custom_column_key_values": null,
+          "expectations": null,
+          "expected_labels": null
+        },
+        "authored_facts": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 3,
+          "precision": null,
+          "recall": 0.0,
+          "fbeta": 0.0,
+          "beta": 1.0
+        }
+      }
+    }
+  },
+  "native_deepeval_experiment": {
+    "run_id": "ec1898e29726435b8d15a120d507507f",
+    "spec": {
+      "query": "Atlas 补丁发布前在哪个目录运行什么命令、什么条件下才能提交发布、检查失败该怎么处理？",
+      "reference": "在项目根目录运行 python -m pytest -q；全部检查通过才可提交发布；失败时先修复，不跳过失败项。",
+      "reference_fact_ids": [
+        "command",
+        "gate",
+        "fix"
+      ],
+      "sources": {
+        "atlas/release.md": "db65230825cd6997c1e512c65a489941f6caf92d920a6cb94f5a51d395a1d98e",
+        "atlas/logs.md": "3b2ad1b6898fb79cabedf2e0e1f9c509ae2b2315fc5fb9c07ee80939bce42032"
+      },
+      "annotation_origin": "course_author_ai; illustrative fact-ID matching, not independent human gold or a Ragas run",
+      "fact_definitions": {
+        "command": "发布前在项目根目录运行 python -m pytest -q",
+        "gate": "只有全部检查通过才能提交发布",
+        "fix": "失败先修复，不跳过失败项",
+        "logs": "审计日志保留14天；未在本题发布参考中",
+        "wrong_command": "发布前运行 python -m unittest",
+        "wrong_gate": "检查失败也能提交发布"
+      }
+    },
+    "conditions": {
+      "off_topic": {
+        "case": {
+          "id": "off_topic",
+          "answer": "Atlas 审计日志保留 14 天。",
+          "fact_ids": [
+            "logs"
+          ],
+          "context_paths": [
+            "atlas/release.md",
+            "atlas/logs.md"
+          ],
+          "spec": {
+            "query": "Atlas 补丁发布前在哪个目录运行什么命令、什么条件下才能提交发布、检查失败该怎么处理？",
+            "reference": "在项目根目录运行 python -m pytest -q；全部检查通过才可提交发布；失败时先修复，不跳过失败项。",
+            "reference_fact_ids": [
+              "command",
+              "gate",
+              "fix"
+            ],
+            "sources": {
+              "atlas/release.md": "db65230825cd6997c1e512c65a489941f6caf92d920a6cb94f5a51d395a1d98e",
+              "atlas/logs.md": "3b2ad1b6898fb79cabedf2e0e1f9c509ae2b2315fc5fb9c07ee80939bce42032"
+            },
+            "annotation_origin": "course_author_ai; illustrative fact-ID matching, not independent human gold or a Ragas run",
+            "fact_definitions": {
+              "command": "发布前在项目根目录运行 python -m pytest -q",
+              "gate": "只有全部检查通过才能提交发布",
+              "fix": "失败先修复，不跳过失败项",
+              "logs": "审计日志保留14天；未在本题发布参考中",
+              "wrong_command": "发布前运行 python -m unittest",
+              "wrong_gate": "检查失败也能提交发布"
+            }
+          },
+          "origin": "constructed teaching answer and controlled context selection; not an observed Agent output"
+        },
+        "sample": {
+          "input": "Atlas 补丁发布前在哪个目录运行什么命令、什么条件下才能提交发布、检查失败该怎么处理？",
+          "actual_output": "Atlas 审计日志保留 14 天。",
+          "expected_output": "在项目根目录运行 python -m pytest -q；全部检查通过才可提交发布；失败时先修复，不跳过失败项。",
+          "context": null,
+          "retrieval_context": [
+            "# Atlas 补丁发布\n\nAtlas 补丁发布前先在项目根目录运行 `python -m pytest -q`。\n只有全部检查通过才能提交发布；出现失败时先修复，不跳过失败项。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+            "# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+          ],
+          "metadata": null,
+          "tools_called": null,
+          "comments": null,
+          "expected_tools": null,
+          "token_cost": null,
+          "input_token_count": null,
+          "output_token_count": null,
+          "completion_time": null,
+          "flaky": false,
+          "multimodal": false,
+          "name": null,
+          "tags": null,
+          "mcp_servers": null,
+          "mcp_tools_called": null,
+          "mcp_resources_called": null,
+          "mcp_prompts_called": null,
+          "custom_column_key_values": null,
+          "expectations": null,
+          "expected_labels": null
+        },
+        "authored_facts": {
+          "tp": 0,
+          "fp": 1,
+          "fn": 3,
+          "precision": 0.0,
+          "recall": 0.0,
+          "fbeta": 0.0,
+          "beta": 1.0
+        },
+        "native_relevance": {
+          "status": "ok",
+          "score": 0.0,
+          "passed": false,
+          "reason": null,
+          "sdk_score": 0.0,
+          "statements": [
+            "Atlas 审计日志保留 14 天。"
+          ],
+          "verdicts": [
+            {
+              "verdict": "no",
+              "reason": "审计日志保留期限与补丁发布前的运行目录、命令、提交条件及检查失败处理方式无关。"
+            }
+          ]
+        },
+        "native_task_quality": {
+          "status": "ok",
+          "score": 0.0,
+          "passed": false,
+          "reason": "回答偏离发布问题，只陈述了“审计日志保留 14 天”。检索上下文已明确提供项目根目录、`python -m pytest -q`、全部检查通过后才能发布以及失败项必须先修复且不可跳过，但回答未覆盖任何一项。"
+        }
+      },
+      "on_topic_wrong": {
+        "case": {
+          "id": "on_topic_wrong",
+          "answer": "发布前在根目录运行 python -m unittest，检查失败也可以提交发布。",
+          "fact_ids": [
+            "wrong_command",
+            "wrong_gate"
+          ],
+          "context_paths": [
+            "atlas/release.md",
+            "atlas/logs.md"
+          ],
+          "origin": "constructed teaching answer and controlled context selection; not an observed Agent output"
+        },
+        "sample": {
+          "input": "Atlas 补丁发布前在哪个目录运行什么命令、什么条件下才能提交发布、检查失败该怎么处理？",
+          "actual_output": "发布前在根目录运行 python -m unittest，检查失败也可以提交发布。",
+          "expected_output": "在项目根目录运行 python -m pytest -q；全部检查通过才可提交发布；失败时先修复，不跳过失败项。",
+          "context": null,
+          "retrieval_context": [
+            "# Atlas 补丁发布\n\nAtlas 补丁发布前先在项目根目录运行 `python -m pytest -q`。\n只有全部检查通过才能提交发布；出现失败时先修复，不跳过失败项。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+            "# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+          ],
+          "metadata": null,
+          "tools_called": null,
+          "comments": null,
+          "expected_tools": null,
+          "token_cost": null,
+          "input_token_count": null,
+          "output_token_count": null,
+          "completion_time": null,
+          "flaky": false,
+          "multimodal": false,
+          "name": null,
+          "tags": null,
+          "mcp_servers": null,
+          "mcp_tools_called": null,
+          "mcp_resources_called": null,
+          "mcp_prompts_called": null,
+          "custom_column_key_values": null,
+          "expectations": null,
+          "expected_labels": null
+        },
+        "authored_facts": {
+          "tp": 0,
+          "fp": 2,
+          "fn": 3,
+          "precision": 0.0,
+          "recall": 0.0,
+          "fbeta": 0.0,
+          "beta": 1.0
+        },
+        "native_relevance": {
+          "status": "ok",
+          "score": 1.0,
+          "passed": true,
+          "reason": null,
+          "sdk_score": 1.0,
+          "statements": [
+            "发布前在根目录运行 python -m unittest。",
+            "即使检查失败，也可以提交发布。"
+          ],
+          "verdicts": [
+            {
+              "verdict": "yes",
+              "reason": null
+            },
+            {
+              "verdict": "yes",
+              "reason": null
+            }
+          ]
+        },
+        "native_task_quality": {
+          "status": "ok",
+          "score": 0.0,
+          "passed": false,
+          "reason": "检索上下文已明确要求在项目根目录运行 `python -m pytest -q`、全部检查通过后才能发布，并在失败时先修复且不得跳过。实际回答虽正确提到根目录，但将命令写成 `python -m unittest`，还声称失败也可发布，直接违背发布门槛和失败处理要求。"
+        }
+      },
+      "incomplete": {
+        "case": {
+          "id": "incomplete",
+          "answer": "发布前在项目根目录运行 python -m pytest -q。",
+          "fact_ids": [
+            "command"
+          ],
+          "context_paths": [
+            "atlas/release.md",
+            "atlas/logs.md"
+          ],
+          "origin": "constructed teaching answer and controlled context selection; not an observed Agent output"
+        },
+        "sample": {
+          "input": "Atlas 补丁发布前在哪个目录运行什么命令、什么条件下才能提交发布、检查失败该怎么处理？",
+          "actual_output": "发布前在项目根目录运行 python -m pytest -q。",
+          "expected_output": "在项目根目录运行 python -m pytest -q；全部检查通过才可提交发布；失败时先修复，不跳过失败项。",
+          "context": null,
+          "retrieval_context": [
+            "# Atlas 补丁发布\n\nAtlas 补丁发布前先在项目根目录运行 `python -m pytest -q`。\n只有全部检查通过才能提交发布；出现失败时先修复，不跳过失败项。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+            "# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+          ],
+          "metadata": null,
+          "tools_called": null,
+          "comments": null,
+          "expected_tools": null,
+          "token_cost": null,
+          "input_token_count": null,
+          "output_token_count": null,
+          "completion_time": null,
+          "flaky": false,
+          "multimodal": false,
+          "name": null,
+          "tags": null,
+          "mcp_servers": null,
+          "mcp_tools_called": null,
+          "mcp_resources_called": null,
+          "mcp_prompts_called": null,
+          "custom_column_key_values": null,
+          "expectations": null,
+          "expected_labels": null
+        },
+        "authored_facts": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 2,
+          "precision": 1.0,
+          "recall": 0.3333333333333333,
+          "fbeta": 0.5,
+          "beta": 1.0
+        },
+        "native_relevance": {
+          "status": "ok",
+          "score": 1.0,
+          "passed": true,
+          "reason": null,
+          "sdk_score": 1.0,
+          "statements": [
+            "发布前应在项目根目录运行 python -m pytest -q。"
+          ],
+          "verdicts": [
+            {
+              "verdict": "yes",
+              "reason": null
+            }
+          ]
+        },
+        "native_task_quality": {
+          "status": "ok",
+          "score": 0.5,
+          "passed": false,
+          "reason": "回答正确给出了在项目根目录运行 `python -m pytest -q`，且该信息有检索上下文支持；但遗漏了“全部检查通过才能提交发布”以及“失败时先修复且不跳过失败项”这两个明确要求。"
+        }
+      },
+      "complete": {
+        "case": {
+          "id": "complete",
+          "answer": "在项目根目录运行 python -m pytest -q；全部检查通过才可提交发布；失败时先修复，不跳过失败项。",
+          "fact_ids": [
+            "command",
+            "gate",
+            "fix"
+          ],
+          "context_paths": [
+            "atlas/release.md",
+            "atlas/logs.md"
+          ],
+          "origin": "constructed teaching answer and controlled context selection; not an observed Agent output"
+        },
+        "sample": {
+          "input": "Atlas 补丁发布前在哪个目录运行什么命令、什么条件下才能提交发布、检查失败该怎么处理？",
+          "actual_output": "在项目根目录运行 python -m pytest -q；全部检查通过才可提交发布；失败时先修复，不跳过失败项。",
+          "expected_output": "在项目根目录运行 python -m pytest -q；全部检查通过才可提交发布；失败时先修复，不跳过失败项。",
+          "context": null,
+          "retrieval_context": [
+            "# Atlas 补丁发布\n\nAtlas 补丁发布前先在项目根目录运行 `python -m pytest -q`。\n只有全部检查通过才能提交发布；出现失败时先修复，不跳过失败项。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+            "# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+          ],
+          "metadata": null,
+          "tools_called": null,
+          "comments": null,
+          "expected_tools": null,
+          "token_cost": null,
+          "input_token_count": null,
+          "output_token_count": null,
+          "completion_time": null,
+          "flaky": false,
+          "multimodal": false,
+          "name": null,
+          "tags": null,
+          "mcp_servers": null,
+          "mcp_tools_called": null,
+          "mcp_resources_called": null,
+          "mcp_prompts_called": null,
+          "custom_column_key_values": null,
+          "expectations": null,
+          "expected_labels": null
+        },
+        "authored_facts": {
+          "tp": 3,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "fbeta": 1.0,
+          "beta": 1.0
+        },
+        "native_relevance": {
+          "status": "ok",
+          "score": 1.0,
+          "passed": true,
+          "reason": null,
+          "sdk_score": 1.0,
+          "statements": [
+            "在项目根目录运行 python -m pytest -q。",
+            "只有全部检查通过后才可以提交发布。",
+            "检查失败时应先修复。",
+            "不得跳过失败项。"
+          ],
+          "verdicts": [
+            {
+              "verdict": "yes",
+              "reason": null
+            },
+            {
+              "verdict": "yes",
+              "reason": null
+            },
+            {
+              "verdict": "yes",
+              "reason": null
+            },
+            {
+              "verdict": "yes",
+              "reason": null
+            }
+          ]
+        },
+        "native_task_quality": {
+          "status": "ok",
+          "score": 1.0,
+          "passed": true,
+          "reason": "回答与检索上下文和参考答案完全一致：明确了在项目根目录运行 `python -m pytest -q`，只有全部检查通过才能提交发布，并要求失败时先修复且不得跳过失败项。"
+        }
+      },
+      "unsupported_answer": {
+        "case": {
+          "id": "unsupported_answer",
+          "answer": "在项目根目录运行 python -m pytest -q；全部检查通过才可提交发布；失败时先修复，不跳过失败项。",
+          "fact_ids": [
+            "command",
+            "gate",
+            "fix"
+          ],
+          "context_paths": [
+            "atlas/logs.md"
+          ],
+          "origin": "constructed teaching answer and controlled context selection; not an observed Agent output"
+        },
+        "sample": {
+          "input": "Atlas 补丁发布前在哪个目录运行什么命令、什么条件下才能提交发布、检查失败该怎么处理？",
+          "actual_output": "在项目根目录运行 python -m pytest -q；全部检查通过才可提交发布；失败时先修复，不跳过失败项。",
+          "expected_output": "在项目根目录运行 python -m pytest -q；全部检查通过才可提交发布；失败时先修复，不跳过失败项。",
+          "context": null,
+          "retrieval_context": [
+            "# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+          ],
+          "metadata": null,
+          "tools_called": null,
+          "comments": null,
+          "expected_tools": null,
+          "token_cost": null,
+          "input_token_count": null,
+          "output_token_count": null,
+          "completion_time": null,
+          "flaky": false,
+          "multimodal": false,
+          "name": null,
+          "tags": null,
+          "mcp_servers": null,
+          "mcp_tools_called": null,
+          "mcp_resources_called": null,
+          "mcp_prompts_called": null,
+          "custom_column_key_values": null,
+          "expectations": null,
+          "expected_labels": null
+        },
+        "authored_facts": {
+          "tp": 3,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "fbeta": 1.0,
+          "beta": 1.0
+        },
+        "native_relevance": {
+          "status": "ok",
+          "score": 1.0,
+          "passed": true,
+          "reason": null,
+          "sdk_score": 1.0,
+          "statements": [
+            "在项目根目录运行 python -m pytest -q。",
+            "只有全部检查通过才可以提交发布。",
+            "检查失败时应先修复。",
+            "不得跳过失败项。"
+          ],
+          "verdicts": [
+            {
+              "verdict": "yes",
+              "reason": null
+            },
+            {
+              "verdict": "yes",
+              "reason": null
+            },
+            {
+              "verdict": "yes",
+              "reason": null
+            },
+            {
+              "verdict": "yes",
+              "reason": null
+            }
+          ]
+        },
+        "native_task_quality": {
+          "status": "ok",
+          "score": 0.0,
+          "passed": false,
+          "reason": "检索上下文只说明 Atlas 审计日志保留 14 天，并明确该信息不能决定发布前检查命令；它没有提供工作目录、命令、发布门槛或失败处理规范。回答却确信给出项目根目录、python -m pytest -q、全部通过方可发布及不得跳过失败项，虽与参考答案巧合一致，但均缺乏证据，也未请求缺失的发布规范。"
+        }
+      },
+      "reasonable_refusal": {
+        "case": {
+          "id": "reasonable_refusal",
+          "answer": "资料不足，无法确认这些发布要求。请补充发布规范后再回答。",
+          "fact_ids": [],
+          "context_paths": [
+            "atlas/logs.md"
+          ],
+          "origin": "constructed teaching answer and controlled context selection; not an observed Agent output"
+        },
+        "sample": {
+          "input": "Atlas 补丁发布前在哪个目录运行什么命令、什么条件下才能提交发布、检查失败该怎么处理？",
+          "actual_output": "资料不足，无法确认这些发布要求。请补充发布规范后再回答。",
+          "expected_output": "在项目根目录运行 python -m pytest -q；全部检查通过才可提交发布；失败时先修复，不跳过失败项。",
+          "context": null,
+          "retrieval_context": [
+            "# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+          ],
+          "metadata": null,
+          "tools_called": null,
+          "comments": null,
+          "expected_tools": null,
+          "token_cost": null,
+          "input_token_count": null,
+          "output_token_count": null,
+          "completion_time": null,
+          "flaky": false,
+          "multimodal": false,
+          "name": null,
+          "tags": null,
+          "mcp_servers": null,
+          "mcp_tools_called": null,
+          "mcp_resources_called": null,
+          "mcp_prompts_called": null,
+          "custom_column_key_values": null,
+          "expectations": null,
+          "expected_labels": null
+        },
+        "authored_facts": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 3,
+          "precision": null,
+          "recall": 0.0,
+          "fbeta": 0.0,
+          "beta": 1.0
+        },
+        "native_relevance": {
+          "status": "ok",
+          "score": 1.0,
+          "passed": true,
+          "reason": null,
+          "sdk_score": 1.0,
+          "statements": [
+            "资料不足。",
+            "无法确认这些发布要求。",
+            "请补充发布规范后再回答。"
+          ],
+          "verdicts": [
+            {
+              "verdict": "borderline",
+              "reason": "说明缺少回答所需资料，但未直接回答目录、命令、提交条件或失败处理方式。"
+            },
+            {
+              "verdict": "borderline",
+              "reason": "与发布要求相关，但只是表示无法确认，没有提供用户请求的具体信息。"
+            },
+            {
+              "verdict": "borderline",
+              "reason": "提出补充发布规范的需求，可作为澄清请求，但未直接解决问题。"
+            }
+          ]
+        },
+        "native_task_quality": {
+          "status": "ok",
+          "score": 1.0,
+          "passed": true,
+          "reason": "检索上下文只说明 Atlas 审计日志保留 14 天，并明确该信息不能确定补丁发布检查命令；它未提供工作目录、命令、全检查通过的发布门槛或失败处理方式。回答因此恰当地拒绝猜测，并请求补充发布规范，符合证据不足时应明确保留结论的要求。"
+        }
+      },
+      "live_agent": {
+        "origin": "new live Agent output; fact IDs not pre-annotated",
+        "sample": {
+          "input": "Atlas 补丁发布前在哪个目录运行什么命令、什么条件下才能提交发布、检查失败该怎么处理？先查询知识库再回答；不要执行测试或发布。",
+          "actual_output": "在 Atlas 项目根目录运行 `python -m pytest -q`。只有全部检查通过后才能提交发布；如果检查失败，应先修复失败项并重新检查，不得跳过。按要求，此处未执行测试或发布。",
+          "expected_output": "在项目根目录运行 python -m pytest -q；全部检查通过才可提交发布；失败时先修复，不跳过失败项。",
+          "context": [
+            "# Atlas 补丁发布\n\nAtlas 补丁发布前先在项目根目录运行 `python -m pytest -q`。\n只有全部检查通过才能提交发布；出现失败时先修复，不跳过失败项。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+          ],
+          "retrieval_context": [
+            "[atlas/release.md#0]\n# Atlas 补丁发布\n\nAtlas 补丁发布前先在项目根目录运行 `python -m pytest -q`。\n只有全部检查通过才能提交发布；出现失败时先修复，不跳过失败项。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+            "[atlas/logs.md#0]\n# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+          ],
+          "metadata": null,
+          "tools_called": [
+            {
+              "name": "search_knowledge",
+              "type": "FUNCTION",
+              "description": null,
+              "reasoning": null,
+              "output": {
+                "status": "ok",
+                "kind": "knowledge_context",
+                "output": {
+                  "knowledge_version": "5abefae73cbabb6b11499065c1c224c972673b40212948c7d70761e99ed1c97a",
+                  "contexts": [
+                    "[atlas/release.md#0]\n# Atlas 补丁发布\n\nAtlas 补丁发布前先在项目根目录运行 `python -m pytest -q`。\n只有全部检查通过才能提交发布；出现失败时先修复，不跳过失败项。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+                    "[atlas/logs.md#0]\n# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+                  ]
+                }
+              },
+              "input_parameters": {
+                "query": "Atlas 补丁 发布前 目录 命令 提交发布 条件 检查失败 处理"
+              }
+            }
+          ],
+          "comments": null,
+          "expected_tools": null,
+          "token_cost": null,
+          "input_token_count": null,
+          "output_token_count": null,
+          "completion_time": null,
+          "flaky": false,
+          "multimodal": false,
+          "name": null,
+          "tags": null,
+          "mcp_servers": null,
+          "mcp_tools_called": null,
+          "mcp_resources_called": null,
+          "mcp_prompts_called": null,
+          "custom_column_key_values": null,
+          "expectations": null,
+          "expected_labels": null
+        },
+        "native_relevance": {
+          "status": "ok",
+          "score": 1.0,
+          "passed": true,
+          "reason": null,
+          "sdk_score": 1.0,
+          "statements": [
+            "应在 Atlas 项目根目录运行 `python -m pytest -q`。",
+            "只有全部检查通过后才能提交发布。",
+            "如果检查失败，应先修复失败项并重新检查。",
+            "不得跳过失败的检查项。",
+            "此处未执行测试。",
+            "此处未执行发布。"
+          ],
+          "verdicts": [
+            {
+              "verdict": "yes",
+              "reason": null
+            },
+            {
+              "verdict": "yes",
+              "reason": null
+            },
+            {
+              "verdict": "yes",
+              "reason": null
+            },
+            {
+              "verdict": "yes",
+              "reason": null
+            },
+            {
+              "verdict": "yes",
+              "reason": null
+            },
+            {
+              "verdict": "yes",
+              "reason": null
+            }
+          ]
+        },
+        "native_task_quality": {
+          "status": "ok",
+          "score": 1.0,
+          "passed": true,
+          "reason": "回答与知识库和参考答案完全一致：明确了在 Atlas 项目根目录运行 `python -m pytest -q`，全部检查通过后方可提交发布，失败时先修复并重新检查且不得跳过；同时遵守了不执行测试或发布的要求。"
+        }
+      }
+    },
+    "live_agent": {
+      "status": "finished",
+      "final_answer": "在 Atlas 项目根目录运行 `python -m pytest -q`。只有全部检查通过后才能提交发布；如果检查失败，应先修复失败项并重新检查，不得跳过。按要求，此处未执行测试或发布。",
+      "events": [
+        {
+          "id": "1.0",
+          "name": "search_knowledge",
+          "arguments": {
+            "query": "Atlas 补丁 发布前 目录 命令 提交发布 条件 检查失败 处理"
+          },
+          "result": {
+            "status": "ok",
+            "kind": "knowledge_context",
+            "output": {
+              "knowledge_version": "5abefae73cbabb6b11499065c1c224c972673b40212948c7d70761e99ed1c97a",
+              "contexts": [
+                "[atlas/release.md#0]\n# Atlas 补丁发布\n\nAtlas 补丁发布前先在项目根目录运行 `python -m pytest -q`。\n只有全部检查通过才能提交发布；出现失败时先修复，不跳过失败项。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+                "[atlas/logs.md#0]\n# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+              ]
+            }
+          }
+        }
+      ],
+      "messages": [
+        {
+          "role": "user",
+          "content": "Atlas 补丁发布前在哪个目录运行什么命令、什么条件下才能提交发布、检查失败该怎么处理？先查询知识库再回答；不要执行测试或发布。"
+        },
+        {
+          "role": "assistant",
+          "content": {
+            "answer": "",
+            "tool_calls": [
+              {
+                "name": "search_knowledge",
+                "arguments_json": "{\"query\":\"Atlas 补丁 发布前 目录 命令 提交发布 条件 检查失败 处理\"}"
+              }
+            ]
+          }
+        },
+        {
+          "role": "tool",
+          "content": [
+            {
+              "status": "ok",
+              "kind": "knowledge_context",
+              "output": {
+                "knowledge_version": "5abefae73cbabb6b11499065c1c224c972673b40212948c7d70761e99ed1c97a",
+                "contexts": [
+                  "[atlas/release.md#0]\n# Atlas 补丁发布\n\nAtlas 补丁发布前先在项目根目录运行 `python -m pytest -q`。\n只有全部检查通过才能提交发布；出现失败时先修复，不跳过失败项。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+                  "[atlas/logs.md#0]\n# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "role": "assistant",
+          "content": {
+            "answer": "在 Atlas 项目根目录运行 `python -m pytest -q`。只有全部检查通过后才能提交发布；如果检查失败，应先修复失败项并重新检查，不得跳过。按要求，此处未执行测试或发布。",
+            "tool_calls": []
+          }
+        }
+      ],
+      "task": "Atlas 补丁发布前在哪个目录运行什么命令、什么条件下才能提交发布、检查失败该怎么处理？先查询知识库再回答；不要执行测试或发布。",
+      "retrievals": [
+        {
+          "query": "Atlas 补丁 发布前 目录 命令 提交发布 条件 检查失败 处理",
+          "hits": [
+            {
+              "path": "atlas/release.md",
+              "chunk_id": "atlas/release.md#0",
+              "text": "# Atlas 补丁发布\n\nAtlas 补丁发布前先在项目根目录运行 `python -m pytest -q`。\n只有全部检查通过才能提交发布；出现失败时先修复，不跳过失败项。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+              "sha256": "db65230825cd6997c1e512c65a489941f6caf92d920a6cb94f5a51d395a1d98e",
+              "source_sha256": "db65230825cd6997c1e512c65a489941f6caf92d920a6cb94f5a51d395a1d98e",
+              "start": 0,
+              "end": 115,
+              "similarity": 0.36048438669777116,
+              "matches": 9,
+              "retriever": "TinyRAG.VectorStore",
+              "embedding": "local-tfidf"
+            },
+            {
+              "path": "atlas/logs.md",
+              "chunk_id": "atlas/logs.md#0",
+              "text": "# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+              "sha256": "3b2ad1b6898fb79cabedf2e0e1f9c509ae2b2315fc5fb9c07ee80939bce42032",
+              "source_sha256": "3b2ad1b6898fb79cabedf2e0e1f9c509ae2b2315fc5fb9c07ee80939bce42032",
+              "start": 0,
+              "end": 82,
+              "similarity": 0.25091168967445604,
+              "matches": 6,
+              "retriever": "TinyRAG.VectorStore",
+              "embedding": "local-tfidf"
+            },
+            {
+              "path": "atlas/auth.md",
+              "chunk_id": "atlas/auth.md#0",
+              "text": "# Atlas API 认证\n\nAtlas API 使用 `X-Atlas-Token` 请求头传递令牌。\n这个请求头用于身份认证，不用于决定补丁能否发布。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+              "sha256": "ae628a0575ad7e15b11ed78028ac88e4204c8201d7b132ea269ff56935e631ac",
+              "source_sha256": "ae628a0575ad7e15b11ed78028ac88e4204c8201d7b132ea269ff56935e631ac",
+              "start": 0,
+              "end": 104,
+              "similarity": 0.1042021291956773,
+              "matches": 3,
+              "retriever": "TinyRAG.VectorStore",
+              "embedding": "local-tfidf"
+            }
+          ],
+          "selected": [
+            {
+              "path": "atlas/release.md",
+              "chunk_id": "atlas/release.md#0",
+              "text": "# Atlas 补丁发布\n\nAtlas 补丁发布前先在项目根目录运行 `python -m pytest -q`。\n只有全部检查通过才能提交发布；出现失败时先修复，不跳过失败项。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+              "sha256": "db65230825cd6997c1e512c65a489941f6caf92d920a6cb94f5a51d395a1d98e",
+              "source_sha256": "db65230825cd6997c1e512c65a489941f6caf92d920a6cb94f5a51d395a1d98e",
+              "start": 0,
+              "end": 115,
+              "similarity": 0.36048438669777116,
+              "matches": 9,
+              "retriever": "TinyRAG.VectorStore",
+              "embedding": "local-tfidf"
+            },
+            {
+              "path": "atlas/logs.md",
+              "chunk_id": "atlas/logs.md#0",
+              "text": "# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+              "sha256": "3b2ad1b6898fb79cabedf2e0e1f9c509ae2b2315fc5fb9c07ee80939bce42032",
+              "source_sha256": "3b2ad1b6898fb79cabedf2e0e1f9c509ae2b2315fc5fb9c07ee80939bce42032",
+              "start": 0,
+              "end": 82,
+              "similarity": 0.25091168967445604,
+              "matches": 6,
+              "retriever": "TinyRAG.VectorStore",
+              "embedding": "local-tfidf"
+            }
+          ],
+          "emitted": [
+            "[atlas/release.md#0]\n# Atlas 补丁发布\n\nAtlas 补丁发布前先在项目根目录运行 `python -m pytest -q`。\n只有全部检查通过才能提交发布；出现失败时先修复，不跳过失败项。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+            "[atlas/logs.md#0]\n# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+          ]
+        }
+      ],
+      "model_inputs": [
+        [
+          {
+            "role": "user",
+            "content": "Atlas 补丁发布前在哪个目录运行什么命令、什么条件下才能提交发布、检查失败该怎么处理？先查询知识库再回答；不要执行测试或发布。"
+          }
+        ],
+        [
+          {
+            "role": "user",
+            "content": "Atlas 补丁发布前在哪个目录运行什么命令、什么条件下才能提交发布、检查失败该怎么处理？先查询知识库再回答；不要执行测试或发布。"
+          },
+          {
+            "role": "assistant",
+            "content": {
+              "answer": "",
+              "tool_calls": [
+                {
+                  "name": "search_knowledge",
+                  "arguments_json": "{\"query\":\"Atlas 补丁 发布前 目录 命令 提交发布 条件 检查失败 处理\"}"
+                }
+              ]
+            }
+          },
+          {
+            "role": "tool",
+            "content": [
+              {
+                "status": "ok",
+                "kind": "knowledge_context",
+                "output": {
+                  "knowledge_version": "5abefae73cbabb6b11499065c1c224c972673b40212948c7d70761e99ed1c97a",
+                  "contexts": [
+                    "[atlas/release.md#0]\n# Atlas 补丁发布\n\nAtlas 补丁发布前先在项目根目录运行 `python -m pytest -q`。\n只有全部检查通过才能提交发布；出现失败时先修复，不跳过失败项。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+                    "[atlas/logs.md#0]\n# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      ],
+      "knowledge": {
+        "sha256": "5abefae73cbabb6b11499065c1c224c972673b40212948c7d70761e99ed1c97a",
+        "documents": [
+          {
+            "path": "atlas/auth.md",
+            "sha256": "ae628a0575ad7e15b11ed78028ac88e4204c8201d7b132ea269ff56935e631ac"
+          },
+          {
+            "path": "atlas/logs.md",
+            "sha256": "3b2ad1b6898fb79cabedf2e0e1f9c509ae2b2315fc5fb9c07ee80939bce42032"
+          },
+          {
+            "path": "atlas/release.md",
+            "sha256": "db65230825cd6997c1e512c65a489941f6caf92d920a6cb94f5a51d395a1d98e"
+          },
+          {
+            "path": "course/upload.md",
+            "sha256": "373d757ad03c0abeca2bee4fe92d832001dadb6d617ddbd94f87e15a828a996a"
+          },
+          {
+            "path": "e04/auth.md",
+            "sha256": "c679cde9b3a727c786041a104888227dad4338379942276adeba9f3e211c335f"
+          },
+          {
+            "path": "e04/limits.md",
+            "sha256": "a742717e40c3a2af1a7c2fee961c06ee9d91872b8d09b81089159a057af1d949"
+          },
+          {
+            "path": "e04/noise.md",
+            "sha256": "66ae3f3dd49daf1f20ef141b27cda4e068b99258e677cb5956f437da04e27017"
+          },
+          {
+            "path": "e09/archive/auth.md",
+            "sha256": "1adae93eee5709b2c286a34856bd138d7561aff85f3134f2e68a85781bc08d35"
+          },
+          {
+            "path": "e09/archive/limits.md",
+            "sha256": "13d0fd6b345365b8f384581018aca258c4222741d6305a601f139eef1e86e827"
+          },
+          {
+            "path": "e10/billing.md",
+            "sha256": "504feb4ed5ea4ee4f5fa18a6e19f5fb98bbdd03f985fcf011ddec263897e20f0"
+          },
+          {
+            "path": "e11/shipping.md",
+            "sha256": "1aa224931915fe2b2298eed8586187e0acd73de3906834fa6715bf427bf920d1"
+          },
+          {
+            "path": "e12/shipping.md",
+            "sha256": "c5c49db597843d62eac211625816d2d0a4f85656ed65a7c6a57c0b55138d4758"
+          },
+          {
+            "path": "e13/shipping.md",
+            "sha256": "ba7f9e8c4b4b5f1306153bef43e4b5918b29dc645c5843168e252e86f54d8453"
+          },
+          {
+            "path": "e14/shipping.md",
+            "sha256": "ba7f9e8c4b4b5f1306153bef43e4b5918b29dc645c5843168e252e86f54d8453"
+          },
+          {
+            "path": "e16/shipping.md",
+            "sha256": "ba7f9e8c4b4b5f1306153bef43e4b5918b29dc645c5843168e252e86f54d8453"
+          },
+          {
+            "path": "project.md",
+            "sha256": "2543e3fa1e87368cadd04e7f2ff28ae6766683f43628f35fa957099ba61e4ebc"
+          }
+        ]
+      },
+      "retrieval_settings": {
+        "k": 3,
+        "context_limit": 2
+      },
+      "reference_status": "current",
+      "sample": {
+        "input": "Atlas 补丁发布前在哪个目录运行什么命令、什么条件下才能提交发布、检查失败该怎么处理？先查询知识库再回答；不要执行测试或发布。",
+        "actual_output": "在 Atlas 项目根目录运行 `python -m pytest -q`。只有全部检查通过后才能提交发布；如果检查失败，应先修复失败项并重新检查，不得跳过。按要求，此处未执行测试或发布。",
+        "expected_output": "在项目根目录运行 python -m pytest -q；全部检查通过才可提交发布；失败时先修复，不跳过失败项。",
+        "context": [
+          "# Atlas 补丁发布\n\nAtlas 补丁发布前先在项目根目录运行 `python -m pytest -q`。\n只有全部检查通过才能提交发布；出现失败时先修复，不跳过失败项。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+        ],
+        "retrieval_context": [
+          "[atlas/release.md#0]\n# Atlas 补丁发布\n\nAtlas 补丁发布前先在项目根目录运行 `python -m pytest -q`。\n只有全部检查通过才能提交发布；出现失败时先修复，不跳过失败项。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+          "[atlas/logs.md#0]\n# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+        ],
+        "metadata": null,
+        "tools_called": [
+          {
+            "name": "search_knowledge",
+            "type": "FUNCTION",
+            "description": null,
+            "reasoning": null,
+            "output": {
+              "status": "ok",
+              "kind": "knowledge_context",
+              "output": {
+                "knowledge_version": "5abefae73cbabb6b11499065c1c224c972673b40212948c7d70761e99ed1c97a",
+                "contexts": [
+                  "[atlas/release.md#0]\n# Atlas 补丁发布\n\nAtlas 补丁发布前先在项目根目录运行 `python -m pytest -q`。\n只有全部检查通过才能提交发布；出现失败时先修复，不跳过失败项。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+                  "[atlas/logs.md#0]\n# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+                ]
+              }
+            },
+            "input_parameters": {
+              "query": "Atlas 补丁 发布前 目录 命令 提交发布 条件 检查失败 处理"
+            }
+          }
+        ],
+        "comments": null,
+        "expected_tools": null,
+        "token_cost": null,
+        "input_token_count": null,
+        "output_token_count": null,
+        "completion_time": null,
+        "flaky": false,
+        "multimodal": false,
+        "name": null,
+        "tags": null,
+        "mcp_servers": null,
+        "mcp_tools_called": null,
+        "mcp_resources_called": null,
+        "mcp_prompts_called": null,
+        "custom_column_key_values": null,
+        "expectations": null,
+        "expected_labels": null
+      }
+    },
+    "judge_calls": [
+      {
+        "text": "{\"statements\":[\"Atlas 审计日志保留 14 天。\"]}",
+        "usage": [
+          {
+            "input_tokens": 15376,
+            "cached_input_tokens": 13440,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 21,
+            "reasoning_output_tokens": 0
+          }
+        ],
+        "reported_model": null,
+        "model_selection": "Codex CLI default; user config ignored",
+        "elapsed_seconds": 4.671,
+        "transport_tool_events": 0,
+        "prompt_sha256": "447c2c779127f5326790f3898aa34602a9d6ff2de168970aeb3016639afd703a"
+      },
+      {
+        "text": "{\"verdicts\":[{\"verdict\":\"no\",\"reason\":\"审计日志保留期限与补丁发布前的运行目录、命令、提交条件及检查失败处理方式无关。\"}]}",
+        "usage": [
+          {
+            "input_tokens": 15596,
+            "cached_input_tokens": 13440,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 47,
+            "reasoning_output_tokens": 0
+          }
+        ],
+        "reported_model": null,
+        "model_selection": "Codex CLI default; user config ignored",
+        "elapsed_seconds": 4.731,
+        "transport_tool_events": 0,
+        "prompt_sha256": "b43755d34f584c6ada54fc22fd386cfd6a9d348148a3d3d18f76b18f17aa6e74"
+      },
+      {
+        "text": "{\"reason\":\"回答偏离发布问题，只陈述了“审计日志保留 14 天”。检索上下文已明确提供项目根目录、`python -m pytest -q`、全部检查通过后才能发布以及失败项必须先修复且不可跳过，但回答未覆盖任何一项。\",\"score\":0}",
+        "usage": [
+          {
+            "input_tokens": 15745,
+            "cached_input_tokens": 13440,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 76,
+            "reasoning_output_tokens": 0
+          }
+        ],
+        "reported_model": null,
+        "model_selection": "Codex CLI default; user config ignored",
+        "elapsed_seconds": 5.332,
+        "transport_tool_events": 0,
+        "prompt_sha256": "038cf6979dd1a1ffdfc2eb1934668a333c4b971fb48f39ad808fdcc540c30f71"
+      },
+      {
+        "text": "{\"statements\":[\"发布前在根目录运行 python -m unittest。\",\"即使检查失败，也可以提交发布。\"]}",
+        "usage": [
+          {
+            "input_tokens": 15385,
+            "cached_input_tokens": 13440,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 31,
+            "reasoning_output_tokens": 0
+          }
+        ],
+        "reported_model": null,
+        "model_selection": "Codex CLI default; user config ignored",
+        "elapsed_seconds": 4.337,
+        "transport_tool_events": 0,
+        "prompt_sha256": "4e0054f05206e9a9bc22a8cfedf9c1a6daff5a0d309f335317d44b2be40c2d8f"
+      },
+      {
+        "text": "{\"verdicts\":[{\"verdict\":\"yes\"},{\"verdict\":\"yes\"}]}",
+        "usage": [
+          {
+            "input_tokens": 15603,
+            "cached_input_tokens": 13440,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 21,
+            "reasoning_output_tokens": 0
+          }
+        ],
+        "reported_model": null,
+        "model_selection": "Codex CLI default; user config ignored",
+        "elapsed_seconds": 4.267,
+        "transport_tool_events": 0,
+        "prompt_sha256": "70f7e9f4396437d5198d1bf0ad37ef00c8ae76a1c1ab5aa21de116fad652bfdc"
+      },
+      {
+        "text": "{\"reason\":\"检索上下文已明确要求在项目根目录运行 `python -m pytest -q`、全部检查通过后才能发布，并在失败时先修复且不得跳过。实际回答虽正确提到根目录，但将命令写成 `python -m unittest`，还声称失败也可发布，直接违背发布门槛和失败处理要求。\",\"score\":0}",
+        "usage": [
+          {
+            "input_tokens": 15750,
+            "cached_input_tokens": 13440,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 92,
+            "reasoning_output_tokens": 0
+          }
+        ],
+        "reported_model": null,
+        "model_selection": "Codex CLI default; user config ignored",
+        "elapsed_seconds": 5.528,
+        "transport_tool_events": 0,
+        "prompt_sha256": "9b7610384844c37e8b0b8d6b93709433d53752866abf7d488b34e41a23909c3f"
+      },
+      {
+        "text": "{\"statements\":[\"发布前应在项目根目录运行 python -m pytest -q。\"]}",
+        "usage": [
+          {
+            "input_tokens": 15379,
+            "cached_input_tokens": 13440,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 25,
+            "reasoning_output_tokens": 0
+          }
+        ],
+        "reported_model": null,
+        "model_selection": "Codex CLI default; user config ignored",
+        "elapsed_seconds": 4.562,
+        "transport_tool_events": 0,
+        "prompt_sha256": "4cba2fc1d89c521a778df1bfbf0d1443112bef22e2cada1781aa76bafed75cb9"
+      },
+      {
+        "text": "{\"verdicts\":[{\"verdict\":\"yes\"}]}",
+        "usage": [
+          {
+            "input_tokens": 15600,
+            "cached_input_tokens": 13440,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 16,
+            "reasoning_output_tokens": 0
+          }
+        ],
+        "reported_model": null,
+        "model_selection": "Codex CLI default; user config ignored",
+        "elapsed_seconds": 4.799,
+        "transport_tool_events": 0,
+        "prompt_sha256": "0aae7b22db4fa56ee3773c0ce01f58c96cbaa4bf219210f37c4b98bf55962f3b"
+      },
+      {
+        "text": "{\"reason\":\"回答正确给出了在项目根目录运行 `python -m pytest -q`，且该信息有检索上下文支持；但遗漏了“全部检查通过才能提交发布”以及“失败时先修复且不跳过失败项”这两个明确要求。\",\"score\":1}",
+        "usage": [
+          {
+            "input_tokens": 15746,
+            "cached_input_tokens": 13440,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 70,
+            "reasoning_output_tokens": 0
+          }
+        ],
+        "reported_model": null,
+        "model_selection": "Codex CLI default; user config ignored",
+        "elapsed_seconds": 5.191,
+        "transport_tool_events": 0,
+        "prompt_sha256": "8712dcb1de1972380fc79f483fb5b604a4dc0acb6cafb0f4391a9639e7b29df9"
+      },
+      {
+        "text": "{\"statements\":[\"在项目根目录运行 python -m pytest -q。\",\"只有全部检查通过后才可以提交发布。\",\"检查失败时应先修复。\",\"不得跳过失败项。\"]}",
+        "usage": [
+          {
+            "input_tokens": 15402,
+            "cached_input_tokens": 13440,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 49,
+            "reasoning_output_tokens": 0
+          }
+        ],
+        "reported_model": null,
+        "model_selection": "Codex CLI default; user config ignored",
+        "elapsed_seconds": 5.156,
+        "transport_tool_events": 0,
+        "prompt_sha256": "397430c091248ae2b6e495e56891392a1169327ab9d592cfab16f68959d487d5"
+      },
+      {
+        "text": "{\"verdicts\":[{\"verdict\":\"yes\"},{\"verdict\":\"yes\"},{\"verdict\":\"yes\"},{\"verdict\":\"yes\"}]}",
+        "usage": [
+          {
+            "input_tokens": 15631,
+            "cached_input_tokens": 13440,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 31,
+            "reasoning_output_tokens": 0
+          }
+        ],
+        "reported_model": null,
+        "model_selection": "Codex CLI default; user config ignored",
+        "elapsed_seconds": 5.565,
+        "transport_tool_events": 0,
+        "prompt_sha256": "56fc93995db480f3a6a9801166c3e8850bcf5acbb10259c6f9d676d148b331c4"
+      },
+      {
+        "text": "{\"reason\":\"回答与检索上下文和参考答案完全一致：明确了在项目根目录运行 `python -m pytest -q`，只有全部检查通过才能提交发布，并要求失败时先修复且不得跳过失败项。\",\"score\":2}",
+        "usage": [
+          {
+            "input_tokens": 15763,
+            "cached_input_tokens": 13440,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 61,
+            "reasoning_output_tokens": 0
+          }
+        ],
+        "reported_model": null,
+        "model_selection": "Codex CLI default; user config ignored",
+        "elapsed_seconds": 4.852,
+        "transport_tool_events": 0,
+        "prompt_sha256": "366409f3fad8b2a3899928553ebf0b6e60eb31242f252eac71dc6dfd91476551"
+      },
+      {
+        "text": "{\"statements\":[\"在项目根目录运行 python -m pytest -q。\",\"只有全部检查通过才可以提交发布。\",\"检查失败时应先修复。\",\"不得跳过失败项。\"]}",
+        "usage": [
+          {
+            "input_tokens": 15396,
+            "cached_input_tokens": 13440,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 48,
+            "reasoning_output_tokens": 0
+          }
+        ],
+        "reported_model": null,
+        "model_selection": "Codex CLI default; user config ignored",
+        "elapsed_seconds": 5.002,
+        "transport_tool_events": 0,
+        "prompt_sha256": "397430c091248ae2b6e495e56891392a1169327ab9d592cfab16f68959d487d5"
+      },
+      {
+        "text": "{\"verdicts\":[{\"verdict\":\"yes\"},{\"verdict\":\"yes\"},{\"verdict\":\"yes\"},{\"verdict\":\"yes\"}]}",
+        "usage": [
+          {
+            "input_tokens": 15628,
+            "cached_input_tokens": 13440,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 31,
+            "reasoning_output_tokens": 0
+          }
+        ],
+        "reported_model": null,
+        "model_selection": "Codex CLI default; user config ignored",
+        "elapsed_seconds": 4.603,
+        "transport_tool_events": 0,
+        "prompt_sha256": "934a1b50fe0349fb42407a640a067775941f6db8d79507f36a856d17d97e9b9f"
+      },
+      {
+        "text": "{\"reason\":\"检索上下文只说明 Atlas 审计日志保留 14 天，并明确该信息不能决定发布前检查命令；它没有提供工作目录、命令、发布门槛或失败处理规范。回答却确信给出项目根目录、python -m pytest -q、全部通过方可发布及不得跳过失败项，虽与参考答案巧合一致，但均缺乏证据，也未请求缺失的发布规范。\",\"score\":0}",
+        "usage": [
+          {
+            "input_tokens": 15694,
+            "cached_input_tokens": 13440,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 110,
+            "reasoning_output_tokens": 0
+          }
+        ],
+        "reported_model": null,
+        "model_selection": "Codex CLI default; user config ignored",
+        "elapsed_seconds": 6.308,
+        "transport_tool_events": 0,
+        "prompt_sha256": "5305fbd5e74238bac00d06d42b7fd0f44d0cdd85fed9e5eb347bef353f6c4229"
+      },
+      {
+        "text": "{\"statements\":[\"资料不足。\",\"无法确认这些发布要求。\",\"请补充发布规范后再回答。\"]}",
+        "usage": [
+          {
+            "input_tokens": 15385,
+            "cached_input_tokens": 13440,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 30,
+            "reasoning_output_tokens": 0
+          }
+        ],
+        "reported_model": null,
+        "model_selection": "Codex CLI default; user config ignored",
+        "elapsed_seconds": 4.169,
+        "transport_tool_events": 0,
+        "prompt_sha256": "e367b22bd5d3606f97dba3436bbb05522945fea9b760781ea206b867f2df86d0"
+      },
+      {
+        "text": "{\"verdicts\":[{\"verdict\":\"borderline\",\"reason\":\"说明缺少回答所需资料，但未直接回答目录、命令、提交条件或失败处理方式。\"},{\"verdict\":\"borderline\",\"reason\":\"与发布要求相关，但只是表示无法确认，没有提供用户请求的具体信息。\"},{\"verdict\":\"borderline\",\"reason\":\"提出补充发布规范的需求，可作为澄清请求，但未直接解决问题。\"}]}",
+        "usage": [
+          {
+            "input_tokens": 15607,
+            "cached_input_tokens": 13440,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 159,
+            "reasoning_output_tokens": 60
+          }
+        ],
+        "reported_model": null,
+        "model_selection": "Codex CLI default; user config ignored",
+        "elapsed_seconds": 7.224,
+        "transport_tool_events": 0,
+        "prompt_sha256": "db2fe915349f006c6225984e3a14b6e1c1c05b379c7ddf586b63ffbed641717b"
+      },
+      {
+        "text": "{\"reason\":\"检索上下文只说明 Atlas 审计日志保留 14 天，并明确该信息不能确定补丁发布检查命令；它未提供工作目录、命令、全检查通过的发布门槛或失败处理方式。回答因此恰当地拒绝猜测，并请求补充发布规范，符合证据不足时应明确保留结论的要求。\",\"score\":2}",
+        "usage": [
+          {
+            "input_tokens": 15681,
+            "cached_input_tokens": 13440,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 93,
+            "reasoning_output_tokens": 0
+          }
+        ],
+        "reported_model": null,
+        "model_selection": "Codex CLI default; user config ignored",
+        "elapsed_seconds": 5.578,
+        "transport_tool_events": 0,
+        "prompt_sha256": "6b25ce35de9b6dc8894878c83fcba28decc4d2a7c614b5be5d39eebf88a9ca7e"
+      },
+      {
+        "text": "{\"statements\":[\"应在 Atlas 项目根目录运行 `python -m pytest -q`。\",\"只有全部检查通过后才能提交发布。\",\"如果检查失败，应先修复失败项并重新检查。\",\"不得跳过失败的检查项。\",\"此处未执行测试。\",\"此处未执行发布。\"]}",
+        "usage": [
+          {
+            "input_tokens": 15419,
+            "cached_input_tokens": 13440,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 74,
+            "reasoning_output_tokens": 0
+          }
+        ],
+        "reported_model": null,
+        "model_selection": "Codex CLI default; user config ignored",
+        "elapsed_seconds": 6.335,
+        "transport_tool_events": 0,
+        "prompt_sha256": "7615a4847979c222688d54e9502ab02bb00dac3eeb55744a4b8f2b57efd54d58"
+      },
+      {
+        "text": "{\"verdicts\":[{\"verdict\":\"yes\"},{\"verdict\":\"yes\"},{\"verdict\":\"yes\"},{\"verdict\":\"yes\"},{\"verdict\":\"yes\"},{\"verdict\":\"yes\"}]}",
+        "usage": [
+          {
+            "input_tokens": 15667,
+            "cached_input_tokens": 13440,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 41,
+            "reasoning_output_tokens": 0
+          }
+        ],
+        "reported_model": null,
+        "model_selection": "Codex CLI default; user config ignored",
+        "elapsed_seconds": 5.058,
+        "transport_tool_events": 0,
+        "prompt_sha256": "9354cdeef9848be6e6a67104f6bc0d7e4ce2b37105b03ffa1cd79214423f082f"
+      },
+      {
+        "text": "{\"reason\":\"回答与知识库和参考答案完全一致：明确了在 Atlas 项目根目录运行 `python -m pytest -q`，全部检查通过后方可提交发布，失败时先修复并重新检查且不得跳过；同时遵守了不执行测试或发布的要求。\",\"score\":2}",
+        "usage": [
+          {
+            "input_tokens": 15817,
+            "cached_input_tokens": 13440,
+            "cache_write_input_tokens": 0,
+            "output_tokens": 74,
+            "reasoning_output_tokens": 0
+          }
+        ],
+        "reported_model": null,
+        "model_selection": "Codex CLI default; user config ignored",
+        "elapsed_seconds": 5.694,
+        "transport_tool_events": 0,
+        "prompt_sha256": "919ef08cd5c01619dacaf29cacca9e383961e25374a36055d7f5a797cc41718a"
+      }
+    ]
+  },
+  "live_checks": {
+    "finished": true,
+    "reference_current": true,
+    "only_search_tool": true,
+    "actual_context_contains_release": true
+  },
+  "failed_attempt": {
+    "status": "failed",
+    "scores_saved": false,
+    "reason": "Serialized live tools_called dictionaries were rejected by LLMTestCase.model_validate; first attempt did not persist a complete report. No missing scores or model-call counts were reconstructed.",
+    "log": " Container learn-agent-evaluation-course-run-1ab3d96e22b9 Creating \n Container learn-agent-evaluation-course-run-1ab3d96e22b9 Created \n\nCalculating embeddings:   0%|          | 0/16 [00:00<?, ?it/s]\nCalculating embeddings: 100%|██████████| 16/16 [00:00<00:00, 4546.36it/s]\nTraceback (most recent call last):\n  File \"<frozen runpy>\", line 198, in _run_module_as_main\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"/app/course/e09_answer_quality/code.py\", line 99, in <module>\n    raise SystemExit(main())\n                     ^^^^^^\n  File \"/app/course/e09_answer_quality/code.py\", line 80, in main\n    sample = LLMTestCase.model_validate(row[\"sample\"])\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/app/.venv/lib/python3.11/site-packages/pydantic/main.py\", line 792, in model_validate\n    return cls.__pydantic_validator__.validate_python(\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/app/.venv/lib/python3.11/site-packages/deepeval/test_case/llm_test_case.py\", line 554, in validate_input\n    raise TypeError(\nTypeError: 'tools_called' must be None or a list of `ToolCall`\n\n"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "generator": "PocketFlow-Tutorial-Codebase-Knowledge",
+  "upstream_commit": "05b24cbbb0fe409c5e23c9791f0342f07524ffdc",
+  "nodes_run": [
+    "FetchRepo",
+    "BindLesson",
+    "WriteChapters",
+    "CombineTutorial"
+  ],
+  "actual_model_calls": 1,
+  "calls": [
+    {
+      "prompt_sha256": "955c0db458fc129d350540fb445202001f21a1450ae7d2489ca09e9fd2591576",
+      "response_sha256": "a5fc9d92cca104e8aa98af1b908620b5ae06a48089e44b8295c0481e7b030212",
+      "seconds": 88.3
+    }
+  ],
+  "input_sha256": {
+    "eval_course/runtime.py": "f4236018e4dea094fe4573c48cb3cc03fdcf4d837dac8ff30190367c1dc86fa4",
+    "course/e09_answer_quality/code.py": "a73c1a181212da701ca4725e1373e7afef8e806a76e7eaa9e6c5a36b6b7061d1",
+    "course/e09_answer_quality/cases.jsonl": "5027e2e43d10a474d9f0693c1d76f7338ebe8617359ebc942e13e22dad70d8a0",
+    "course/e09_answer_quality/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "course/e09_answer_quality/eval.py": "e59f84f85d5711c51754d3a4f0ebb399a1cc2e004170edc1b61485de5b5bf9c6",
+    "course/e09_answer_quality/images/quality-flow.drawio": "895685cac3abe41838b2c5493a748f67201033e256713630f933a23a74ee9b52",
+    "course/e09_answer_quality/images/scoring-flow.drawio": "6284208c46edaf3cbe783d4cf7f627364ae461ccb491d2c16c4280d49cfa4f1a"
+  },
+  "note": "Raw draft is reviewed and condensed; final textbook is in course/. The agreed outline is not model-reordered."
+}

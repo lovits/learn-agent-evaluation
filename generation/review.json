@@ -1,6 +1,6 @@
 {
   "outline_version": 3,
-  "review": "第8课依据 PocketFlow 实际草稿压缩，核对 DeepEval truths/claims/verdicts 三阶段、默认 borderline 通过与明确支持比例、原生空值及对齐边界；补充真实记录的执行证据范围与来源编号抽取损失。删除草稿虚构配图和冗余比喻，修正零分含义及默认比例不能等同支持比例的解释。",
+  "review": "第9课依据 PocketFlow 实际草稿压缩，核对切题性、参考事实 TP/FP/FN 与 F-beta、证据不足拒答、Ragas 双向 NLI 与相似度对象差异。修正草稿将 FP 都视为现实错误和默认相关性分子的过度简化；保留构造与真实运行区别。生成后仅为满足 lint 对提示词拼接加括号，已核对 AST 一致；provenance 保留实际生成输入哈希。",
   "published_sha256": {
     "course/run.py": "d4f0b75ebfc46cf0eeb897dfbe4c4b22db0626231aac9d72f30093a9caa2cb1c",
     "course/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
@@ -123,7 +123,7 @@
     "course/e07_context_recall/images/coverage-flow.drawio.svg": "2ef804f6988446e500423db16f08b3b92ce4370dafc1c94b1fdda40a2652cfcd",
     "course/e07_context_recall/images/scoring-flow.drawio": "2fa11c692ed1d77dbe9c62ca7a61cb5d5623dc6e2a4c3907c139e35ff372e3d4",
     "course/e07_context_recall/images/scoring-flow.png": "aa5270b17a996905633f084c1f91418e7739bd5e879345f0cf961967052b20e6",
-    "course/e08_faithfulness/README.zh.md": "86e92d7ba2efaa6a65b4044240db39ed5fe7fc6efbb4de9c39c2378075eae085",
+    "course/e08_faithfulness/README.zh.md": "f984b87272c8063ad50acc437c8cb830f05dfb4076ae4be0da0f4d42c6248d82",
     "course/e08_faithfulness/solutions.md": "5c28683f502e56e5d0168f520f907ab01d89b93fba961b80580255cd5015d202",
     "course/e08_faithfulness/assessment.json": "071578ffdc6136f1e2586c7e4c741dcece66dce832f38572b72ab62ceaea8f44",
     "course/e08_faithfulness/exercises.md": "c51925efe0adb5dad817f1267cfa858778ea6896a358a7eb7e27cff277d54681",
@@ -138,7 +138,23 @@
     "course/e08_faithfulness/images/scoring-flow.drawio.svg": "5f9fd0681dabc60308e423419d8e5127aa05c70535a67a0f5213ae1ab9ea5b1c",
     "course/e08_faithfulness/images/claim-flow.drawio.svg": "195228180b9472c54270b44eb25792760302f2ba52c06ec8be919ac0a99b9e87",
     "course/e08_faithfulness/images/scoring-flow.drawio": "1ecab3f4d2209b7612a1b9a2fcaf68be805f8783fc576ec07d5c140fb31f7cf2",
-    "course/e08_faithfulness/images/scoring-flow.png": "7d104e81a71b2e2a061082c21c1600df242783fdd43d393d2dd01bada24aa327"
+    "course/e08_faithfulness/images/scoring-flow.png": "7d104e81a71b2e2a061082c21c1600df242783fdd43d393d2dd01bada24aa327",
+    "course/e09_answer_quality/README.zh.md": "9c087a5552b7722f3b7fdfe7d4298a512aebb84ac7d0af787cd9859b76939443",
+    "course/e09_answer_quality/solutions.md": "5be73f20ec035a3b945d8496cbab6a95d84d9d38adb89c89902dd41cfe766bf7",
+    "course/e09_answer_quality/assessment.json": "28b019db0ece059b18572cd12ec51fffbda5346b4424dd8908133b42c4fea67e",
+    "course/e09_answer_quality/exercises.md": "8ea92b968fbbf8c986c3e4e32daad5c95ba208f6ffc63f44230a6c3e9d26e9e2",
+    "course/e09_answer_quality/code.py": "a73c1a181212da701ca4725e1373e7afef8e806a76e7eaa9e6c5a36b6b7061d1",
+    "course/e09_answer_quality/cases.jsonl": "5027e2e43d10a474d9f0693c1d76f7338ebe8617359ebc942e13e22dad70d8a0",
+    "course/e09_answer_quality/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "course/e09_answer_quality/assessment.md": "2aed4df5aabdd79199d13e8940785131bfe848369deb4a4bc1e0cace7d9cf2fe",
+    "course/e09_answer_quality/source_walkthrough.md": "7bb909325b8aa576d46a90fe4c4fe5f678f7401ddf32c1a1e464444f7a81c189",
+    "course/e09_answer_quality/eval.py": "0b6bfba58475589c8107ca3a1bc7a6b019d0551a6e12b21a9b0345458c268fae",
+    "course/e09_answer_quality/images/quality-flow.png": "31e6a1bf52c63789c9611fe5f0cff101c36767043fe96c651fb9fe053afcb90b",
+    "course/e09_answer_quality/images/scoring-flow.drawio.svg": "07026a2f5a18e9c6b27e51aa3f58bdd1e98d7d528eb09c07792b83f40a97bb63",
+    "course/e09_answer_quality/images/quality-flow.drawio": "895685cac3abe41838b2c5493a748f67201033e256713630f933a23a74ee9b52",
+    "course/e09_answer_quality/images/scoring-flow.drawio": "6284208c46edaf3cbe783d4cf7f627364ae461ccb491d2c16c4280d49cfa4f1a",
+    "course/e09_answer_quality/images/quality-flow.drawio.svg": "118ffed9090f2acab7288174fa0dcaefbc968ba621617169a5778fa9cc775cbe",
+    "course/e09_answer_quality/images/scoring-flow.png": "6b5bea6c24bf45b22b543d55155a9ec29f685138b7139e2a23526fe30fd0ef5b"
   },
   "provenance": [
     "generation/e01-provenance.json",
@@ -148,7 +164,8 @@
     "generation/e05-provenance.json",
     "generation/e06-provenance.json",
     "generation/e07-provenance.json",
-    "generation/e08-provenance.json"
+    "generation/e08-provenance.json",
+    "generation/e09-provenance.json"
   ],
   "runtime_evidence": "generation/runtime-evidence.json",
   "figures": "references/figures.json"

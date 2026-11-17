@@ -19,6 +19,9 @@ def build(destination):
         assert hashlib.sha256(source.read_bytes()).hexdigest() == row["artifact_sha256"]
         target = diagrams / (row["name"] + source.suffix)
         shutil.copyfile(source, target)
+        preview = PROJECT / row["png"]
+        assert hashlib.sha256(preview.read_bytes()).hexdigest() == row["png_sha256"]
+        shutil.copyfile(preview, diagrams / (row["name"] + ".png"))
         title = html.escape(row.get("title", row["name"]))
         links.append(f'<li><a href="diagrams/{target.name}">{title}</a></li>')
     (destination / "index.html").write_text(

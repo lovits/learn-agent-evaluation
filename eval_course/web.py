@@ -36,7 +36,12 @@ def render(path):
             )
         for token in block.children or []:
             if token.type == "image":
-                image = urlparse(token.attrGet("src") or "")
+                src = token.attrGet("src") or ""
+                preview = next((row for row in diagrams if row.get("preview_url") == src), None)
+                if preview:
+                    token.attrSet("src", "/image?path=" + quote(preview["png"]))
+                    continue
+                image = urlparse(src)
                 target = (source.parent / unquote(image.path)).resolve()
                 if not image.scheme and target.is_relative_to(PROJECT / "course"):
                     token.attrSet(

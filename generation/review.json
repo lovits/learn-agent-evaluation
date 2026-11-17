@@ -1,11 +1,11 @@
 {
   "outline_version": 3,
-  "review": "保留两课教材内容、配图位置和适中尺寸；GitHub README 改为直接嵌入 PNG，SVG 保留为源图。",
+  "review": "GitHub 原始图片链接出现 429；正文改用课程发布的 PNG 地址，本地阅读映射回仓库文件，尺寸和位置保持不变。",
   "published_sha256": {
     "course/run.py": "d4f0b75ebfc46cf0eeb897dfbe4c4b22db0626231aac9d72f30093a9caa2cb1c",
     "course/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "course/grade.py": "679dacf52353f92362c48be9ccffdfa7ae5085e7a67d6315cbcccfc7289f958d",
-    "course/e01_success/README.zh.md": "20587afcb88a41861ed4e7a1edaa211bf3ccd8c42927e98ff42e91164cefab99",
+    "course/e01_success/README.zh.md": "4743750d35cf073bb3ea52da60e2065e4b01e887e3f80aaa7bc01f8c6707b773",
     "course/e01_success/solutions.md": "bf023d9a02634f9ed91d2aed5b715ee266d22108d4c7ba906b34bf870aaf7e58",
     "course/e01_success/assessment.json": "621f5ab8bf68f5060643552d596f864038daebe44648d37b910b82242ba171a2",
     "course/e01_success/exercises.md": "1f8d54e4d4718e5f14d07becb7c989191ab397d7b8176f8ecc4722767b653fe5",
@@ -15,7 +15,7 @@
     "course/e01_success/assessment.md": "a184d25fbeb191e8a0c29096b2d03f21f0137fad7c6ede28ebc14ef25eb4f2ac",
     "course/e01_success/source_walkthrough.md": "e64bec941c2a777f1e2f660da4f7c44a6cddfd6e3f4cbaa74f2c2f7b137b6074",
     "course/e01_success/eval.py": "7de6d8c99cc287d81fedfcd0f3cdb1e0ee9f0b34347e9cd51b52f551a214ab79",
-    "course/e02_samples/README.zh.md": "2c33e4b0b1c66f4dcd0af46bf82ab7f47caf551c3b371fe19b648876ad557c42",
+    "course/e02_samples/README.zh.md": "e973bcdd028f30a26f98db5bb513ffef80ddd8e9f124d68ad42ef2e0c650de44",
     "course/e02_samples/solutions.md": "bef5939038be97f831f70e00d28ccaf694eea24a6645e0127f272e0733bc80a4",
     "course/e02_samples/assessment.json": "38aa70fa086aea0326e5c2040f6ed0347de88036c0375f5e7b99b9b436c4418a",
     "course/e02_samples/exercises.md": "cfad533d5c7cbe049b32c9d822c421df3bc0a74e4a06c30fba24354033c70cd1",

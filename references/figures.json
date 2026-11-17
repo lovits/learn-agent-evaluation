@@ -16,7 +16,8 @@
     "url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e01-agent-loop.svg",
     "reference_commit": "f89df01",
     "reference_style": "旧版第一课的普通 draw.io 图；节点 14→16，连线 12→13，不扩大画布。",
-    "png_sha256": "7a3021ae015c54b4ed4e073a9d77e4de7e1cb655a47954cdd4c4105ecabf3ac5"
+    "png_sha256": "69630c87dce95684348df5cd47121b5f48b9e5af44bbdff448c0ac64105578c5",
+    "readme_preview": "course/e01_success/images/agent-loop.png"
   },
   {
     "name": "e01-evaluation-path",
@@ -35,7 +36,8 @@
     "url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e01-evaluation-path.svg",
     "reference_commit": "f89df01",
     "reference_style": "旧版第一课的普通 draw.io 图；节点 14→16，连线 12→13，不扩大画布。",
-    "png_sha256": "5fb55320d68d8287ae496c265733482a1a7c86b33e20626e97c77a0067f66f01"
+    "png_sha256": "84631226a87f24a92b75bb78b8ff2ada48c6af60faaefc3e74617a1b0df861f3",
+    "readme_preview": "course/e01_success/images/evaluation-path.png"
   },
   {
     "name": "e02-agent-loop",
@@ -54,7 +56,8 @@
     "url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e02-agent-loop.svg",
     "reference_commit": "f89df01",
     "reference_style": "旧版第一课的普通 draw.io 图；节点 14→16，连线 12→13，不扩大画布。",
-    "png_sha256": "6db8a03554eda21c94fa2d57b9d8d5457ba68dc62982aec5ea00a58b1df5702c"
+    "png_sha256": "e971368c9f258b32e62a9a150fcd1a0a5aa2445885721fab02264776b975fac0",
+    "readme_preview": "course/e02_samples/images/agent-loop.png"
   },
   {
     "name": "e02-evaluation-path",
@@ -73,6 +76,7 @@
     "url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e02-evaluation-path.svg",
     "reference_commit": "f89df01",
     "reference_style": "旧版第一课的普通 draw.io 图；节点 14→16，连线 12→13，不扩大画布。",
-    "png_sha256": "7ed0dcbe17eec8a11c9172de59b1a8374607b2c4c76dab507e739d8ee01b4e8e"
+    "png_sha256": "409cd8a7f1a3ecf854fbff0b55ef701bb0c212ba127beeac2c6cd370a7974f54",
+    "readme_preview": "course/e02_samples/images/evaluation-path.png"
   }
 ]

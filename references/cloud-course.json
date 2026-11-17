@@ -48,7 +48,7 @@
       "paths": [
         "docs/course-specification.md"
       ],
-      "verified_revision": 9
+      "verified_revision": 10
     },
     "assessment1": {
       "title": "第1课：样本与评测记录",
@@ -67,6 +67,15 @@
         "course/e02_samples/assessment.md"
       ],
       "verified_revision": 5
+    },
+    "requirements": {
+      "title": "课程需求与实施范围",
+      "document_id": "NsG6d9zxgoznXUx3LQZckFo9nte",
+      "url": "https://my.feishu.cn/docx/NsG6d9zxgoznXUx3LQZckFo9nte",
+      "paths": [
+        "docs/course-requirements.md"
+      ],
+      "verified_revision": 3
     }
   }
 }

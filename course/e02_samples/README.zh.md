@@ -16,11 +16,11 @@
 
 给动作起名字，并把参数和执行结果留在同一条事件中。
 
-![模型与工具之间的循环](images/agent-loop.drawio.svg)
+![模型与工具之间的循环](images/agent-loop.png)
 
 评分时就能从样本追回实际执行。
 
-![运行记录、产物与独立评分](images/evaluation-path.drawio.svg)
+![运行记录、产物与独立评分](images/evaluation-path.png)
 
 ## 工作原理
 

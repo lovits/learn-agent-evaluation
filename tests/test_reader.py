@@ -34,10 +34,13 @@ def test_new_course_pages_and_source_boundary():
         for lesson, slug in [(1, "e01_success"), (2, "e02_samples")]:
             with urlopen(base + f"/lesson{lesson}") as response:
                 body = response.read().decode()
-            for diagram in (d for d in diagrams if d["slug"] == slug):
-                assert f'src="/image?path={diagram["output"]}"' in body
-                with urlopen(base + "/image?path=" + diagram["output"]) as response:
-                    assert response.headers.get_content_type() == "image/svg+xml"
+            lesson_diagrams = [d for d in diagrams if d["slug"] == slug]
+            assert len(lesson_diagrams) == 2
+            for diagram in lesson_diagrams:
+                assert f'src="/image?path={diagram["readme_preview"]}"' in body
+                with urlopen(base + "/image?path=" + diagram["readme_preview"]) as response:
+                    assert response.headers.get_content_type() == "image/png"
+                    assert response.read(8) == b"\x89PNG\r\n\x1a\n"
         for path in [
             "/code",
             "/code?path=../../.env",

@@ -18,9 +18,9 @@
 
 运行结束后，评分器读取执行记录和实际文件。最终回答中的“完成”，不会自动变成完成证据。
 
-![模型与工具之间的循环](images/agent-loop.drawio.svg)
+![模型与工具之间的循环](images/agent-loop.png)
 
-![运行记录、产物与独立评分](images/evaluation-path.drawio.svg)
+![运行记录、产物与独立评分](images/evaluation-path.png)
 
 ## 工作原理
 

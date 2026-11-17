@@ -15,7 +15,7 @@
         "README.md",
         "docs/curriculum.md"
       ],
-      "verified_revision": null
+      "verified_revision": 16
     },
     "e01": {
       "title": "第1课：模型停下了，任务完成了吗？",
@@ -27,7 +27,7 @@
         "course/e01_success/exercises.md",
         "course/e01_success/solutions.md"
       ],
-      "verified_revision": 11
+      "verified_revision": 15
     },
     "e02": {
       "title": "第2课：一次运行，一份样本",
@@ -39,7 +39,7 @@
         "course/e02_samples/exercises.md",
         "course/e02_samples/solutions.md"
       ],
-      "verified_revision": 14
+      "verified_revision": 18
     },
     "specification": {
       "title": "课程目标与制作规范",
@@ -48,7 +48,7 @@
       "paths": [
         "docs/course-specification.md"
       ],
-      "verified_revision": 5
+      "verified_revision": 7
     },
     "assessment1": {
       "title": "第1课：样本与评测记录",
@@ -66,7 +66,7 @@
       "paths": [
         "course/e02_samples/assessment.md"
       ],
-      "verified_revision": 3
+      "verified_revision": 5
     }
   }
 }

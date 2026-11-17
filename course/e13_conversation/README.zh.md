@@ -1,6 +1,6 @@
 # e13: 用户改口后，哪条要求还有效？
 
-[e12](../e12_task_completion/README.zh.md) → `e13` → [e14](../../docs/curriculum.md#14-校准-llm-裁判) → … → e16
+[e12](../e12_task_completion/README.zh.md) → `e13` → [e14](../e14_judge_calibration/README.zh.md) → … → e16
 
 > 先核对当前要求，再看它怎样进入模型的输入。
 

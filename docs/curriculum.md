@@ -376,6 +376,8 @@ Agent 接到任务，读文件、查资料、调用工具，最后给出回答�
 
 **学会的标志**：能给出裁判适用范围和主要误判类型，不只报一个平均一致率。
 
+[教材](../course/e14_judge_calibration/README.zh.md) · [源码导读](../course/e14_judge_calibration/source_walkthrough.md)
+
 ## 15 比较两个版本
 
 分数变高，怎样判断改动真的有用？

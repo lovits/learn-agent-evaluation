@@ -1,6 +1,6 @@
 {
   "outline_version": 3,
-  "review": "第13课依据 PocketFlow 实际草稿凝练，删除开卷考试、合同类比和重复小结；修正四种上下文却列五种、整门课程只有本章等草稿表述。明确构造历史与确认不是从第一轮起的真实对话；首次缺失约束仍可在后续工具返回中恢复。会话裁判与产物证据分开，不修改live_archive的1/3原判；按实际固定源码解释极性、单位与空裁决。",
+  "review": "第14课依据 PocketFlow 实际草稿凝练，去掉尺子与作业类比，修正将MT-Bench论文误称G-Eval论文的标题。保留课程参考与人工标签的区别，明确数据和形式对照覆盖范围；修正流程图输入与判断分支重合，最终图哈希另记，生成输入保持真实快照。未因原版和修订接受标签相同而制造改进。",
   "published_sha256": {
     "course/run.py": "d4f0b75ebfc46cf0eeb897dfbe4c4b22db0626231aac9d72f30093a9caa2cb1c",
     "course/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
@@ -203,7 +203,7 @@
     "course/e12_task_completion/images/delivery-flow.drawio": "1504081c45e8a63c2d77ecf87a2e2d230c45b003eed10e610b946910b16859f9",
     "course/e12_task_completion/assessment.json": "96a3689b1e72c976e8312de2384c9c3d4c02b25c18d2d504c38857cecef24474",
     "course/e12_task_completion/assessment.md": "d93a21a19cd09b4f45d77832e8644e0c9eb38e02c5f1a5363e97128cf562c16f",
-    "course/e13_conversation/README.zh.md": "069b56bf08bf4bc6454d2c66987c96bad0dfd558bda289157fcfdfb61958a070",
+    "course/e13_conversation/README.zh.md": "bdc2624751cd168a05f21ec9f0695992766ea82d55bfade63e17dd834b527fcc",
     "course/e13_conversation/solutions.md": "9e70f4936eff907474559c890c1b021bafd398453cb2faccbf3b0ddcff06cb83",
     "course/e13_conversation/assessment.json": "9b5a955a806cfac3adf80e8cd71c0e9a06d5d592738c54bc5ef17c6f1d23036f",
     "course/e13_conversation/exercises.md": "c4e1909224e1174a76a7add6bc51bbe6c157ba207349f5335b4c674ec0a00b90",
@@ -219,7 +219,24 @@
     "course/e13_conversation/images/context-flow.drawio.svg": "0532e2037627be4c808a079215d649c36b66a44b7805154f2b506a5272c131ab",
     "course/e13_conversation/images/context-flow.png": "f2c2f7a0b9e33c11f2a49256b803b8b73b05e6735f9273fd8103af669a0ab9f2",
     "course/e13_conversation/images/conversation-scoring.png": "0cc26b4f5d1f63d254058a2ecb75af5e71c2ff843aae1b4d9166d34d817e1c91",
-    "course/e13_conversation/images/context-flow.drawio": "0b04659de0e9f3133cd5ff0ae696faa7e92acd8fb2d07d7afea7b11e86122617"
+    "course/e13_conversation/images/context-flow.drawio": "0b04659de0e9f3133cd5ff0ae696faa7e92acd8fb2d07d7afea7b11e86122617",
+    "course/e14_judge_calibration/README.zh.md": "25139966b3506dab36add71b153f97c0e67ed425c4de7dab6dea555f44f28bf6",
+    "course/e14_judge_calibration/solutions.md": "e0cb8db6a0b0da5b29eef2443b4bd7ebeab155067bed579a5308ceba0a02059d",
+    "course/e14_judge_calibration/assessment.json": "8af43adbc1654cbb2ecc5a2c9b7ab7322d2654ca5f798bed2a0163be2c902dda",
+    "course/e14_judge_calibration/exercises.md": "f227abef62f9063614b927c5d2045ec51bbea99ae6fe31fd721cdf9d081ae266",
+    "course/e14_judge_calibration/code.py": "2a2a1127f74d247763109dc2656244929d8c692e50ad7185ab7b438e81bbdd65",
+    "course/e14_judge_calibration/cases.jsonl": "16c8e5ace205217d8178bad73fa0d7a45379e4dd7e4d8719caeba8dc59749e2c",
+    "course/e14_judge_calibration/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "course/e14_judge_calibration/casebook.json": "18764bc8094c4323df41c0c30ba71cd5faedcac6f4af47dea08fa7b90c58ba1d",
+    "course/e14_judge_calibration/assessment.md": "48724334803139d0e7a912d4f1c174ddc285ccbb749c41bbff6b5d1c58ba6432",
+    "course/e14_judge_calibration/source_walkthrough.md": "c0d90a5f5ead3f2ad7e31659635c7eebfff38137c78ab2d83dd5d683e0914d34",
+    "course/e14_judge_calibration/eval.py": "573de777615b05e7fb6acf14cea50c6e3f18f14969f3f454853785ee795cc7db",
+    "course/e14_judge_calibration/images/calibration-flow.png": "32f6f5112f748ded75dfd42b9ffa10da001e53b6451483e9ebd524e56a8c6be5",
+    "course/e14_judge_calibration/images/calibration-flow.drawio": "1ebc23bdec4667789fbe7ad005b56936d7f0440b08bc6cab901c77f6b2aeb4fa",
+    "course/e14_judge_calibration/images/judge-check-flow.png": "2e3a623fd523c47c9a61af3706c89cce9ea710d9ffd7ed3af408ca2ce8f03d70",
+    "course/e14_judge_calibration/images/judge-check-flow.drawio.svg": "ecfc872129a2b33281d6aeeb7bc956f788f1d13c1a1f60f5ab1c87dd1eda69d1",
+    "course/e14_judge_calibration/images/calibration-flow.drawio.svg": "f8802c4c6511502d2d9fff99d20512243cde5fed30ab3afee2e305d0deb2b454",
+    "course/e14_judge_calibration/images/judge-check-flow.drawio": "43c9d55fa940614d73c7f37f06661a2acef73a3ccf900bd366f92692916fc3c4"
   },
   "provenance": [
     "generation/e01-provenance.json",
@@ -234,7 +251,8 @@
     "generation/e10-provenance.json",
     "generation/e11-provenance.json",
     "generation/e12-provenance.json",
-    "generation/e13-provenance.json"
+    "generation/e13-provenance.json",
+    "generation/e14-provenance.json"
   ],
   "runtime_evidence": "generation/runtime-evidence.json",
   "figures": "references/figures.json"

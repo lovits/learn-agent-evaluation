@@ -533,13 +533,17 @@
       ],
       "activity": "固定候选回答，改变顺序和篇幅，再用独立标签定位裁判分歧。",
       "understanding": "能给出裁判适用范围和主要误判类型，不只报一个平均一致率。",
-      "textbook": null,
-      "source_walkthrough": null,
+      "textbook": "course/e14_judge_calibration/README.zh.md",
+      "source_walkthrough": "course/e14_judge_calibration/source_walkthrough.md",
       "outline_anchor": "14-校准-llm-裁判",
-      "implementation": "planned",
+      "implementation": "ready",
       "source_paths": [
         "deepeval/deepeval/metrics/g_eval/g_eval.py",
-        "ragas/src/ragas/experiment.py"
+        "deepeval/deepeval/metrics/arena_g_eval/utils.py",
+        "ragas/src/ragas/metrics/base.py",
+        "ragas/src/ragas/prompt/dynamic_few_shot.py",
+        "ragas/src/ragas/prompt/pydantic_prompt.py",
+        "ragas/src/ragas/prompt/metrics/base_prompt.py"
       ],
       "readings": [
         "https://docs.ragas.io/en/stable/howtos/applications/align-llm-as-judge/",

@@ -478,5 +478,41 @@
     "visual_review": "passed",
     "node_font_size": 16,
     "edge_font_size": 13
+  },
+  {
+    "name": "e14-calibration-flow",
+    "slug": "e14_judge_calibration",
+    "title": "第14课：标准、标签与分歧处理",
+    "diagram_type": "flowchart",
+    "generator": "draw.io",
+    "candidate": "course/e14_judge_calibration/images/calibration-flow.drawio",
+    "output": "course/e14_judge_calibration/images/calibration-flow.drawio.svg",
+    "png": "course/e14_judge_calibration/images/calibration-flow.png",
+    "readme_preview": "course/e14_judge_calibration/images/calibration-flow.png",
+    "preview_url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e14-calibration-flow.png",
+    "url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e14-calibration-flow.svg",
+    "artifact_sha256": "f8802c4c6511502d2d9fff99d20512243cde5fed30ab3afee2e305d0deb2b454",
+    "png_sha256": "32f6f5112f748ded75dfd42b9ffa10da001e53b6451483e9ebd524e56a8c6be5",
+    "visual_review": "passed",
+    "node_font_size": 16,
+    "edge_font_size": 13
+  },
+  {
+    "name": "e14-judge-check-flow",
+    "slug": "e14_judge_calibration",
+    "title": "第14课：逐行误判与覆盖率",
+    "diagram_type": "flowchart",
+    "generator": "draw.io",
+    "candidate": "course/e14_judge_calibration/images/judge-check-flow.drawio",
+    "output": "course/e14_judge_calibration/images/judge-check-flow.drawio.svg",
+    "png": "course/e14_judge_calibration/images/judge-check-flow.png",
+    "readme_preview": "course/e14_judge_calibration/images/judge-check-flow.png",
+    "preview_url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e14-judge-check-flow.png",
+    "url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e14-judge-check-flow.svg",
+    "artifact_sha256": "ecfc872129a2b33281d6aeeb7bc956f788f1d13c1a1f60f5ab1c87dd1eda69d1",
+    "png_sha256": "2e3a623fd523c47c9a61af3706c89cce9ea710d9ffd7ed3af408ca2ce8f03d70",
+    "visual_review": "passed",
+    "node_font_size": 16,
+    "edge_font_size": 13
   }
 ]

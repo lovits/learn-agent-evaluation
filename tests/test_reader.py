@@ -54,6 +54,9 @@ def test_new_course_pages_and_source_boundary():
             "/lesson13",
             "/source13",
             "/assessment13",
+            "/lesson14",
+            "/source14",
+            "/assessment14",
             "/assessment1",
             "/assessment2",
             "/code?path=course/e02_samples/code.py",
@@ -78,6 +81,7 @@ def test_new_course_pages_and_source_boundary():
             (11, "e11_tool_quality"),
             (12, "e12_task_completion"),
             (13, "e13_conversation"),
+            (14, "e14_judge_calibration"),
         ]:
             with urlopen(base + f"/lesson{lesson}") as response:
                 body = response.read().decode()

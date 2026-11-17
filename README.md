@@ -21,7 +21,7 @@
 | 11 | [工具调用质量](course/e11_tool_quality/README.zh.md) | 名字选对了，工具就用对了吗？ |
 | 12 | [任务完成度](course/e12_task_completion/README.zh.md) | 怎样确认 Agent 真的交付了用户要的结果？ |
 | 13 | [会话上下文与约束保持](course/e13_conversation/README.zh.md) | 用户改了要求以后，Agent 还记得哪一版？ |
-| 14 | [校准 LLM 裁判](docs/curriculum.md#14-校准-llm-裁判) | 评分器自己的判断可信吗？ |
+| 14 | [校准 LLM 裁判](course/e14_judge_calibration/README.zh.md) | 评分器自己的判断可信吗？ |
 | 15 | [比较两个版本](docs/curriculum.md#15-比较两个版本) | 分数变高，怎样判断改动真的有用？ |
 | 16 | [综合项目与持续回归](docs/curriculum.md#16-综合项目与持续回归) | 怎样让一次修复成为以后不会再犯的经验？ |
 

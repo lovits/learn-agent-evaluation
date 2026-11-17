@@ -15,7 +15,7 @@
         "README.md",
         "docs/curriculum.md"
       ],
-      "verified_revision": 29
+      "verified_revision": 30
     },
     "e01": {
       "title": "第1课：模型停下了，任务完成了吗？",
@@ -305,6 +305,27 @@
         "course/e13_conversation/source_walkthrough.md",
         "course/e13_conversation/exercises.md",
         "course/e13_conversation/solutions.md"
+      ],
+      "verified_revision": 7
+    },
+    "assessment14": {
+      "title": "第14课：样本与评测记录",
+      "document_id": "UgAhd46CposhROxfxnIc30jtnid",
+      "url": "https://my.feishu.cn/docx/UgAhd46CposhROxfxnIc30jtnid",
+      "paths": [
+        "course/e14_judge_calibration/assessment.md"
+      ],
+      "verified_revision": 3
+    },
+    "e14": {
+      "title": "第14课：校准 LLM 裁判",
+      "document_id": "DJ6TdvextofpjZxnqnicuKqRnfg",
+      "url": "https://my.feishu.cn/docx/DJ6TdvextofpjZxnqnicuKqRnfg",
+      "paths": [
+        "course/e14_judge_calibration/README.zh.md",
+        "course/e14_judge_calibration/source_walkthrough.md",
+        "course/e14_judge_calibration/exercises.md",
+        "course/e14_judge_calibration/solutions.md"
       ],
       "verified_revision": 6
     }

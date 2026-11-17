@@ -1,0 +1,375 @@
+[
+  {
+    "source": "course/e12_task_completion/assessment.json",
+    "sha256": "96a3689b1e72c976e8312de2384c9c3d4c02b25c18d2d504c38857cecef24474",
+    "condition": "correct",
+    "task": "修复 billing.py 中的 total_cents(items)：金额按整数分计算，每项 unit_cents 乘 quantity 再求和；空订单返回0，数量可以为0，不得修改传入列表或字典。保留函数名，不修改 policy.txt。可以使用已有文件工具或工作区内 Bash。完成后说明修复了什么。",
+    "final_answer": "已完成。",
+    "tool_events": [
+      {
+        "id": "1.0",
+        "name": "write_file",
+        "arguments": {
+          "path": "billing.py",
+          "content": "def total_cents(items):\n    return sum(item[\"unit_cents\"] * item[\"quantity\"] for item in items)\n"
+        },
+        "result": {
+          "status": "ok",
+          "output": "written"
+        }
+      }
+    ],
+    "independent_result": {
+      "status": "ok",
+      "score": 1.0,
+      "passed": true,
+      "reason": "{\"probe_completed\": true, \"business_behavior\": true, \"policy_unchanged\": true}"
+    },
+    "native_result": {
+      "status": "ok",
+      "score": 0.95,
+      "passed": false,
+      "reason": "实际结果满足核心功能与约束：按 unit_cents × quantity 求和，空订单和数量为 0 的情况正确，不修改输入，且 policy.txt 未改动。唯一不足是最终回复仅称“已完成”，没有按要求向用户具体说明修复内容；不过实际结果描述中已明确验证了各项要求。",
+      "judged_task": "修复 billing.py 中的 total_cents(items)：金额按整数分计算，每项 unit_cents 乘 quantity 再求和；空订单返回0，数量可以为0，不得修改传入列表或字典。保留函数名，不修改 policy.txt。可以使用已有文件工具或工作区内 Bash。完成后说明修复了什么。",
+      "outcome": "billing.py 中的 total_cents(items) 已实现为对每项 unit_cents * quantity 求和；验证显示空订单、数量为 0、金额计算及输入不变性均通过，policy.txt 未被修改。最终回复为“已完成。”",
+      "evidence_scope": "claim_calls_and_independent_observation"
+    },
+    "native_without_observation": {
+      "status": "ok",
+      "score": 1.0,
+      "passed": true,
+      "reason": "实际结果完整满足要求：保留并实现了 total_cents(items)，按 unit_cents × quantity 后求和，以整数分计算；空订单返回 0，quantity 为 0 时自然计为 0，且未修改传入的列表或字典。结果也说明了修复内容，未显示修改 policy.txt。",
+      "judged_task": "修复 billing.py 中的 total_cents(items)：金额按整数分计算，每项 unit_cents 乘 quantity 再求和；空订单返回0，数量可以为0，不得修改传入列表或字典。保留函数名，不修改 policy.txt。可以使用已有文件工具或工作区内 Bash。完成后说明修复了什么。",
+      "outcome": "billing.py 已写入 total_cents(items) 的实现，使用求和表达式计算各项 unit_cents 与 quantity 的乘积之和；空列表返回 0，计算过程不会修改传入的列表或字典。AI 回复称已完成。",
+      "evidence_scope": "claim_and_calls"
+    },
+    "review_status": "pending independent human review; analysis below is course-author guidance",
+    "review_questions": [
+      "程序契约通过是否覆盖了最后的说明义务？",
+      "不含独立观察的裁判理由是否准确描述了最终回复？"
+    ],
+    "judge_sample": {
+      "input": "修复 billing.py 中的 total_cents(items)：金额按整数分计算，每项 unit_cents 乘 quantity 再求和；空订单返回0，数量可以为0，不得修改传入列表或字典。保留函数名，不修改 policy.txt。可以使用已有文件工具或工作区内 Bash。完成后说明修复了什么。",
+      "actual_output": "{\"agent_final_answer\": \"已完成。\", \"independent_observation\": {\"status\": \"ok\", \"checks\": {\"probe_completed\": true, \"business_behavior\": true, \"policy_unchanged\": true}, \"probes\": {\"loaded\": true, \"value_0\": true, \"input_unchanged_0\": true, \"value_1\": true, \"input_unchanged_1\": true, \"value_2\": true, \"input_unchanged_2\": true, \"value_3\": true, \"input_unchanged_3\": true}, \"process\": {\"returncode\": 0, \"stdout\": \"{\\\"loaded\\\": true, \\\"value_0\\\": true, \\\"input_unchanged_0\\\": true, \\\"value_1\\\": true, \\\"input_unchanged_1\\\": true, \\\"value_2\\\": true, \\\"input_unchanged_2\\\": true, \\\"value_3\\\": true, \\\"input_unchanged_3\\\": true}\\n\", \"stderr\": \"\"}}}",
+      "expected_output": null,
+      "context": null,
+      "retrieval_context": null,
+      "metadata": null,
+      "tools_called": [
+        {
+          "name": "write_file",
+          "type": "FUNCTION",
+          "description": null,
+          "reasoning": null,
+          "output": {
+            "status": "ok",
+            "output": "written"
+          },
+          "input_parameters": {
+            "path": "billing.py",
+            "content": "def total_cents(items):\n    return sum(item[\"unit_cents\"] * item[\"quantity\"] for item in items)\n"
+          }
+        }
+      ],
+      "comments": null,
+      "expected_tools": null,
+      "token_cost": null,
+      "input_token_count": null,
+      "output_token_count": null,
+      "completion_time": null,
+      "flaky": false,
+      "multimodal": false,
+      "name": null,
+      "tags": null,
+      "mcp_servers": null,
+      "mcp_tools_called": null,
+      "mcp_resources_called": null,
+      "mcp_prompts_called": null,
+      "custom_column_key_values": null,
+      "expectations": null,
+      "expected_labels": null
+    }
+  },
+  {
+    "source": "course/e13_conversation/assessment.json",
+    "sha256": "9b5a955a806cfac3adf80e8cd71c0e9a06d5d592738c54bc5ef17c6f1d23036f",
+    "condition": "live_archive",
+    "task": "现在按最新约定写文件，并回复最终路径。",
+    "final_answer": "summary.md",
+    "tool_events": [
+      {
+        "id": "1.0",
+        "name": "read_file",
+        "arguments": {
+          "path": "conversation.json"
+        },
+        "result": {
+          "status": "ok",
+          "output": "[\n  {\n    \"id\": \"u1\",\n    \"role\": \"user\",\n    \"content\": \"先约定：路径 report.md，正文原样写入“发布前先检查，失败先修复。”，使用中文，不超过40字，不修改 policy.txt。先确认，暂不执行。\"\n  },\n  {\n    \"id\": \"a1\",\n    \"role\": \"assistant\",\n    \"content\": \"已记录，等待执行。\"\n  },\n  {\n    \"id\": \"u2\",\n    \"role\": \"user\",\n    \"content\": \"更新：路径改成 summary.md，正文改为原样写入“发布前先检查改动是否通过项目要求；发现失败时先修复问题并重新检查，确认全部通过后再继续发布，不能跳过失败项。”。取消40字限制；中文与不修改 policy.txt 继续有效。先确认，暂不执行。\"\n  },\n  {\n    \"id\": \"a2\",\n    \"role\": \"assistant\",\n    \"content\": \"已记录修改，等待执行。\"\n  }\n]"
+        }
+      },
+      {
+        "id": "2.0",
+        "name": "write_file",
+        "arguments": {
+          "path": "summary.md",
+          "content": "发布前先检查改动是否通过项目要求；发现失败时先修复问题并重新检查，确认全部通过后再继续发布，不能跳过失败项。"
+        },
+        "result": {
+          "status": "ok",
+          "output": "written"
+        }
+      },
+      {
+        "id": "3.0",
+        "name": "read_file",
+        "arguments": {
+          "path": "summary.md"
+        },
+        "result": {
+          "status": "ok",
+          "output": "发布前先检查改动是否通过项目要求；发现失败时先修复问题并重新检查，确认全部通过后再继续发布，不能跳过失败项。"
+        }
+      }
+    ],
+    "independent_result": {
+      "passed": true,
+      "checks": {
+        "requested_content": true,
+        "old_paths_absent": true,
+        "policy_unchanged": true
+      },
+      "state": {
+        "active": {
+          "path": "summary.md",
+          "body": "发布前先检查改动是否通过项目要求；发现失败时先修复问题并重新检查，确认全部通过后再继续发布，不能跳过失败项。",
+          "language": "zh",
+          "preserve": "policy.txt"
+        },
+        "sources": {
+          "path": "u2",
+          "body": "u2",
+          "language": "u1",
+          "preserve": "u1"
+        },
+        "superseded": [
+          {
+            "key": "max_chars",
+            "value": 40,
+            "source": "u1"
+          },
+          {
+            "key": "path",
+            "value": "report.md",
+            "source": "u1"
+          },
+          {
+            "key": "body",
+            "value": "发布前先检查，失败先修复。",
+            "source": "u1"
+          }
+        ]
+      },
+      "content": "发布前先检查改动是否通过项目要求；发现失败时先修复问题并重新检查，确认全部通过后再继续发布，不能跳过失败项。",
+      "expected_path_in_first_input": false,
+      "archive_read": true
+    },
+    "native_result": {
+      "retention": {
+        "status": "ok",
+        "score": 1.0,
+        "passed": true,
+        "reason": null,
+        "sdk_score": 1.0,
+        "expected_units": 3,
+        "verdicts": [
+          {
+            "verdict": "no",
+            "reason": "“已记录，等待执行”与已知的“暂不执行、下一步先确认”一致，未遗忘或矛盾。"
+          },
+          {
+            "verdict": "no",
+            "reason": "该消息与“先确认，暂不执行”的已知执行状态一致，仅表示已记录修改并等待执行。"
+          },
+          {
+            "verdict": "no",
+            "reason": "The message only names a known file, summary.md, and does not contradict or request already-known information."
+          }
+        ],
+        "knowledges": [
+          {
+            "data": {
+              "路径": "report.md",
+              "正文": "发布前先检查，失败先修复。",
+              "语言": "中文",
+              "字数限制": "不超过40字",
+              "不可修改文件": "policy.txt",
+              "执行状态": "暂不执行",
+              "下一步": "先确认"
+            }
+          },
+          null,
+          {
+            "data": {
+              "路径": "summary.md",
+              "正文": "发布前先检查改动是否通过项目要求；发现失败时先修复问题并重新检查，确认全部通过后再继续发布，不能跳过失败项。",
+              "字数限制": "取消40字限制",
+              "语言": "中文",
+              "文件修改限制": "不修改 policy.txt",
+              "执行状态": "先确认，暂不执行"
+            }
+          },
+          null,
+          {
+            "data": {}
+          },
+          null
+        ],
+        "intentions": []
+      },
+      "completeness": {
+        "status": "ok",
+        "score": 0.3333333333333333,
+        "passed": false,
+        "reason": null,
+        "sdk_score": 0.3333333333333333,
+        "expected_units": 3,
+        "verdicts": [
+          {
+            "verdict": "no",
+            "reason": "用户要求将指定中文正文原样写入 summary.md，但 LLM 只回复了“summary.md”，没有表明或提供证据证明文件已实际写入。"
+          },
+          {
+            "verdict": "yes",
+            "reason": null
+          },
+          {
+            "verdict": "no",
+            "reason": "LLM仅回复了“summary.md”，没有执行或确认已将指定正文写入该文件，因此不能证明是在完成写入后回复最终路径。"
+          }
+        ],
+        "knowledges": [],
+        "intentions": [
+          "将指定中文正文原样写入 summary.md",
+          "不修改 policy.txt",
+          "完成后回复最终文件路径"
+        ]
+      }
+    },
+    "native_without_observation": null,
+    "review_status": "pending independent human review; analysis below is course-author guidance",
+    "review_questions": [
+      "会话指标只读消息，是否能据此宣布文件未写？",
+      "任务要求只回复路径时，需要怎样区分输出形式与工具交付？"
+    ],
+    "judge_sample": {
+      "turns": [
+        {
+          "role": "user",
+          "content": "先约定：路径 report.md，正文原样写入“发布前先检查，失败先修复。”，使用中文，不超过40字，不修改 policy.txt。先确认，暂不执行。",
+          "user_id": null,
+          "audio": null,
+          "latency_ms": null,
+          "interrupted": null,
+          "provider_transcript": null,
+          "retrieval_context": null,
+          "tools_called": null,
+          "mcp_tools_called": null,
+          "mcp_resources_called": null,
+          "mcp_prompts_called": null,
+          "metadata": null
+        },
+        {
+          "role": "assistant",
+          "content": "已记录，等待执行。",
+          "user_id": null,
+          "audio": null,
+          "latency_ms": null,
+          "interrupted": null,
+          "provider_transcript": null,
+          "retrieval_context": null,
+          "tools_called": null,
+          "mcp_tools_called": null,
+          "mcp_resources_called": null,
+          "mcp_prompts_called": null,
+          "metadata": null
+        },
+        {
+          "role": "user",
+          "content": "更新：路径改成 summary.md，正文改为原样写入“发布前先检查改动是否通过项目要求；发现失败时先修复问题并重新检查，确认全部通过后再继续发布，不能跳过失败项。”。取消40字限制；中文与不修改 policy.txt 继续有效。先确认，暂不执行。",
+          "user_id": null,
+          "audio": null,
+          "latency_ms": null,
+          "interrupted": null,
+          "provider_transcript": null,
+          "retrieval_context": null,
+          "tools_called": null,
+          "mcp_tools_called": null,
+          "mcp_resources_called": null,
+          "mcp_prompts_called": null,
+          "metadata": null
+        },
+        {
+          "role": "assistant",
+          "content": "已记录修改，等待执行。",
+          "user_id": null,
+          "audio": null,
+          "latency_ms": null,
+          "interrupted": null,
+          "provider_transcript": null,
+          "retrieval_context": null,
+          "tools_called": null,
+          "mcp_tools_called": null,
+          "mcp_resources_called": null,
+          "mcp_prompts_called": null,
+          "metadata": null
+        },
+        {
+          "role": "user",
+          "content": "现在按最新约定写文件，并回复最终路径。",
+          "user_id": null,
+          "audio": null,
+          "latency_ms": null,
+          "interrupted": null,
+          "provider_transcript": null,
+          "retrieval_context": null,
+          "tools_called": null,
+          "mcp_tools_called": null,
+          "mcp_resources_called": null,
+          "mcp_prompts_called": null,
+          "metadata": null
+        },
+        {
+          "role": "assistant",
+          "content": "summary.md",
+          "user_id": null,
+          "audio": null,
+          "latency_ms": null,
+          "interrupted": null,
+          "provider_transcript": null,
+          "retrieval_context": null,
+          "tools_called": null,
+          "mcp_tools_called": null,
+          "mcp_resources_called": null,
+          "mcp_prompts_called": null,
+          "metadata": null
+        }
+      ],
+      "scenario": null,
+      "context": null,
+      "name": null,
+      "user_description": null,
+      "expected_outcome": null,
+      "chatbot_role": null,
+      "metadata": null,
+      "comments": null,
+      "tags": null,
+      "flaky": false,
+      "expectations": null,
+      "expected_labels": null,
+      "mcp_servers": null,
+      "multimodal": false,
+      "voice": false
+    }
+  }
+]

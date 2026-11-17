@@ -27,6 +27,7 @@ PAGES = {
     "/lesson9": ("第9课：版本比较", "lessons/e09_comparison/README.zh.md"),
     "/lesson10": ("第10课：工具与MCP", "lessons/e10_tool_evaluation/README.zh.md"),
     "/lesson11": ("第11课：任务完成", "lessons/e11_task_completion/README.zh.md"),
+    "/lesson12": ("第12课：多轮与记忆", "lessons/e12_conversation/README.zh.md"),
     "/source": ("第1课源码", "lessons/e01_agent_baseline/source_walkthrough.md"),
     "/exercises": ("第1课练习", "lessons/e01_agent_baseline/exercises.md"),
     "/solutions": ("第1课答案", "lessons/e01_agent_baseline/solutions.md"),
@@ -35,6 +36,12 @@ PAGES = {
 }
 DOCUMENTS = {
     **PAGES,
+    "/source12": ("第12课源码", "lessons/e12_conversation/source_walkthrough.md"),
+    "/exercises12": ("第12课练习", "lessons/e12_conversation/exercises.md"),
+    "/solutions12": ("第12课答案", "lessons/e12_conversation/solutions.md"),
+    "/e12-results": ("第12课实测", "lessons/e12_conversation/run_summary.md"),
+    "/validation12": ("第12课验收", "docs/e12-validation.md"),
+    "/generation12": ("第12课生成与审校", "generation/e12-README.md"),
     "/source11": ("第11课源码", "lessons/e11_task_completion/source_walkthrough.md"),
     "/exercises11": ("第11课练习", "lessons/e11_task_completion/exercises.md"),
     "/solutions11": ("第11课答案", "lessons/e11_task_completion/solutions.md"),

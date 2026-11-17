@@ -1,0 +1,12 @@
+{
+  "lesson": "e12",
+  "authoring": "native draw.io XML",
+  "preview": "Pillow render from the same graph data; not a draw.io Desktop export",
+  "source": "lessons/e12_conversation/images/context-and-memory.drawio",
+  "png": "lessons/e12_conversation/images/context-and-memory.png",
+  "scope": "new compaction and memory branches only; existing Agent loop and external verifier not expanded",
+  "files": {
+    "context-and-memory.png": "0be6002cdd83e587d6ef069679421d4fe643db5fc6242e7eb4a1011140839cd3",
+    "context-and-memory.drawio": "c8768bfc0221f61618c54fb860a73c24aad919b85b9f85d6f35f8349bde42d71"
+  }
+}

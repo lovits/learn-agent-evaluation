@@ -66,7 +66,7 @@ python3 tools/run_e01.py
 ## 项目状态
 
 旧Faithfulness样章和专属回放实现已清理；该主题已在第5课以编程案例重新制作。
-当前第1至11课已制作，第1至7课按统一正文标准完成重写与复核，第8至11课沿同一写法制作，其余5课保留详细设计。DeepEval/Ragas用于评测方法和源码依据，
+当前第1至12课已制作，第1至7课按统一正文标准完成重写与复核，第8至12课沿同一写法制作，其余4课保留详细设计。DeepEval/Ragas用于评测方法和源码依据，
 第一课先用确定性任务合同判断文件、输出和退出码，后续再逐步引入框架接口与模型裁判。
 
 教材通过 [PocketFlow流程](generation/README.md)组织，来源与许可见 [第三方说明](THIRD_PARTY.md)。
@@ -210,3 +210,19 @@ docker compose run --rm -T --entrypoint python course -m lessons.e11_task_comple
 阅读地址：http://localhost:8765/lesson11 。报告前缀runs/e11-*，重跑前另存需要比较的记录。六个负例状态是讲师构造、真实执行验收；显式首轮故障注入不是自然错误率。完整SDK trace采集与完整s17会话控制仍待集成课核验。
 
 [第11课飞书完整教材](https://my.feishu.cn/docx/K7hJd2iAVoIJYcxCEC4c5AKInBe)。
+
+## 第12课：多轮、压缩与跨会话记忆
+
+[教材](lessons/e12_conversation/README.zh.md)、[源码导读](lessons/e12_conversation/source_walkthrough.md)、[实验结果](lessons/e12_conversation/run_summary.md)、[练习](lessons/e12_conversation/exercises.md)、[验收](docs/e12-validation.md)。连续更新同一运费函数，分别追踪实际模型输入、原始轨迹、摘要和磁盘记忆。原生会话评分、代码行为与模拟用户覆盖分别审查。
+
+```bash
+docker compose run --rm -T --entrypoint python course -m lessons.e12_conversation.code
+docker compose run --rm -T --entrypoint python course -m lessons.e12_conversation.simulate
+docker compose --profile verify run --rm -T --entrypoint python verifier -m lessons.e12_conversation.context_controls
+docker compose --profile verify run --rm -T --entrypoint python verifier -m lessons.e12_conversation.eval
+docker compose run --rm -T --entrypoint python course -m lessons.e12_conversation.eval --judge
+```
+
+需先分别启动8766模型桥和8768裁判桥，再构建当前镜像。阅读地址：http://localhost:8765/lesson12 。固定两路径、区间记录增量运行与模拟用户有各自原始报告；32步/6用户轮协议与旧预算实验分开，接口失败保留未评分。完整主动压缩、记忆整理和回滚继续留到综合项目核验。
+
+[第12课飞书完整教材](https://my.feishu.cn/docx/FxDedeXzmoburRxNAJpczv10nyd)。

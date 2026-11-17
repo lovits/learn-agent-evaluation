@@ -16,7 +16,20 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "--lesson",
-        choices=["e01", "e02", "e03", "e04", "e05", "e06", "e07", "e08", "e09", "e10", "e11"],
+        choices=[
+            "e01",
+            "e02",
+            "e03",
+            "e04",
+            "e05",
+            "e06",
+            "e07",
+            "e08",
+            "e09",
+            "e10",
+            "e11",
+            "e12",
+        ],
         default="e01",
     )
     args = parser.parse_args()
@@ -73,6 +86,12 @@ def main():
             "e11_task_completion",
             "任务完成：先检查，再允许结束",
             "generation/e11-brief.md",
+        )
+    if lesson == "e12":
+        slug, title, brief_path = (
+            "e12_conversation",
+            "多轮、压缩与记忆：约束还在吗",
+            "generation/e12-brief.md",
         )
     private = PROJECT / "generation/private" / lesson
     private.mkdir(parents=True, exist_ok=True)
@@ -179,6 +198,26 @@ def main():
                 else []
             ),
             "eval_course/records.py",
+            *(
+                [
+                    f"lessons/{slug}/{name}"
+                    for name in (
+                        "context.py",
+                        "memory.py",
+                        "tools.py",
+                        "context_controls.py",
+                        "simulate.py",
+                        "exposure.py",
+                    )
+                ]
+                + [
+                    "references/e12-reading.json",
+                    "references/e12-diagram.json",
+                    "knowledge_base/e12/shipping.md",
+                ]
+                if lesson == "e12"
+                else []
+            ),
             "references/versions.json",
             "references/textbook-writing-standard.md",
         },

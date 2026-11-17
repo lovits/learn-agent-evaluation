@@ -1,0 +1,6 @@
+{
+  "scope": "Actual recent-evidence protocol with 14 model steps per stop candidate and at most four simulated user turns",
+  "fixed_result": "Both full and compact paths reached ready_for_external_verification in all three user turns",
+  "simulation_observation": "First scenario callback had a model HTTP error; another retry consumed the available step budget reading valid character pages. The default simulator used four user turns before requesting v3. Do not call this scenario coverage complete.",
+  "final_simulation_observation": "Both variants ended. Default path requested v1/v1/v1/v2 and missed v3; retained original complete report. Stage-level versus conversation-level recovery must be judged separately."
+}

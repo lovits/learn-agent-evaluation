@@ -1,0 +1,56 @@
+{
+  "lesson": "e12",
+  "mode": "deterministic_fixture_compaction_with_real_disk_roundtrip",
+  "rows": [
+    {
+      "id": "snip",
+      "origin": "constructed_protocol_fixture_not_tool_execution",
+      "before_chars": 2455,
+      "after_chars": 1002,
+      "events": [
+        {
+          "phase": "snip_compact",
+          "path": ".transcripts/cd23532e54974dd59fea9b352a064abb.txt",
+          "sha256": "67e1687a98271a11b5434ff7b81b342ef98829c7572c88d981fc2dcb6e0351a3",
+          "chars": 2455
+        },
+        {
+          "phase": "prepared",
+          "before_chars": 2455,
+          "after_chars": 1002
+        }
+      ],
+      "saved_files_read_back_match_hashes": true,
+      "pairs_valid": true,
+      "model_requests": 0
+    },
+    {
+      "id": "micro",
+      "origin": "constructed_protocol_fixture_not_tool_execution",
+      "before_chars": 6436,
+      "after_chars": 4056,
+      "events": [
+        {
+          "phase": "micro_compact",
+          "path": ".task_outputs/81db0d8e6aed4851b84f85640f30adbe.txt",
+          "sha256": "70b6d3f86caf815a0a615bebb4a37f550575e969f5166e4dde84f0ae24b70cba",
+          "chars": 1800
+        },
+        {
+          "phase": "micro_compact",
+          "path": ".task_outputs/fd0f6d63a6d2444294968a07ae5b360f.txt",
+          "sha256": "70b6d3f86caf815a0a615bebb4a37f550575e969f5166e4dde84f0ae24b70cba",
+          "chars": 1800
+        },
+        {
+          "phase": "prepared",
+          "before_chars": 6436,
+          "after_chars": 4056
+        }
+      ],
+      "saved_files_read_back_match_hashes": true,
+      "pairs_valid": true,
+      "model_requests": 0
+    }
+  ]
+}

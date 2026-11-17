@@ -1,0 +1,21 @@
+{
+  "document_id": "FxDedeXzmoburRxNAJpczv10nyd",
+  "revision_id": 7,
+  "verified_revision_id": 7,
+  "url": "https://my.feishu.cn/docx/FxDedeXzmoburRxNAJpczv10nyd",
+  "verified": true,
+  "local_sha256": "9b16dbb4e8d486d0870864c0962cbb21979af1480102350732157db04da9bd4b",
+  "cloud_content_sha256": "db49a476f3045af8e7e1d36634484554e135803dfb8b7252cb1ff6f53bf343aa",
+  "main_sections": 6,
+  "working_steps": 6,
+  "code_blocks_verified": 12,
+  "images_verified": 1,
+  "all_main_and_appendix_text_verified_whitespace_normalized": true,
+  "included_appendices": [
+    "source_walkthrough",
+    "exercises",
+    "solutions",
+    "run_summary",
+    "validation"
+  ]
+}

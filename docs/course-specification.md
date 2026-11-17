@@ -1,6 +1,6 @@
 # Learn Claude Code 编程Agent评测课程：16课详细设计与制作规范
 
-本说明先于第1课实施完成，是逐课制作与验收的共同依据。被测对象为固定版本 Learn Claude Code 编程 Agent；每课只引入当前评测需要的可执行代码。原24课知识合并为16课，后续按小节递进。目前已制作第1、2、3、4、5、6、7、8、9、10、11课，其余5课保持设计状态。
+本说明先于第1课实施完成，是逐课制作与验收的共同依据。被测对象为固定版本 Learn Claude Code 编程 Agent；每课只引入当前评测需要的可执行代码。原24课知识合并为16课，后续按小节递进。目前已制作第1、2、3、4、5、6、7、8、9、10、11、12课，其余4课保持设计状态。
 
 ## 课程目标与制作范围
 
@@ -567,7 +567,7 @@ Agent代码增量：ContextCompactor 与记忆读写，保留工具和权限
 - 文档依据：https://deepeval.com/guides/guides-multi-turn-simulation
 - 文档依据：https://docs.ragas.io/en/stable/howtos/applications/evaluating_multi_turn_conversations/
 
-原课知识映射：s16。实施状态：后续逐课制作，本说明不代表已实现。
+原课知识映射：s16。实施状态：已制作并完成本课适用Docker实验；完整s08/s09生命周期仍按综合项目逐项核验。
 
 ### e13 计划、任务依赖、子 Agent 与协作
 
@@ -814,3 +814,7 @@ pocketflow_tutorial：https://github.com/The-Pocket/PocketFlow-Tutorial-Codebase
 ### 第11课交付记录
 
 [飞书完整教材](https://my.feishu.cn/docx/K7hJd2iAVoIJYcxCEC4c5AKInBe)：公开停止审查、独立运费合同验收、自定义指标和原生语义裁判均实际运行。两条模型修复通过，五个已评分控制失败，一个不适用控制未评分；声明式冲突0次模型请求。保留裁判缺证据误判与四种评分投影，区分评分输入变化与Agent改善。本地和Docker断网各122项测试通过；完整SDK trace与完整s17会话功能留集成课核验。
+
+### 第12课交付记录
+
+[完整教材与实验](https://my.feishu.cn/docx/FxDedeXzmoburRxNAJpczv10nyd)已同步飞书并回读；固定两路径和区间记录增量运行通过业务验收，模拟用户重试后覆盖完整场景，受控一轮停止正确识别缺口。Docker断网152项测试通过，源码、生成与润色记录保留。第13至16课与综合项目继续实施。

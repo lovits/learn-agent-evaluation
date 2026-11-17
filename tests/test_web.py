@@ -40,7 +40,9 @@ class Links(HTMLParser):
             self.images.extend(value for key, value in attrs if key == "src")
 
 
-@pytest.mark.parametrize("route,count", [("/lesson", 2), ("/lesson8", 1), ("/lesson10", 1)])
+@pytest.mark.parametrize(
+    "route,count", [("/lesson", 2), ("/lesson8", 1), ("/lesson10", 1), ("/lesson12", 1)]
+)
 def test_lesson_diagrams_load_from_the_rendered_page(reader, route, count):
     with urlopen(reader + route) as reply:
         page = Links()

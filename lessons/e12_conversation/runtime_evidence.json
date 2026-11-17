@@ -1,0 +1,35 @@
+{
+  "lesson": "e12",
+  "fixed_pair_image": "sha256:7e6c4e17e1e2ac6365e2277fd5d428f1d2bce01a4f06b4ad6e3dc8218e4a6e32",
+  "receipts_increment_image": "sha256:f05cb2490baf13791a953e1e09e0a2d35ee4ff6b9995ed80deea35dc69e60c3f",
+  "captured_simulation_and_recovered_judge_controls_image": "sha256:b1311e0346af030b750ecce207d4304a4890894424ebcaec912b7b5f42cd3faf",
+  "first_judge_batch_exact_image_id": null,
+  "first_judge_image_note": "Exact ID was not separately captured; do not infer it from the later mutable image tag. Pinned SDK dependencies and saved inputs/results are retained.",
+  "final_verifier_image": "sha256:9b592edd42e4c032286568702ba04afef926faef9fe9e0ea1f2feda6bc9e4e6b",
+  "protocols_are_separate": true,
+  "latest_source_hashes": {
+    "lessons/e12_conversation/memory.py": "1f923aa05221d35b061b32dbfae88d387e7d3019bbba813331cbc2d1b814a2b2",
+    "lessons/e12_conversation/exposure.py": "36e459c10f7345ff6c8ac8e0fcd38811cebb498dd3b333fed668b497182de734",
+    "lessons/e12_conversation/tools.py": "b6f47937f75bca01403f83acca87698e30f5d95141e2246cb24cc3996aebf1c3",
+    "lessons/e12_conversation/simulate.py": "684e8f48b185613be5249f2a1beb80bfa0d2a017a865b4d6777a05fbb0dede3a",
+    "lessons/e12_conversation/code.py": "70bb3806d4d7def1c8f648fdcbf75d2dc97a018d1ee8bf26167679c3d80e4f3d",
+    "lessons/e12_conversation/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "lessons/e12_conversation/context_controls.py": "dc124a07a60cb08abe149da0ce5b6ecf13b6837e64affe5e1949e5d1471198bc",
+    "lessons/e12_conversation/context.py": "0b40f7dcd295a6197abaaf4514d04349b78451b91a5d2609a7d6afbce7ea8dca",
+    "lessons/e12_conversation/eval.py": "a0e5e83bff1ef27569dd86a3462e171ceb4503acec588ef0c2ca0de50f6a8f54",
+    "tools/model_bridge.py": "623d7f69795f458704049b0163bb6acb53cfbd43d4d244bedc2b353b915ac626",
+    "pyproject.toml": "e49a93215f2c5852b2da250cd2bded69d646015dd74f85d5c8b2bbe4b52837f2",
+    "uv.lock": "93e0c1a94dcf33b0f1e02b76597ff15fdf5e83351176af0538ddd7b3d6cd9113"
+  },
+  "report_hashes": {
+    "context_report.json": "d6c9a9c559cc440967c26243da50036f7d1b8a8092474a85e82582766c840745",
+    "fixed_grade_report.json": "29bc2e98593e30494fb601eb44e457d9df4cbf170d6b9dde8d4d3aba2f432713",
+    "grade_report.json": "8c65eec202efb719a017f6c3ae189f4401f76eb8c4aac0a27e3698455845a133",
+    "simulation_report.json": "13f01f736f9f51d943aabf84ae572dd80d11f61acf64ce8dc8645551d5a325a4",
+    "judge_report.json": "0d7b181a0f258521e5a28e914489146ac01062e2638989103bf69239741fdd9b",
+    "exposure_report.json": "33ac3b5b2860253694b30f9b682a8c17fb939aa5dd8654d7f3eedd7f20518012",
+    "example_report.json": "76b673eb35f21de01109cbd4e0db3afad65fc78c91b4f7759fbcb10f1bf90be5",
+    "receipts_report.json": "d9277c7469ed6412fb86a040d240332602552d50fa9e8f8c53316f5e4205c1dc",
+    "receipts_grade_report.json": "48a8c9c7fdc1949fd44a49c14167fe9b7f52d272cfc91fbcf70c91ccc6aeb475"
+  }
+}

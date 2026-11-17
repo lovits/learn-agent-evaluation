@@ -1,0 +1,15 @@
+{
+  "image": "sha256:c2d7ed0ec78b3a8ddb408d577875efdee15eb046ba8d2f06637cc898bdf78d8d",
+  "extracted_source": "actual-runtime-source.json",
+  "sources": {
+    "lessons/e12_conversation/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "lessons/e12_conversation/simulate.py": "1dc83bdd3e1631aa6c150a718e251d7657c85ac465731fc9bc96b50d0efe0fc2",
+    "lessons/e12_conversation/memory.py": "1f923aa05221d35b061b32dbfae88d387e7d3019bbba813331cbc2d1b814a2b2",
+    "lessons/e12_conversation/context_controls.py": "dc124a07a60cb08abe149da0ce5b6ecf13b6837e64affe5e1949e5d1471198bc",
+    "lessons/e12_conversation/context.py": "e4c10a5c8e0e9ff346642d6e702711650a3c0dd88db035b643d84f937e5bea3d",
+    "lessons/e12_conversation/tools.py": "d419d7f8b6878a926ff515bb0ba5e25cebac365033724b6b643d0a6dfc72b5ad",
+    "lessons/e12_conversation/eval.py": "cd361eecd37d24b8cb133d92d2f30edb1eef1e317808a489f0bddb47fc0818b7",
+    "lessons/e12_conversation/code.py": "74fcb708e6da8c90e5a97af17b278598ebfb1331607365430fd568ede4b7827e",
+    "tools/model_bridge.py": "623d7f69795f458704049b0163bb6acb53cfbd43d4d244bedc2b353b915ac626"
+  }
+}

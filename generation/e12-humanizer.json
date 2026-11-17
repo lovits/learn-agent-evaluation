@@ -1,0 +1,17 @@
+{
+  "main_sections": [
+    "问题",
+    "解决方案",
+    "工作原理",
+    "相对上一课的变更",
+    "试一下",
+    "接下来"
+  ],
+  "working_steps": 6,
+  "review_units": 12,
+  "protected_fragments_unchanged": 87,
+  "chinese_chars_excluding_code": 2649,
+  "technical_before_sha256": "fe1c89920d6a6a39555d7487bf7e7bd21a4abd3f1051d58d899713f1a9e5b8bf",
+  "release_sha256": "9b16dbb4e8d486d0870864c0962cbb21979af1480102350732157db04da9bd4b",
+  "scope": "full main file; prose only; appendices separately reviewed technically"
+}

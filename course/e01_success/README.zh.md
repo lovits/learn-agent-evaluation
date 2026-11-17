@@ -18,6 +18,8 @@
 
 运行结束后，评分器读取执行记录和实际文件。最终回答中的“完成”，不会自动变成完成证据。
 
+![Agent 循环](images/agent-loop.png)
+
 ## 工作原理
 
 先放入用户任务：
@@ -61,6 +63,8 @@ messages.append({"role": "tool", "content": results})
 return {"passed": all(checks.values()), "checks": checks}
 ```
 
+![任务评测流程](images/task-evaluation.png)
+
 三条条件全部满足，才接受这次任务。文件内容用语法树比较，所以单引号、双引号和注释差异不会影响判断。这条规则只适用于本题要求的结构。
 
 只执行 `echo 'Hello, World!'` 可以产生正确文字，却没有正确文件。只回复“完成”，则连动作证据也没有。逐项检查让这些差别显现出来。
@@ -86,6 +90,6 @@ python -m course.run e01 --case hello
 2. 完成任务后改掉 `hello.py` 的输出，再评分。旧记录还能让文件检查通过吗？
 3. 把正确文件改成单引号并增加注释，看看语法树发生了什么变化。
 
-[源码导读](source_walkthrough.md) · [练习](exercises.md) · [参考解释](solutions.md)
+[源码导读](source_walkthrough.md) · [练习](exercises.md) · [参考解释](solutions.md) · [样本与评测记录](assessment.md)
 
 下一课给动作命名，并把一次运行整理成评测框架可以读取的样本。

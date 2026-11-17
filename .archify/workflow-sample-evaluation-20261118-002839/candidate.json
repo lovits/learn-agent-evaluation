@@ -1,0 +1,215 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "同一次运行：任务评分与样本转换",
+    "locale": "zh-CN",
+    "output": ".archify/workflow-sample-evaluation-20261118-002839/sample-evaluation.html",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/lovits/learn-agent-evaluation.git",
+      "revision": "090cf621ba3aa7f6456ce4d1a0b4c4a48241cb4e",
+      "provider": "github"
+    }
+  },
+  "lanes": [
+    {
+      "id": "input",
+      "label": "读取记录"
+    },
+    {
+      "id": "score",
+      "label": "任务判断"
+    },
+    {
+      "id": "sample",
+      "label": "样本转换"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "run",
+      "lane": "input",
+      "col": 0,
+      "type": "database",
+      "label": "实际运行记录",
+      "sublabel": "任务 / 事件 / 消息",
+      "width": 156,
+      "sources": [
+        {
+          "path": "course/e02_samples/code.py",
+          "line": 14,
+          "end_line": 41,
+          "label": "agent_loop"
+        }
+      ]
+    },
+    {
+      "id": "eval",
+      "lane": "input",
+      "col": 1,
+      "type": "backend",
+      "label": "本课入口",
+      "sublabel": "eval.py: evaluate",
+      "width": 156,
+      "sources": [
+        {
+          "path": "course/e02_samples/eval.py",
+          "line": 6,
+          "end_line": 21,
+          "label": "evaluate"
+        }
+      ]
+    },
+    {
+      "id": "checks",
+      "lane": "score",
+      "col": 2,
+      "type": "backend",
+      "label": "核对任务规则",
+      "sublabel": "实际文件 / 工具状态",
+      "width": 156,
+      "sources": [
+        {
+          "path": "course/e02_samples/eval.py",
+          "line": 6,
+          "end_line": 21,
+          "label": "evaluate"
+        }
+      ]
+    },
+    {
+      "id": "verdict",
+      "lane": "score",
+      "col": 4,
+      "type": "database",
+      "label": "任务判断",
+      "sublabel": "checks / passed",
+      "width": 156,
+      "sources": [
+        {
+          "path": "course/e02_samples/eval.py",
+          "line": 6,
+          "end_line": 21,
+          "label": "evaluate"
+        }
+      ]
+    },
+    {
+      "id": "export",
+      "lane": "sample",
+      "col": 2,
+      "type": "backend",
+      "label": "转换记录",
+      "sublabel": "samples.py: export",
+      "width": 156,
+      "sources": [
+        {
+          "path": "course/e02_samples/samples.py",
+          "line": 43,
+          "end_line": 50,
+          "label": "export"
+        }
+      ]
+    },
+    {
+      "id": "sdk",
+      "lane": "sample",
+      "col": 3,
+      "type": "backend",
+      "label": "SDK 构造",
+      "sublabel": "DeepEval / Ragas",
+      "width": 156,
+      "sources": [
+        {
+          "path": "course/e02_samples/samples.py",
+          "line": 11,
+          "end_line": 19,
+          "label": "to_deepeval"
+        },
+        {
+          "path": "course/e02_samples/samples.py",
+          "line": 26,
+          "end_line": 40,
+          "label": "to_ragas_multi"
+        }
+      ]
+    },
+    {
+      "id": "objects",
+      "lane": "sample",
+      "col": 4,
+      "type": "database",
+      "label": "样本对象",
+      "sublabel": "问答视图 / 过程视图",
+      "width": 156,
+      "sources": [
+        {
+          "path": "course/e02_samples/samples.py",
+          "line": 43,
+          "end_line": 50,
+          "label": "export"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "id": "edge-0",
+      "from": "run",
+      "to": "eval",
+      "role": "main",
+      "label": "读取"
+    },
+    {
+      "id": "edge-1",
+      "from": "eval",
+      "to": "checks",
+      "role": "main",
+      "label": "任务评分"
+    },
+    {
+      "id": "edge-2",
+      "from": "checks",
+      "to": "verdict",
+      "role": "main",
+      "label": "规则聚合"
+    },
+    {
+      "id": "edge-3",
+      "from": "eval",
+      "to": "export",
+      "role": "branch",
+      "label": "同一份记录"
+    },
+    {
+      "id": "edge-4",
+      "from": "export",
+      "to": "sdk",
+      "role": "branch",
+      "label": "字段映射"
+    },
+    {
+      "id": "edge-5",
+      "from": "sdk",
+      "to": "objects",
+      "role": "branch",
+      "label": "结构校验"
+    }
+  ],
+  "mainPath": [
+    "run",
+    "eval",
+    "checks",
+    "verdict"
+  ],
+  "cards": [
+    {
+      "dot": "amber",
+      "title": "样本与分数",
+      "items": [
+        "创建 SDK 样本不会自动产生质量分数；原始证据与运行状态继续保留。"
+      ]
+    }
+  ]
+}

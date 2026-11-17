@@ -1,0 +1,218 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Agent 循环：模型决策，执行框架回填",
+    "locale": "zh-CN",
+    "output": ".archify/workflow-agent-loop-20261118-002839/agent-loop.html",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/lovits/learn-agent-evaluation.git",
+      "revision": "090cf621ba3aa7f6456ce4d1a0b4c4a48241cb4e",
+      "provider": "github"
+    }
+  },
+  "lanes": [
+    {
+      "id": "intake",
+      "label": "任务与模型"
+    },
+    {
+      "id": "execution",
+      "label": "工具执行"
+    },
+    {
+      "id": "return",
+      "label": "反馈与停止"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "task",
+      "lane": "intake",
+      "col": 0,
+      "type": "external",
+      "label": "用户任务",
+      "sublabel": "task",
+      "width": 156,
+      "sources": [
+        {
+          "path": "course/run.py",
+          "line": 15,
+          "end_line": 38,
+          "label": "main"
+        }
+      ]
+    },
+    {
+      "id": "history",
+      "lane": "intake",
+      "col": 1,
+      "type": "database",
+      "label": "消息历史",
+      "sublabel": "messages",
+      "width": 156,
+      "sources": [
+        {
+          "path": "course/e01_success/code.py",
+          "line": 6,
+          "end_line": 28,
+          "label": "agent_loop"
+        }
+      ]
+    },
+    {
+      "id": "model",
+      "lane": "intake",
+      "col": 2,
+      "type": "backend",
+      "label": "请求模型",
+      "sublabel": "model(messages)",
+      "width": 156,
+      "sources": [
+        {
+          "path": "course/e01_success/code.py",
+          "line": 6,
+          "end_line": 28,
+          "label": "agent_loop"
+        }
+      ]
+    },
+    {
+      "id": "branch",
+      "lane": "intake",
+      "col": 3,
+      "type": "backend",
+      "label": "检查动作",
+      "sublabel": "tool_calls 是否为空",
+      "width": 156,
+      "sources": [
+        {
+          "path": "course/e01_success/code.py",
+          "line": 6,
+          "end_line": 28,
+          "label": "agent_loop"
+        }
+      ]
+    },
+    {
+      "id": "bash",
+      "lane": "execution",
+      "col": 3,
+      "type": "backend",
+      "label": "执行 Bash",
+      "sublabel": "run_bash",
+      "width": 156,
+      "sources": [
+        {
+          "path": "eval_course/runtime.py",
+          "line": 44,
+          "end_line": 79,
+          "label": "run_bash"
+        }
+      ]
+    },
+    {
+      "id": "feedback",
+      "lane": "return",
+      "col": 1,
+      "type": "messagebus",
+      "label": "回填结果",
+      "sublabel": "stdout / stderr / 退出码",
+      "width": 156,
+      "sources": [
+        {
+          "path": "course/e01_success/code.py",
+          "line": 6,
+          "end_line": 28,
+          "label": "agent_loop"
+        }
+      ]
+    },
+    {
+      "id": "finished",
+      "lane": "return",
+      "col": 4,
+      "type": "backend",
+      "label": "循环停止",
+      "sublabel": "finished",
+      "width": 156,
+      "sources": [
+        {
+          "path": "course/e01_success/code.py",
+          "line": 6,
+          "end_line": 28,
+          "label": "agent_loop"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "id": "edge-0",
+      "from": "task",
+      "to": "history",
+      "role": "main",
+      "label": "输入"
+    },
+    {
+      "id": "edge-1",
+      "from": "history",
+      "to": "model",
+      "role": "main",
+      "label": "请求"
+    },
+    {
+      "id": "edge-2",
+      "from": "model",
+      "to": "branch",
+      "role": "main",
+      "label": "响应"
+    },
+    {
+      "id": "edge-3",
+      "from": "branch",
+      "to": "bash",
+      "role": "main",
+      "label": "有动作"
+    },
+    {
+      "id": "edge-4",
+      "from": "bash",
+      "to": "feedback",
+      "role": "return",
+      "label": "真实结果"
+    },
+    {
+      "id": "edge-5",
+      "from": "feedback",
+      "to": "history",
+      "role": "return",
+      "label": "下一轮",
+      "variant": "dashed"
+    },
+    {
+      "id": "edge-6",
+      "from": "branch",
+      "to": "finished",
+      "role": "branch",
+      "label": "无动作"
+    }
+  ],
+  "mainPath": [
+    "task",
+    "history",
+    "model",
+    "branch",
+    "bash"
+  ],
+  "cards": [
+    {
+      "dot": "amber",
+      "title": "停止与完成",
+      "items": [
+        "finished 表示循环停止；任务完成由独立评分判断。"
+      ]
+    }
+  ]
+}

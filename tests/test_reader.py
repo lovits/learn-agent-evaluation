@@ -20,11 +20,22 @@ def test_new_course_pages_and_source_boundary():
             "/lesson1",
             "/lesson2",
             "/source2",
+            "/assessment1",
+            "/assessment2",
             "/code?path=course/e02_samples/code.py",
         ]:
             with urlopen(base + path) as response:
                 assert response.status == 200
-        for path in ["/code", "/code?path=../../.env", "/code?path=tools/model_backend.py"]:
+        with urlopen(base + "/image?path=course/e01_success/images/agent-loop.png") as response:
+            assert response.headers.get_content_type() == "image/png"
+            assert response.read(8) == b"\x89PNG\r\n\x1a\n"
+        for path in [
+            "/code",
+            "/code?path=../../.env",
+            "/code?path=tools/model_backend.py",
+            "/image?path=../../.env",
+            "/diagram?path=tools/model_backend.py",
+        ]:
             with pytest.raises(HTTPError) as error:
                 urlopen(base + path)
             assert error.value.code == 400

@@ -1,0 +1,182 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "任务评测流程：从要求到判断",
+    "locale": "zh-CN",
+    "output": ".archify/workflow-task-evaluation-20261118-002839/task-evaluation.html",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/lovits/learn-agent-evaluation.git",
+      "revision": "090cf621ba3aa7f6456ce4d1a0b4c4a48241cb4e",
+      "provider": "github"
+    }
+  },
+  "lanes": [
+    {
+      "id": "work",
+      "label": "执行任务"
+    },
+    {
+      "id": "assess",
+      "label": "独立评测"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "case",
+      "lane": "work",
+      "col": 0,
+      "type": "external",
+      "label": "任务 hello",
+      "sublabel": "创建文件并运行",
+      "width": 156,
+      "sources": [
+        {
+          "path": "course/e01_success/cases.jsonl",
+          "line": 1,
+          "end_line": 1
+        }
+      ]
+    },
+    {
+      "id": "agent",
+      "lane": "work",
+      "col": 1,
+      "type": "backend",
+      "label": "Agent 执行",
+      "sublabel": "循环 + Bash",
+      "width": 156,
+      "sources": [
+        {
+          "path": "course/e01_success/code.py",
+          "line": 6,
+          "end_line": 28,
+          "label": "agent_loop"
+        }
+      ]
+    },
+    {
+      "id": "evidence",
+      "lane": "work",
+      "col": 2,
+      "type": "database",
+      "label": "留下证据",
+      "sublabel": "events + workspace",
+      "width": 156,
+      "sources": [
+        {
+          "path": "course/run.py",
+          "line": 15,
+          "end_line": 38,
+          "label": "main"
+        }
+      ]
+    },
+    {
+      "id": "checks",
+      "lane": "assess",
+      "col": 2,
+      "type": "backend",
+      "label": "核对条件",
+      "sublabel": "停止 / 输出 / AST",
+      "width": 156,
+      "sources": [
+        {
+          "path": "course/e01_success/eval.py",
+          "line": 6,
+          "end_line": 22,
+          "label": "evaluate"
+        }
+      ]
+    },
+    {
+      "id": "accept",
+      "lane": "assess",
+      "col": 4,
+      "type": "backend",
+      "label": "接受本次任务",
+      "sublabel": "所有条件满足",
+      "width": 156,
+      "sources": [
+        {
+          "path": "course/e01_success/eval.py",
+          "line": 6,
+          "end_line": 22,
+          "label": "evaluate"
+        }
+      ]
+    },
+    {
+      "id": "reject",
+      "lane": "assess",
+      "col": 3,
+      "type": "security",
+      "label": "查看未通过项",
+      "sublabel": "存在缺失证据",
+      "width": 156,
+      "sources": [
+        {
+          "path": "course/e01_success/eval.py",
+          "line": 6,
+          "end_line": 22,
+          "label": "evaluate"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "id": "edge-0",
+      "from": "case",
+      "to": "agent",
+      "role": "main",
+      "label": "输入"
+    },
+    {
+      "id": "edge-1",
+      "from": "agent",
+      "to": "evidence",
+      "role": "main",
+      "label": "产物"
+    },
+    {
+      "id": "edge-2",
+      "from": "evidence",
+      "to": "checks",
+      "role": "main",
+      "label": "读取"
+    },
+    {
+      "id": "edge-3",
+      "from": "checks",
+      "to": "accept",
+      "role": "main",
+      "label": "全部满足"
+    },
+    {
+      "id": "edge-4",
+      "from": "checks",
+      "to": "reject",
+      "role": "error",
+      "label": "任一未满足",
+      "variant": "security"
+    }
+  ],
+  "mainPath": [
+    "case",
+    "agent",
+    "evidence",
+    "checks",
+    "accept"
+  ],
+  "cards": [
+    {
+      "dot": "amber",
+      "title": "怎样读结果",
+      "items": [
+        "每项 checks 对应一条实际证据；模型的完成声明不能替代证据。"
+      ]
+    }
+  ]
+}

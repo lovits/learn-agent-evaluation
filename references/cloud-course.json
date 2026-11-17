@@ -14,7 +14,8 @@
       "paths": [
         "README.md",
         "docs/curriculum.md"
-      ]
+      ],
+      "verified_revision": null
     },
     "e01": {
       "title": "第1课：模型停下了，任务完成了吗？",
@@ -25,7 +26,8 @@
         "course/e01_success/source_walkthrough.md",
         "course/e01_success/exercises.md",
         "course/e01_success/solutions.md"
-      ]
+      ],
+      "verified_revision": 11
     },
     "e02": {
       "title": "第2课：一次运行，一份样本",
@@ -36,7 +38,8 @@
         "course/e02_samples/source_walkthrough.md",
         "course/e02_samples/exercises.md",
         "course/e02_samples/solutions.md"
-      ]
+      ],
+      "verified_revision": 14
     },
     "specification": {
       "title": "课程目标与制作规范",
@@ -44,7 +47,26 @@
       "url": "https://my.feishu.cn/docx/Gq7NdsDEWoOpd5xkxEFcDLJlnad",
       "paths": [
         "docs/course-specification.md"
-      ]
+      ],
+      "verified_revision": 5
+    },
+    "assessment1": {
+      "title": "第1课：样本与评测记录",
+      "document_id": "GNk2dY178oqagOxKb2ncZxy5nCh",
+      "url": "https://my.feishu.cn/docx/GNk2dY178oqagOxKb2ncZxy5nCh",
+      "paths": [
+        "course/e01_success/assessment.md"
+      ],
+      "verified_revision": 3
+    },
+    "assessment2": {
+      "title": "第2课：样本与评测记录",
+      "document_id": "Sv2ydm9vhoqKsexfxmZc22xunEh",
+      "url": "https://my.feishu.cn/docx/Sv2ydm9vhoqKsexfxmZc22xunEh",
+      "paths": [
+        "course/e02_samples/assessment.md"
+      ],
+      "verified_revision": 3
     }
   }
 }

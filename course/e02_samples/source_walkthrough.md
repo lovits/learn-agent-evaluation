@@ -2,6 +2,8 @@
 
 [教材](README.zh.md) · [循环](code.py) · [工具](tools.py) · [转换](samples.py)
 
+![同一次运行的任务评分与样本转换](images/sample-evaluation.png)
+
 ## 本课调用链
 
 `agent_loop → execute → HANDLERS` 执行动作。`execute` 将拒绝、参数错误和执行错误分别返回，循环把结果同时写入事件和工具消息。`to_deepeval`、`to_ragas_single`、`to_ragas_multi` 只读取已有记录。
@@ -37,3 +39,5 @@
 本课实际调用了 SDK 构造和校验，没有运行 LLM 裁判或框架质量指标。文件任务由 [evaluate](eval.py) 独立检查；样本表示与质量评分的边界在这里可以直接看见。
 
 任务入口在 [course.run](../run.py)，它读取本课样本、创建本次目录并调用循环；[course.grade](../grade.py) 根据运行编号读取结果，再进入本课评分函数。
+
+[查看 Archify 源图](../../.archify/workflow-sample-evaluation-20261118-002839/sample-evaluation.html) · [样本与评测记录](assessment.md)

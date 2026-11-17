@@ -17,6 +17,7 @@ for number, slug in [(1, "e01_success"), (2, "e02_samples")]:
         ("source", "source_walkthrough.md"),
         ("exercises", "exercises.md"),
         ("solutions", "solutions.md"),
+        ("assessment", "assessment.md"),
     ]:
         PAGES[f"/{route}{number}"] = f"course/{slug}/{name}"
 PAGES["/specification"] = "docs/course-specification.md"
@@ -33,6 +34,14 @@ def render(path):
                 "id", re.sub(r"[^\w-]", "", tokens[index + 1].content.lower().replace(" ", "-"))
             )
         for token in block.children or []:
+            if token.type == "image":
+                image = urlparse(token.attrGet("src") or "")
+                target = (source.parent / unquote(image.path)).resolve()
+                if not image.scheme and target.is_relative_to(PROJECT / "course"):
+                    token.attrSet(
+                        "src", "/image?path=" + quote(target.relative_to(PROJECT).as_posix())
+                    )
+                continue
             if token.type != "link_open":
                 continue
             href = token.attrGet("href") or ""
@@ -43,6 +52,10 @@ def render(path):
             if target in routes:
                 token.attrSet(
                     "href", routes[target] + ("#" + parsed.fragment if parsed.fragment else "")
+                )
+            elif target.is_relative_to(PROJECT / ".archify") and target.suffix == ".html":
+                token.attrSet(
+                    "href", "/diagram?path=" + quote(target.relative_to(PROJECT).as_posix())
                 )
             elif target.is_relative_to(PROJECT) and target.suffix in {".py", ".json", ".jsonl"}:
                 token.attrSet("href", "/code?path=" + quote(target.relative_to(PROJECT).as_posix()))
@@ -59,6 +72,19 @@ class Handler(BaseHTTPRequestHandler):
                 return self.send(
                     200, json.dumps(catalog(), ensure_ascii=False).encode(), "application/json"
                 )
+            if parsed.path in {"/image", "/diagram"}:
+                target = (PROJECT / parse_qs(parsed.query).get("path", [""])[0]).resolve()
+                if parsed.path == "/image":
+                    if (
+                        not target.is_relative_to(PROJECT / "course")
+                        or target.parent.name != "images"
+                        or target.suffix != ".png"
+                    ):
+                        raise ValueError("Unreadable image path")
+                    return self.send(200, target.read_bytes(), "image/png")
+                if not target.is_relative_to(PROJECT / ".archify") or target.suffix != ".html":
+                    raise ValueError("Unreadable diagram path")
+                return self.send(200, target.read_bytes(), "text/html")
             if parsed.path == "/code":
                 name = parse_qs(parsed.query).get("path", [""])[0]
                 target = (PROJECT / name).resolve()

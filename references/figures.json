@@ -1,0 +1,107 @@
+[
+  {
+    "name": "agent-loop",
+    "slug": "e01_success",
+    "candidate": ".archify/workflow-agent-loop-20261118-002839/candidate.json",
+    "output": ".archify/workflow-agent-loop-20261118-002839/agent-loop.html",
+    "diagram_type": "workflow",
+    "generator": "Archify",
+    "gates": {
+      "validate": "pass",
+      "deliver": "pass",
+      "check": "pass",
+      "browser-check": "pass"
+    },
+    "specification_sha256": "b63fc2047c197d8bbcea1781a93970646420860ab8c6f5a5e7d7d342fce74b03",
+    "artifact_sha256": "7f38cccb74b435e20622d18e4d57fb7341544c93689e9741ea695296c9f64b92",
+    "browser_evidence": "passed",
+    "visual_review": "not_requested",
+    "export_review": "PNG inspected",
+    "png": "course/e01_success/images/agent-loop.png",
+    "png_sha256": "d9fab50ce8455678d28ade2f1cb8b2105199e48e0db6726c24c21e3ed788aec6"
+  },
+  {
+    "name": "evaluation-code",
+    "slug": "e01_success",
+    "candidate": ".archify/workflow-evaluation-code-20261118-002839/candidate.json",
+    "output": ".archify/workflow-evaluation-code-20261118-002839/evaluation-code.html",
+    "diagram_type": "workflow",
+    "generator": "Archify",
+    "gates": {
+      "validate": "pass",
+      "deliver": "pass",
+      "check": "pass",
+      "browser-check": "pass"
+    },
+    "specification_sha256": "4db6df6be808ddd4c3d23486f0f36b74ed3bcfd4bba4c1ec80fe741d1dd92626",
+    "artifact_sha256": "034298c089d5986dc5f6698dde2c768e035b22585b39dbf574cd254b2096c890",
+    "browser_evidence": "passed",
+    "visual_review": "not_requested",
+    "export_review": "PNG inspected",
+    "png": "course/e01_success/images/evaluation-code.png",
+    "png_sha256": "0a71600dae488884d92eba0384e777a91890c23bb56a03cf81703f59c9793fca"
+  },
+  {
+    "name": "task-evaluation",
+    "slug": "e01_success",
+    "candidate": ".archify/workflow-task-evaluation-20261118-002839/candidate.json",
+    "output": ".archify/workflow-task-evaluation-20261118-002839/task-evaluation.html",
+    "diagram_type": "workflow",
+    "generator": "Archify",
+    "gates": {
+      "validate": "pass",
+      "deliver": "pass",
+      "check": "pass",
+      "browser-check": "pass"
+    },
+    "specification_sha256": "0533f86b4e2980492e459fcab3a0ad5cfa5bc6f12f389e5d6174d878ea4b8dca",
+    "artifact_sha256": "ea566ba74bdf6e8420f5ef5cce6585cd4b2b94266b29482af9ccef6fbc41f29d",
+    "browser_evidence": "passed",
+    "visual_review": "not_requested",
+    "export_review": "PNG inspected",
+    "png": "course/e01_success/images/task-evaluation.png",
+    "png_sha256": "ab4770b8b941887b1c9dd38ce5f1a36888045c9b87956e1d3cc49198e8271af7"
+  },
+  {
+    "name": "tool-recording",
+    "slug": "e02_samples",
+    "candidate": ".archify/workflow-tool-recording-20261118-002839/candidate.json",
+    "output": ".archify/workflow-tool-recording-20261118-002839/tool-recording.html",
+    "diagram_type": "workflow",
+    "generator": "Archify",
+    "gates": {
+      "validate": "pass",
+      "deliver": "pass",
+      "check": "pass",
+      "browser-check": "pass"
+    },
+    "specification_sha256": "670661be015a0c80bab75a091b79d3bd55dc10debcc8fc9cc026dc1f15637970",
+    "artifact_sha256": "1c1c7d6397a57b4c4e66804392b893080d7a7ba8c59dc47a963b4a0164524205",
+    "browser_evidence": "passed",
+    "visual_review": "not_requested",
+    "export_review": "PNG inspected",
+    "png": "course/e02_samples/images/tool-recording.png",
+    "png_sha256": "8db7304e5e333d8d3c9609d8929a71b528dd2e8d9950070257f454772ce900b2"
+  },
+  {
+    "name": "sample-evaluation",
+    "slug": "e02_samples",
+    "candidate": ".archify/workflow-sample-evaluation-20261118-002839/candidate.json",
+    "output": ".archify/workflow-sample-evaluation-20261118-002839/sample-evaluation.html",
+    "diagram_type": "workflow",
+    "generator": "Archify",
+    "gates": {
+      "validate": "pass",
+      "deliver": "pass",
+      "check": "pass",
+      "browser-check": "pass"
+    },
+    "specification_sha256": "33c8c65a01c094c89f2067970ccf93b876a7e62f41063728094dd3add2396066",
+    "artifact_sha256": "da3cb1fa42404a8a848e843896e972075b1146d8584b2f961573670562375e31",
+    "browser_evidence": "passed",
+    "visual_review": "not_requested",
+    "export_review": "PNG inspected",
+    "png": "course/e02_samples/images/sample-evaluation.png",
+    "png_sha256": "6fb0ffac4f441a09dc9607b042a17bd33c2bc27a75e56323b4afb992c833ccfc"
+  }
+]

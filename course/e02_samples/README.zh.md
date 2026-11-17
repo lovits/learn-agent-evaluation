@@ -12,6 +12,8 @@
 
 这一课把一次运行保存成样本。先给动作命名，再保存名字、参数和执行结果，最后交给两套评测框架。
 
+![工具执行与记录](images/tool-recording.png)
+
 ## 从命令到具名动作
 
 读文件原来是 `cat source.txt`。换成具名工具，意图就能直接表达为：
@@ -148,6 +150,6 @@ python -m course.run e02 --case copy
 3. 去掉一条工具结果，只保留最终回答。哪些问题还可以评价，哪些已经没有证据？
 4. 同一任务运行两次，比较任务编号、运行编号和动作位置的作用。
 
-[源码导读](source_walkthrough.md) · [练习](exercises.md) · [参考解释](solutions.md)
+[源码导读](source_walkthrough.md) · [练习](exercises.md) · [参考解释](solutions.md) · [样本与评测记录](assessment.md)
 
 下一课先挑选值得反复运行的任务，为它们准备参考和数据划分。

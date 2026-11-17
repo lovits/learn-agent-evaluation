@@ -19,4 +19,4 @@
 
 这些任务验证当前教学链路，没有评价最终解释的语义、通用编程水平或费用。模型接口未返回确切模型编号时，记录保留为空；不推测身份或金额。
 
-首次实现时的记录保存在 [历史证据](../../generation/archive/e01-before-outline-v2/example_report.json)。
+首次实现时的记录保存在 [历史证据](https://github.com/lovits/learn-agent-evaluation/blob/main/generation/archive/e01-before-outline-v2/example_report.json)。

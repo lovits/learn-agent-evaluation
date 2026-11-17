@@ -15,7 +15,7 @@
         "README.md",
         "docs/curriculum.md"
       ],
-      "verified_revision": 26
+      "verified_revision": 27
     },
     "e01": {
       "title": "第1课：模型停下了，任务完成了吗？",
@@ -242,6 +242,27 @@
         "course/e10_rag_diagnosis/source_walkthrough.md",
         "course/e10_rag_diagnosis/exercises.md",
         "course/e10_rag_diagnosis/solutions.md"
+      ],
+      "verified_revision": 6
+    },
+    "assessment11": {
+      "title": "第11课：样本与评测记录",
+      "document_id": "OFcadn8XIoYI1JxX46IcJbLLnDg",
+      "url": "https://my.feishu.cn/docx/OFcadn8XIoYI1JxX46IcJbLLnDg",
+      "paths": [
+        "course/e11_tool_quality/assessment.md"
+      ],
+      "verified_revision": 3
+    },
+    "e11": {
+      "title": "第11课：工具调用质量",
+      "document_id": "Jn3pdSNEioZrenxX1TncRKoHnrc",
+      "url": "https://my.feishu.cn/docx/Jn3pdSNEioZrenxX1TncRKoHnrc",
+      "paths": [
+        "course/e11_tool_quality/README.zh.md",
+        "course/e11_tool_quality/source_walkthrough.md",
+        "course/e11_tool_quality/exercises.md",
+        "course/e11_tool_quality/solutions.md"
       ],
       "verified_revision": 5
     }

@@ -1,6 +1,6 @@
 {
   "outline_version": 3,
-  "review": "第10课依据 PocketFlow 实际草稿压缩，核对资料、原生候选、控制后检索输出、实际上下文与生成回放的边界；修正草稿错误图片仓库、将版本差异直接等同过期和将默认忠实度直接等同明确支持的概括。Noise Sensitivity 保留参考支持矩阵、全部声明分母及排他归因；真实0.5判例保留待校准，未改分。",
+  "review": "第11课依据 PocketFlow 实际草稿凝练；修正 should_exact_match 被写成模型判断开关、ArgumentCorrectness 被误认为参考匹配，以及用原始调用次数代入去重集合 F1 的概括。核对加权 LCS、部分参数权重、空调用不适用、工具执行失败与合法替代路径；保留回顾性参数裁判的证据范围。",
   "published_sha256": {
     "course/run.py": "d4f0b75ebfc46cf0eeb897dfbe4c4b22db0626231aac9d72f30093a9caa2cb1c",
     "course/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
@@ -155,7 +155,7 @@
     "course/e09_answer_quality/images/scoring-flow.drawio": "6284208c46edaf3cbe783d4cf7f627364ae461ccb491d2c16c4280d49cfa4f1a",
     "course/e09_answer_quality/images/quality-flow.drawio.svg": "118ffed9090f2acab7288174fa0dcaefbc968ba621617169a5778fa9cc775cbe",
     "course/e09_answer_quality/images/scoring-flow.png": "6b5bea6c24bf45b22b543d55155a9ec29f685138b7139e2a23526fe30fd0ef5b",
-    "course/e10_rag_diagnosis/README.zh.md": "b97b6d1e97ec914f49d967d9512a5b4e709ba61f8b9513133fe24e0cf12d34b2",
+    "course/e10_rag_diagnosis/README.zh.md": "18da064ed9ac12459bdc2d2cd4ed2b10967ddd72eeb601ff2fc772bd215eee91",
     "course/e10_rag_diagnosis/solutions.md": "6c542e67bb770d3ee431f81f5c96bf83719dfc69c637651fe43b7d01e5d8510c",
     "course/e10_rag_diagnosis/assessment.json": "7dc4fa6599081962e748910764cbf52e17808c177a8084563ba52a6df8009a12",
     "course/e10_rag_diagnosis/exercises.md": "ec1e0158d2e303291254cc1a78897b3986c6f875ef822ee145b3d810b354e93d",
@@ -170,7 +170,23 @@
     "course/e10_rag_diagnosis/images/pipeline-flow.drawio.svg": "cfc166de7571593f423bae6763a310dd0978b9cb21abfe13cf3deec0e111998e",
     "course/e10_rag_diagnosis/images/pipeline-flow.drawio": "14706f3a8089e55234c9fb0fb556b970e58f701dbee134c9c876d7ef30420843",
     "course/e10_rag_diagnosis/images/diagnosis-flow.png": "a1eb9dc7be0efd2a2511617437dfb4c615ad85581fbafa26e9d95f0bafea4131",
-    "course/e10_rag_diagnosis/images/diagnosis-flow.drawio.svg": "25f4059ce1ab14a8c4d4346cd598db3e4342380ba212c2274fb7df6c278c4629"
+    "course/e10_rag_diagnosis/images/diagnosis-flow.drawio.svg": "25f4059ce1ab14a8c4d4346cd598db3e4342380ba212c2274fb7df6c278c4629",
+    "course/e11_tool_quality/README.zh.md": "408ae6158d1ef2c7dc0445bdb6d50bb08ee560e0c9500dfaf2bb9cbc57f4e7d3",
+    "course/e11_tool_quality/solutions.md": "49bec1104edfc94eaf4e0a20d819a54856b9e4a679c09b7c1864d90083001d16",
+    "course/e11_tool_quality/assessment.json": "4f2de0579256a92d05087b553106eb3ae51ab0bde213f8af105028367d8e16a0",
+    "course/e11_tool_quality/exercises.md": "e9a42aacb0499d69a3b6f2a70603250eae1aa747536c8d64a51184ef4a84859c",
+    "course/e11_tool_quality/code.py": "f8f6d1bae32c5ffcb44789880e07b727bcd4b63dd8823dd5a7ef390eb5092ac7",
+    "course/e11_tool_quality/cases.jsonl": "227dc78d33ed9c79abcb20301967bc30b12abbf1e9bbf46cd767ccb1b3ddfe67",
+    "course/e11_tool_quality/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "course/e11_tool_quality/source_walkthrough.md": "89049baa950530bfb5835eb6f070ea812e15c06366c00cde224401920c4bb298",
+    "course/e11_tool_quality/eval.py": "07971f0c90521a1af3e83aeb224d951dde0a101cdb7cdeee5b77444d32eb93d0",
+    "course/e11_tool_quality/images/tool-flow.png": "67655f8d4155b0ab979df3ea853ccbc142289fa2c9a9feac8d42c6603c77e75a",
+    "course/e11_tool_quality/images/scoring-flow.drawio.svg": "2bc261700eeb962a17f31dd2456045f4573f2e93f6655f255e4bd5bf9d20954e",
+    "course/e11_tool_quality/images/tool-flow.drawio": "57b6100f2db7c70cc8bfedb9a6e9f57964c9dd67de07d2e373bb727b35d3e2d7",
+    "course/e11_tool_quality/images/tool-flow.drawio.svg": "bbb9e7410f5e1f98f727e23584420c5eebdb9f9b2325dea216552e21c6166d43",
+    "course/e11_tool_quality/images/scoring-flow.drawio": "69e7ea9cb58e32c4df17fe5236405d9a0aa341f19ffcacf1f0c7d7413f809aa8",
+    "course/e11_tool_quality/images/scoring-flow.png": "d03cf1dbb92cbaa1502b03209eef6cf6620a4f3829bd3b8e7eb76f4b0c14b2a5",
+    "course/e11_tool_quality/assessment.md": "732ad84c398d41187fcb0f7f9d26802ec25dd416d0783161b5c1691b9310402f"
   },
   "provenance": [
     "generation/e01-provenance.json",
@@ -182,7 +198,8 @@
     "generation/e07-provenance.json",
     "generation/e08-provenance.json",
     "generation/e09-provenance.json",
-    "generation/e10-provenance.json"
+    "generation/e10-provenance.json",
+    "generation/e11-provenance.json"
   ],
   "runtime_evidence": "generation/runtime-evidence.json",
   "figures": "references/figures.json"

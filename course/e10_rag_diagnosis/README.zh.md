@@ -1,6 +1,6 @@
 # e10: 答案错了，先改哪一层？
 
-[e09](../e09_answer_quality/README.zh.md) → `e10` → [e11](../../docs/curriculum.md#11-工具调用质量) → … → e16
+[e09](../e09_answer_quality/README.zh.md) → `e10` → [e11](../e11_tool_quality/README.zh.md) → … → e16
 
 > 沿阶段记录，找证据最早在哪里发生变化。
 

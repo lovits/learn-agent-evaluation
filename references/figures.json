@@ -370,5 +370,41 @@
     "visual_review": "passed",
     "node_font_size": 16,
     "edge_font_size": 13
+  },
+  {
+    "name": "e11-tool-flow",
+    "slug": "e11_tool_quality",
+    "title": "第11课：工具调用与执行记录",
+    "diagram_type": "flowchart",
+    "generator": "draw.io",
+    "candidate": "course/e11_tool_quality/images/tool-flow.drawio",
+    "output": "course/e11_tool_quality/images/tool-flow.drawio.svg",
+    "png": "course/e11_tool_quality/images/tool-flow.png",
+    "readme_preview": "course/e11_tool_quality/images/tool-flow.png",
+    "preview_url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e11-tool-flow.png",
+    "url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e11-tool-flow.svg",
+    "artifact_sha256": "bbb9e7410f5e1f98f727e23584420c5eebdb9f9b2325dea216552e21c6166d43",
+    "png_sha256": "67655f8d4155b0ab979df3ea853ccbc142289fa2c9a9feac8d42c6603c77e75a",
+    "visual_review": "passed",
+    "node_font_size": 16,
+    "edge_font_size": 13
+  },
+  {
+    "name": "e11-scoring-flow",
+    "slug": "e11_tool_quality",
+    "title": "第11课：参考匹配与语义参数判定",
+    "diagram_type": "flowchart",
+    "generator": "draw.io",
+    "candidate": "course/e11_tool_quality/images/scoring-flow.drawio",
+    "output": "course/e11_tool_quality/images/scoring-flow.drawio.svg",
+    "png": "course/e11_tool_quality/images/scoring-flow.png",
+    "readme_preview": "course/e11_tool_quality/images/scoring-flow.png",
+    "preview_url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e11-scoring-flow.png",
+    "url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e11-scoring-flow.svg",
+    "artifact_sha256": "2bc261700eeb962a17f31dd2456045f4573f2e93f6655f255e4bd5bf9d20954e",
+    "png_sha256": "d03cf1dbb92cbaa1502b03209eef6cf6620a4f3829bd3b8e7eb76f4b0c14b2a5",
+    "visual_review": "passed",
+    "node_font_size": 16,
+    "edge_font_size": 13
   }
 ]

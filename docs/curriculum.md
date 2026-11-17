@@ -298,6 +298,8 @@ Agent 接到任务，读文件、查资料、调用工具，最后给出回答�
 
 **学会的标志**：能解释高工具匹配分为何仍可能没有完成任务。
 
+[教材](../course/e11_tool_quality/README.zh.md) · [源码导读](../course/e11_tool_quality/source_walkthrough.md)
+
 ## 12 任务完成度
 
 怎样确认 Agent 真的交付了用户要的结果？

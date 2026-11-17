@@ -1,0 +1,1977 @@
+{
+  "lesson": "e05",
+  "source_note": "Atlas 项目规范和任务为构造的教学资料；两次 Agent 调用是真实模型运行，固定查询实验只运行原生 TinyRAG。",
+  "cases_sha256": "e6a1e1f418aaf3c2263fede870de67668271936279f357d17b6ca0cd90efd04d",
+  "baseline": {
+    "run_id": "e482c43222e54cd4861b0227c9b13cac",
+    "mode": "live_model",
+    "case_id": "atlas-release",
+    "status": "finished",
+    "final_answer": "已读回确认：`check.txt` 包含测试命令 `python -m pytest -q`，与资料要求一致。\n\n发布条件：在项目根目录运行该命令，且全部检查通过后才能提交发布；如有失败，必须先修复，不得跳过失败项。依据：[atlas/release.md#0]。另据 [atlas/logs.md#0]，审计日志保留时间不决定发布前的检查命令。\n\n未执行测试或实际发布。",
+    "events": [
+      {
+        "id": "1.0",
+        "name": "search_knowledge",
+        "arguments": {
+          "query": "Atlas 补丁发布前的检查要求 测试命令 发布条件"
+        },
+        "result": {
+          "status": "ok",
+          "kind": "knowledge_context",
+          "output": {
+            "knowledge_version": "5abefae73cbabb6b11499065c1c224c972673b40212948c7d70761e99ed1c97a",
+            "contexts": [
+              "[atlas/logs.md#0]\n# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+            ]
+          }
+        }
+      },
+      {
+        "id": "2.0",
+        "name": "search_knowledge",
+        "arguments": {
+          "query": "Atlas 补丁 发布规范 发布前 必须运行 命令 检查通过 条件"
+        },
+        "result": {
+          "status": "ok",
+          "kind": "knowledge_context",
+          "output": {
+            "knowledge_version": "5abefae73cbabb6b11499065c1c224c972673b40212948c7d70761e99ed1c97a",
+            "contexts": [
+              "[atlas/release.md#0]\n# Atlas 补丁发布\n\nAtlas 补丁发布前先在项目根目录运行 `python -m pytest -q`。\n只有全部检查通过才能提交发布；出现失败时先修复，不跳过失败项。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+            ]
+          }
+        }
+      },
+      {
+        "id": "3.0",
+        "name": "write_file",
+        "arguments": {
+          "path": "check.txt",
+          "content": "python -m pytest -q\n"
+        },
+        "result": {
+          "status": "ok",
+          "output": "written"
+        }
+      },
+      {
+        "id": "4.0",
+        "name": "read_file",
+        "arguments": {
+          "path": "check.txt"
+        },
+        "result": {
+          "status": "ok",
+          "output": "python -m pytest -q\n"
+        }
+      }
+    ],
+    "messages": [
+      {
+        "role": "user",
+        "content": "先用 search_knowledge 查询 Atlas 补丁发布前的检查要求。将资料要求的测试命令写入 check.txt，再用 read_file 读回确认，最后说明发布条件并引用搜索片段编号。不要实际执行发布。"
+      },
+      {
+        "role": "assistant",
+        "content": {
+          "answer": "我先查询知识库中 Atlas 补丁发布前的检查要求；拿到实际搜索结果后，再据此写入测试命令并读回确认。",
+          "tool_calls": [
+            {
+              "name": "search_knowledge",
+              "arguments_json": "{\"query\":\"Atlas 补丁发布前的检查要求 测试命令 发布条件\"}"
+            }
+          ]
+        }
+      },
+      {
+        "role": "tool",
+        "content": [
+          {
+            "status": "ok",
+            "kind": "knowledge_context",
+            "output": {
+              "knowledge_version": "5abefae73cbabb6b11499065c1c224c972673b40212948c7d70761e99ed1c97a",
+              "contexts": [
+                "[atlas/logs.md#0]\n# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "role": "assistant",
+        "content": {
+          "answer": "当前搜索片段 [atlas/logs.md#0] 明确说明日志保留时间不决定发布前检查命令，但未给出所需测试命令或完整发布条件。我将继续查询更具体的 Atlas 发布规范，待取得实际要求后再写入 check.txt。",
+          "tool_calls": [
+            {
+              "name": "search_knowledge",
+              "arguments_json": "{\"query\":\"Atlas 补丁 发布规范 发布前 必须运行 命令 检查通过 条件\"}"
+            }
+          ]
+        }
+      },
+      {
+        "role": "tool",
+        "content": [
+          {
+            "status": "ok",
+            "kind": "knowledge_context",
+            "output": {
+              "knowledge_version": "5abefae73cbabb6b11499065c1c224c972673b40212948c7d70761e99ed1c97a",
+              "contexts": [
+                "[atlas/release.md#0]\n# Atlas 补丁发布\n\nAtlas 补丁发布前先在项目根目录运行 `python -m pytest -q`。\n只有全部检查通过才能提交发布；出现失败时先修复，不跳过失败项。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "role": "assistant",
+        "content": {
+          "answer": "根据搜索片段 [atlas/release.md#0]，我将把资料指定的测试命令原样写入 check.txt；写入后再读回确认。",
+          "tool_calls": [
+            {
+              "name": "write_file",
+              "arguments_json": "{\"path\":\"check.txt\",\"content\":\"python -m pytest -q\\n\"}"
+            }
+          ]
+        }
+      },
+      {
+        "role": "tool",
+        "content": [
+          {
+            "status": "ok",
+            "output": "written"
+          }
+        ]
+      },
+      {
+        "role": "assistant",
+        "content": {
+          "answer": "check.txt 已写入；现在读回文件，确认测试命令与资料要求一致。",
+          "tool_calls": [
+            {
+              "name": "read_file",
+              "arguments_json": "{\"path\":\"check.txt\"}"
+            }
+          ]
+        }
+      },
+      {
+        "role": "tool",
+        "content": [
+          {
+            "status": "ok",
+            "output": "python -m pytest -q\n"
+          }
+        ]
+      },
+      {
+        "role": "assistant",
+        "content": {
+          "answer": "已读回确认：`check.txt` 包含测试命令 `python -m pytest -q`，与资料要求一致。\n\n发布条件：在项目根目录运行该命令，且全部检查通过后才能提交发布；如有失败，必须先修复，不得跳过失败项。依据：[atlas/release.md#0]。另据 [atlas/logs.md#0]，审计日志保留时间不决定发布前的检查命令。\n\n未执行测试或实际发布。",
+          "tool_calls": []
+        }
+      }
+    ],
+    "task": "先用 search_knowledge 查询 Atlas 补丁发布前的检查要求。将资料要求的测试命令写入 check.txt，再用 read_file 读回确认，最后说明发布条件并引用搜索片段编号。不要实际执行发布。",
+    "retrievals": [
+      {
+        "query": "Atlas 补丁发布前的检查要求 测试命令 发布条件",
+        "hits": [
+          {
+            "path": "atlas/logs.md",
+            "chunk_id": "atlas/logs.md#0",
+            "text": "# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+            "sha256": "3b2ad1b6898fb79cabedf2e0e1f9c509ae2b2315fc5fb9c07ee80939bce42032",
+            "source_sha256": "3b2ad1b6898fb79cabedf2e0e1f9c509ae2b2315fc5fb9c07ee80939bce42032",
+            "start": 0,
+            "end": 82,
+            "similarity": 0.4123613610867322,
+            "matches": 8,
+            "retriever": "TinyRAG.VectorStore",
+            "embedding": "local-tfidf"
+          },
+          {
+            "path": "atlas/release.md",
+            "chunk_id": "atlas/release.md#0",
+            "text": "# Atlas 补丁发布\n\nAtlas 补丁发布前先在项目根目录运行 `python -m pytest -q`。\n只有全部检查通过才能提交发布；出现失败时先修复，不跳过失败项。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+            "sha256": "db65230825cd6997c1e512c65a489941f6caf92d920a6cb94f5a51d395a1d98e",
+            "source_sha256": "db65230825cd6997c1e512c65a489941f6caf92d920a6cb94f5a51d395a1d98e",
+            "start": 0,
+            "end": 115,
+            "similarity": 0.23535744093348854,
+            "matches": 6,
+            "retriever": "TinyRAG.VectorStore",
+            "embedding": "local-tfidf"
+          },
+          {
+            "path": "atlas/auth.md",
+            "chunk_id": "atlas/auth.md#0",
+            "text": "# Atlas API 认证\n\nAtlas API 使用 `X-Atlas-Token` 请求头传递令牌。\n这个请求头用于身份认证，不用于决定补丁能否发布。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+            "sha256": "ae628a0575ad7e15b11ed78028ac88e4204c8201d7b132ea269ff56935e631ac",
+            "source_sha256": "ae628a0575ad7e15b11ed78028ac88e4204c8201d7b132ea269ff56935e631ac",
+            "start": 0,
+            "end": 104,
+            "similarity": 0.12186097062926068,
+            "matches": 3,
+            "retriever": "TinyRAG.VectorStore",
+            "embedding": "local-tfidf"
+          }
+        ],
+        "selected": [
+          {
+            "path": "atlas/logs.md",
+            "chunk_id": "atlas/logs.md#0",
+            "text": "# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+            "sha256": "3b2ad1b6898fb79cabedf2e0e1f9c509ae2b2315fc5fb9c07ee80939bce42032",
+            "source_sha256": "3b2ad1b6898fb79cabedf2e0e1f9c509ae2b2315fc5fb9c07ee80939bce42032",
+            "start": 0,
+            "end": 82,
+            "similarity": 0.4123613610867322,
+            "matches": 8,
+            "retriever": "TinyRAG.VectorStore",
+            "embedding": "local-tfidf"
+          }
+        ],
+        "emitted": [
+          "[atlas/logs.md#0]\n# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+        ]
+      },
+      {
+        "query": "Atlas 补丁 发布规范 发布前 必须运行 命令 检查通过 条件",
+        "hits": [
+          {
+            "path": "atlas/release.md",
+            "chunk_id": "atlas/release.md#0",
+            "text": "# Atlas 补丁发布\n\nAtlas 补丁发布前先在项目根目录运行 `python -m pytest -q`。\n只有全部检查通过才能提交发布；出现失败时先修复，不跳过失败项。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+            "sha256": "db65230825cd6997c1e512c65a489941f6caf92d920a6cb94f5a51d395a1d98e",
+            "source_sha256": "db65230825cd6997c1e512c65a489941f6caf92d920a6cb94f5a51d395a1d98e",
+            "start": 0,
+            "end": 115,
+            "similarity": 0.3382230672439644,
+            "matches": 9,
+            "retriever": "TinyRAG.VectorStore",
+            "embedding": "local-tfidf"
+          },
+          {
+            "path": "atlas/logs.md",
+            "chunk_id": "atlas/logs.md#0",
+            "text": "# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+            "sha256": "3b2ad1b6898fb79cabedf2e0e1f9c509ae2b2315fc5fb9c07ee80939bce42032",
+            "source_sha256": "3b2ad1b6898fb79cabedf2e0e1f9c509ae2b2315fc5fb9c07ee80939bce42032",
+            "start": 0,
+            "end": 82,
+            "similarity": 0.33743545936666214,
+            "matches": 8,
+            "retriever": "TinyRAG.VectorStore",
+            "embedding": "local-tfidf"
+          },
+          {
+            "path": "atlas/auth.md",
+            "chunk_id": "atlas/auth.md#0",
+            "text": "# Atlas API 认证\n\nAtlas API 使用 `X-Atlas-Token` 请求头传递令牌。\n这个请求头用于身份认证，不用于决定补丁能否发布。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+            "sha256": "ae628a0575ad7e15b11ed78028ac88e4204c8201d7b132ea269ff56935e631ac",
+            "source_sha256": "ae628a0575ad7e15b11ed78028ac88e4204c8201d7b132ea269ff56935e631ac",
+            "start": 0,
+            "end": 104,
+            "similarity": 0.14598218169855298,
+            "matches": 4,
+            "retriever": "TinyRAG.VectorStore",
+            "embedding": "local-tfidf"
+          }
+        ],
+        "selected": [
+          {
+            "path": "atlas/release.md",
+            "chunk_id": "atlas/release.md#0",
+            "text": "# Atlas 补丁发布\n\nAtlas 补丁发布前先在项目根目录运行 `python -m pytest -q`。\n只有全部检查通过才能提交发布；出现失败时先修复，不跳过失败项。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+            "sha256": "db65230825cd6997c1e512c65a489941f6caf92d920a6cb94f5a51d395a1d98e",
+            "source_sha256": "db65230825cd6997c1e512c65a489941f6caf92d920a6cb94f5a51d395a1d98e",
+            "start": 0,
+            "end": 115,
+            "similarity": 0.3382230672439644,
+            "matches": 9,
+            "retriever": "TinyRAG.VectorStore",
+            "embedding": "local-tfidf"
+          }
+        ],
+        "emitted": [
+          "[atlas/release.md#0]\n# Atlas 补丁发布\n\nAtlas 补丁发布前先在项目根目录运行 `python -m pytest -q`。\n只有全部检查通过才能提交发布；出现失败时先修复，不跳过失败项。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+        ]
+      }
+    ],
+    "model_inputs": [
+      [
+        {
+          "role": "user",
+          "content": "先用 search_knowledge 查询 Atlas 补丁发布前的检查要求。将资料要求的测试命令写入 check.txt，再用 read_file 读回确认，最后说明发布条件并引用搜索片段编号。不要实际执行发布。"
+        }
+      ],
+      [
+        {
+          "role": "user",
+          "content": "先用 search_knowledge 查询 Atlas 补丁发布前的检查要求。将资料要求的测试命令写入 check.txt，再用 read_file 读回确认，最后说明发布条件并引用搜索片段编号。不要实际执行发布。"
+        },
+        {
+          "role": "assistant",
+          "content": {
+            "answer": "我先查询知识库中 Atlas 补丁发布前的检查要求；拿到实际搜索结果后，再据此写入测试命令并读回确认。",
+            "tool_calls": [
+              {
+                "name": "search_knowledge",
+                "arguments_json": "{\"query\":\"Atlas 补丁发布前的检查要求 测试命令 发布条件\"}"
+              }
+            ]
+          }
+        },
+        {
+          "role": "tool",
+          "content": [
+            {
+              "status": "ok",
+              "kind": "knowledge_context",
+              "output": {
+                "knowledge_version": "5abefae73cbabb6b11499065c1c224c972673b40212948c7d70761e99ed1c97a",
+                "contexts": [
+                  "[atlas/logs.md#0]\n# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      [
+        {
+          "role": "user",
+          "content": "先用 search_knowledge 查询 Atlas 补丁发布前的检查要求。将资料要求的测试命令写入 check.txt，再用 read_file 读回确认，最后说明发布条件并引用搜索片段编号。不要实际执行发布。"
+        },
+        {
+          "role": "assistant",
+          "content": {
+            "answer": "我先查询知识库中 Atlas 补丁发布前的检查要求；拿到实际搜索结果后，再据此写入测试命令并读回确认。",
+            "tool_calls": [
+              {
+                "name": "search_knowledge",
+                "arguments_json": "{\"query\":\"Atlas 补丁发布前的检查要求 测试命令 发布条件\"}"
+              }
+            ]
+          }
+        },
+        {
+          "role": "tool",
+          "content": [
+            {
+              "status": "ok",
+              "kind": "knowledge_context",
+              "output": {
+                "knowledge_version": "5abefae73cbabb6b11499065c1c224c972673b40212948c7d70761e99ed1c97a",
+                "contexts": [
+                  "[atlas/logs.md#0]\n# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "role": "assistant",
+          "content": {
+            "answer": "当前搜索片段 [atlas/logs.md#0] 明确说明日志保留时间不决定发布前检查命令，但未给出所需测试命令或完整发布条件。我将继续查询更具体的 Atlas 发布规范，待取得实际要求后再写入 check.txt。",
+            "tool_calls": [
+              {
+                "name": "search_knowledge",
+                "arguments_json": "{\"query\":\"Atlas 补丁 发布规范 发布前 必须运行 命令 检查通过 条件\"}"
+              }
+            ]
+          }
+        },
+        {
+          "role": "tool",
+          "content": [
+            {
+              "status": "ok",
+              "kind": "knowledge_context",
+              "output": {
+                "knowledge_version": "5abefae73cbabb6b11499065c1c224c972673b40212948c7d70761e99ed1c97a",
+                "contexts": [
+                  "[atlas/release.md#0]\n# Atlas 补丁发布\n\nAtlas 补丁发布前先在项目根目录运行 `python -m pytest -q`。\n只有全部检查通过才能提交发布；出现失败时先修复，不跳过失败项。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      [
+        {
+          "role": "user",
+          "content": "先用 search_knowledge 查询 Atlas 补丁发布前的检查要求。将资料要求的测试命令写入 check.txt，再用 read_file 读回确认，最后说明发布条件并引用搜索片段编号。不要实际执行发布。"
+        },
+        {
+          "role": "assistant",
+          "content": {
+            "answer": "我先查询知识库中 Atlas 补丁发布前的检查要求；拿到实际搜索结果后，再据此写入测试命令并读回确认。",
+            "tool_calls": [
+              {
+                "name": "search_knowledge",
+                "arguments_json": "{\"query\":\"Atlas 补丁发布前的检查要求 测试命令 发布条件\"}"
+              }
+            ]
+          }
+        },
+        {
+          "role": "tool",
+          "content": [
+            {
+              "status": "ok",
+              "kind": "knowledge_context",
+              "output": {
+                "knowledge_version": "5abefae73cbabb6b11499065c1c224c972673b40212948c7d70761e99ed1c97a",
+                "contexts": [
+                  "[atlas/logs.md#0]\n# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "role": "assistant",
+          "content": {
+            "answer": "当前搜索片段 [atlas/logs.md#0] 明确说明日志保留时间不决定发布前检查命令，但未给出所需测试命令或完整发布条件。我将继续查询更具体的 Atlas 发布规范，待取得实际要求后再写入 check.txt。",
+            "tool_calls": [
+              {
+                "name": "search_knowledge",
+                "arguments_json": "{\"query\":\"Atlas 补丁 发布规范 发布前 必须运行 命令 检查通过 条件\"}"
+              }
+            ]
+          }
+        },
+        {
+          "role": "tool",
+          "content": [
+            {
+              "status": "ok",
+              "kind": "knowledge_context",
+              "output": {
+                "knowledge_version": "5abefae73cbabb6b11499065c1c224c972673b40212948c7d70761e99ed1c97a",
+                "contexts": [
+                  "[atlas/release.md#0]\n# Atlas 补丁发布\n\nAtlas 补丁发布前先在项目根目录运行 `python -m pytest -q`。\n只有全部检查通过才能提交发布；出现失败时先修复，不跳过失败项。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "role": "assistant",
+          "content": {
+            "answer": "根据搜索片段 [atlas/release.md#0]，我将把资料指定的测试命令原样写入 check.txt；写入后再读回确认。",
+            "tool_calls": [
+              {
+                "name": "write_file",
+                "arguments_json": "{\"path\":\"check.txt\",\"content\":\"python -m pytest -q\\n\"}"
+              }
+            ]
+          }
+        },
+        {
+          "role": "tool",
+          "content": [
+            {
+              "status": "ok",
+              "output": "written"
+            }
+          ]
+        }
+      ],
+      [
+        {
+          "role": "user",
+          "content": "先用 search_knowledge 查询 Atlas 补丁发布前的检查要求。将资料要求的测试命令写入 check.txt，再用 read_file 读回确认，最后说明发布条件并引用搜索片段编号。不要实际执行发布。"
+        },
+        {
+          "role": "assistant",
+          "content": {
+            "answer": "我先查询知识库中 Atlas 补丁发布前的检查要求；拿到实际搜索结果后，再据此写入测试命令并读回确认。",
+            "tool_calls": [
+              {
+                "name": "search_knowledge",
+                "arguments_json": "{\"query\":\"Atlas 补丁发布前的检查要求 测试命令 发布条件\"}"
+              }
+            ]
+          }
+        },
+        {
+          "role": "tool",
+          "content": [
+            {
+              "status": "ok",
+              "kind": "knowledge_context",
+              "output": {
+                "knowledge_version": "5abefae73cbabb6b11499065c1c224c972673b40212948c7d70761e99ed1c97a",
+                "contexts": [
+                  "[atlas/logs.md#0]\n# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "role": "assistant",
+          "content": {
+            "answer": "当前搜索片段 [atlas/logs.md#0] 明确说明日志保留时间不决定发布前检查命令，但未给出所需测试命令或完整发布条件。我将继续查询更具体的 Atlas 发布规范，待取得实际要求后再写入 check.txt。",
+            "tool_calls": [
+              {
+                "name": "search_knowledge",
+                "arguments_json": "{\"query\":\"Atlas 补丁 发布规范 发布前 必须运行 命令 检查通过 条件\"}"
+              }
+            ]
+          }
+        },
+        {
+          "role": "tool",
+          "content": [
+            {
+              "status": "ok",
+              "kind": "knowledge_context",
+              "output": {
+                "knowledge_version": "5abefae73cbabb6b11499065c1c224c972673b40212948c7d70761e99ed1c97a",
+                "contexts": [
+                  "[atlas/release.md#0]\n# Atlas 补丁发布\n\nAtlas 补丁发布前先在项目根目录运行 `python -m pytest -q`。\n只有全部检查通过才能提交发布；出现失败时先修复，不跳过失败项。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "role": "assistant",
+          "content": {
+            "answer": "根据搜索片段 [atlas/release.md#0]，我将把资料指定的测试命令原样写入 check.txt；写入后再读回确认。",
+            "tool_calls": [
+              {
+                "name": "write_file",
+                "arguments_json": "{\"path\":\"check.txt\",\"content\":\"python -m pytest -q\\n\"}"
+              }
+            ]
+          }
+        },
+        {
+          "role": "tool",
+          "content": [
+            {
+              "status": "ok",
+              "output": "written"
+            }
+          ]
+        },
+        {
+          "role": "assistant",
+          "content": {
+            "answer": "check.txt 已写入；现在读回文件，确认测试命令与资料要求一致。",
+            "tool_calls": [
+              {
+                "name": "read_file",
+                "arguments_json": "{\"path\":\"check.txt\"}"
+              }
+            ]
+          }
+        },
+        {
+          "role": "tool",
+          "content": [
+            {
+              "status": "ok",
+              "output": "python -m pytest -q\n"
+            }
+          ]
+        }
+      ]
+    ],
+    "knowledge": {
+      "sha256": "5abefae73cbabb6b11499065c1c224c972673b40212948c7d70761e99ed1c97a",
+      "documents": [
+        {
+          "path": "atlas/auth.md",
+          "sha256": "ae628a0575ad7e15b11ed78028ac88e4204c8201d7b132ea269ff56935e631ac"
+        },
+        {
+          "path": "atlas/logs.md",
+          "sha256": "3b2ad1b6898fb79cabedf2e0e1f9c509ae2b2315fc5fb9c07ee80939bce42032"
+        },
+        {
+          "path": "atlas/release.md",
+          "sha256": "db65230825cd6997c1e512c65a489941f6caf92d920a6cb94f5a51d395a1d98e"
+        },
+        {
+          "path": "course/upload.md",
+          "sha256": "373d757ad03c0abeca2bee4fe92d832001dadb6d617ddbd94f87e15a828a996a"
+        },
+        {
+          "path": "e04/auth.md",
+          "sha256": "c679cde9b3a727c786041a104888227dad4338379942276adeba9f3e211c335f"
+        },
+        {
+          "path": "e04/limits.md",
+          "sha256": "a742717e40c3a2af1a7c2fee961c06ee9d91872b8d09b81089159a057af1d949"
+        },
+        {
+          "path": "e04/noise.md",
+          "sha256": "66ae3f3dd49daf1f20ef141b27cda4e068b99258e677cb5956f437da04e27017"
+        },
+        {
+          "path": "e09/archive/auth.md",
+          "sha256": "1adae93eee5709b2c286a34856bd138d7561aff85f3134f2e68a85781bc08d35"
+        },
+        {
+          "path": "e09/archive/limits.md",
+          "sha256": "13d0fd6b345365b8f384581018aca258c4222741d6305a601f139eef1e86e827"
+        },
+        {
+          "path": "e10/billing.md",
+          "sha256": "504feb4ed5ea4ee4f5fa18a6e19f5fb98bbdd03f985fcf011ddec263897e20f0"
+        },
+        {
+          "path": "e11/shipping.md",
+          "sha256": "1aa224931915fe2b2298eed8586187e0acd73de3906834fa6715bf427bf920d1"
+        },
+        {
+          "path": "e12/shipping.md",
+          "sha256": "c5c49db597843d62eac211625816d2d0a4f85656ed65a7c6a57c0b55138d4758"
+        },
+        {
+          "path": "e13/shipping.md",
+          "sha256": "ba7f9e8c4b4b5f1306153bef43e4b5918b29dc645c5843168e252e86f54d8453"
+        },
+        {
+          "path": "e14/shipping.md",
+          "sha256": "ba7f9e8c4b4b5f1306153bef43e4b5918b29dc645c5843168e252e86f54d8453"
+        },
+        {
+          "path": "e16/shipping.md",
+          "sha256": "ba7f9e8c4b4b5f1306153bef43e4b5918b29dc645c5843168e252e86f54d8453"
+        },
+        {
+          "path": "project.md",
+          "sha256": "2543e3fa1e87368cadd04e7f2ff28ae6766683f43628f35fa957099ba61e4ebc"
+        }
+      ]
+    },
+    "retrieval_settings": {
+      "k": 3,
+      "context_limit": 1
+    },
+    "reference_status": "current",
+    "sample": {
+      "input": "先用 search_knowledge 查询 Atlas 补丁发布前的检查要求。将资料要求的测试命令写入 check.txt，再用 read_file 读回确认，最后说明发布条件并引用搜索片段编号。不要实际执行发布。",
+      "actual_output": "已读回确认：`check.txt` 包含测试命令 `python -m pytest -q`，与资料要求一致。\n\n发布条件：在项目根目录运行该命令，且全部检查通过后才能提交发布；如有失败，必须先修复，不得跳过失败项。依据：[atlas/release.md#0]。另据 [atlas/logs.md#0]，审计日志保留时间不决定发布前的检查命令。\n\n未执行测试或实际发布。",
+      "expected_output": "运行 python -m pytest -q；全部检查通过才提交发布，失败先修复，不跳过失败项。",
+      "context": [
+        "# Atlas 补丁发布\n\nAtlas 补丁发布前先在项目根目录运行 `python -m pytest -q`。\n只有全部检查通过才能提交发布；出现失败时先修复，不跳过失败项。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+      ],
+      "retrieval_context": [
+        "[atlas/logs.md#0]\n# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+        "[atlas/release.md#0]\n# Atlas 补丁发布\n\nAtlas 补丁发布前先在项目根目录运行 `python -m pytest -q`。\n只有全部检查通过才能提交发布；出现失败时先修复，不跳过失败项。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+      ],
+      "metadata": null,
+      "tools_called": [
+        {
+          "name": "search_knowledge",
+          "type": "FUNCTION",
+          "description": null,
+          "reasoning": null,
+          "output": {
+            "status": "ok",
+            "kind": "knowledge_context",
+            "output": {
+              "knowledge_version": "5abefae73cbabb6b11499065c1c224c972673b40212948c7d70761e99ed1c97a",
+              "contexts": [
+                "[atlas/logs.md#0]\n# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+              ]
+            }
+          },
+          "input_parameters": {
+            "query": "Atlas 补丁发布前的检查要求 测试命令 发布条件"
+          }
+        },
+        {
+          "name": "search_knowledge",
+          "type": "FUNCTION",
+          "description": null,
+          "reasoning": null,
+          "output": {
+            "status": "ok",
+            "kind": "knowledge_context",
+            "output": {
+              "knowledge_version": "5abefae73cbabb6b11499065c1c224c972673b40212948c7d70761e99ed1c97a",
+              "contexts": [
+                "[atlas/release.md#0]\n# Atlas 补丁发布\n\nAtlas 补丁发布前先在项目根目录运行 `python -m pytest -q`。\n只有全部检查通过才能提交发布；出现失败时先修复，不跳过失败项。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+              ]
+            }
+          },
+          "input_parameters": {
+            "query": "Atlas 补丁 发布规范 发布前 必须运行 命令 检查通过 条件"
+          }
+        },
+        {
+          "name": "write_file",
+          "type": "FUNCTION",
+          "description": null,
+          "reasoning": null,
+          "output": {
+            "status": "ok",
+            "output": "written"
+          },
+          "input_parameters": {
+            "path": "check.txt",
+            "content": "python -m pytest -q\n"
+          }
+        },
+        {
+          "name": "read_file",
+          "type": "FUNCTION",
+          "description": null,
+          "reasoning": null,
+          "output": {
+            "status": "ok",
+            "output": "python -m pytest -q\n"
+          },
+          "input_parameters": {
+            "path": "check.txt"
+          }
+        }
+      ],
+      "comments": null,
+      "expected_tools": null,
+      "token_cost": null,
+      "input_token_count": null,
+      "output_token_count": null,
+      "completion_time": null,
+      "flaky": false,
+      "multimodal": false,
+      "name": null,
+      "tags": null,
+      "mcp_servers": null,
+      "mcp_tools_called": null,
+      "mcp_resources_called": null,
+      "mcp_prompts_called": null,
+      "custom_column_key_values": null,
+      "expectations": null,
+      "expected_labels": null
+    },
+    "checks": {
+      "search_observed": true,
+      "source_versions_match": true,
+      "chunk_hashes_match": true,
+      "chunk_lengths_match": true,
+      "sample_matches_model_input": true
+    }
+  },
+  "alternate_mount": {
+    "run_id": "b89516d0244046469378d036fe429fbc",
+    "mode": "live_model",
+    "case_id": "atlas-release",
+    "status": "finished",
+    "final_answer": "已读回确认 `check.txt`，内容为：`python -m pytest -q tests/unit`。\n\n发布条件：必须在项目根目录运行该命令，且全部检查通过后才能提交发布；如有失败，应先修复，不得跳过失败项。依据：[atlas/release.md#0]。\n\n未实际执行测试或发布。",
+    "events": [
+      {
+        "id": "1.0",
+        "name": "search_knowledge",
+        "arguments": {
+          "query": "Atlas 补丁发布前的检查要求 测试命令 发布条件"
+        },
+        "result": {
+          "status": "ok",
+          "kind": "knowledge_context",
+          "output": {
+            "knowledge_version": "d25f21098dcf5de3b4852521d80a366ab237e8361a9d2699205ac2f8d00bf35b",
+            "contexts": [
+              "[atlas/logs.md#0]\n# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+            ]
+          }
+        }
+      },
+      {
+        "id": "2.0",
+        "name": "search_knowledge",
+        "arguments": {
+          "query": "Atlas 发布规范 补丁 发布前 必须运行 命令 条件"
+        },
+        "result": {
+          "status": "ok",
+          "kind": "knowledge_context",
+          "output": {
+            "knowledge_version": "d25f21098dcf5de3b4852521d80a366ab237e8361a9d2699205ac2f8d00bf35b",
+            "contexts": [
+              "[atlas/logs.md#0]\n# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+            ]
+          }
+        }
+      },
+      {
+        "id": "3.0",
+        "name": "search_knowledge",
+        "arguments": {
+          "query": "Atlas patch pre-release checklist required tests release gate"
+        },
+        "result": {
+          "status": "ok",
+          "kind": "knowledge_context",
+          "output": {
+            "knowledge_version": "d25f21098dcf5de3b4852521d80a366ab237e8361a9d2699205ac2f8d00bf35b",
+            "contexts": [
+              "[atlas/release.md#0]\n# Atlas 补丁发布\n\nAtlas 补丁发布前先在项目根目录运行 `python -m pytest -q tests/unit`。\n只有全部检查通过才能提交发布；出现失败时先修复，不跳过失败项。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+            ]
+          }
+        }
+      },
+      {
+        "id": "4.0",
+        "name": "write_file",
+        "arguments": {
+          "path": "check.txt",
+          "content": "python -m pytest -q tests/unit\n"
+        },
+        "result": {
+          "status": "ok",
+          "output": "written"
+        }
+      },
+      {
+        "id": "5.0",
+        "name": "read_file",
+        "arguments": {
+          "path": "check.txt"
+        },
+        "result": {
+          "status": "ok",
+          "output": "python -m pytest -q tests/unit\n"
+        }
+      }
+    ],
+    "messages": [
+      {
+        "role": "user",
+        "content": "先用 search_knowledge 查询 Atlas 补丁发布前的检查要求。将资料要求的测试命令写入 check.txt，再用 read_file 读回确认，最后说明发布条件并引用搜索片段编号。不要实际执行发布。"
+      },
+      {
+        "role": "assistant",
+        "content": {
+          "answer": "我会先查询 Atlas 补丁发布前的检查要求，再根据实际搜索结果写入并读回确认 `check.txt`；不会执行发布。",
+          "tool_calls": [
+            {
+              "name": "search_knowledge",
+              "arguments_json": "{\"query\":\"Atlas 补丁发布前的检查要求 测试命令 发布条件\"}"
+            }
+          ]
+        }
+      },
+      {
+        "role": "tool",
+        "content": [
+          {
+            "status": "ok",
+            "kind": "knowledge_context",
+            "output": {
+              "knowledge_version": "d25f21098dcf5de3b4852521d80a366ab237e8361a9d2699205ac2f8d00bf35b",
+              "contexts": [
+                "[atlas/logs.md#0]\n# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "role": "assistant",
+        "content": {
+          "answer": "当前搜索结果仅说明审计日志保留期与发布检查无关，尚未给出所需测试命令或发布条件。我会继续查询更具体的 Atlas 发布规范。",
+          "tool_calls": [
+            {
+              "name": "search_knowledge",
+              "arguments_json": "{\"query\":\"Atlas 发布规范 补丁 发布前 必须运行 命令 条件\"}"
+            }
+          ]
+        }
+      },
+      {
+        "role": "tool",
+        "content": [
+          {
+            "status": "ok",
+            "kind": "knowledge_context",
+            "output": {
+              "knowledge_version": "d25f21098dcf5de3b4852521d80a366ab237e8361a9d2699205ac2f8d00bf35b",
+              "contexts": [
+                "[atlas/logs.md#0]\n# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "role": "assistant",
+        "content": {
+          "answer": "两次查询都只命中了无关的审计日志片段，不能据此编造测试命令或发布条件。我会改用可能出现在规范中的关键词继续检索。",
+          "tool_calls": [
+            {
+              "name": "search_knowledge",
+              "arguments_json": "{\"query\":\"Atlas patch pre-release checklist required tests release gate\"}"
+            }
+          ]
+        }
+      },
+      {
+        "role": "tool",
+        "content": [
+          {
+            "status": "ok",
+            "kind": "knowledge_context",
+            "output": {
+              "knowledge_version": "d25f21098dcf5de3b4852521d80a366ab237e8361a9d2699205ac2f8d00bf35b",
+              "contexts": [
+                "[atlas/release.md#0]\n# Atlas 补丁发布\n\nAtlas 补丁发布前先在项目根目录运行 `python -m pytest -q tests/unit`。\n只有全部检查通过才能提交发布；出现失败时先修复，不跳过失败项。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "role": "assistant",
+        "content": {
+          "answer": "已找到发布规范：要求在项目根目录运行 `python -m pytest -q tests/unit`。现在将该命令原样写入 `check.txt`，随后再读回确认。",
+          "tool_calls": [
+            {
+              "name": "write_file",
+              "arguments_json": "{\"path\":\"check.txt\",\"content\":\"python -m pytest -q tests/unit\\n\"}"
+            }
+          ]
+        }
+      },
+      {
+        "role": "tool",
+        "content": [
+          {
+            "status": "ok",
+            "output": "written"
+          }
+        ]
+      },
+      {
+        "role": "assistant",
+        "content": {
+          "answer": "测试命令已写入 `check.txt`。接下来读回文件，确认内容与规范一致。",
+          "tool_calls": [
+            {
+              "name": "read_file",
+              "arguments_json": "{\"path\":\"check.txt\"}"
+            }
+          ]
+        }
+      },
+      {
+        "role": "tool",
+        "content": [
+          {
+            "status": "ok",
+            "output": "python -m pytest -q tests/unit\n"
+          }
+        ]
+      },
+      {
+        "role": "assistant",
+        "content": {
+          "answer": "已读回确认 `check.txt`，内容为：`python -m pytest -q tests/unit`。\n\n发布条件：必须在项目根目录运行该命令，且全部检查通过后才能提交发布；如有失败，应先修复，不得跳过失败项。依据：[atlas/release.md#0]。\n\n未实际执行测试或发布。",
+          "tool_calls": []
+        }
+      }
+    ],
+    "task": "先用 search_knowledge 查询 Atlas 补丁发布前的检查要求。将资料要求的测试命令写入 check.txt，再用 read_file 读回确认，最后说明发布条件并引用搜索片段编号。不要实际执行发布。",
+    "retrievals": [
+      {
+        "query": "Atlas 补丁发布前的检查要求 测试命令 发布条件",
+        "hits": [
+          {
+            "path": "atlas/logs.md",
+            "chunk_id": "atlas/logs.md#0",
+            "text": "# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+            "sha256": "3b2ad1b6898fb79cabedf2e0e1f9c509ae2b2315fc5fb9c07ee80939bce42032",
+            "source_sha256": "3b2ad1b6898fb79cabedf2e0e1f9c509ae2b2315fc5fb9c07ee80939bce42032",
+            "start": 0,
+            "end": 82,
+            "similarity": 0.4123613610867322,
+            "matches": 8,
+            "retriever": "TinyRAG.VectorStore",
+            "embedding": "local-tfidf"
+          }
+        ],
+        "selected": [
+          {
+            "path": "atlas/logs.md",
+            "chunk_id": "atlas/logs.md#0",
+            "text": "# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+            "sha256": "3b2ad1b6898fb79cabedf2e0e1f9c509ae2b2315fc5fb9c07ee80939bce42032",
+            "source_sha256": "3b2ad1b6898fb79cabedf2e0e1f9c509ae2b2315fc5fb9c07ee80939bce42032",
+            "start": 0,
+            "end": 82,
+            "similarity": 0.4123613610867322,
+            "matches": 8,
+            "retriever": "TinyRAG.VectorStore",
+            "embedding": "local-tfidf"
+          }
+        ],
+        "emitted": [
+          "[atlas/logs.md#0]\n# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+        ]
+      },
+      {
+        "query": "Atlas 发布规范 补丁 发布前 必须运行 命令 条件",
+        "hits": [
+          {
+            "path": "atlas/logs.md",
+            "chunk_id": "atlas/logs.md#0",
+            "text": "# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+            "sha256": "3b2ad1b6898fb79cabedf2e0e1f9c509ae2b2315fc5fb9c07ee80939bce42032",
+            "source_sha256": "3b2ad1b6898fb79cabedf2e0e1f9c509ae2b2315fc5fb9c07ee80939bce42032",
+            "start": 0,
+            "end": 82,
+            "similarity": 0.3656771434902743,
+            "matches": 7,
+            "retriever": "TinyRAG.VectorStore",
+            "embedding": "local-tfidf"
+          }
+        ],
+        "selected": [
+          {
+            "path": "atlas/logs.md",
+            "chunk_id": "atlas/logs.md#0",
+            "text": "# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+            "sha256": "3b2ad1b6898fb79cabedf2e0e1f9c509ae2b2315fc5fb9c07ee80939bce42032",
+            "source_sha256": "3b2ad1b6898fb79cabedf2e0e1f9c509ae2b2315fc5fb9c07ee80939bce42032",
+            "start": 0,
+            "end": 82,
+            "similarity": 0.3656771434902743,
+            "matches": 7,
+            "retriever": "TinyRAG.VectorStore",
+            "embedding": "local-tfidf"
+          }
+        ],
+        "emitted": [
+          "[atlas/logs.md#0]\n# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+        ]
+      },
+      {
+        "query": "Atlas patch pre-release checklist required tests release gate",
+        "hits": [
+          {
+            "path": "atlas/release.md",
+            "chunk_id": "atlas/release.md#0",
+            "text": "# Atlas 补丁发布\n\nAtlas 补丁发布前先在项目根目录运行 `python -m pytest -q tests/unit`。\n只有全部检查通过才能提交发布；出现失败时先修复，不跳过失败项。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+            "sha256": "eff2982038e9b69fdfa29b96188a7de4468df8d946ce92cc7174206c546d35e5",
+            "source_sha256": "eff2982038e9b69fdfa29b96188a7de4468df8d946ce92cc7174206c546d35e5",
+            "start": 0,
+            "end": 126,
+            "similarity": 0.22509277076195558,
+            "matches": 2,
+            "retriever": "TinyRAG.VectorStore",
+            "embedding": "local-tfidf"
+          }
+        ],
+        "selected": [
+          {
+            "path": "atlas/release.md",
+            "chunk_id": "atlas/release.md#0",
+            "text": "# Atlas 补丁发布\n\nAtlas 补丁发布前先在项目根目录运行 `python -m pytest -q tests/unit`。\n只有全部检查通过才能提交发布；出现失败时先修复，不跳过失败项。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+            "sha256": "eff2982038e9b69fdfa29b96188a7de4468df8d946ce92cc7174206c546d35e5",
+            "source_sha256": "eff2982038e9b69fdfa29b96188a7de4468df8d946ce92cc7174206c546d35e5",
+            "start": 0,
+            "end": 126,
+            "similarity": 0.22509277076195558,
+            "matches": 2,
+            "retriever": "TinyRAG.VectorStore",
+            "embedding": "local-tfidf"
+          }
+        ],
+        "emitted": [
+          "[atlas/release.md#0]\n# Atlas 补丁发布\n\nAtlas 补丁发布前先在项目根目录运行 `python -m pytest -q tests/unit`。\n只有全部检查通过才能提交发布；出现失败时先修复，不跳过失败项。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+        ]
+      }
+    ],
+    "model_inputs": [
+      [
+        {
+          "role": "user",
+          "content": "先用 search_knowledge 查询 Atlas 补丁发布前的检查要求。将资料要求的测试命令写入 check.txt，再用 read_file 读回确认，最后说明发布条件并引用搜索片段编号。不要实际执行发布。"
+        }
+      ],
+      [
+        {
+          "role": "user",
+          "content": "先用 search_knowledge 查询 Atlas 补丁发布前的检查要求。将资料要求的测试命令写入 check.txt，再用 read_file 读回确认，最后说明发布条件并引用搜索片段编号。不要实际执行发布。"
+        },
+        {
+          "role": "assistant",
+          "content": {
+            "answer": "我会先查询 Atlas 补丁发布前的检查要求，再根据实际搜索结果写入并读回确认 `check.txt`；不会执行发布。",
+            "tool_calls": [
+              {
+                "name": "search_knowledge",
+                "arguments_json": "{\"query\":\"Atlas 补丁发布前的检查要求 测试命令 发布条件\"}"
+              }
+            ]
+          }
+        },
+        {
+          "role": "tool",
+          "content": [
+            {
+              "status": "ok",
+              "kind": "knowledge_context",
+              "output": {
+                "knowledge_version": "d25f21098dcf5de3b4852521d80a366ab237e8361a9d2699205ac2f8d00bf35b",
+                "contexts": [
+                  "[atlas/logs.md#0]\n# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      [
+        {
+          "role": "user",
+          "content": "先用 search_knowledge 查询 Atlas 补丁发布前的检查要求。将资料要求的测试命令写入 check.txt，再用 read_file 读回确认，最后说明发布条件并引用搜索片段编号。不要实际执行发布。"
+        },
+        {
+          "role": "assistant",
+          "content": {
+            "answer": "我会先查询 Atlas 补丁发布前的检查要求，再根据实际搜索结果写入并读回确认 `check.txt`；不会执行发布。",
+            "tool_calls": [
+              {
+                "name": "search_knowledge",
+                "arguments_json": "{\"query\":\"Atlas 补丁发布前的检查要求 测试命令 发布条件\"}"
+              }
+            ]
+          }
+        },
+        {
+          "role": "tool",
+          "content": [
+            {
+              "status": "ok",
+              "kind": "knowledge_context",
+              "output": {
+                "knowledge_version": "d25f21098dcf5de3b4852521d80a366ab237e8361a9d2699205ac2f8d00bf35b",
+                "contexts": [
+                  "[atlas/logs.md#0]\n# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "role": "assistant",
+          "content": {
+            "answer": "当前搜索结果仅说明审计日志保留期与发布检查无关，尚未给出所需测试命令或发布条件。我会继续查询更具体的 Atlas 发布规范。",
+            "tool_calls": [
+              {
+                "name": "search_knowledge",
+                "arguments_json": "{\"query\":\"Atlas 发布规范 补丁 发布前 必须运行 命令 条件\"}"
+              }
+            ]
+          }
+        },
+        {
+          "role": "tool",
+          "content": [
+            {
+              "status": "ok",
+              "kind": "knowledge_context",
+              "output": {
+                "knowledge_version": "d25f21098dcf5de3b4852521d80a366ab237e8361a9d2699205ac2f8d00bf35b",
+                "contexts": [
+                  "[atlas/logs.md#0]\n# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      [
+        {
+          "role": "user",
+          "content": "先用 search_knowledge 查询 Atlas 补丁发布前的检查要求。将资料要求的测试命令写入 check.txt，再用 read_file 读回确认，最后说明发布条件并引用搜索片段编号。不要实际执行发布。"
+        },
+        {
+          "role": "assistant",
+          "content": {
+            "answer": "我会先查询 Atlas 补丁发布前的检查要求，再根据实际搜索结果写入并读回确认 `check.txt`；不会执行发布。",
+            "tool_calls": [
+              {
+                "name": "search_knowledge",
+                "arguments_json": "{\"query\":\"Atlas 补丁发布前的检查要求 测试命令 发布条件\"}"
+              }
+            ]
+          }
+        },
+        {
+          "role": "tool",
+          "content": [
+            {
+              "status": "ok",
+              "kind": "knowledge_context",
+              "output": {
+                "knowledge_version": "d25f21098dcf5de3b4852521d80a366ab237e8361a9d2699205ac2f8d00bf35b",
+                "contexts": [
+                  "[atlas/logs.md#0]\n# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "role": "assistant",
+          "content": {
+            "answer": "当前搜索结果仅说明审计日志保留期与发布检查无关，尚未给出所需测试命令或发布条件。我会继续查询更具体的 Atlas 发布规范。",
+            "tool_calls": [
+              {
+                "name": "search_knowledge",
+                "arguments_json": "{\"query\":\"Atlas 发布规范 补丁 发布前 必须运行 命令 条件\"}"
+              }
+            ]
+          }
+        },
+        {
+          "role": "tool",
+          "content": [
+            {
+              "status": "ok",
+              "kind": "knowledge_context",
+              "output": {
+                "knowledge_version": "d25f21098dcf5de3b4852521d80a366ab237e8361a9d2699205ac2f8d00bf35b",
+                "contexts": [
+                  "[atlas/logs.md#0]\n# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "role": "assistant",
+          "content": {
+            "answer": "两次查询都只命中了无关的审计日志片段，不能据此编造测试命令或发布条件。我会改用可能出现在规范中的关键词继续检索。",
+            "tool_calls": [
+              {
+                "name": "search_knowledge",
+                "arguments_json": "{\"query\":\"Atlas patch pre-release checklist required tests release gate\"}"
+              }
+            ]
+          }
+        },
+        {
+          "role": "tool",
+          "content": [
+            {
+              "status": "ok",
+              "kind": "knowledge_context",
+              "output": {
+                "knowledge_version": "d25f21098dcf5de3b4852521d80a366ab237e8361a9d2699205ac2f8d00bf35b",
+                "contexts": [
+                  "[atlas/release.md#0]\n# Atlas 补丁发布\n\nAtlas 补丁发布前先在项目根目录运行 `python -m pytest -q tests/unit`。\n只有全部检查通过才能提交发布；出现失败时先修复，不跳过失败项。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+                ]
+              }
+            }
+          ]
+        }
+      ],
+      [
+        {
+          "role": "user",
+          "content": "先用 search_knowledge 查询 Atlas 补丁发布前的检查要求。将资料要求的测试命令写入 check.txt，再用 read_file 读回确认，最后说明发布条件并引用搜索片段编号。不要实际执行发布。"
+        },
+        {
+          "role": "assistant",
+          "content": {
+            "answer": "我会先查询 Atlas 补丁发布前的检查要求，再根据实际搜索结果写入并读回确认 `check.txt`；不会执行发布。",
+            "tool_calls": [
+              {
+                "name": "search_knowledge",
+                "arguments_json": "{\"query\":\"Atlas 补丁发布前的检查要求 测试命令 发布条件\"}"
+              }
+            ]
+          }
+        },
+        {
+          "role": "tool",
+          "content": [
+            {
+              "status": "ok",
+              "kind": "knowledge_context",
+              "output": {
+                "knowledge_version": "d25f21098dcf5de3b4852521d80a366ab237e8361a9d2699205ac2f8d00bf35b",
+                "contexts": [
+                  "[atlas/logs.md#0]\n# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "role": "assistant",
+          "content": {
+            "answer": "当前搜索结果仅说明审计日志保留期与发布检查无关，尚未给出所需测试命令或发布条件。我会继续查询更具体的 Atlas 发布规范。",
+            "tool_calls": [
+              {
+                "name": "search_knowledge",
+                "arguments_json": "{\"query\":\"Atlas 发布规范 补丁 发布前 必须运行 命令 条件\"}"
+              }
+            ]
+          }
+        },
+        {
+          "role": "tool",
+          "content": [
+            {
+              "status": "ok",
+              "kind": "knowledge_context",
+              "output": {
+                "knowledge_version": "d25f21098dcf5de3b4852521d80a366ab237e8361a9d2699205ac2f8d00bf35b",
+                "contexts": [
+                  "[atlas/logs.md#0]\n# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "role": "assistant",
+          "content": {
+            "answer": "两次查询都只命中了无关的审计日志片段，不能据此编造测试命令或发布条件。我会改用可能出现在规范中的关键词继续检索。",
+            "tool_calls": [
+              {
+                "name": "search_knowledge",
+                "arguments_json": "{\"query\":\"Atlas patch pre-release checklist required tests release gate\"}"
+              }
+            ]
+          }
+        },
+        {
+          "role": "tool",
+          "content": [
+            {
+              "status": "ok",
+              "kind": "knowledge_context",
+              "output": {
+                "knowledge_version": "d25f21098dcf5de3b4852521d80a366ab237e8361a9d2699205ac2f8d00bf35b",
+                "contexts": [
+                  "[atlas/release.md#0]\n# Atlas 补丁发布\n\nAtlas 补丁发布前先在项目根目录运行 `python -m pytest -q tests/unit`。\n只有全部检查通过才能提交发布；出现失败时先修复，不跳过失败项。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "role": "assistant",
+          "content": {
+            "answer": "已找到发布规范：要求在项目根目录运行 `python -m pytest -q tests/unit`。现在将该命令原样写入 `check.txt`，随后再读回确认。",
+            "tool_calls": [
+              {
+                "name": "write_file",
+                "arguments_json": "{\"path\":\"check.txt\",\"content\":\"python -m pytest -q tests/unit\\n\"}"
+              }
+            ]
+          }
+        },
+        {
+          "role": "tool",
+          "content": [
+            {
+              "status": "ok",
+              "output": "written"
+            }
+          ]
+        }
+      ],
+      [
+        {
+          "role": "user",
+          "content": "先用 search_knowledge 查询 Atlas 补丁发布前的检查要求。将资料要求的测试命令写入 check.txt，再用 read_file 读回确认，最后说明发布条件并引用搜索片段编号。不要实际执行发布。"
+        },
+        {
+          "role": "assistant",
+          "content": {
+            "answer": "我会先查询 Atlas 补丁发布前的检查要求，再根据实际搜索结果写入并读回确认 `check.txt`；不会执行发布。",
+            "tool_calls": [
+              {
+                "name": "search_knowledge",
+                "arguments_json": "{\"query\":\"Atlas 补丁发布前的检查要求 测试命令 发布条件\"}"
+              }
+            ]
+          }
+        },
+        {
+          "role": "tool",
+          "content": [
+            {
+              "status": "ok",
+              "kind": "knowledge_context",
+              "output": {
+                "knowledge_version": "d25f21098dcf5de3b4852521d80a366ab237e8361a9d2699205ac2f8d00bf35b",
+                "contexts": [
+                  "[atlas/logs.md#0]\n# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "role": "assistant",
+          "content": {
+            "answer": "当前搜索结果仅说明审计日志保留期与发布检查无关，尚未给出所需测试命令或发布条件。我会继续查询更具体的 Atlas 发布规范。",
+            "tool_calls": [
+              {
+                "name": "search_knowledge",
+                "arguments_json": "{\"query\":\"Atlas 发布规范 补丁 发布前 必须运行 命令 条件\"}"
+              }
+            ]
+          }
+        },
+        {
+          "role": "tool",
+          "content": [
+            {
+              "status": "ok",
+              "kind": "knowledge_context",
+              "output": {
+                "knowledge_version": "d25f21098dcf5de3b4852521d80a366ab237e8361a9d2699205ac2f8d00bf35b",
+                "contexts": [
+                  "[atlas/logs.md#0]\n# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "role": "assistant",
+          "content": {
+            "answer": "两次查询都只命中了无关的审计日志片段，不能据此编造测试命令或发布条件。我会改用可能出现在规范中的关键词继续检索。",
+            "tool_calls": [
+              {
+                "name": "search_knowledge",
+                "arguments_json": "{\"query\":\"Atlas patch pre-release checklist required tests release gate\"}"
+              }
+            ]
+          }
+        },
+        {
+          "role": "tool",
+          "content": [
+            {
+              "status": "ok",
+              "kind": "knowledge_context",
+              "output": {
+                "knowledge_version": "d25f21098dcf5de3b4852521d80a366ab237e8361a9d2699205ac2f8d00bf35b",
+                "contexts": [
+                  "[atlas/release.md#0]\n# Atlas 补丁发布\n\nAtlas 补丁发布前先在项目根目录运行 `python -m pytest -q tests/unit`。\n只有全部检查通过才能提交发布；出现失败时先修复，不跳过失败项。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "role": "assistant",
+          "content": {
+            "answer": "已找到发布规范：要求在项目根目录运行 `python -m pytest -q tests/unit`。现在将该命令原样写入 `check.txt`，随后再读回确认。",
+            "tool_calls": [
+              {
+                "name": "write_file",
+                "arguments_json": "{\"path\":\"check.txt\",\"content\":\"python -m pytest -q tests/unit\\n\"}"
+              }
+            ]
+          }
+        },
+        {
+          "role": "tool",
+          "content": [
+            {
+              "status": "ok",
+              "output": "written"
+            }
+          ]
+        },
+        {
+          "role": "assistant",
+          "content": {
+            "answer": "测试命令已写入 `check.txt`。接下来读回文件，确认内容与规范一致。",
+            "tool_calls": [
+              {
+                "name": "read_file",
+                "arguments_json": "{\"path\":\"check.txt\"}"
+              }
+            ]
+          }
+        },
+        {
+          "role": "tool",
+          "content": [
+            {
+              "status": "ok",
+              "output": "python -m pytest -q tests/unit\n"
+            }
+          ]
+        }
+      ]
+    ],
+    "knowledge": {
+      "sha256": "d25f21098dcf5de3b4852521d80a366ab237e8361a9d2699205ac2f8d00bf35b",
+      "documents": [
+        {
+          "path": "atlas/auth.md",
+          "sha256": "ae628a0575ad7e15b11ed78028ac88e4204c8201d7b132ea269ff56935e631ac"
+        },
+        {
+          "path": "atlas/logs.md",
+          "sha256": "3b2ad1b6898fb79cabedf2e0e1f9c509ae2b2315fc5fb9c07ee80939bce42032"
+        },
+        {
+          "path": "atlas/release.md",
+          "sha256": "eff2982038e9b69fdfa29b96188a7de4468df8d946ce92cc7174206c546d35e5"
+        },
+        {
+          "path": "course/upload.md",
+          "sha256": "373d757ad03c0abeca2bee4fe92d832001dadb6d617ddbd94f87e15a828a996a"
+        },
+        {
+          "path": "e04/auth.md",
+          "sha256": "c679cde9b3a727c786041a104888227dad4338379942276adeba9f3e211c335f"
+        },
+        {
+          "path": "e04/limits.md",
+          "sha256": "a742717e40c3a2af1a7c2fee961c06ee9d91872b8d09b81089159a057af1d949"
+        },
+        {
+          "path": "e04/noise.md",
+          "sha256": "66ae3f3dd49daf1f20ef141b27cda4e068b99258e677cb5956f437da04e27017"
+        },
+        {
+          "path": "e09/archive/auth.md",
+          "sha256": "1adae93eee5709b2c286a34856bd138d7561aff85f3134f2e68a85781bc08d35"
+        },
+        {
+          "path": "e09/archive/limits.md",
+          "sha256": "13d0fd6b345365b8f384581018aca258c4222741d6305a601f139eef1e86e827"
+        },
+        {
+          "path": "e10/billing.md",
+          "sha256": "504feb4ed5ea4ee4f5fa18a6e19f5fb98bbdd03f985fcf011ddec263897e20f0"
+        },
+        {
+          "path": "e11/shipping.md",
+          "sha256": "1aa224931915fe2b2298eed8586187e0acd73de3906834fa6715bf427bf920d1"
+        },
+        {
+          "path": "e12/shipping.md",
+          "sha256": "c5c49db597843d62eac211625816d2d0a4f85656ed65a7c6a57c0b55138d4758"
+        },
+        {
+          "path": "e13/shipping.md",
+          "sha256": "ba7f9e8c4b4b5f1306153bef43e4b5918b29dc645c5843168e252e86f54d8453"
+        },
+        {
+          "path": "e14/shipping.md",
+          "sha256": "ba7f9e8c4b4b5f1306153bef43e4b5918b29dc645c5843168e252e86f54d8453"
+        },
+        {
+          "path": "e16/shipping.md",
+          "sha256": "ba7f9e8c4b4b5f1306153bef43e4b5918b29dc645c5843168e252e86f54d8453"
+        },
+        {
+          "path": "project.md",
+          "sha256": "2543e3fa1e87368cadd04e7f2ff28ae6766683f43628f35fa957099ba61e4ebc"
+        }
+      ]
+    },
+    "retrieval_settings": {
+      "k": 1,
+      "context_limit": 1
+    },
+    "reference_status": "source_changed_or_missing",
+    "sample": {
+      "input": "先用 search_knowledge 查询 Atlas 补丁发布前的检查要求。将资料要求的测试命令写入 check.txt，再用 read_file 读回确认，最后说明发布条件并引用搜索片段编号。不要实际执行发布。",
+      "actual_output": "已读回确认 `check.txt`，内容为：`python -m pytest -q tests/unit`。\n\n发布条件：必须在项目根目录运行该命令，且全部检查通过后才能提交发布；如有失败，应先修复，不得跳过失败项。依据：[atlas/release.md#0]。\n\n未实际执行测试或发布。",
+      "expected_output": null,
+      "context": null,
+      "retrieval_context": [
+        "[atlas/logs.md#0]\n# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+        "[atlas/logs.md#0]\n# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+        "[atlas/release.md#0]\n# Atlas 补丁发布\n\nAtlas 补丁发布前先在项目根目录运行 `python -m pytest -q tests/unit`。\n只有全部检查通过才能提交发布；出现失败时先修复，不跳过失败项。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+      ],
+      "metadata": null,
+      "tools_called": [
+        {
+          "name": "search_knowledge",
+          "type": "FUNCTION",
+          "description": null,
+          "reasoning": null,
+          "output": {
+            "status": "ok",
+            "kind": "knowledge_context",
+            "output": {
+              "knowledge_version": "d25f21098dcf5de3b4852521d80a366ab237e8361a9d2699205ac2f8d00bf35b",
+              "contexts": [
+                "[atlas/logs.md#0]\n# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+              ]
+            }
+          },
+          "input_parameters": {
+            "query": "Atlas 补丁发布前的检查要求 测试命令 发布条件"
+          }
+        },
+        {
+          "name": "search_knowledge",
+          "type": "FUNCTION",
+          "description": null,
+          "reasoning": null,
+          "output": {
+            "status": "ok",
+            "kind": "knowledge_context",
+            "output": {
+              "knowledge_version": "d25f21098dcf5de3b4852521d80a366ab237e8361a9d2699205ac2f8d00bf35b",
+              "contexts": [
+                "[atlas/logs.md#0]\n# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+              ]
+            }
+          },
+          "input_parameters": {
+            "query": "Atlas 发布规范 补丁 发布前 必须运行 命令 条件"
+          }
+        },
+        {
+          "name": "search_knowledge",
+          "type": "FUNCTION",
+          "description": null,
+          "reasoning": null,
+          "output": {
+            "status": "ok",
+            "kind": "knowledge_context",
+            "output": {
+              "knowledge_version": "d25f21098dcf5de3b4852521d80a366ab237e8361a9d2699205ac2f8d00bf35b",
+              "contexts": [
+                "[atlas/release.md#0]\n# Atlas 补丁发布\n\nAtlas 补丁发布前先在项目根目录运行 `python -m pytest -q tests/unit`。\n只有全部检查通过才能提交发布；出现失败时先修复，不跳过失败项。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n"
+              ]
+            }
+          },
+          "input_parameters": {
+            "query": "Atlas patch pre-release checklist required tests release gate"
+          }
+        },
+        {
+          "name": "write_file",
+          "type": "FUNCTION",
+          "description": null,
+          "reasoning": null,
+          "output": {
+            "status": "ok",
+            "output": "written"
+          },
+          "input_parameters": {
+            "path": "check.txt",
+            "content": "python -m pytest -q tests/unit\n"
+          }
+        },
+        {
+          "name": "read_file",
+          "type": "FUNCTION",
+          "description": null,
+          "reasoning": null,
+          "output": {
+            "status": "ok",
+            "output": "python -m pytest -q tests/unit\n"
+          },
+          "input_parameters": {
+            "path": "check.txt"
+          }
+        }
+      ],
+      "comments": null,
+      "expected_tools": null,
+      "token_cost": null,
+      "input_token_count": null,
+      "output_token_count": null,
+      "completion_time": null,
+      "flaky": false,
+      "multimodal": false,
+      "name": null,
+      "tags": null,
+      "mcp_servers": null,
+      "mcp_tools_called": null,
+      "mcp_resources_called": null,
+      "mcp_prompts_called": null,
+      "custom_column_key_values": null,
+      "expectations": null,
+      "expected_labels": null
+    },
+    "checks": {
+      "search_observed": true,
+      "source_versions_match": true,
+      "chunk_hashes_match": true,
+      "chunk_lengths_match": true,
+      "sample_matches_model_input": true
+    }
+  },
+  "fixed_query_probe": {
+    "run_id": "1f358423948643cf89aa1871fdbb1e13",
+    "kind": "native_retrieval_probe",
+    "query": "Atlas 补丁发布前的检查要求 测试命令 发布条件",
+    "knowledge_manifest": [
+      {
+        "path": "atlas/auth.md",
+        "sha256": "ae628a0575ad7e15b11ed78028ac88e4204c8201d7b132ea269ff56935e631ac"
+      },
+      {
+        "path": "atlas/logs.md",
+        "sha256": "3b2ad1b6898fb79cabedf2e0e1f9c509ae2b2315fc5fb9c07ee80939bce42032"
+      },
+      {
+        "path": "atlas/release.md",
+        "sha256": "db65230825cd6997c1e512c65a489941f6caf92d920a6cb94f5a51d395a1d98e"
+      },
+      {
+        "path": "course/upload.md",
+        "sha256": "373d757ad03c0abeca2bee4fe92d832001dadb6d617ddbd94f87e15a828a996a"
+      },
+      {
+        "path": "e04/auth.md",
+        "sha256": "c679cde9b3a727c786041a104888227dad4338379942276adeba9f3e211c335f"
+      },
+      {
+        "path": "e04/limits.md",
+        "sha256": "a742717e40c3a2af1a7c2fee961c06ee9d91872b8d09b81089159a057af1d949"
+      },
+      {
+        "path": "e04/noise.md",
+        "sha256": "66ae3f3dd49daf1f20ef141b27cda4e068b99258e677cb5956f437da04e27017"
+      },
+      {
+        "path": "e09/archive/auth.md",
+        "sha256": "1adae93eee5709b2c286a34856bd138d7561aff85f3134f2e68a85781bc08d35"
+      },
+      {
+        "path": "e09/archive/limits.md",
+        "sha256": "13d0fd6b345365b8f384581018aca258c4222741d6305a601f139eef1e86e827"
+      },
+      {
+        "path": "e10/billing.md",
+        "sha256": "504feb4ed5ea4ee4f5fa18a6e19f5fb98bbdd03f985fcf011ddec263897e20f0"
+      },
+      {
+        "path": "e11/shipping.md",
+        "sha256": "1aa224931915fe2b2298eed8586187e0acd73de3906834fa6715bf427bf920d1"
+      },
+      {
+        "path": "e12/shipping.md",
+        "sha256": "c5c49db597843d62eac211625816d2d0a4f85656ed65a7c6a57c0b55138d4758"
+      },
+      {
+        "path": "e13/shipping.md",
+        "sha256": "ba7f9e8c4b4b5f1306153bef43e4b5918b29dc645c5843168e252e86f54d8453"
+      },
+      {
+        "path": "e14/shipping.md",
+        "sha256": "ba7f9e8c4b4b5f1306153bef43e4b5918b29dc645c5843168e252e86f54d8453"
+      },
+      {
+        "path": "e16/shipping.md",
+        "sha256": "ba7f9e8c4b4b5f1306153bef43e4b5918b29dc645c5843168e252e86f54d8453"
+      },
+      {
+        "path": "project.md",
+        "sha256": "2543e3fa1e87368cadd04e7f2ff28ae6766683f43628f35fa957099ba61e4ebc"
+      }
+    ],
+    "rows": [
+      {
+        "k": 1,
+        "context_limit": 1,
+        "hits": [
+          {
+            "path": "atlas/logs.md",
+            "chunk_id": "atlas/logs.md#0",
+            "text": "# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+            "sha256": "3b2ad1b6898fb79cabedf2e0e1f9c509ae2b2315fc5fb9c07ee80939bce42032",
+            "source_sha256": "3b2ad1b6898fb79cabedf2e0e1f9c509ae2b2315fc5fb9c07ee80939bce42032",
+            "start": 0,
+            "end": 82,
+            "similarity": 0.4123613610867322,
+            "matches": 8,
+            "retriever": "TinyRAG.VectorStore",
+            "embedding": "local-tfidf"
+          }
+        ],
+        "selected": [
+          {
+            "path": "atlas/logs.md",
+            "chunk_id": "atlas/logs.md#0",
+            "text": "# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+            "sha256": "3b2ad1b6898fb79cabedf2e0e1f9c509ae2b2315fc5fb9c07ee80939bce42032",
+            "source_sha256": "3b2ad1b6898fb79cabedf2e0e1f9c509ae2b2315fc5fb9c07ee80939bce42032",
+            "start": 0,
+            "end": 82,
+            "similarity": 0.4123613610867322,
+            "matches": 8,
+            "retriever": "TinyRAG.VectorStore",
+            "embedding": "local-tfidf"
+          }
+        ]
+      },
+      {
+        "k": 3,
+        "context_limit": 1,
+        "hits": [
+          {
+            "path": "atlas/logs.md",
+            "chunk_id": "atlas/logs.md#0",
+            "text": "# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+            "sha256": "3b2ad1b6898fb79cabedf2e0e1f9c509ae2b2315fc5fb9c07ee80939bce42032",
+            "source_sha256": "3b2ad1b6898fb79cabedf2e0e1f9c509ae2b2315fc5fb9c07ee80939bce42032",
+            "start": 0,
+            "end": 82,
+            "similarity": 0.4123613610867322,
+            "matches": 8,
+            "retriever": "TinyRAG.VectorStore",
+            "embedding": "local-tfidf"
+          },
+          {
+            "path": "atlas/release.md",
+            "chunk_id": "atlas/release.md#0",
+            "text": "# Atlas 补丁发布\n\nAtlas 补丁发布前先在项目根目录运行 `python -m pytest -q`。\n只有全部检查通过才能提交发布；出现失败时先修复，不跳过失败项。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+            "sha256": "db65230825cd6997c1e512c65a489941f6caf92d920a6cb94f5a51d395a1d98e",
+            "source_sha256": "db65230825cd6997c1e512c65a489941f6caf92d920a6cb94f5a51d395a1d98e",
+            "start": 0,
+            "end": 115,
+            "similarity": 0.23535744093348854,
+            "matches": 6,
+            "retriever": "TinyRAG.VectorStore",
+            "embedding": "local-tfidf"
+          },
+          {
+            "path": "atlas/auth.md",
+            "chunk_id": "atlas/auth.md#0",
+            "text": "# Atlas API 认证\n\nAtlas API 使用 `X-Atlas-Token` 请求头传递令牌。\n这个请求头用于身份认证，不用于决定补丁能否发布。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+            "sha256": "ae628a0575ad7e15b11ed78028ac88e4204c8201d7b132ea269ff56935e631ac",
+            "source_sha256": "ae628a0575ad7e15b11ed78028ac88e4204c8201d7b132ea269ff56935e631ac",
+            "start": 0,
+            "end": 104,
+            "similarity": 0.12186097062926068,
+            "matches": 3,
+            "retriever": "TinyRAG.VectorStore",
+            "embedding": "local-tfidf"
+          }
+        ],
+        "selected": [
+          {
+            "path": "atlas/logs.md",
+            "chunk_id": "atlas/logs.md#0",
+            "text": "# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+            "sha256": "3b2ad1b6898fb79cabedf2e0e1f9c509ae2b2315fc5fb9c07ee80939bce42032",
+            "source_sha256": "3b2ad1b6898fb79cabedf2e0e1f9c509ae2b2315fc5fb9c07ee80939bce42032",
+            "start": 0,
+            "end": 82,
+            "similarity": 0.4123613610867322,
+            "matches": 8,
+            "retriever": "TinyRAG.VectorStore",
+            "embedding": "local-tfidf"
+          }
+        ]
+      },
+      {
+        "k": 3,
+        "context_limit": 2,
+        "hits": [
+          {
+            "path": "atlas/logs.md",
+            "chunk_id": "atlas/logs.md#0",
+            "text": "# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+            "sha256": "3b2ad1b6898fb79cabedf2e0e1f9c509ae2b2315fc5fb9c07ee80939bce42032",
+            "source_sha256": "3b2ad1b6898fb79cabedf2e0e1f9c509ae2b2315fc5fb9c07ee80939bce42032",
+            "start": 0,
+            "end": 82,
+            "similarity": 0.4123613610867322,
+            "matches": 8,
+            "retriever": "TinyRAG.VectorStore",
+            "embedding": "local-tfidf"
+          },
+          {
+            "path": "atlas/release.md",
+            "chunk_id": "atlas/release.md#0",
+            "text": "# Atlas 补丁发布\n\nAtlas 补丁发布前先在项目根目录运行 `python -m pytest -q`。\n只有全部检查通过才能提交发布；出现失败时先修复，不跳过失败项。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+            "sha256": "db65230825cd6997c1e512c65a489941f6caf92d920a6cb94f5a51d395a1d98e",
+            "source_sha256": "db65230825cd6997c1e512c65a489941f6caf92d920a6cb94f5a51d395a1d98e",
+            "start": 0,
+            "end": 115,
+            "similarity": 0.23535744093348854,
+            "matches": 6,
+            "retriever": "TinyRAG.VectorStore",
+            "embedding": "local-tfidf"
+          },
+          {
+            "path": "atlas/auth.md",
+            "chunk_id": "atlas/auth.md#0",
+            "text": "# Atlas API 认证\n\nAtlas API 使用 `X-Atlas-Token` 请求头传递令牌。\n这个请求头用于身份认证，不用于决定补丁能否发布。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+            "sha256": "ae628a0575ad7e15b11ed78028ac88e4204c8201d7b132ea269ff56935e631ac",
+            "source_sha256": "ae628a0575ad7e15b11ed78028ac88e4204c8201d7b132ea269ff56935e631ac",
+            "start": 0,
+            "end": 104,
+            "similarity": 0.12186097062926068,
+            "matches": 3,
+            "retriever": "TinyRAG.VectorStore",
+            "embedding": "local-tfidf"
+          }
+        ],
+        "selected": [
+          {
+            "path": "atlas/logs.md",
+            "chunk_id": "atlas/logs.md#0",
+            "text": "# Atlas 审计日志\n\nAtlas 审计日志保留 14 天。\n日志保留时间不决定补丁发布前要运行的检查命令。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+            "sha256": "3b2ad1b6898fb79cabedf2e0e1f9c509ae2b2315fc5fb9c07ee80939bce42032",
+            "source_sha256": "3b2ad1b6898fb79cabedf2e0e1f9c509ae2b2315fc5fb9c07ee80939bce42032",
+            "start": 0,
+            "end": 82,
+            "similarity": 0.4123613610867322,
+            "matches": 8,
+            "retriever": "TinyRAG.VectorStore",
+            "embedding": "local-tfidf"
+          },
+          {
+            "path": "atlas/release.md",
+            "chunk_id": "atlas/release.md#0",
+            "text": "# Atlas 补丁发布\n\nAtlas 补丁发布前先在项目根目录运行 `python -m pytest -q`。\n只有全部检查通过才能提交发布；出现失败时先修复，不跳过失败项。\n\n本页是课程构造的项目规范，不对应真实商业系统。\n",
+            "sha256": "db65230825cd6997c1e512c65a489941f6caf92d920a6cb94f5a51d395a1d98e",
+            "source_sha256": "db65230825cd6997c1e512c65a489941f6caf92d920a6cb94f5a51d395a1d98e",
+            "start": 0,
+            "end": 115,
+            "similarity": 0.23535744093348854,
+            "matches": 6,
+            "retriever": "TinyRAG.VectorStore",
+            "embedding": "local-tfidf"
+          }
+        ]
+      }
+    ]
+  },
+  "mount_verification": {
+    "errno": 30,
+    "mount_options": "ro,nosuid,nodev,relatime",
+    "original_preserved": true,
+    "method": "Docker 内尝试写入只读知识文件得到 EROFS，同时读取 /proc/self/mountinfo 确认 /data/knowledge 的 ro 标记。"
+  },
+  "retrieval_quality_score": null,
+  "answer_quality_score": null,
+  "limitations": [
+    "两次 Agent 运行同时改变挂载资料与 k，不用于隔离 k 的因果效果；固定查询实验单独比较参数。",
+    "数据对应检查不证明上下文相关、召回充分或回答正确。",
+    "TF-IDF 是词面基线，片段编号前缀也参与向量化。",
+    "成功模型请求的输入记录证明资料成为输入，不证明模型实际使用每条事实。",
+    "知识版本标识读入文档清单，不包含全部算法配置；代码与依赖版本另固定。",
+    "构造资料已公开，不能作为后续独立留出验证证据。",
+    "未运行真实发布，Agent 只写入并读回检查命令。"
+  ]
+}

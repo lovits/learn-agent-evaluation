@@ -49,10 +49,14 @@ def chunks(documents, size=1200, overlap=150):
     return output
 
 
-def retrieve(query: str, limit: int = 3, root: Path | None = None) -> list[dict]:
+def retrieve(query: str, limit: int = 3, root: Path | None = None, documents=None) -> list[dict]:
     if not isinstance(query, str) or not query.strip() or not 1 <= limit <= 10:
         raise ValueError("请输入查询内容，limit 必须在 1–10 之间。")
-    parts = [part for part in chunks(catalog(root)) if terms(part["text"])]
+    parts = [
+        part
+        for part in chunks(catalog(root) if documents is None else documents)
+        if terms(part["text"])
+    ]
     if not parts:
         return []
     # Prefixes distinguish identical passages from different source documents.

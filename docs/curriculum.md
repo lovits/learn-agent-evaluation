@@ -142,6 +142,8 @@ Agent 接到任务，读文件、查资料、调用工具，最后给出回答�
 
 **学会的标志**：能拿出一次回答实际看到的上下文，并说明它来自哪个版本。
 
+[教材](../course/e05_knowledge_context/README.zh.md) · [源码导读](../course/e05_knowledge_context/source_walkthrough.md)
+
 ## 06 上下文相关性与排序
 
 找到了资料，为什么还要看相关性和顺序？

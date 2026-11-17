@@ -1,6 +1,6 @@
 # e04: 格式对了，意思也对了吗？
 
-[e03](../e03_datasets/README.zh.md) → `e04` → [e05](../../docs/curriculum.md#05-接通知识库) → … → e16
+[e03](../e03_datasets/README.zh.md) → `e04` → [e05](../e05_knowledge_context/README.zh.md) → … → e16
 
 > 能直接检查的条件写成规则，需要理解的含义写进量表。
 

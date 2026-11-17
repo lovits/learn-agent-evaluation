@@ -1,0 +1,33 @@
+{
+  "generator": "PocketFlow-Tutorial-Codebase-Knowledge",
+  "upstream_commit": "05b24cbbb0fe409c5e23c9791f0342f07524ffdc",
+  "nodes_run": [
+    "FetchRepo",
+    "BindLesson",
+    "WriteChapters",
+    "CombineTutorial"
+  ],
+  "actual_model_calls": 1,
+  "calls": [
+    {
+      "prompt_sha256": "f2169078617f6b1be4551052dffb2201b7ce38b36474032ed4f0f005af187b8d",
+      "response_sha256": "78f90028b744ebe04960c5af8642d0817a21c12dd298409d94d481f2115efc35",
+      "seconds": 75.27
+    }
+  ],
+  "input_sha256": {
+    "eval_course/runtime.py": "f4236018e4dea094fe4573c48cb3cc03fdcf4d837dac8ff30190367c1dc86fa4",
+    "course/e05_knowledge_context/solutions.md": "7895176f13028c98499bf0b5912d3f71e3f7f04374f43594621ae548d325ca14",
+    "course/e05_knowledge_context/exercises.md": "b47f38554c20256184de0a9ff84760e0c86b2e6ee56d24ffbf406da6ecffaed3",
+    "course/e05_knowledge_context/code.py": "b7801c915a38ffb7664b70e15229f3ebfac0c713d29619f63510a3c4ba60b5e7",
+    "course/e05_knowledge_context/cases.jsonl": "e6a1e1f418aaf3c2263fede870de67668271936279f357d17b6ca0cd90efd04d",
+    "course/e05_knowledge_context/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "course/e05_knowledge_context/source_walkthrough.md": "9195f5335f220d2d3254039dc87fd52ea0341ea5ddac7ae969ba8b9c2e3ac381",
+    "course/e05_knowledge_context/eval.py": "7ebeb0535d252daf0053a32f32e93e48beee96c8a2a127b6085cf83f0ca9e7a3",
+    "course/e05_knowledge_context/images/context-evaluation.drawio.svg": "28392a05c7e9603ef1ed1cdb6652b126db234df7330ed12cc1c4d34e0ac7a692",
+    "course/e05_knowledge_context/images/retrieval-flow.drawio": "e45bdf589d89613b07cd3a7530bc4cfdda6a7488ba726a4f65e1b81ea24e3f4b",
+    "course/e05_knowledge_context/images/context-evaluation.drawio": "d9ae751948f7a0638270e3fd6e71b897cc04c01c7c73dac2512fb250aa465ddd",
+    "course/e05_knowledge_context/images/retrieval-flow.drawio.svg": "4f42edb571c0587a885e702ee0df3e88b4b713a07dc8eb9d01b5aed1ecdbd6bb"
+  },
+  "note": "Raw draft is reviewed and condensed; final textbook is in course/. The agreed outline is not model-reordered."
+}

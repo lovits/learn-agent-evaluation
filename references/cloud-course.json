@@ -15,7 +15,7 @@
         "README.md",
         "docs/curriculum.md"
       ],
-      "verified_revision": 20
+      "verified_revision": 21
     },
     "e01": {
       "title": "第1课：模型停下了，任务完成了吗？",
@@ -116,6 +116,27 @@
         "course/e04_scoring/source_walkthrough.md",
         "course/e04_scoring/exercises.md",
         "course/e04_scoring/solutions.md"
+      ],
+      "verified_revision": 6
+    },
+    "assessment5": {
+      "title": "第5课：样本与评测记录",
+      "document_id": "S77gdCmcWoJmlexbePjcZrwhnQd",
+      "url": "https://my.feishu.cn/docx/S77gdCmcWoJmlexbePjcZrwhnQd",
+      "paths": [
+        "course/e05_knowledge_context/assessment.md"
+      ],
+      "verified_revision": 3
+    },
+    "e05": {
+      "title": "第5课：接通知识库",
+      "document_id": "VZ6DdqcvsowiMXxKZvacvbd8n2K",
+      "url": "https://my.feishu.cn/docx/VZ6DdqcvsowiMXxKZvacvbd8n2K",
+      "paths": [
+        "course/e05_knowledge_context/README.zh.md",
+        "course/e05_knowledge_context/source_walkthrough.md",
+        "course/e05_knowledge_context/exercises.md",
+        "course/e05_knowledge_context/solutions.md"
       ],
       "verified_revision": 5
     }

@@ -1,6 +1,6 @@
 {
   "outline_version": 3,
-  "review": "第4课依据 PocketFlow 实际草稿压缩，核对规则、G-Eval 与 Ragas 固定源码；修正草稿中的错误图片链接和课次，明确评分状态与分母。",
+  "review": "第5课依据 PocketFlow 实际草稿压缩，核对 TinyRAG、上下文回填与成功模型输入；修正错误图片链接、课次与过宽的检查结论。实际结果独立保存。",
   "published_sha256": {
     "course/run.py": "d4f0b75ebfc46cf0eeb897dfbe4c4b22db0626231aac9d72f30093a9caa2cb1c",
     "course/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
@@ -44,7 +44,7 @@
     "course/e02_samples/assessment.json": "38aa70fa086aea0326e5c2040f6ed0347de88036c0375f5e7b99b9b436c4418a",
     "course/e02_samples/exercises.md": "cfad533d5c7cbe049b32c9d822c421df3bc0a74e4a06c30fba24354033c70cd1",
     "course/e02_samples/tools.py": "17ef828905eb933090b712e086b5ebe2ea83c6c55c010b8bb5da90f2374886aa",
-    "course/e02_samples/code.py": "9462ea0543d1e3f06e862d4c262e70401dc4213f6a9950e30c51a2ff41429f31",
+    "course/e02_samples/code.py": "8d0d042faa4f702fbe4830e71c3cba6c5b870f68a37a12fe2469e280fa8815c2",
     "course/e02_samples/cases.jsonl": "51e37dadbe1691921003ba8d191002834c88a50c54441af161c2e2c4d0ce4a0b",
     "course/e02_samples/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "course/e02_samples/assessment.md": "67db30085b123494bca18a93def1194112e715bb44e6b49608f3a70f84dd0262",
@@ -57,7 +57,7 @@
     "course/e02_samples/images/evaluation-path.png": "409cd8a7f1a3ecf854fbff0b55ef701bb0c212ba127beeac2c6cd370a7974f54",
     "course/e02_samples/images/agent-loop.png": "e971368c9f258b32e62a9a150fcd1a0a5aa2445885721fab02264776b975fac0",
     "course/e02_samples/images/agent-loop.drawio": "81b71d15a4b4e0659a147e53bec163d8cc5635ea059ef7859c952393978ae8a1",
-    "course/e04_scoring/README.zh.md": "d94e0c84fd141aabb3b617ab1ad5f7f72d01948e6c62b1a21d385ca669392579",
+    "course/e04_scoring/README.zh.md": "3c0a70295eea7cfbf297450daeea6afc947de80040e1006fc1820c2eaffe8ac6",
     "course/e04_scoring/solutions.md": "b90d706177522eb2557874f1bb561588d6c959f931b93f018a8722ce0e7aa7ee",
     "course/e04_scoring/assessment.json": "0e2de143f41f8cb92b32f1a474059001372bbe0d3f31fbbf56e234330ab966ea",
     "course/e04_scoring/exercises.md": "07a1cf37188230d62e986fe9b0d0ee42811611bde44f695650779e9aba7f2e56",
@@ -72,13 +72,32 @@
     "course/e04_scoring/images/scoring-flow.drawio.svg": "3ef7586381a5deb9552ace33ad894fff05a1eb6871fb4a02d311a795588f98d9",
     "course/e04_scoring/images/judging-flow.png": "88e10830f4f63ee19d4e6e9fe5eca9ce3c3ce084128c5fe1504c4f55c998fd41",
     "course/e04_scoring/images/scoring-flow.drawio": "a58a43052dd1ce560366840bea1236b1cfb778db4e44061f62df726e085b4ea4",
-    "course/e04_scoring/images/scoring-flow.png": "f99a93c53766abae8d528f9cedb1714ba29f19002b4ef7bdd922a4b80a2a3db7"
+    "course/e04_scoring/images/scoring-flow.png": "f99a93c53766abae8d528f9cedb1714ba29f19002b4ef7bdd922a4b80a2a3db7",
+    "course/e05_knowledge_context/README.zh.md": "ed7fe4a086a86083a3ea4b86a2acdaa1c7358f8602942c411da4f099cb02a281",
+    "course/e05_knowledge_context/solutions.md": "7895176f13028c98499bf0b5912d3f71e3f7f04374f43594621ae548d325ca14",
+    "course/e05_knowledge_context/assessment.json": "b6de30dafbb55dd56ca1a81e35f6570e1c1dbd08b3b7c24ed39a0bb66a41da1a",
+    "course/e05_knowledge_context/exercises.md": "b47f38554c20256184de0a9ff84760e0c86b2e6ee56d24ffbf406da6ecffaed3",
+    "course/e05_knowledge_context/code.py": "b7801c915a38ffb7664b70e15229f3ebfac0c713d29619f63510a3c4ba60b5e7",
+    "course/e05_knowledge_context/cases.jsonl": "e6a1e1f418aaf3c2263fede870de67668271936279f357d17b6ca0cd90efd04d",
+    "course/e05_knowledge_context/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "course/e05_knowledge_context/experiment.py": "5ed0e021b6405dc58c370483c4178a12e6673f94ba71cfb521dd3de67ac67cd8",
+    "course/e05_knowledge_context/assessment.md": "bb294ff33c05c742df68e11bdc7c37758dfc56e3a8b2ea8800c2ff4298090b72",
+    "course/e05_knowledge_context/source_walkthrough.md": "4a3ceecdf43e62f54a630f6182d1af6d6c4e2f57abc8c7978c3bfbccd8f87c7f",
+    "course/e05_knowledge_context/eval.py": "7ebeb0535d252daf0053a32f32e93e48beee96c8a2a127b6085cf83f0ca9e7a3",
+    "course/e05_knowledge_context/images/context-evaluation.drawio.svg": "28392a05c7e9603ef1ed1cdb6652b126db234df7330ed12cc1c4d34e0ac7a692",
+    "course/e05_knowledge_context/images/retrieval-flow.drawio": "e45bdf589d89613b07cd3a7530bc4cfdda6a7488ba726a4f65e1b81ea24e3f4b",
+    "course/e05_knowledge_context/images/context-evaluation.drawio": "d9ae751948f7a0638270e3fd6e71b897cc04c01c7c73dac2512fb250aa465ddd",
+    "course/e05_knowledge_context/images/retrieval-flow.drawio.svg": "4f42edb571c0587a885e702ee0df3e88b4b713a07dc8eb9d01b5aed1ecdbd6bb",
+    "course/e05_knowledge_context/images/retrieval-flow.png": "b76fc2af75dca79377ddd500aea1ef2aeba2c9cd978ab10763265fac9b014973",
+    "course/e05_knowledge_context/images/context-evaluation.png": "9c212f055cc23f5611bd4478c5ab9ed1cf793eb4c918c6e622883ec64218052d",
+    "eval_course/tinyrag.py": "f86ebee411d59488023f13edf5129b81371617594a7a5807ed49d79c259adc6b"
   },
   "provenance": [
     "generation/e01-provenance.json",
     "generation/e02-provenance.json",
     "generation/e03-provenance.json",
-    "generation/e04-provenance.json"
+    "generation/e04-provenance.json",
+    "generation/e05-provenance.json"
   ],
   "runtime_evidence": "generation/runtime-evidence.json",
   "figures": "references/figures.json"

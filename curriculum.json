@@ -199,22 +199,19 @@
       ],
       "activity": "替换挂载文档、调整 top-k，逐项查看命中文档、返回片段和实际送入模型的资料。",
       "understanding": "能拿出一次回答实际看到的上下文，并说明它来自哪个版本。",
-      "textbook": null,
-      "source_walkthrough": null,
+      "textbook": "course/e05_knowledge_context/README.zh.md",
+      "source_walkthrough": "course/e05_knowledge_context/source_walkthrough.md",
       "outline_anchor": "05-接通知识库",
-      "implementation": "planned",
+      "implementation": "ready",
       "source_paths": [
-        "deepeval/deepeval/metrics/contextual_precision/contextual_precision.py",
-        "deepeval/deepeval/metrics/contextual_recall/contextual_recall.py",
-        "ragas/src/ragas/metrics/collections/context_precision/metric.py",
-        "ragas/src/ragas/metrics/collections/context_recall/metric.py",
-        "learn-claude-code/s07_skill_loading/code.py"
+        "tiny-universe/content/TinyRAG/RAG/VectorBase.py",
+        "tiny-universe/content/TinyRAG/RAG/Embeddings.py",
+        "deepeval/deepeval/test_case/llm_test_case.py",
+        "ragas/src/ragas/dataset_schema.py"
       ],
       "readings": [
-        "https://deepeval.com/docs/metrics-contextual-precision",
-        "https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/context_precision/",
-        "https://deepeval.com/docs/metrics-contextual-recall",
-        "https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/context_recall/"
+        "https://deepeval.com/docs/evaluation-test-cases",
+        "https://docs.ragas.io/en/stable/concepts/components/eval_sample/"
       ]
     },
     {

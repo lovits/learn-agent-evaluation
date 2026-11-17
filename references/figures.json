@@ -154,5 +154,41 @@
     "visual_review": "passed",
     "node_font_size": 16,
     "edge_font_size": 13
+  },
+  {
+    "name": "e05-retrieval-flow",
+    "slug": "e05_knowledge_context",
+    "title": "第5课：从挂载文档到模型输入",
+    "diagram_type": "flowchart",
+    "generator": "draw.io",
+    "candidate": "course/e05_knowledge_context/images/retrieval-flow.drawio",
+    "output": "course/e05_knowledge_context/images/retrieval-flow.drawio.svg",
+    "png": "course/e05_knowledge_context/images/retrieval-flow.png",
+    "readme_preview": "course/e05_knowledge_context/images/retrieval-flow.png",
+    "preview_url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e05-retrieval-flow.png",
+    "url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e05-retrieval-flow.svg",
+    "artifact_sha256": "4f42edb571c0587a885e702ee0df3e88b4b713a07dc8eb9d01b5aed1ecdbd6bb",
+    "png_sha256": "b76fc2af75dca79377ddd500aea1ef2aeba2c9cd978ab10763265fac9b014973",
+    "visual_review": "passed",
+    "node_font_size": 16,
+    "edge_font_size": 13
+  },
+  {
+    "name": "e05-context-evaluation",
+    "slug": "e05_knowledge_context",
+    "title": "第5课：候选、实际上下文与参考的评测范围",
+    "diagram_type": "flowchart",
+    "generator": "draw.io",
+    "candidate": "course/e05_knowledge_context/images/context-evaluation.drawio",
+    "output": "course/e05_knowledge_context/images/context-evaluation.drawio.svg",
+    "png": "course/e05_knowledge_context/images/context-evaluation.png",
+    "readme_preview": "course/e05_knowledge_context/images/context-evaluation.png",
+    "preview_url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e05-context-evaluation.png",
+    "url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e05-context-evaluation.svg",
+    "artifact_sha256": "28392a05c7e9603ef1ed1cdb6652b126db234df7330ed12cc1c4d34e0ac7a692",
+    "png_sha256": "9c212f055cc23f5611bd4478c5ab9ed1cf793eb4c918c6e622883ec64218052d",
+    "visual_review": "passed",
+    "node_font_size": 16,
+    "edge_font_size": 13
   }
 ]

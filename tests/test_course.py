@@ -4,7 +4,7 @@ from course.e01_success.code import agent_loop as first_loop
 from course.e01_success.eval import evaluate as first_grade
 from course.e02_samples.code import agent_loop
 from course.e02_samples.eval import evaluate
-from course.e02_samples.samples import to_deepeval, to_ragas_multi, to_ragas_single
+from course.e02_samples.samples import export, to_deepeval
 from course.e02_samples.tools import execute
 
 
@@ -60,9 +60,7 @@ def test_same_run_keeps_feedback_and_exports_real_sdk_objects(tmp_path):
     assert [e["id"] for e in run["events"]] == ["1.0", "2.0", "2.1"]
     deep = to_deepeval(run)
     assert deep.tools_called[1].input_parameters["content"] == "original"
-    assert to_ragas_single(run).response == deep.actual_output
-    multi = to_ragas_multi(run)
-    assert [m.type for m in multi.user_input] == ["human", "ai", "tool", "ai", "tool", "ai"]
+    assert set(export(run)) == {"run_id", "run_status", "deepeval"}
     assert evaluate(run, tmp_path, {"output_path": "result.txt", "output_content": "original"})[
         "passed"
     ]
@@ -102,7 +100,7 @@ def test_denied_call_survives_export(tmp_path):
         ),
     }
     assert to_deepeval(run).tools_called[0].output["status"] == "denied"
-    assert json.loads(to_ragas_multi(run).user_input[2].content)[0]["status"] == "denied"
+    assert export(run)["deepeval"]["tools_called"][0]["output"]["status"] == "denied"
 
 
 def test_model_failure_and_budget_keep_observed_actions(tmp_path):

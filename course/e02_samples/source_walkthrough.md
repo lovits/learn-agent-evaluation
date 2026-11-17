@@ -6,7 +6,7 @@
 
 ## 本课调用链
 
-`agent_loop → execute → HANDLERS` 执行动作。`execute` 将拒绝、参数错误和执行错误分别返回，循环把结果同时写入事件和工具消息。`to_deepeval`、`to_ragas_single`、`to_ragas_multi` 只读取已有记录。
+`agent_loop → execute → HANDLERS` 执行动作。`execute` 将拒绝、参数错误和执行错误分别返回，循环把结果同时写入事件和工具消息。`to_deepeval` 只读取已有记录，生成一份 DeepEval 样本。
 
 事件编号标记一次运行内的模型步和动作位置。一个用户任务可以触发多次模型响应；以整次任务作为单个端到端样本，并不要求 Agent 只调用一次模型。
 
@@ -24,13 +24,11 @@
 
 原生 trace 入口见 [tracing.py](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/tracing/tracing.py)。本课位置编号只承担轻量归属，没有冒充框架的 trace/span 对象。
 
-## Ragas：问答视图与过程视图
+## Ragas：样本为何需要过程信息
 
-[官方样本说明](https://docs.ragas.io/en/stable/concepts/components/eval_sample/)区分单轮与多轮样本。固定版本的 [dataset_schema.py](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/dataset_schema.py) 定义字段和消息顺序校验；[messages.py](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/messages.py) 定义 `HumanMessage`、`AIMessage`、`ToolCall` 和 `ToolMessage`。
+[官方样本说明](https://docs.ragas.io/en/stable/concepts/components/eval_sample/)区分单轮问答与多轮过程。固定版本的 [dataset_schema.py](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/dataset_schema.py) 定义样本字段与消息校验；[messages.py](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/messages.py) 将 AI 调用与工具反馈分开表示。
 
-`to_ragas_single` 保留任务与回答；工具过程需要 `to_ragas_multi`。后者按实际历史构造消息：用户请求、AI 工具调用、对应工具结果、下一次 AI 响应。
-
-本课一批调用对应一条含结果数组的 `ToolMessage`，数组顺序与调用顺序一致。Ragas 结构通过校验，不等于逐项结果已经被评分；原始事件继续保留。`MultiTurnSample` 在这里承载工具交互，后续会话课再增加用户多轮修改要求的场景。
+这里借它理解一个原则：评测过程，需要保留过程证据。只有任务与最终回答，就无法判断中间是否被拒绝、调用是否出错。本课用原始消息与事件保存这些证据，实际接入只使用 DeepEval。
 
 ## 转换没有改变哪些事实
 

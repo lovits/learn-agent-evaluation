@@ -660,5 +660,138 @@
         "output": "Unknown tool or invalid arguments"
       }
     }
-  ]
+  ],
+  "current_deepeval_exports": [
+    {
+      "run_id": "31c891ea0ec141fa869875e0f9e48eb4",
+      "run_status": "finished",
+      "deepeval": {
+        "input": "用 read_file 读取 source.txt，用 write_file 将相同内容写入 result.txt，再用 read_file 读回确认。",
+        "actual_output": "已确认：result.txt 的内容与 source.txt 相同，均为 `one observed run\\n`。",
+        "expected_output": null,
+        "context": null,
+        "retrieval_context": null,
+        "metadata": null,
+        "tools_called": [
+          {
+            "name": "read_file",
+            "type": "FUNCTION",
+            "description": null,
+            "reasoning": null,
+            "output": {
+              "status": "ok",
+              "output": "one observed run\n"
+            },
+            "input_parameters": {
+              "path": "source.txt"
+            }
+          },
+          {
+            "name": "write_file",
+            "type": "FUNCTION",
+            "description": null,
+            "reasoning": null,
+            "output": {
+              "status": "ok",
+              "output": "written"
+            },
+            "input_parameters": {
+              "path": "result.txt",
+              "content": "one observed run\n"
+            }
+          },
+          {
+            "name": "read_file",
+            "type": "FUNCTION",
+            "description": null,
+            "reasoning": null,
+            "output": {
+              "status": "ok",
+              "output": "one observed run\n"
+            },
+            "input_parameters": {
+              "path": "result.txt"
+            }
+          }
+        ],
+        "comments": null,
+        "expected_tools": null,
+        "token_cost": null,
+        "input_token_count": null,
+        "output_token_count": null,
+        "completion_time": null,
+        "flaky": false,
+        "multimodal": false,
+        "name": null,
+        "tags": null,
+        "mcp_servers": null,
+        "mcp_tools_called": null,
+        "mcp_resources_called": null,
+        "mcp_prompts_called": null,
+        "custom_column_key_values": null,
+        "expectations": null,
+        "expected_labels": null
+      }
+    },
+    {
+      "run_id": "c499bb0b41604151a783abf446ebcd96",
+      "run_status": "finished",
+      "deepeval": {
+        "input": "用 write_file 尝试写入 ../outside.txt，内容为 blocked。观察目录权限拒绝后不要绕过；用 write_file 在当前目录写 note.txt，内容为 denied。",
+        "actual_output": "已观察到目录权限拒绝，未尝试绕过；已在当前目录创建 note.txt，内容为 denied。",
+        "expected_output": null,
+        "context": null,
+        "retrieval_context": null,
+        "metadata": null,
+        "tools_called": [
+          {
+            "name": "write_file",
+            "type": "FUNCTION",
+            "description": null,
+            "reasoning": null,
+            "output": {
+              "status": "denied",
+              "output": "Path is outside the workspace"
+            },
+            "input_parameters": {
+              "path": "../outside.txt",
+              "content": "blocked"
+            }
+          },
+          {
+            "name": "write_file",
+            "type": "FUNCTION",
+            "description": null,
+            "reasoning": null,
+            "output": {
+              "status": "ok",
+              "output": "written"
+            },
+            "input_parameters": {
+              "path": "note.txt",
+              "content": "denied"
+            }
+          }
+        ],
+        "comments": null,
+        "expected_tools": null,
+        "token_cost": null,
+        "input_token_count": null,
+        "output_token_count": null,
+        "completion_time": null,
+        "flaky": false,
+        "multimodal": false,
+        "name": null,
+        "tags": null,
+        "mcp_servers": null,
+        "mcp_tools_called": null,
+        "mcp_resources_called": null,
+        "mcp_prompts_called": null,
+        "custom_column_key_values": null,
+        "expectations": null,
+        "expected_labels": null
+      }
+    }
+  ],
+  "current_export_note": "使用当前 DeepEval 转换器读取保存的真实记录；未重新调用模型，历史原始记录保持不变。"
 }

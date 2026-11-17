@@ -50,16 +50,16 @@ Agent 接到任务，读文件、查资料、调用工具，最后给出回答�
 - 任务编号与运行编号
 - 原始事件、trace/span 与统一样本
 - 具名工具、参数、执行结果与拒绝结果
-- input/actual_output、user_input/response 和工具字段映射
+- DeepEval 的 input/actual_output 与工具字段映射
 
 **本课代码**：在 Bash 之外加入 read_file、write_file；只保留必要的目录权限和事件字段。
 
 **源码依据**
 
 - DeepEval：LLMTestCase、ToolCall 与 trace 入口
-- Ragas：SingleTurnSample、MultiTurnSample 与消息类型
+- Ragas：从单轮与过程样本理解证据范围（源码导读）
 
-**动手理解**：让同一任务产生一次合法写入和一次越界拒绝，核对两套样本是否仍指向同一轮运行。
+**动手理解**：让同一任务产生一次合法写入和一次越界拒绝，核对 DeepEval 样本是否仍保留真实动作、参数与结果。
 
 **学会的标志**：能从评分样本追回真实动作，分清没有调用、被拒绝和执行失败。
 

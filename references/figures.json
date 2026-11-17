@@ -2,8 +2,8 @@
   {
     "name": "agent-loop",
     "slug": "e01_success",
-    "candidate": ".archify/workflow-agent-loop-20261118-002839/candidate.json",
-    "output": ".archify/workflow-agent-loop-20261118-002839/agent-loop.html",
+    "candidate": ".archify/workflow-agent-loop-20261118-005618/candidate.json",
+    "output": ".archify/workflow-agent-loop-20261118-005618/agent-loop.html",
     "diagram_type": "workflow",
     "generator": "Archify",
     "gates": {
@@ -12,19 +12,22 @@
       "check": "pass",
       "browser-check": "pass"
     },
-    "specification_sha256": "b63fc2047c197d8bbcea1781a93970646420860ab8c6f5a5e7d7d342fce74b03",
-    "artifact_sha256": "7f38cccb74b435e20622d18e4d57fb7341544c93689e9741ea695296c9f64b92",
+    "specification_sha256": "5a0c7ae6a1e316b8a7916cf3a7c55bba2feca520e84433f1981a10be831f593c",
+    "artifact_sha256": "b301db9eb531de87ec3f7bd7f20ea028125c9ded8e40fd610049618ca2c8e9f6",
     "browser_evidence": "passed",
-    "visual_review": "not_requested",
+    "visual_review": "passed",
     "export_review": "PNG inspected",
     "png": "course/e01_success/images/agent-loop.png",
-    "png_sha256": "d9fab50ce8455678d28ade2f1cb8b2105199e48e0db6726c24c21e3ed788aec6"
+    "png_sha256": "6f7e0820ba2ab98afc912e5bd41a2d7ac04165e52ddf3927054f25466137ebc4",
+    "title": "Agent 循环：模型决策，执行框架回填",
+    "archify_version": "3.2.0",
+    "url": "https://lovits.github.io/learn-agent-evaluation/diagrams/agent-loop.html"
   },
   {
     "name": "evaluation-code",
     "slug": "e01_success",
-    "candidate": ".archify/workflow-evaluation-code-20261118-002839/candidate.json",
-    "output": ".archify/workflow-evaluation-code-20261118-002839/evaluation-code.html",
+    "candidate": ".archify/workflow-evaluation-code-20261118-005618/candidate.json",
+    "output": ".archify/workflow-evaluation-code-20261118-005618/evaluation-code.html",
     "diagram_type": "workflow",
     "generator": "Archify",
     "gates": {
@@ -33,40 +36,22 @@
       "check": "pass",
       "browser-check": "pass"
     },
-    "specification_sha256": "4db6df6be808ddd4c3d23486f0f36b74ed3bcfd4bba4c1ec80fe741d1dd92626",
-    "artifact_sha256": "034298c089d5986dc5f6698dde2c768e035b22585b39dbf574cd254b2096c890",
+    "specification_sha256": "51de5cd0b598acfd667481150226f43f7b2aac8ae090368a55f01b311f7e30d7",
+    "artifact_sha256": "332be90a76ac5134b36b69dcafd7eacd16cb7c19f602ddf24803c90594026e50",
     "browser_evidence": "passed",
-    "visual_review": "not_requested",
+    "visual_review": "passed",
     "export_review": "PNG inspected",
     "png": "course/e01_success/images/evaluation-code.png",
-    "png_sha256": "0a71600dae488884d92eba0384e777a91890c23bb56a03cf81703f59c9793fca"
-  },
-  {
-    "name": "task-evaluation",
-    "slug": "e01_success",
-    "candidate": ".archify/workflow-task-evaluation-20261118-002839/candidate.json",
-    "output": ".archify/workflow-task-evaluation-20261118-002839/task-evaluation.html",
-    "diagram_type": "workflow",
-    "generator": "Archify",
-    "gates": {
-      "validate": "pass",
-      "deliver": "pass",
-      "check": "pass",
-      "browser-check": "pass"
-    },
-    "specification_sha256": "0533f86b4e2980492e459fcab3a0ad5cfa5bc6f12f389e5d6174d878ea4b8dca",
-    "artifact_sha256": "ea566ba74bdf6e8420f5ef5cce6585cd4b2b94266b29482af9ccef6fbc41f29d",
-    "browser_evidence": "passed",
-    "visual_review": "not_requested",
-    "export_review": "PNG inspected",
-    "png": "course/e01_success/images/task-evaluation.png",
-    "png_sha256": "ab4770b8b941887b1c9dd38ce5f1a36888045c9b87956e1d3cc49198e8271af7"
+    "png_sha256": "86bb4ebff633dbc8566c5b16c194e531d5a6f1f1f0383784987533eb973bafc6",
+    "title": "评测代码结构：运行与评分分开",
+    "archify_version": "3.2.0",
+    "url": "https://lovits.github.io/learn-agent-evaluation/diagrams/evaluation-code.html"
   },
   {
     "name": "tool-recording",
     "slug": "e02_samples",
-    "candidate": ".archify/workflow-tool-recording-20261118-002839/candidate.json",
-    "output": ".archify/workflow-tool-recording-20261118-002839/tool-recording.html",
+    "candidate": ".archify/workflow-tool-recording-20261118-005618/candidate.json",
+    "output": ".archify/workflow-tool-recording-20261118-005618/tool-recording.html",
     "diagram_type": "workflow",
     "generator": "Archify",
     "gates": {
@@ -75,19 +60,22 @@
       "check": "pass",
       "browser-check": "pass"
     },
-    "specification_sha256": "670661be015a0c80bab75a091b79d3bd55dc10debcc8fc9cc026dc1f15637970",
-    "artifact_sha256": "1c1c7d6397a57b4c4e66804392b893080d7a7ba8c59dc47a963b4a0164524205",
+    "specification_sha256": "b4f9e3e0d8cf7095a1f275ad2ee8ed15b7e34ba2e138eb65e9b9ac57362eef19",
+    "artifact_sha256": "35c0f0f3eb4539645ca403a6c0e95183ec1d39be61d639c239487ab28471d253",
     "browser_evidence": "passed",
-    "visual_review": "not_requested",
+    "visual_review": "passed",
     "export_review": "PNG inspected",
     "png": "course/e02_samples/images/tool-recording.png",
-    "png_sha256": "8db7304e5e333d8d3c9609d8929a71b528dd2e8d9950070257f454772ce900b2"
+    "png_sha256": "16a70675a14fd0273b9225b187d1053bfcc69f458c0fe410c22c13ae1a3149f3",
+    "title": "具名工具：分发、执行与记录",
+    "archify_version": "3.2.0",
+    "url": "https://lovits.github.io/learn-agent-evaluation/diagrams/tool-recording.html"
   },
   {
     "name": "sample-evaluation",
     "slug": "e02_samples",
-    "candidate": ".archify/workflow-sample-evaluation-20261118-002839/candidate.json",
-    "output": ".archify/workflow-sample-evaluation-20261118-002839/sample-evaluation.html",
+    "candidate": ".archify/workflow-sample-evaluation-20261118-005618/candidate.json",
+    "output": ".archify/workflow-sample-evaluation-20261118-005618/sample-evaluation.html",
     "diagram_type": "workflow",
     "generator": "Archify",
     "gates": {
@@ -96,12 +84,41 @@
       "check": "pass",
       "browser-check": "pass"
     },
-    "specification_sha256": "33c8c65a01c094c89f2067970ccf93b876a7e62f41063728094dd3add2396066",
-    "artifact_sha256": "da3cb1fa42404a8a848e843896e972075b1146d8584b2f961573670562375e31",
+    "specification_sha256": "31e2c12b96f5eef4e4b5371ddebff122001685e1a7fdfb8994778705b08f134f",
+    "artifact_sha256": "35e02537d90f42d759f331c1caaffa5e8ef5afcb72e82ef5c944d56302f0df31",
     "browser_evidence": "passed",
-    "visual_review": "not_requested",
+    "visual_review": "passed",
     "export_review": "PNG inspected",
     "png": "course/e02_samples/images/sample-evaluation.png",
-    "png_sha256": "6fb0ffac4f441a09dc9607b042a17bd33c2bc27a75e56323b4afb992c833ccfc"
+    "png_sha256": "48c5a43f8f1fd4012e351759b89d3549a86dbe9f195ea142ceb565a1bfb1d1d1",
+    "title": "同一次运行：任务评分与样本转换",
+    "archify_version": "3.2.0",
+    "url": "https://lovits.github.io/learn-agent-evaluation/diagrams/sample-evaluation.html"
+  },
+  {
+    "name": "e01-task-evaluation",
+    "slug": "e01_success",
+    "diagram_type": "flowchart",
+    "generator": "draw.io",
+    "title": "第1课：任务评测流程",
+    "candidate": "course/e01_success/images/task-evaluation.drawio",
+    "output": "course/e01_success/images/task-evaluation.drawio.svg",
+    "artifact_sha256": "e9b71465a458ac77123e1333d10593627d118cd675fc414ac25230acf60d54e6",
+    "png": "course/e01_success/images/task-evaluation.png",
+    "visual_review": "passed",
+    "url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e01-task-evaluation.svg"
+  },
+  {
+    "name": "e02-task-evaluation",
+    "slug": "e02_samples",
+    "diagram_type": "flowchart",
+    "generator": "draw.io",
+    "title": "第2课：任务评测流程",
+    "candidate": "course/e02_samples/images/task-evaluation.drawio",
+    "output": "course/e02_samples/images/task-evaluation.drawio.svg",
+    "artifact_sha256": "eaf764351140e886d53a6adc390300b23c66b8325fbf95691de9d4032349d087",
+    "png": "course/e02_samples/images/task-evaluation.png",
+    "visual_review": "passed",
+    "url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e02-task-evaluation.svg"
   }
 ]

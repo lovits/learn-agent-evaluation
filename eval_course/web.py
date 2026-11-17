@@ -28,6 +28,7 @@ def render(path):
     source = PROJECT / path
     tokens = RENDERER.parse(source.read_text())
     routes = {(PROJECT / p).resolve(): route for route, p in PAGES.items()}
+    diagrams = json.loads((PROJECT / "references/figures.json").read_text())
     for index, block in enumerate(tokens):
         if block.type == "heading_open":
             block.attrSet(
@@ -45,6 +46,11 @@ def render(path):
             if token.type != "link_open":
                 continue
             href = token.attrGet("href") or ""
+            hosted = next((row for row in diagrams if row.get("url") == href), None)
+            if hosted:
+                route = "/diagram" if hosted["generator"] == "Archify" else "/image"
+                token.attrSet("href", route + "?path=" + quote(hosted["output"]))
+                continue
             parsed = urlparse(href)
             if parsed.scheme or href.startswith(("/", "#")):
                 continue
@@ -78,10 +84,11 @@ class Handler(BaseHTTPRequestHandler):
                     if (
                         not target.is_relative_to(PROJECT / "course")
                         or target.parent.name != "images"
-                        or target.suffix != ".png"
+                        or target.suffix not in {".png", ".svg"}
                     ):
                         raise ValueError("Unreadable image path")
-                    return self.send(200, target.read_bytes(), "image/png")
+                    mime = "image/svg+xml" if target.suffix == ".svg" else "image/png"
+                    return self.send(200, target.read_bytes(), mime)
                 if not target.is_relative_to(PROJECT / ".archify") or target.suffix != ".html":
                     raise ValueError("Unreadable diagram path")
                 return self.send(200, target.read_bytes(), "text/html")

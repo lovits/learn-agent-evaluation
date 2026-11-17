@@ -2,7 +2,7 @@
 
 从一个循环和 Bash 开始，让 Agent 真正处理文件，再问：怎样知道它做得对？
 
-课程沿 [Learn Claude Code](https://github.com/shareAI-lab/learn-claude-code) 的思路逐步增加机制。知识库使用 [Datawhale TinyRAG](https://github.com/datawhalechina/tiny-universe/tree/main/content/TinyRAG)，评测方法结合 DeepEval 与 Ragas 的文档和源码。适合会 Python、了解 RAG 与 Agent，想系统学习评测的读者。
+课程沿 [Learn Claude Code](https://github.com/shareAI-lab/learn-claude-code) 的思路逐步增加机制。知识库使用 [Datawhale TinyRAG](https://github.com/datawhalechina/tiny-universe/tree/main/content/TinyRAG)，实际评测框架统一使用 DeepEval；同时从 Ragas 的文档与源码学习指标原理和数据集设计。适合会 Python、了解 RAG 与 Agent，想系统学习评测的读者。
 
 ## 课程
 

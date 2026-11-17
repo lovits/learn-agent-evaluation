@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "command": "finalize",
+  "status": "fail",
+  "type": "workflow",
+  "quality": "showcase",
+  "specification": {
+    "path": "/Users/qianye/Downloads/工作相关/agent评测项目/learn-agent-evaluation/.archify/workflow-tool-recording-20261118-005618/candidate.json",
+    "sha256": "1209dffa9a1cb104dbc70ffc4adf661eaa255e9cc1b8271e25168ec1f37eea00",
+    "bytes": 4092
+  },
+  "artifact": {
+    "path": "/Users/qianye/Downloads/工作相关/agent评测项目/learn-agent-evaluation/.archify/workflow-tool-recording-20261118-005618/tool-recording.html",
+    "sha256": "e87bedc929db7d87b80d4e20a007c310698c290546321eb912d98639981da84c",
+    "bytes": 817580
+  },
+  "gates": {
+    "validate": "fail",
+    "deliver": "not-run",
+    "check": "not-run",
+    "browser-check": "not-run"
+  },
+  "failedStage": "validate",
+  "diagnostics": [
+    {
+      "code": "workflow/route-preset-conflict",
+      "severity": "error",
+      "message": "Workflow edge \"edge-5\" cannot satisfy route preset \"return-left\": candidate violates edge-label node clearance: its label intersects node \"messages\".",
+      "subject": {
+        "diagramType": "workflow",
+        "edge": "edge-5",
+        "from": "messages",
+        "to": "model",
+        "route": "return-left"
+      },
+      "evidence": {
+        "invariant": "edge-label node clearance",
+        "labelRect": {
+          "x": 14.600000000000001,
+          "y": 347,
+          "width": 38.8,
+          "height": 14
+        },
+        "obstacleNode": "messages",
+        "attemptedCandidateFamily": "return-left",
+        "points": [
+          [
+            48,
+            367
+          ],
+          [
+            20,
+            367
+          ],
+          [
+            20,
+            119
+          ],
+          [
+            48,
+            119
+          ]
+        ],
+        "fromSide": "left",
+        "toSide": "left",
+        "requiredEndpointStubPx": 8,
+        "requiredInteriorSegmentPx": 16,
+        "requiredDirectClearancePx": 28
+      },
+      "supportedFixes": [
+        "set labelSegment on edge \"edge-5\" to 1"
+      ]
+    }
+  ],
+  "diagnosticSummary": {
+    "total": 1,
+    "shown": 1,
+    "truncated": false
+  },
+  "evidence": {
+    "receipt": "/Users/qianye/Downloads/工作相关/agent评测项目/learn-agent-evaluation/.archify/workflow-tool-recording-20261118-005618/review-3/tool-recording.finalize.json",
+    "summaryReceipt": "/Users/qianye/Downloads/工作相关/agent评测项目/learn-agent-evaluation/.archify/workflow-tool-recording-20261118-005618/review-3/tool-recording.finalize-summary.json"
+  },
+  "update": {
+    "status": "current",
+    "installedVersion": "3.2.0",
+    "availableVersion": "3.2.0",
+    "releaseNotes": null,
+    "checkedAt": "2026-11-17T16:56:18.646Z",
+    "source": "cache",
+    "noticeRequired": false,
+    "noticeText": null
+  },
+  "visualReview": "not-requested",
+  "durationMs": 554,
+  "browserCheck": {
+    "requested": true,
+    "ran": false
+  },
+  "nextAction": {
+    "action": "edit-in-place",
+    "candidate": "/Users/qianye/Downloads/工作相关/agent评测项目/learn-agent-evaluation/.archify/workflow-tool-recording-20261118-005618/candidate.json",
+    "constraint": "Preserve unaffected semantics and geometry; apply each diagnostic's supportedFixes, or the fix its message names, and do not replace the whole candidate.",
+    "then": "finalize-once"
+  }
+}

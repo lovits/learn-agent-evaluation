@@ -2,7 +2,9 @@
 
 [教材](README.zh.md) · [循环](code.py) · [工具](tools.py) · [转换](samples.py)
 
-![同一次运行的任务评分与样本转换](images/sample-evaluation.png)
+[![同一次运行的任务评分与样本转换](images/sample-evaluation.png)](https://lovits.github.io/learn-agent-evaluation/diagrams/sample-evaluation.html)
+
+[打开交互图：点击节点看说明，点击“静态”播放流程](https://lovits.github.io/learn-agent-evaluation/diagrams/sample-evaluation.html)
 
 ## 本课调用链
 
@@ -38,4 +40,4 @@
 
 任务入口在 [course.run](../run.py)，它读取本课样本、创建本次目录并调用循环；[course.grade](../grade.py) 根据运行编号读取结果，再进入本课评分函数。
 
-[查看 Archify 源图](../../.archify/workflow-sample-evaluation-20261118-002839/sample-evaluation.html) · [样本与评测记录](assessment.md)
+[样本与评测记录](assessment.md)

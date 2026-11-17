@@ -1,3 +1,4 @@
+import json
 import threading
 from http.server import ThreadingHTTPServer
 from urllib.error import HTTPError
@@ -5,7 +6,7 @@ from urllib.request import urlopen
 
 import pytest
 
-from eval_course.web import Handler
+from eval_course.web import PROJECT, Handler
 
 
 def test_new_course_pages_and_source_boundary():
@@ -29,6 +30,16 @@ def test_new_course_pages_and_source_boundary():
         with urlopen(base + "/image?path=course/e01_success/images/agent-loop.png") as response:
             assert response.headers.get_content_type() == "image/png"
             assert response.read(8) == b"\x89PNG\r\n\x1a\n"
+        diagrams = json.loads((PROJECT / "references/figures.json").read_text())
+        for lesson, slug in [(1, "e01_success"), (2, "e02_samples")]:
+            with urlopen(base + f"/lesson{lesson}") as response:
+                body = response.read().decode()
+            diagram = next(d for d in diagrams if d["slug"] == slug and d["generator"] == "Archify")
+            assert f'href="/diagram?path={diagram["output"]}"' in body
+            with urlopen(base + "/diagram?path=" + diagram["output"]) as response:
+                assert b'data-motion-capable="true"' in response.read()
+            with urlopen(base + f"/image?path=course/{slug}/images/task-evaluation.drawio.svg") as response:
+                assert response.headers.get_content_type() == "image/svg+xml"
         for path in [
             "/code",
             "/code?path=../../.env",

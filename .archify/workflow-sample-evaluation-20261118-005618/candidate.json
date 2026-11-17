@@ -1,0 +1,206 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "同一次运行：任务评分与样本转换",
+    "locale": "zh-CN",
+    "output": ".archify/workflow-sample-evaluation-20261118-005618/sample-evaluation.html",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/lovits/learn-agent-evaluation.git",
+      "revision": "fa66e28f00c75cc364183f94229a3c1ebd560389",
+      "provider": "github"
+    }
+  },
+  "lanes": [
+    {
+      "id": "input",
+      "label": "读取记录"
+    },
+    {
+      "id": "score",
+      "label": "任务判断"
+    },
+    {
+      "id": "sample",
+      "label": "样本转换"
+    },
+    {
+      "id": "output",
+      "label": "评分输入"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "run",
+      "lane": "input",
+      "col": 0,
+      "type": "database",
+      "label": "读取实际运行",
+      "sublabel": "任务 / 事件 / 停止原因",
+      "sources": [
+        {
+          "path": "course/e02_samples/code.py",
+          "line": 14,
+          "end_line": 41,
+          "label": "agent_loop"
+        }
+      ]
+    },
+    {
+      "id": "eval",
+      "lane": "input",
+      "col": 1,
+      "type": "backend",
+      "label": "进入本课评分",
+      "sublabel": "读取记录与当前产物",
+      "sources": [
+        {
+          "path": "course/e02_samples/eval.py",
+          "line": 6,
+          "end_line": 21,
+          "label": "evaluate"
+        }
+      ]
+    },
+    {
+      "id": "checks",
+      "lane": "score",
+      "col": 1,
+      "type": "backend",
+      "label": "核对任务规则",
+      "sublabel": "停止、调用、文件与任务事件",
+      "sources": [
+        {
+          "path": "course/e02_samples/eval.py",
+          "line": 6,
+          "end_line": 21,
+          "label": "evaluate"
+        }
+      ]
+    },
+    {
+      "id": "verdict",
+      "lane": "score",
+      "col": 2,
+      "type": "database",
+      "label": "汇总任务判断",
+      "sublabel": "passed / checks",
+      "sources": [
+        {
+          "path": "course/e02_samples/eval.py",
+          "line": 6,
+          "end_line": 21,
+          "label": "evaluate"
+        }
+      ]
+    },
+    {
+      "id": "export",
+      "lane": "sample",
+      "col": 1,
+      "type": "backend",
+      "label": "读取实际事件",
+      "sublabel": "不再运行 Agent",
+      "sources": [
+        {
+          "path": "course/e02_samples/samples.py",
+          "line": 6,
+          "end_line": 22,
+          "label": "样本转换"
+        }
+      ]
+    },
+    {
+      "id": "sdk",
+      "lane": "sample",
+      "col": 2,
+      "type": "backend",
+      "label": "构造 DeepEval 样本",
+      "sublabel": "任务、回答与工具调用",
+      "sources": [
+        {
+          "path": "course/e02_samples/samples.py",
+          "line": 6,
+          "end_line": 22,
+          "label": "样本转换"
+        }
+      ]
+    },
+    {
+      "id": "objects",
+      "lane": "output",
+      "col": 2,
+      "type": "database",
+      "label": "保留评分输入",
+      "sublabel": "样本构造不产生质量分数",
+      "sources": [
+        {
+          "path": "course/e02_samples/samples.py",
+          "line": 6,
+          "end_line": 22,
+          "label": "样本转换"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "id": "edge-0",
+      "from": "run",
+      "to": "eval",
+      "role": "main",
+      "label": "读取"
+    },
+    {
+      "id": "edge-1",
+      "from": "eval",
+      "to": "checks",
+      "role": "main",
+      "label": "任务评分"
+    },
+    {
+      "id": "edge-2",
+      "from": "checks",
+      "to": "verdict",
+      "role": "main",
+      "label": "规则聚合"
+    },
+    {
+      "id": "edge-3",
+      "from": "eval",
+      "to": "export",
+      "role": "branch",
+      "label": "同一份记录"
+    },
+    {
+      "id": "edge-4",
+      "from": "export",
+      "to": "sdk",
+      "role": "branch",
+      "label": "字段映射"
+    },
+    {
+      "id": "edge-5",
+      "from": "sdk",
+      "to": "objects",
+      "role": "branch",
+      "label": "结构校验"
+    }
+  ],
+  "mainPath": [
+    "run",
+    "eval",
+    "checks",
+    "verdict"
+  ],
+  "cards": [
+    {
+      "dot": "amber",
+      "title": "样本与分数",
+      "items": [
+        "创建 SDK 样本不会自动产生质量分数；原始证据与运行状态继续保留。"
+      ]
+    }
+  ]
+}

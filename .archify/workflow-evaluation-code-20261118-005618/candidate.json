@@ -1,0 +1,211 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "评测代码结构：运行与评分分开",
+    "locale": "zh-CN",
+    "output": ".archify/workflow-evaluation-code-20261118-005618/evaluation-code.html",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/lovits/learn-agent-evaluation.git",
+      "revision": "fa66e28f00c75cc364183f94229a3c1ebd560389",
+      "provider": "github"
+    }
+  },
+  "lanes": [
+    {
+      "id": "run",
+      "label": "运行并保存"
+    },
+    {
+      "id": "grade",
+      "label": "读取并评分"
+    },
+    {
+      "id": "result",
+      "label": "判分"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "runner",
+      "lane": "run",
+      "col": 0,
+      "type": "backend",
+      "label": "启动任务",
+      "sublabel": "创建目录，进入 Agent 循环",
+      "sources": [
+        {
+          "path": "course/run.py",
+          "line": 15,
+          "end_line": 38,
+          "label": "main"
+        }
+      ]
+    },
+    {
+      "id": "loop",
+      "lane": "run",
+      "col": 1,
+      "type": "backend",
+      "label": "执行任务循环",
+      "sublabel": "请求模型、执行命令、回填",
+      "sources": [
+        {
+          "path": "course/e01_success/code.py",
+          "line": 6,
+          "end_line": 28,
+          "label": "agent_loop"
+        }
+      ]
+    },
+    {
+      "id": "record",
+      "lane": "run",
+      "col": 2,
+      "type": "database",
+      "label": "保存运行报告",
+      "sublabel": "events / run_id / 停止原因",
+      "sources": [
+        {
+          "path": "course/run.py",
+          "line": 15,
+          "end_line": 38,
+          "label": "main"
+        }
+      ]
+    },
+    {
+      "id": "workspace",
+      "lane": "grade",
+      "col": 0,
+      "type": "database",
+      "label": "留下实际文件",
+      "sublabel": "工作目录中的 hello.py",
+      "sources": [
+        {
+          "path": "eval_course/runtime.py",
+          "line": 44,
+          "end_line": 79,
+          "label": "run_bash"
+        }
+      ]
+    },
+    {
+      "id": "grade",
+      "lane": "grade",
+      "col": 2,
+      "type": "backend",
+      "label": "读取本次记录",
+      "sublabel": "按 run_id 找到报告与目录",
+      "sources": [
+        {
+          "path": "course/grade.py",
+          "line": 14,
+          "end_line": 30,
+          "label": "main"
+        }
+      ]
+    },
+    {
+      "id": "evaluate",
+      "lane": "result",
+      "col": 2,
+      "type": "backend",
+      "label": "检查任务证据",
+      "sublabel": "检查记录和当前文件",
+      "sources": [
+        {
+          "path": "course/e01_success/eval.py",
+          "line": 6,
+          "end_line": 22,
+          "label": "evaluate"
+        }
+      ]
+    },
+    {
+      "id": "result",
+      "lane": "result",
+      "col": 3,
+      "type": "database",
+      "label": "汇总逐项判断",
+      "sublabel": "passed / checks",
+      "sources": [
+        {
+          "path": "course/e01_success/eval.py",
+          "line": 6,
+          "end_line": 22,
+          "label": "evaluate"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "id": "edge-0",
+      "from": "runner",
+      "to": "loop",
+      "role": "main",
+      "label": "执行"
+    },
+    {
+      "id": "edge-1",
+      "from": "loop",
+      "to": "record",
+      "role": "main",
+      "label": "保存"
+    },
+    {
+      "id": "edge-2",
+      "from": "loop",
+      "to": "workspace",
+      "role": "branch",
+      "label": "Bash 写入"
+    },
+    {
+      "id": "edge-3",
+      "from": "record",
+      "to": "grade",
+      "role": "main",
+      "label": "读取"
+    },
+    {
+      "id": "edge-4",
+      "from": "workspace",
+      "to": "evaluate",
+      "role": "branch",
+      "label": "读取文件"
+    },
+    {
+      "id": "edge-5",
+      "from": "grade",
+      "to": "evaluate",
+      "role": "main",
+      "label": "传入记录和目录"
+    },
+    {
+      "id": "edge-6",
+      "from": "evaluate",
+      "to": "result",
+      "role": "main",
+      "label": "逐项检查"
+    }
+  ],
+  "mainPath": [
+    "runner",
+    "loop",
+    "record",
+    "grade",
+    "evaluate",
+    "result"
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "独立取证",
+      "items": [
+        "评分器读取实际记录和当前文件，不调用模型，也不重跑生成程序。"
+      ]
+    }
+  ]
+}

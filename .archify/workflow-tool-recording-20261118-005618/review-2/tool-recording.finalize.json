@@ -1,0 +1,221 @@
+{
+  "schemaVersion": 1,
+  "ok": false,
+  "command": "finalize",
+  "status": "fail",
+  "type": "workflow",
+  "quality": "showcase",
+  "startedAt": "2026-11-17T16:59:47.061Z",
+  "specification": {
+    "path": "/Users/qianye/Downloads/工作相关/agent评测项目/learn-agent-evaluation/.archify/workflow-tool-recording-20261118-005618/candidate.json",
+    "sha256": "31cbd5aa927340ef9109492e08c398d69209baf27b6de4245a6358a21bbed5a4",
+    "bytes": 4012
+  },
+  "artifact": {
+    "path": "/Users/qianye/Downloads/工作相关/agent评测项目/learn-agent-evaluation/.archify/workflow-tool-recording-20261118-005618/tool-recording.html",
+    "sha256": "e87bedc929db7d87b80d4e20a007c310698c290546321eb912d98639981da84c",
+    "bytes": 817580
+  },
+  "stages": {
+    "validate": {
+      "status": "fail",
+      "exitCode": 1,
+      "durationMs": null,
+      "command": [
+        "/Users/qianye/.hermes/node/bin/node",
+        "/Users/qianye/.skills-manager/skills/archify/bin/archify.mjs",
+        "deliver",
+        "workflow",
+        "/Users/qianye/Downloads/工作相关/agent评测项目/learn-agent-evaluation/.archify/workflow-tool-recording-20261118-005618/candidate.json",
+        "/Users/qianye/Downloads/工作相关/agent评测项目/learn-agent-evaluation/.archify/workflow-tool-recording-20261118-005618/tool-recording.html",
+        "--quality",
+        "showcase",
+        "--repo-root",
+        "/Users/qianye/Downloads/工作相关/agent评测项目/learn-agent-evaluation",
+        "--json"
+      ],
+      "receipt": {
+        "schemaVersion": 1,
+        "ok": false,
+        "command": "deliver",
+        "receiptId": "df6c0b0b-61af-4029-9f4d-b6dc6f6c6ffa",
+        "stage": "render",
+        "type": "workflow",
+        "input": "/Users/qianye/Downloads/工作相关/agent评测项目/learn-agent-evaluation/.archify/workflow-tool-recording-20261118-005618/candidate.json",
+        "output": "/Users/qianye/Downloads/工作相关/agent评测项目/learn-agent-evaluation/.archify/workflow-tool-recording-20261118-005618/tool-recording.html",
+        "error": "Workflow layout validation failed:\n- [composition/proper-crossing] showcase workflow edges[1] id \"edge-1\" \"call\" -> \"execute\" crosses edges[5] id \"edge-5\" \"messages\" -> \"model\" at [224, 161] (segments 0 and 3) — adjust route/via, bias, or channel coordinates so the edges use separate lane corridors.",
+        "diagnostics": [
+          {
+            "code": "composition/proper-crossing",
+            "severity": "error",
+            "message": "[composition/proper-crossing] showcase workflow edges[1] id \"edge-1\" \"call\" -> \"execute\" crosses edges[5] id \"edge-5\" \"messages\" -> \"model\" at [224, 161] (segments 0 and 3) — adjust route/via, bias, or channel coordinates so the edges use separate lane corridors.",
+            "subject": {
+              "diagramType": "workflow",
+              "collection": "edges",
+              "index": 1,
+              "id": "edge-1",
+              "from": "call",
+              "to": "execute"
+            },
+            "evidence": {
+              "otherRelationship": {
+                "diagramType": "workflow",
+                "collection": "edges",
+                "index": 5,
+                "id": "edge-5",
+                "from": "messages",
+                "to": "model"
+              },
+              "point": [
+                224.00000000000003,
+                161
+              ],
+              "segmentIndex": 0,
+              "otherSegmentIndex": 3,
+              "verifiedRepair": {
+                "scope": "complete-workflow-compile",
+                "kind": "optional-node-placement",
+                "changes": [
+                  {
+                    "op": "replace",
+                    "path": "/nodes/0/col",
+                    "value": 1
+                  },
+                  {
+                    "op": "replace",
+                    "path": "/nodes/1/col",
+                    "value": 2
+                  },
+                  {
+                    "op": "replace",
+                    "path": "/nodes/2/col",
+                    "value": 2
+                  },
+                  {
+                    "op": "replace",
+                    "path": "/nodes/3/col",
+                    "value": 3
+                  },
+                  {
+                    "op": "replace",
+                    "path": "/nodes/4/col",
+                    "value": 3
+                  }
+                ]
+              }
+            },
+            "supportedFixes": [
+              "if node columns and row offsets are flexible, apply the complete optional-node-placement changes in evidence.verifiedRepair together; this workflow then passes compilation with every node, relationship, lane, condition and mainPath preserved (browser verification and visual review still required)",
+              "adjust route/via, bias, or channel coordinates so the edges use separate lane corridors"
+            ]
+          }
+        ],
+        "provenance": "failed",
+        "update": {
+          "status": "unavailable",
+          "installedVersion": null,
+          "availableVersion": null,
+          "releaseNotes": null,
+          "checkedAt": null,
+          "source": null,
+          "noticeRequired": false,
+          "noticeText": null,
+          "reason": "disabled"
+        }
+      },
+      "execution": "embedded-in-deliver"
+    },
+    "deliver": {
+      "status": "not-run",
+      "execution": "blocked-by-validate"
+    }
+  },
+  "browserCheck": {
+    "requested": true,
+    "ran": false
+  },
+  "diagnostics": [
+    {
+      "code": "composition/proper-crossing",
+      "severity": "error",
+      "message": "[composition/proper-crossing] showcase workflow edges[1] id \"edge-1\" \"call\" -> \"execute\" crosses edges[5] id \"edge-5\" \"messages\" -> \"model\" at [224, 161] (segments 0 and 3) — adjust route/via, bias, or channel coordinates so the edges use separate lane corridors.",
+      "subject": {
+        "diagramType": "workflow",
+        "collection": "edges",
+        "index": 1,
+        "id": "edge-1",
+        "from": "call",
+        "to": "execute"
+      },
+      "evidence": {
+        "otherRelationship": {
+          "diagramType": "workflow",
+          "collection": "edges",
+          "index": 5,
+          "id": "edge-5",
+          "from": "messages",
+          "to": "model"
+        },
+        "point": [
+          224.00000000000003,
+          161
+        ],
+        "segmentIndex": 0,
+        "otherSegmentIndex": 3,
+        "verifiedRepair": {
+          "scope": "complete-workflow-compile",
+          "kind": "optional-node-placement",
+          "changes": [
+            {
+              "op": "replace",
+              "path": "/nodes/0/col",
+              "value": 1
+            },
+            {
+              "op": "replace",
+              "path": "/nodes/1/col",
+              "value": 2
+            },
+            {
+              "op": "replace",
+              "path": "/nodes/2/col",
+              "value": 2
+            },
+            {
+              "op": "replace",
+              "path": "/nodes/3/col",
+              "value": 3
+            },
+            {
+              "op": "replace",
+              "path": "/nodes/4/col",
+              "value": 3
+            }
+          ]
+        }
+      },
+      "supportedFixes": [
+        "if node columns and row offsets are flexible, apply the complete optional-node-placement changes in evidence.verifiedRepair together; this workflow then passes compilation with every node, relationship, lane, condition and mainPath preserved (browser verification and visual review still required)",
+        "adjust route/via, bias, or channel coordinates so the edges use separate lane corridors"
+      ]
+    }
+  ],
+  "evidence": {
+    "receipt": "/Users/qianye/Downloads/工作相关/agent评测项目/learn-agent-evaluation/.archify/workflow-tool-recording-20261118-005618/review-2/tool-recording.finalize.json",
+    "summaryReceipt": "/Users/qianye/Downloads/工作相关/agent评测项目/learn-agent-evaluation/.archify/workflow-tool-recording-20261118-005618/review-2/tool-recording.finalize-summary.json"
+  },
+  "visualReview": "not-requested",
+  "failedStage": "validate",
+  "finishedAt": "2026-11-17T16:59:47.531Z",
+  "durationMs": 469,
+  "update": {
+    "status": "current",
+    "installedVersion": "3.2.0",
+    "availableVersion": "3.2.0",
+    "releaseNotes": null,
+    "checkedAt": "2026-11-17T16:56:18.646Z",
+    "source": "cache",
+    "noticeRequired": false,
+    "noticeText": null
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "a42c0d5a-4c12-477a-a921-8c9e48e25e27",
+  "status": "current",
+  "command": "deliver",
+  "type": "workflow",
+  "input": "/Users/qianye/Downloads/工作相关/agent评测项目/learn-agent-evaluation/.archify/workflow-sample-evaluation-20261118-005618/candidate.json",
+  "output": "/Users/qianye/Downloads/工作相关/agent评测项目/learn-agent-evaluation/.archify/workflow-sample-evaluation-20261118-005618/sample-evaluation.html",
+  "specification": {
+    "sha256": "31e2c12b96f5eef4e4b5371ddebff122001685e1a7fdfb8994778705b08f134f",
+    "bytes": 4382
+  },
+  "artifact": {
+    "sha256": "35e02537d90f42d759f331c1caaffa5e8ef5afcb72e82ef5c944d56302f0df31",
+    "bytes": 818358
+  }
+}

@@ -2,7 +2,9 @@
 
 [教材](README.zh.md) · [循环](code.py) · [评分](eval.py)
 
-![运行与评分的代码结构](images/evaluation-code.png)
+[![运行与评分的代码结构](images/evaluation-code.png)](https://lovits.github.io/learn-agent-evaluation/diagrams/evaluation-code.html)
+
+[打开交互图：点击节点看说明，点击“静态”播放流程](https://lovits.github.io/learn-agent-evaluation/diagrams/evaluation-code.html)
 
 ## 从循环读到文件
 
@@ -32,4 +34,4 @@
 
 任务入口在 [course.run](../run.py)，它读取本课样本、创建本次目录并调用循环；[course.grade](../grade.py) 根据运行编号读取结果，再进入本课评分函数。
 
-[查看 Archify 源图](../../.archify/workflow-evaluation-code-20261118-002839/evaluation-code.html) · [样本与评测记录](assessment.md)
+[样本与评测记录](assessment.md)

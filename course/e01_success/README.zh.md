@@ -18,7 +18,9 @@
 
 运行结束后，评分器读取执行记录和实际文件。最终回答中的“完成”，不会自动变成完成证据。
 
-![Agent 循环](images/agent-loop.png)
+[![Agent 循环](images/agent-loop.png)](https://lovits.github.io/learn-agent-evaluation/diagrams/agent-loop.html)
+
+[打开交互图：点击节点看说明，点击“静态”播放流程](https://lovits.github.io/learn-agent-evaluation/diagrams/agent-loop.html)
 
 ## 工作原理
 
@@ -63,7 +65,9 @@ messages.append({"role": "tool", "content": results})
 return {"passed": all(checks.values()), "checks": checks}
 ```
 
-![任务评测流程](images/task-evaluation.png)
+[![任务评测流程](images/task-evaluation.png)](https://lovits.github.io/learn-agent-evaluation/diagrams/e01-task-evaluation.svg)
+
+[放大查看评测流程](https://lovits.github.io/learn-agent-evaluation/diagrams/e01-task-evaluation.svg)
 
 三条条件全部满足，才接受这次任务。文件内容用语法树比较，所以单引号、双引号和注释差异不会影响判断。这条规则只适用于本题要求的结构。
 

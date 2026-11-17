@@ -1,0 +1,192 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "具名工具：分发、执行与记录",
+    "locale": "zh-CN",
+    "output": ".archify/workflow-tool-recording-20261118-005618/tool-recording.html",
+    "quality_profile": "showcase",
+    "repository": {
+      "url": "https://github.com/lovits/learn-agent-evaluation.git",
+      "revision": "fa66e28f00c75cc364183f94229a3c1ebd560389",
+      "provider": "github"
+    }
+  },
+  "lanes": [
+    {
+      "id": "decide",
+      "label": "提出动作"
+    },
+    {
+      "id": "execute",
+      "label": "执行与取证"
+    },
+    {
+      "id": "feedback",
+      "label": "保存与反馈"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "model",
+      "lane": "decide",
+      "col": 0,
+      "type": "external",
+      "label": "模型提出动作",
+      "sublabel": "选择工具，给出参数",
+      "sources": [
+        {
+          "path": "course/e02_samples/code.py",
+          "line": 14,
+          "end_line": 41,
+          "label": "agent_loop"
+        }
+      ]
+    },
+    {
+      "id": "call",
+      "lane": "decide",
+      "col": 1,
+      "type": "messagebus",
+      "label": "还原调用参数",
+      "sublabel": "JSON 字符串 → 参数字典",
+      "sources": [
+        {
+          "path": "course/e02_samples/code.py",
+          "line": 14,
+          "end_line": 41,
+          "label": "agent_loop"
+        }
+      ]
+    },
+    {
+      "id": "execute",
+      "lane": "execute",
+      "col": 1,
+      "type": "backend",
+      "label": "检查后分发工具",
+      "sublabel": "校验参数，文件工具检查路径",
+      "sources": [
+        {
+          "path": "course/e02_samples/tools.py",
+          "line": 31,
+          "end_line": 45,
+          "label": "execute"
+        }
+      ]
+    },
+    {
+      "id": "result",
+      "lane": "execute",
+      "col": 2,
+      "type": "database",
+      "label": "返回真实结果",
+      "sublabel": "状态 + 实际输出",
+      "sources": [
+        {
+          "path": "course/e02_samples/tools.py",
+          "line": 31,
+          "end_line": 45,
+          "label": "execute"
+        }
+      ]
+    },
+    {
+      "id": "events",
+      "lane": "feedback",
+      "col": 2,
+      "type": "database",
+      "label": "保存动作证据",
+      "sublabel": "调用位置 / 参数 / 结果",
+      "sources": [
+        {
+          "path": "course/e02_samples/code.py",
+          "line": 14,
+          "end_line": 41,
+          "label": "agent_loop"
+        }
+      ]
+    },
+    {
+      "id": "messages",
+      "lane": "feedback",
+      "col": 0,
+      "type": "messagebus",
+      "label": "回填工具反馈",
+      "sublabel": "模型据此决定下一步",
+      "sources": [
+        {
+          "path": "course/e02_samples/code.py",
+          "line": 14,
+          "end_line": 41,
+          "label": "agent_loop"
+        }
+      ]
+    }
+  ],
+  "edges": [
+    {
+      "id": "edge-0",
+      "from": "model",
+      "to": "call",
+      "role": "main",
+      "label": "响应"
+    },
+    {
+      "id": "edge-1",
+      "from": "call",
+      "to": "execute",
+      "role": "main",
+      "label": "参数"
+    },
+    {
+      "id": "edge-2",
+      "from": "execute",
+      "to": "result",
+      "role": "main",
+      "label": "记录成功或拒绝"
+    },
+    {
+      "id": "edge-3",
+      "from": "result",
+      "to": "events",
+      "role": "main",
+      "label": "保存"
+    },
+    {
+      "id": "edge-4",
+      "from": "result",
+      "to": "messages",
+      "role": "branch",
+      "label": "回填"
+    },
+    {
+      "id": "edge-5",
+      "from": "messages",
+      "to": "model",
+      "role": "return",
+      "label": "下一轮",
+      "variant": "dashed",
+      "fromSide": "left",
+      "toSide": "left",
+      "route": "return-left",
+      "labelSegment": 1
+    }
+  ],
+  "mainPath": [
+    "model",
+    "call",
+    "execute",
+    "result",
+    "events"
+  ],
+  "cards": [
+    {
+      "dot": "amber",
+      "title": "权限范围",
+      "items": [
+        "路径检查在具名文件工具执行前发生；Bash 不受这个文件函数约束。"
+      ]
+    }
+  ]
+}

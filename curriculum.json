@@ -570,15 +570,16 @@
       ],
       "activity": "只改变 top-k 或一个提示词，比较同题差值，再按题型拆开看。",
       "understanding": "能说明改进发生在哪些任务、是否稳定，以及质量和成本的交换。",
-      "textbook": null,
-      "source_walkthrough": null,
+      "textbook": "course/e15_version_comparison/README.zh.md",
+      "source_walkthrough": "course/e15_version_comparison/source_walkthrough.md",
       "outline_anchor": "15-比较两个版本",
-      "implementation": "planned",
+      "implementation": "ready",
       "source_paths": [
+        "deepeval/deepeval/dataset/dataset.py",
+        "deepeval/deepeval/evaluate/types.py",
+        "deepeval/deepeval/metrics/g_eval/g_eval.py",
         "ragas/src/ragas/experiment.py",
-        "deepeval/deepeval/metrics/step_efficiency/step_efficiency.py",
-        "learn-claude-code/s11_background_tasks/code.py",
-        "learn-claude-code/s12_cron_scheduler/code.py"
+        "ragas/src/ragas/executor.py"
       ],
       "readings": [
         "https://deepeval.com/tutorials/rag-qa-agent/improvement",

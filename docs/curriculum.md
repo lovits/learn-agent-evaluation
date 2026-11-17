@@ -402,6 +402,8 @@ Agent 接到任务，读文件、查资料、调用工具，最后给出回答�
 
 **学会的标志**：能说明改进发生在哪些任务、是否稳定，以及质量和成本的交换。
 
+[教材](../course/e15_version_comparison/README.zh.md) · [源码导读](../course/e15_version_comparison/source_walkthrough.md)
+
 ## 16 综合项目与持续回归
 
 怎样让一次修复成为以后不会再犯的经验？

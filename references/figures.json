@@ -514,5 +514,41 @@
     "visual_review": "passed",
     "node_font_size": 16,
     "edge_font_size": 13
+  },
+  {
+    "name": "e15-paired-run-flow",
+    "slug": "e15_version_comparison",
+    "title": "第15课：固定同题与版本条件",
+    "diagram_type": "flowchart",
+    "generator": "draw.io",
+    "candidate": "course/e15_version_comparison/images/paired-run-flow.drawio",
+    "output": "course/e15_version_comparison/images/paired-run-flow.drawio.svg",
+    "png": "course/e15_version_comparison/images/paired-run-flow.png",
+    "readme_preview": "course/e15_version_comparison/images/paired-run-flow.png",
+    "preview_url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e15-paired-run-flow.png",
+    "url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e15-paired-run-flow.svg",
+    "artifact_sha256": "323e324531bf59be18947ffeea80df7af6c43af68eb6920ea94996b645f316c3",
+    "png_sha256": "a1e2818c3c00eda4f5635524996548bd7dba663f0d6fe2e056b42e9fb180bd38",
+    "visual_review": "passed",
+    "node_font_size": 16,
+    "edge_font_size": 13
+  },
+  {
+    "name": "e15-comparison-flow",
+    "slug": "e15_version_comparison",
+    "title": "第15课：配对差值与不确定性",
+    "diagram_type": "flowchart",
+    "generator": "draw.io",
+    "candidate": "course/e15_version_comparison/images/comparison-flow.drawio",
+    "output": "course/e15_version_comparison/images/comparison-flow.drawio.svg",
+    "png": "course/e15_version_comparison/images/comparison-flow.png",
+    "readme_preview": "course/e15_version_comparison/images/comparison-flow.png",
+    "preview_url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e15-comparison-flow.png",
+    "url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e15-comparison-flow.svg",
+    "artifact_sha256": "a6b798d4c870b3a2fbc3423e6e7368b4f88feac476d1c8cdd99bbb6cb4989727",
+    "png_sha256": "17a9bfb6ca4c3846caec22d2c33214df03c744eb7ac9b2eade3f999c3d1943b2",
+    "visual_review": "passed",
+    "node_font_size": 16,
+    "edge_font_size": 13
   }
 ]

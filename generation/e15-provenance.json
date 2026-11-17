@@ -1,0 +1,34 @@
+{
+  "generator": "PocketFlow-Tutorial-Codebase-Knowledge",
+  "upstream_commit": "05b24cbbb0fe409c5e23c9791f0342f07524ffdc",
+  "nodes_run": [
+    "FetchRepo",
+    "BindLesson",
+    "WriteChapters",
+    "CombineTutorial"
+  ],
+  "actual_model_calls": 1,
+  "calls": [
+    {
+      "prompt_sha256": "b13ff8a8267edf771c13f86a8cecb3b9fcfe9aeb701b59e80beef8f1ca554e09",
+      "response_sha256": "709c8fb1d13709aa9c473788ddba66dd43154b3ea5195d804ac06c5da1526305",
+      "seconds": 84.47
+    }
+  ],
+  "input_sha256": {
+    "eval_course/runtime.py": "f4236018e4dea094fe4573c48cb3cc03fdcf4d837dac8ff30190367c1dc86fa4",
+    "course/e15_version_comparison/README.zh.md": "753bd7e7d75081e82e3a29a15a10f7ad1544d10c31d87e877ac4fa8538baa15a",
+    "course/e15_version_comparison/solutions.md": "09bb70cf0c5ddf773a991ed92a0a9558159c8bc524dc619b53e518fde730c508",
+    "course/e15_version_comparison/exercises.md": "76c56557b26f246f3afa7a07f1d5d23d3118e31af0060fc81e2016f9c93e4183",
+    "course/e15_version_comparison/code.py": "5346c649c5ff057cf778b643baa8d0186c851d3aff7643c6c4ffde383276d594",
+    "course/e15_version_comparison/cases.jsonl": "5c6df12b7e1d5a4f9590aae8e75520d4d741a62e948ea71a7015feb7cd52e70f",
+    "course/e15_version_comparison/__init__.py": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+    "course/e15_version_comparison/source_walkthrough.md": "26297d936dfb260a9986380fc1d4ee46be0d82fa1444dfdc4e7e83230d933df6",
+    "course/e15_version_comparison/eval.py": "f137d2030164c9e9890d49791315e3a7cf7dfd87dedeba9902af2a1376f7cb84",
+    "course/e15_version_comparison/images/paired-run-flow.drawio": "0f526f464e058986b9cc925ad7b67ce378fbfa8bbd1382959150a0ac41091ef4",
+    "course/e15_version_comparison/images/paired-run-flow.drawio.svg": "323e324531bf59be18947ffeea80df7af6c43af68eb6920ea94996b645f316c3",
+    "course/e15_version_comparison/images/comparison-flow.drawio.svg": "a6b798d4c870b3a2fbc3423e6e7368b4f88feac476d1c8cdd99bbb6cb4989727",
+    "course/e15_version_comparison/images/comparison-flow.drawio": "f3d8f71391c1a3ad6a4a5f7b4929a5852d36cda25f0079a3e465af8c727ce441"
+  },
+  "note": "Raw draft is reviewed and condensed; final textbook is in course/. The agreed outline is not model-reordered."
+}

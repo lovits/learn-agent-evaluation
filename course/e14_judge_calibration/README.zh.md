@@ -1,6 +1,6 @@
 # e14: 评分器自己判得准吗？
 
-[e13](../e13_conversation/README.zh.md) → `e14` → [e15](../../docs/curriculum.md#15-比较两个版本) → e16
+[e13](../e13_conversation/README.zh.md) → `e14` → [e15](../e15_version_comparison/README.zh.md) → e16
 
 > 固定回答，检查裁判的误判与适用范围。
 

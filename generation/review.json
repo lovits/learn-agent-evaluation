@@ -1,6 +1,6 @@
 {
   "outline_version": 3,
-  "review": "第14课依据 PocketFlow 实际草稿凝练，去掉尺子与作业类比，修正将MT-Bench论文误称G-Eval论文的标题。保留课程参考与人工标签的区别，明确数据和形式对照覆盖范围；修正流程图输入与判断分支重合，最终图哈希另记，生成输入保持真实快照。未因原版和修订接受标签相同而制造改进。",
+  "review": "第15课已完整阅读 PocketFlow 草稿并凝练。删除考试、抽卡等类比与重复小结，纠正构造分平均提高的错误（实际差值为0）。保留固定首步与真实模型续跑边界、题族重采样限制、未知模型快照及价格；正文不放成绩表，真实结果另页。",
   "published_sha256": {
     "course/run.py": "d4f0b75ebfc46cf0eeb897dfbe4c4b22db0626231aac9d72f30093a9caa2cb1c",
     "course/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
@@ -220,7 +220,7 @@
     "course/e13_conversation/images/context-flow.png": "f2c2f7a0b9e33c11f2a49256b803b8b73b05e6735f9273fd8103af669a0ab9f2",
     "course/e13_conversation/images/conversation-scoring.png": "0cc26b4f5d1f63d254058a2ecb75af5e71c2ff843aae1b4d9166d34d817e1c91",
     "course/e13_conversation/images/context-flow.drawio": "0b04659de0e9f3133cd5ff0ae696faa7e92acd8fb2d07d7afea7b11e86122617",
-    "course/e14_judge_calibration/README.zh.md": "25139966b3506dab36add71b153f97c0e67ed425c4de7dab6dea555f44f28bf6",
+    "course/e14_judge_calibration/README.zh.md": "450b28e78371552bc7cfa67b05746ec421579c510e8e980ab1783e14df5fafd2",
     "course/e14_judge_calibration/solutions.md": "e0cb8db6a0b0da5b29eef2443b4bd7ebeab155067bed579a5308ceba0a02059d",
     "course/e14_judge_calibration/assessment.json": "8af43adbc1654cbb2ecc5a2c9b7ab7322d2654ca5f798bed2a0163be2c902dda",
     "course/e14_judge_calibration/exercises.md": "f227abef62f9063614b927c5d2045ec51bbea99ae6fe31fd721cdf9d081ae266",
@@ -236,7 +236,23 @@
     "course/e14_judge_calibration/images/judge-check-flow.png": "2e3a623fd523c47c9a61af3706c89cce9ea710d9ffd7ed3af408ca2ce8f03d70",
     "course/e14_judge_calibration/images/judge-check-flow.drawio.svg": "ecfc872129a2b33281d6aeeb7bc956f788f1d13c1a1f60f5ab1c87dd1eda69d1",
     "course/e14_judge_calibration/images/calibration-flow.drawio.svg": "f8802c4c6511502d2d9fff99d20512243cde5fed30ab3afee2e305d0deb2b454",
-    "course/e14_judge_calibration/images/judge-check-flow.drawio": "43c9d55fa940614d73c7f37f06661a2acef73a3ccf900bd366f92692916fc3c4"
+    "course/e14_judge_calibration/images/judge-check-flow.drawio": "43c9d55fa940614d73c7f37f06661a2acef73a3ccf900bd366f92692916fc3c4",
+    "course/e15_version_comparison/README.zh.md": "753bd7e7d75081e82e3a29a15a10f7ad1544d10c31d87e877ac4fa8538baa15a",
+    "course/e15_version_comparison/__init__.py": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+    "course/e15_version_comparison/assessment.json": "d25f1f9d35cfaefae3cd1e7cb3ff8b8bd7b3c57719b34ff231e8809df00374b1",
+    "course/e15_version_comparison/assessment.md": "5a48cfca8f7dc68ab1ad43450624a693f543906bbe0cfc0cf7785fe7076d7e69",
+    "course/e15_version_comparison/cases.jsonl": "5c6df12b7e1d5a4f9590aae8e75520d4d741a62e948ea71a7015feb7cd52e70f",
+    "course/e15_version_comparison/code.py": "5346c649c5ff057cf778b643baa8d0186c851d3aff7643c6c4ffde383276d594",
+    "course/e15_version_comparison/eval.py": "f137d2030164c9e9890d49791315e3a7cf7dfd87dedeba9902af2a1376f7cb84",
+    "course/e15_version_comparison/exercises.md": "76c56557b26f246f3afa7a07f1d5d23d3118e31af0060fc81e2016f9c93e4183",
+    "course/e15_version_comparison/images/comparison-flow.drawio": "f3d8f71391c1a3ad6a4a5f7b4929a5852d36cda25f0079a3e465af8c727ce441",
+    "course/e15_version_comparison/images/comparison-flow.drawio.svg": "a6b798d4c870b3a2fbc3423e6e7368b4f88feac476d1c8cdd99bbb6cb4989727",
+    "course/e15_version_comparison/images/comparison-flow.png": "17a9bfb6ca4c3846caec22d2c33214df03c744eb7ac9b2eade3f999c3d1943b2",
+    "course/e15_version_comparison/images/paired-run-flow.drawio": "0f526f464e058986b9cc925ad7b67ce378fbfa8bbd1382959150a0ac41091ef4",
+    "course/e15_version_comparison/images/paired-run-flow.drawio.svg": "323e324531bf59be18947ffeea80df7af6c43af68eb6920ea94996b645f316c3",
+    "course/e15_version_comparison/images/paired-run-flow.png": "a1e2818c3c00eda4f5635524996548bd7dba663f0d6fe2e056b42e9fb180bd38",
+    "course/e15_version_comparison/solutions.md": "09bb70cf0c5ddf773a991ed92a0a9558159c8bc524dc619b53e518fde730c508",
+    "course/e15_version_comparison/source_walkthrough.md": "26297d936dfb260a9986380fc1d4ee46be0d82fa1444dfdc4e7e83230d933df6"
   },
   "provenance": [
     "generation/e01-provenance.json",
@@ -252,7 +268,8 @@
     "generation/e11-provenance.json",
     "generation/e12-provenance.json",
     "generation/e13-provenance.json",
-    "generation/e14-provenance.json"
+    "generation/e14-provenance.json",
+    "generation/e15-provenance.json"
   ],
   "runtime_evidence": "generation/runtime-evidence.json",
   "figures": "references/figures.json"

@@ -1,0 +1,230 @@
+{
+  "lesson": "e15",
+  "records": [
+    {
+      "path": "runs/e15-suite-4d2c90f473214fbe93ada3f9390b4969.json",
+      "sha256": "33cfe35a1031d0bb1f438f88a4e5a31f594534f2d264f93287a121d3b9d631a6"
+    },
+    {
+      "path": "runs/e15-suite-c056915bad4a46138ccf0e9e838fac5e.json",
+      "sha256": "426e854314b2943ef10e459ecbfe9bb6be86d8cbdf26453f0e29d9792d98cf6e"
+    }
+  ],
+  "fixture": {
+    "pairs": [
+      {
+        "case_id": "atlas_release_auth",
+        "family": "Atlas",
+        "stratum": "cross_document",
+        "repeat": 0,
+        "baseline": 0.5,
+        "candidate": 1,
+        "delta": 0.5
+      },
+      {
+        "case_id": "atlas_release_auth",
+        "family": "Atlas",
+        "stratum": "cross_document",
+        "repeat": 1,
+        "baseline": 0.5,
+        "candidate": 1,
+        "delta": 0.5
+      },
+      {
+        "case_id": "upload_auth_limit",
+        "family": "Upload",
+        "stratum": "cross_document",
+        "repeat": 0,
+        "baseline": 0.5,
+        "candidate": 1,
+        "delta": 0.5
+      },
+      {
+        "case_id": "upload_auth_limit",
+        "family": "Upload",
+        "stratum": "cross_document",
+        "repeat": 1,
+        "baseline": 0.5,
+        "candidate": 1,
+        "delta": 0.5
+      },
+      {
+        "case_id": "shipping_current",
+        "family": "Shipping",
+        "stratum": "current_version",
+        "repeat": 0,
+        "baseline": 1,
+        "candidate": 0,
+        "delta": -1
+      },
+      {
+        "case_id": "shipping_current",
+        "family": "Shipping",
+        "stratum": "current_version",
+        "repeat": 1,
+        "baseline": 1,
+        "candidate": 0,
+        "delta": -1
+      }
+    ],
+    "missing_pairs": [],
+    "expected_pairs": 6,
+    "valid_pairs": 6,
+    "pair_coverage": 1.0,
+    "case_deltas": {
+      "atlas_release_auth": 0.5,
+      "upload_auth_limit": 0.5,
+      "shipping_current": -1
+    },
+    "family_deltas": {
+      "Atlas": 0.5,
+      "Upload": 0.5,
+      "Shipping": -1
+    },
+    "stratum_deltas": {
+      "cross_document": 0.5,
+      "current_version": -1
+    },
+    "family_weighted_delta": 0.0,
+    "family_bootstrap_95_percentile": [
+      -1,
+      0.5
+    ],
+    "bootstrap": {
+      "unit": "family",
+      "draws": 2000,
+      "seed": 7,
+      "method": "percentile order statistics"
+    },
+    "regressions": [
+      {
+        "case_id": "shipping_current",
+        "family": "Shipping",
+        "stratum": "current_version",
+        "repeat": 0,
+        "baseline": 1,
+        "candidate": 0,
+        "delta": -1
+      },
+      {
+        "case_id": "shipping_current",
+        "family": "Shipping",
+        "stratum": "current_version",
+        "repeat": 1,
+        "baseline": 1,
+        "candidate": 0,
+        "delta": -1
+      }
+    ]
+  },
+  "native": {
+    "pairs": [
+      {
+        "case_id": "atlas_release_auth",
+        "family": "Atlas",
+        "stratum": "cross_document",
+        "repeat": 0,
+        "baseline": 0.5,
+        "candidate": 1.0,
+        "delta": 0.5
+      },
+      {
+        "case_id": "atlas_release_auth",
+        "family": "Atlas",
+        "stratum": "cross_document",
+        "repeat": 1,
+        "baseline": 0.5,
+        "candidate": 1.0,
+        "delta": 0.5
+      },
+      {
+        "case_id": "upload_auth_limit",
+        "family": "Upload",
+        "stratum": "cross_document",
+        "repeat": 0,
+        "baseline": 0.5,
+        "candidate": 1.0,
+        "delta": 0.5
+      },
+      {
+        "case_id": "upload_auth_limit",
+        "family": "Upload",
+        "stratum": "cross_document",
+        "repeat": 1,
+        "baseline": 0.5,
+        "candidate": 1.0,
+        "delta": 0.5
+      },
+      {
+        "case_id": "shipping_current",
+        "family": "Shipping",
+        "stratum": "current_version",
+        "repeat": 0,
+        "baseline": 1.0,
+        "candidate": 1.0,
+        "delta": 0.0
+      },
+      {
+        "case_id": "shipping_current",
+        "family": "Shipping",
+        "stratum": "current_version",
+        "repeat": 1,
+        "baseline": 1.0,
+        "candidate": 1.0,
+        "delta": 0.0
+      }
+    ],
+    "missing_pairs": [],
+    "expected_pairs": 6,
+    "valid_pairs": 6,
+    "pair_coverage": 1.0,
+    "case_deltas": {
+      "atlas_release_auth": 0.5,
+      "upload_auth_limit": 0.5,
+      "shipping_current": 0.0
+    },
+    "family_deltas": {
+      "Atlas": 0.5,
+      "Upload": 0.5,
+      "Shipping": 0.0
+    },
+    "stratum_deltas": {
+      "cross_document": 0.5,
+      "current_version": 0.0
+    },
+    "family_weighted_delta": 0.3333333333333333,
+    "family_bootstrap_95_percentile": [
+      0.0,
+      0.5
+    ],
+    "bootstrap": {
+      "unit": "family",
+      "draws": 2000,
+      "seed": 7,
+      "method": "percentile order statistics"
+    },
+    "regressions": []
+  },
+  "runtime_by_version": {
+    "baseline": {
+      "mean_quality": 0.6666666666666666,
+      "mean_agent_seconds": 6.5285,
+      "model_calls": 6,
+      "input_tokens": 93316,
+      "output_tokens": 563,
+      "usd": null
+    },
+    "candidate": {
+      "mean_quality": 1.0,
+      "mean_agent_seconds": 6.259,
+      "model_calls": 6,
+      "input_tokens": 94582,
+      "output_tokens": 449,
+      "usd": null
+    }
+  },
+  "actual_model_requests": 12,
+  "actual_judge_requests": 12,
+  "software_checks": 50,
+  "scope": "Controlled first retrieval with real TinyRAG and live continuation; 3 constructed public task families, 2 repeats, no fixed model checkpoint or human calibration study. Unknown price is null."
+}

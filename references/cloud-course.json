@@ -15,7 +15,7 @@
         "README.md",
         "docs/curriculum.md"
       ],
-      "verified_revision": 30
+      "verified_revision": 31
     },
     "e01": {
       "title": "第1课：模型停下了，任务完成了吗？",
@@ -327,7 +327,28 @@
         "course/e14_judge_calibration/exercises.md",
         "course/e14_judge_calibration/solutions.md"
       ],
-      "verified_revision": 6
+      "verified_revision": 7
+    },
+    "assessment15": {
+      "title": "第15课：样本与评测记录",
+      "document_id": "HkvYd1BacoiLH9xhihjcHBvWnnb",
+      "url": "https://my.feishu.cn/docx/HkvYd1BacoiLH9xhihjcHBvWnnb",
+      "paths": [
+        "course/e15_version_comparison/assessment.md"
+      ],
+      "verified_revision": 3
+    },
+    "e15": {
+      "title": "第15课：比较两个版本",
+      "document_id": "YNdJdgZ5co4CTnxoGYFcmu0Knoe",
+      "url": "https://my.feishu.cn/docx/YNdJdgZ5co4CTnxoGYFcmu0Knoe",
+      "paths": [
+        "course/e15_version_comparison/README.zh.md",
+        "course/e15_version_comparison/source_walkthrough.md",
+        "course/e15_version_comparison/exercises.md",
+        "course/e15_version_comparison/solutions.md"
+      ],
+      "verified_revision": 5
     }
   }
 }

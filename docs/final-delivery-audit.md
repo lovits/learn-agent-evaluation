@@ -18,7 +18,7 @@
 | 真实数据与构造数据分清 | 原始响应、讲师阶段、退化投影、夹具和历史记录分别标注；未知型号/费用留空；失败不删除 |
 | 完整讲解、实验、练习 | [第16课](../lessons/e16_regression/README.zh.md)、[架构](../integrated_agent/architecture.md)、[能力说明](../integrated_agent/capabilities.md)与12道独立练习/答案 |
 | 飞书教材与总体说明 | [第16课](https://my.feishu.cn/docx/UzRzdHS2ioW8m1x3702cX54onOh)与[综合项目](https://my.feishu.cn/docx/Odeld6l1Co6pWlx3qBTcItBLn3d)正文、代码换行缩进和图片已回读验证 |
-| GitHub与CI | 本地发布材料已齐备；最终远端提交和CI核验结果写入本页的发布记录与机器清单 |
+| GitHub与CI | 执行代码已推送，远端提交与本地相同；GitHub构建、Ruff、259项检查及总体门禁均通过，见发布记录 |
 
 ## 实验结论
 
@@ -48,4 +48,6 @@ docker run --rm --network none --entrypoint python \
 
 ## 发布记录
 
-飞书两份新文档已回读，总大纲更新与GitHub最后发布核对正在收尾。最终核对记录将保存明确的代码提交、CI链接、远端分支读回和文件哈希；后续文档提交与受测代码版本分别记录，避免自指提交哈希。
+飞书两份新文档逐段回读通过，总大纲revision70已验证。执行代码提交为 `b7ac8e49c9ff2ec9e1b9ed57d74a92a61e26e301`，远端分支已读回一致；[GitHub CI](https://github.com/lovits/learn-agent-evaluation/actions/runs/44091272496)的镜像构建、Ruff、259项检查与总体关键门禁全部通过。
+
+[机器发布收据](../references/e16-release-verification.json)记录受测代码提交和CI。该收据通过后续文档提交保存，执行代码保持相同；交付前再核对最终远端HEAD及其CI，避免在文件中填写自指提交哈希。

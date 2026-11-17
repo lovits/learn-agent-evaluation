@@ -1,6 +1,6 @@
 {
   "checked_at": "2026-11-17T13:11:48.246708+00:00",
-  "status": "local_docker_and_feishu_verified_github_publication_pending",
+  "status": "all_declared_delivery_requirements_verified",
   "lessons": [
     {
       "lesson": "e01",
@@ -307,6 +307,9 @@
   "upstream_native_files_unchanged": true,
   "humanizer_main": "generation/e16-humanizer.json",
   "humanizer_project": "generation/e16-project-humanizer.json",
-  "github_verified": false,
-  "ci_verified": false
+  "github_verified": true,
+  "ci_verified": true,
+  "validated_code_commit": "b7ac8e49c9ff2ec9e1b9ed57d74a92a61e26e301",
+  "ci_url": "https://github.com/lovits/learn-agent-evaluation/actions/runs/44091272496",
+  "release_verification": "references/e16-release-verification.json"
 }

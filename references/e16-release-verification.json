@@ -1,0 +1,90 @@
+{
+  "verified_at": "2026-11-17T13:21:57.994801+00:00",
+  "repository": "lovits/learn-agent-evaluation",
+  "validated_code_commit": "b7ac8e49c9ff2ec9e1b9ed57d74a92a61e26e301",
+  "workflow_run_id": 44091272496,
+  "url": "https://github.com/lovits/learn-agent-evaluation/actions/runs/44091272496",
+  "conclusion": "success",
+  "jobs": [
+    {
+      "completedAt": "2026-11-17T13:19:42Z",
+      "conclusion": "success",
+      "databaseId": 134066691814,
+      "name": "course",
+      "startedAt": "2026-11-17T13:17:40Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-11-17T13:17:41Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-11-17T13:17:41Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-17T13:17:43Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "number": 2,
+          "startedAt": "2026-11-17T13:17:41Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-17T13:18:42Z",
+          "conclusion": "success",
+          "name": "Build the complete course environment",
+          "number": 3,
+          "startedAt": "2026-11-17T13:17:43Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-17T13:18:48Z",
+          "conclusion": "success",
+          "name": "Check authored code",
+          "number": 4,
+          "startedAt": "2026-11-17T13:18:42Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-17T13:19:39Z",
+          "conclusion": "success",
+          "name": "Test Bash loop and independent grading without internet",
+          "number": 5,
+          "startedAt": "2026-11-17T13:18:48Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-17T13:19:39Z",
+          "conclusion": "success",
+          "name": "Reject critical regressions in the saved actual integration evidence",
+          "number": 6,
+          "startedAt": "2026-11-17T13:19:39Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-17T13:19:39Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "number": 12,
+          "startedAt": "2026-11-17T13:19:39Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-11-17T13:19:39Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 13,
+          "startedAt": "2026-11-17T13:19:39Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/lovits/learn-agent-evaluation/actions/runs/44091272496/job/134066691814"
+    }
+  ],
+  "remote_main_at_code_verification": "b7ac8e49c9ff2ec9e1b9ed57d74a92a61e26e301",
+  "pytest_summary": "259 passed, 1 existing warning",
+  "critical_regression_gate": "passed in CI",
+  "raw_ci_log_sha256": "ff99617264813e3feaf097a2fac0e2ba21d999bd9cb792c7b5cc44ca745a2c16",
+  "publication_note": "This receipt is added in a later documentation commit. The authored executable code is unchanged; final remote HEAD and its CI are checked again at handoff."
+}

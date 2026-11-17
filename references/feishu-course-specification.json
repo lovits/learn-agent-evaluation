@@ -55,9 +55,12 @@
   "e15_delivery_verified": true,
   "e15_implementation_status_verified": true,
   "e16_foundation_progress_verified": true,
-  "e16_complete": false,
+  "e16_complete": true,
   "e16_delivery_verified": true,
   "integrated_project_url": "https://my.feishu.cn/docx/Odeld6l1Co6pWlx3qBTcItBLn3d",
   "e16_url": "https://my.feishu.cn/docx/UzRzdHS2ioW8m1x3702cX54onOh",
-  "verified_scope": "Current intro, e16 implementation status, historical phase heading and new delivery appendix patched individually and reread; lesson16/project complete text, code indentation/newlines and image separately verified."
+  "verified_scope": "Current intro, e16 implementation status, historical phase heading and new delivery appendix patched individually and reread; lesson16/project complete text, code indentation/newlines and image separately verified.",
+  "complete_lesson_count": 16,
+  "final_github_code_commit": "b7ac8e49c9ff2ec9e1b9ed57d74a92a61e26e301",
+  "ci_url": "https://github.com/lovits/learn-agent-evaluation/actions/runs/44091272496"
 }

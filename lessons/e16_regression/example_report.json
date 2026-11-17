@@ -11,8 +11,10 @@
   "negative_independent_passed": true,
   "full_17_status": "declared_contracts_and_composed_exercise_verified",
   "raw_evidence_directory": "integrated_agent/evidence",
-  "final_publication_complete": false,
+  "final_publication_complete": true,
   "local_tests": 259,
   "docker_network_none_tests": 259,
-  "publication": "GitHub and master index verification tracked separately"
+  "publication": "GitHub code commit, CI and Feishu verified; final HEAD rechecked at handoff",
+  "validated_code_commit": "b7ac8e49c9ff2ec9e1b9ed57d74a92a61e26e301",
+  "ci_url": "https://github.com/lovits/learn-agent-evaluation/actions/runs/44091272496"
 }

@@ -1,5 +1,5 @@
 {
-  "status": "full_declared_integration_verified_formal_course16_created",
+  "status": "full_declared_integration_and_course16_published_verified",
   "normal_model_responses": 33,
   "negative_model_responses": 6,
   "judge_model_responses": 20,
@@ -17,7 +17,7 @@
   "formal_lesson16_created": true,
   "lesson16_feishu_verified": true,
   "project_feishu_verified": true,
-  "github_publication_verified": false,
+  "github_publication_verified": true,
   "application_image": "sha256:cd69385a64289e9fe7d0b44e8a3d7111e873c55574a0c54ee3801044209d3bc0",
   "metric_v2_image": "sha256:7c3dbf9d84011808d0da21ed9d3ad4f23b3d1c83d9047b58561f1a459081813b",
   "release_checks_image": "sha256:1b912f485887d9feffff5aab92bf2ac108680bbd79450d3cb3cabb3d6b2e12b6",
@@ -60,5 +60,8 @@
     "grader_image": "sha256:08f5c448d2d9f1e73ce8812a826869afccab1d57993d744ac50a2a877deb2638",
     "formal_lesson16_complete": false,
     "pocketflow_lesson16_run": false
-  }
+  },
+  "formal_lesson16_complete": true,
+  "validated_code_commit": "b7ac8e49c9ff2ec9e1b9ed57d74a92a61e26e301",
+  "ci_url": "https://github.com/lovits/learn-agent-evaluation/actions/runs/44091272496"
 }

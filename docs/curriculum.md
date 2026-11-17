@@ -350,6 +350,8 @@ Agent 接到任务，读文件、查资料、调用工具，最后给出回答�
 
 **学会的标志**：能按当时有效的要求评分，并分清没给模型看与模型看了没遵守。
 
+[教材](../course/e13_conversation/README.zh.md) · [源码导读](../course/e13_conversation/source_walkthrough.md)
+
 ## 14 校准 LLM 裁判
 
 评分器自己的判断可信吗？

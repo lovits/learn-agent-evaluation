@@ -1,6 +1,6 @@
 {
   "outline_version": 3,
-  "review": "第12课依据 PocketFlow 两次实际草稿组织并凝练。移除房屋、快递类比和重复小结，保留真实程序行为与输入副作用。明确程序契约只覆盖可执行条件，说明义务另由语义裁判判断；修正原草稿将程序契约通过写成全部任务完成的概括。保留固定版本无trace兼容路径与官方tracing推荐的区别，不伪造span。终稿澄清源码导读和流程图中的覆盖边界，生成时输入哈希保持原样，发布文件另记最终哈希。",
+  "review": "第13课依据 PocketFlow 实际草稿凝练，删除开卷考试、合同类比和重复小结；修正四种上下文却列五种、整门课程只有本章等草稿表述。明确构造历史与确认不是从第一轮起的真实对话；首次缺失约束仍可在后续工具返回中恢复。会话裁判与产物证据分开，不修改live_archive的1/3原判；按实际固定源码解释极性、单位与空裁决。",
   "published_sha256": {
     "course/run.py": "d4f0b75ebfc46cf0eeb897dfbe4c4b22db0626231aac9d72f30093a9caa2cb1c",
     "course/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
@@ -187,7 +187,7 @@
     "course/e11_tool_quality/images/scoring-flow.drawio": "69e7ea9cb58e32c4df17fe5236405d9a0aa341f19ffcacf1f0c7d7413f809aa8",
     "course/e11_tool_quality/images/scoring-flow.png": "d03cf1dbb92cbaa1502b03209eef6cf6620a4f3829bd3b8e7eb76f4b0c14b2a5",
     "course/e11_tool_quality/assessment.md": "732ad84c398d41187fcb0f7f9d26802ec25dd416d0783161b5c1691b9310402f",
-    "course/e12_task_completion/README.zh.md": "63c64d34702b2d05af8d2dff1ce93f8a41cd06a84e0159f427f7c683e9bcddb9",
+    "course/e12_task_completion/README.zh.md": "7033727024f9b5babd86c99ffd767c3d43faeddc8ca9b495abdedc803fffd386",
     "course/e12_task_completion/solutions.md": "2ab67f7694af5c4c637615b430102b101e8f6f7acca82ed6b6bcbf20d65a548e",
     "course/e12_task_completion/exercises.md": "54d8b18117a672f50b151adb280a694ca4081a0f79566ae28c143acc34697261",
     "course/e12_task_completion/code.py": "8c30e7ad872fc8266ba498497ee81d63a362cd5fd73bf66b83d87b02bd52a62b",
@@ -202,7 +202,24 @@
     "course/e12_task_completion/images/completion-flow.drawio.svg": "a7f65affc85a1a8ba898f2f7613f84166d953358cb87b5eb98544e1958b38ce2",
     "course/e12_task_completion/images/delivery-flow.drawio": "1504081c45e8a63c2d77ecf87a2e2d230c45b003eed10e610b946910b16859f9",
     "course/e12_task_completion/assessment.json": "96a3689b1e72c976e8312de2384c9c3d4c02b25c18d2d504c38857cecef24474",
-    "course/e12_task_completion/assessment.md": "d93a21a19cd09b4f45d77832e8644e0c9eb38e02c5f1a5363e97128cf562c16f"
+    "course/e12_task_completion/assessment.md": "d93a21a19cd09b4f45d77832e8644e0c9eb38e02c5f1a5363e97128cf562c16f",
+    "course/e13_conversation/README.zh.md": "069b56bf08bf4bc6454d2c66987c96bad0dfd558bda289157fcfdfb61958a070",
+    "course/e13_conversation/solutions.md": "9e70f4936eff907474559c890c1b021bafd398453cb2faccbf3b0ddcff06cb83",
+    "course/e13_conversation/assessment.json": "9b5a955a806cfac3adf80e8cd71c0e9a06d5d592738c54bc5ef17c6f1d23036f",
+    "course/e13_conversation/exercises.md": "c4e1909224e1174a76a7add6bc51bbe6c157ba207349f5335b4c674ec0a00b90",
+    "course/e13_conversation/code.py": "19d95b5bab6f6cadb2014a29d63726c52f6607bc964c433282eff7d607b4d03b",
+    "course/e13_conversation/cases.jsonl": "3a15fc57ef65b66c585fc22d05b0d6d40372b6ab78330d04e0d7a0cc8e962622",
+    "course/e13_conversation/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "course/e13_conversation/assessment.md": "fcc5d5e09d9a717cf38cc55f6cefbb3bfbc2f9f9bff3c008bb7182f67424e052",
+    "course/e13_conversation/source_walkthrough.md": "ba646bfc6f4d8e3edb93e0362b6fe523511ace73113bdc6a73ebc749b1d35727",
+    "course/e13_conversation/scenario.json": "849163c1c291babb7b2eb8e5f1367830646bd1e492ace07d86d6f11a991f0e76",
+    "course/e13_conversation/eval.py": "87a95624bb71c4a129b9c09f2c7b53ec83909478c3cd3563b028c3f28e38cd49",
+    "course/e13_conversation/images/conversation-scoring.drawio.svg": "3e6987f3a6d1a8de25ee98393a60bf579d8f30d0d496caf9c599ae5ee84a4d40",
+    "course/e13_conversation/images/conversation-scoring.drawio": "7932edf4f87899db07ed42f429d3f2102c78b2ffa72e6f9b6645394a1b1d25d7",
+    "course/e13_conversation/images/context-flow.drawio.svg": "0532e2037627be4c808a079215d649c36b66a44b7805154f2b506a5272c131ab",
+    "course/e13_conversation/images/context-flow.png": "f2c2f7a0b9e33c11f2a49256b803b8b73b05e6735f9273fd8103af669a0ab9f2",
+    "course/e13_conversation/images/conversation-scoring.png": "0cc26b4f5d1f63d254058a2ecb75af5e71c2ff843aae1b4d9166d34d817e1c91",
+    "course/e13_conversation/images/context-flow.drawio": "0b04659de0e9f3133cd5ff0ae696faa7e92acd8fb2d07d7afea7b11e86122617"
   },
   "provenance": [
     "generation/e01-provenance.json",
@@ -216,7 +233,8 @@
     "generation/e09-provenance.json",
     "generation/e10-provenance.json",
     "generation/e11-provenance.json",
-    "generation/e12-provenance.json"
+    "generation/e12-provenance.json",
+    "generation/e13-provenance.json"
   ],
   "runtime_evidence": "generation/runtime-evidence.json",
   "figures": "references/figures.json"

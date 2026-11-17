@@ -1,6 +1,6 @@
 # e12: 说完成了，交付完成了吗？
 
-[e11](../e11_tool_quality/README.zh.md) → `e12` → [e13](../../docs/curriculum.md#13-会话上下文与约束保持) → … → e16
+[e11](../e11_tool_quality/README.zh.md) → `e12` → [e13](../e13_conversation/README.zh.md) → … → e16
 
 > 从用户收到的结果，定义任务是否完成。
 

@@ -1,0 +1,46 @@
+{
+  "origin": "course-author constructed conversation, acknowledgements, annotations and summaries; not live conversation or model-generated compaction",
+  "history": [
+    {
+      "id": "u1",
+      "role": "user",
+      "content": "先约定：路径 report.md，正文原样写入“发布前先检查，失败先修复。”，使用中文，不超过40字，不修改 policy.txt。先确认，暂不执行。",
+      "set": {
+        "path": "report.md",
+        "body": "发布前先检查，失败先修复。",
+        "language": "zh",
+        "max_chars": 40,
+        "preserve": "policy.txt"
+      }
+    },
+    {
+      "id": "a1",
+      "role": "assistant",
+      "content": "已记录，等待执行。"
+    },
+    {
+      "id": "u2",
+      "role": "user",
+      "content": "更新：路径改成 summary.md，正文改为原样写入“发布前先检查改动是否通过项目要求；发现失败时先修复问题并重新检查，确认全部通过后再继续发布，不能跳过失败项。”。取消40字限制；中文与不修改 policy.txt 继续有效。先确认，暂不执行。",
+      "set": {
+        "path": "summary.md",
+        "body": "发布前先检查改动是否通过项目要求；发现失败时先修复问题并重新检查，确认全部通过后再继续发布，不能跳过失败项。"
+      },
+      "drop": [
+        "max_chars"
+      ]
+    },
+    {
+      "id": "a2",
+      "role": "assistant",
+      "content": "已记录修改，等待执行。"
+    }
+  ],
+  "current": "现在按最新约定写文件，并回复最终路径。",
+  "policy": "Atlas release policy v1\n",
+  "summaries": {
+    "stale": "早期约定（来源u1）：写 report.md，正文为“发布前先检查，失败先修复。”，中文，不超过40字，不修改 policy.txt。",
+    "current": "当前约定（来源u1、u2，u2覆盖旧路径与正文并取消长度限制）：写 summary.md，正文原样为“发布前先检查改动是否通过项目要求；发现失败时先修复问题并重新检查，确认全部通过后再继续发布，不能跳过失败项。”，中文，不修改 policy.txt。",
+    "archive": "早期会话已归档到工作区 conversation.json。摘要缺失，执行前先读取归档，按用户最新修改确定要求。"
+  }
+}

@@ -442,5 +442,41 @@
     "visual_review": "passed",
     "node_font_size": 16,
     "edge_font_size": 13
+  },
+  {
+    "name": "e13-context-flow",
+    "slug": "e13_conversation",
+    "title": "第13课：实际上下文与归档恢复",
+    "diagram_type": "flowchart",
+    "generator": "draw.io",
+    "candidate": "course/e13_conversation/images/context-flow.drawio",
+    "output": "course/e13_conversation/images/context-flow.drawio.svg",
+    "png": "course/e13_conversation/images/context-flow.png",
+    "readme_preview": "course/e13_conversation/images/context-flow.png",
+    "preview_url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e13-context-flow.png",
+    "url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e13-context-flow.svg",
+    "artifact_sha256": "0532e2037627be4c808a079215d649c36b66a44b7805154f2b506a5272c131ab",
+    "png_sha256": "f2c2f7a0b9e33c11f2a49256b803b8b73b05e6735f9273fd8103af669a0ab9f2",
+    "visual_review": "passed",
+    "node_font_size": 16,
+    "edge_font_size": 13
+  },
+  {
+    "name": "e13-conversation-scoring",
+    "slug": "e13_conversation",
+    "title": "第13课：当前约束与会话裁决",
+    "diagram_type": "flowchart",
+    "generator": "draw.io",
+    "candidate": "course/e13_conversation/images/conversation-scoring.drawio",
+    "output": "course/e13_conversation/images/conversation-scoring.drawio.svg",
+    "png": "course/e13_conversation/images/conversation-scoring.png",
+    "readme_preview": "course/e13_conversation/images/conversation-scoring.png",
+    "preview_url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e13-conversation-scoring.png",
+    "url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e13-conversation-scoring.svg",
+    "artifact_sha256": "3e6987f3a6d1a8de25ee98393a60bf579d8f30d0d496caf9c599ae5ee84a4d40",
+    "png_sha256": "0cc26b4f5d1f63d254058a2ecb75af5e71c2ff843aae1b4d9166d34d817e1c91",
+    "visual_review": "passed",
+    "node_font_size": 16,
+    "edge_font_size": 13
   }
 ]

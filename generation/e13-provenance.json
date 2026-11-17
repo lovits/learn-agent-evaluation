@@ -1,0 +1,31 @@
+{
+  "generator": "PocketFlow-Tutorial-Codebase-Knowledge",
+  "upstream_commit": "05b24cbbb0fe409c5e23c9791f0342f07524ffdc",
+  "nodes_run": [
+    "FetchRepo",
+    "BindLesson",
+    "WriteChapters",
+    "CombineTutorial"
+  ],
+  "actual_model_calls": 1,
+  "calls": [
+    {
+      "prompt_sha256": "e15eaab089bdfe92df9154900a038b4ddf5ca02705298ed3b6a498d671b803d8",
+      "response_sha256": "221fd9b45c5cb84bf009d4275260b7d1450328aedd258be5a8997796f4268206",
+      "seconds": 97.23
+    }
+  ],
+  "input_sha256": {
+    "eval_course/runtime.py": "f4236018e4dea094fe4573c48cb3cc03fdcf4d837dac8ff30190367c1dc86fa4",
+    "course/e13_conversation/code.py": "19d95b5bab6f6cadb2014a29d63726c52f6607bc964c433282eff7d607b4d03b",
+    "course/e13_conversation/cases.jsonl": "3a15fc57ef65b66c585fc22d05b0d6d40372b6ab78330d04e0d7a0cc8e962622",
+    "course/e13_conversation/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "course/e13_conversation/scenario.json": "849163c1c291babb7b2eb8e5f1367830646bd1e492ace07d86d6f11a991f0e76",
+    "course/e13_conversation/eval.py": "87a95624bb71c4a129b9c09f2c7b53ec83909478c3cd3563b028c3f28e38cd49",
+    "course/e13_conversation/images/conversation-scoring.drawio.svg": "3e6987f3a6d1a8de25ee98393a60bf579d8f30d0d496caf9c599ae5ee84a4d40",
+    "course/e13_conversation/images/conversation-scoring.drawio": "7932edf4f87899db07ed42f429d3f2102c78b2ffa72e6f9b6645394a1b1d25d7",
+    "course/e13_conversation/images/context-flow.drawio.svg": "0532e2037627be4c808a079215d649c36b66a44b7805154f2b506a5272c131ab",
+    "course/e13_conversation/images/context-flow.drawio": "0b04659de0e9f3133cd5ff0ae696faa7e92acd8fb2d07d7afea7b11e86122617"
+  },
+  "note": "Raw draft is reviewed and condensed; final textbook is in course/. The agreed outline is not model-reordered."
+}

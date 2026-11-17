@@ -15,7 +15,7 @@
         "README.md",
         "docs/curriculum.md"
       ],
-      "verified_revision": 28
+      "verified_revision": 29
     },
     "e01": {
       "title": "第1课：模型停下了，任务完成了吗？",
@@ -284,6 +284,27 @@
         "course/e12_task_completion/source_walkthrough.md",
         "course/e12_task_completion/exercises.md",
         "course/e12_task_completion/solutions.md"
+      ],
+      "verified_revision": 7
+    },
+    "assessment13": {
+      "title": "第13课：样本与评测记录",
+      "document_id": "MjoedcPr6oXlCxx9tduc3bmqn6g",
+      "url": "https://my.feishu.cn/docx/MjoedcPr6oXlCxx9tduc3bmqn6g",
+      "paths": [
+        "course/e13_conversation/assessment.md"
+      ],
+      "verified_revision": 3
+    },
+    "e13": {
+      "title": "第13课：会话上下文与约束保持",
+      "document_id": "Q4s3dlHqiofDbtxnszmcgkk1ndd",
+      "url": "https://my.feishu.cn/docx/Q4s3dlHqiofDbtxnszmcgkk1ndd",
+      "paths": [
+        "course/e13_conversation/README.zh.md",
+        "course/e13_conversation/source_walkthrough.md",
+        "course/e13_conversation/exercises.md",
+        "course/e13_conversation/solutions.md"
       ],
       "verified_revision": 6
     }

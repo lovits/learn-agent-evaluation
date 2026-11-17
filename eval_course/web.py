@@ -24,6 +24,7 @@ for number, slug in [
     (10, "e10_rag_diagnosis"),
     (11, "e11_tool_quality"),
     (12, "e12_task_completion"),
+    (13, "e13_conversation"),
 ]:
     for route, name in [
         ("lesson", "README.zh.md"),
@@ -128,7 +129,7 @@ class Handler(BaseHTTPRequestHandler):
             else:
                 return self.send(404, b"Not found", "text/plain")
             template = (PROJECT / "eval_course/page.html").read_text()
-            nav = '<a href="/">课程</a><a href="/curriculum">大纲</a><a href="/lesson1">第1课</a><a href="/lesson2">第2课</a><a href="/lesson3">第3课</a><a href="/lesson4">第4课</a><a href="/lesson5">第5课</a><a href="/lesson6">第6课</a><a href="/lesson7">第7课</a><a href="/lesson8">第8课</a><a href="/lesson9">第9课</a><a href="/lesson10">第10课</a><a href="/lesson11">第11课</a><a href="/lesson12">第12课</a>'
+            nav = '<a href="/">课程</a><a href="/curriculum">大纲</a><a href="/lesson1">第1课</a><a href="/lesson2">第2课</a><a href="/lesson3">第3课</a><a href="/lesson4">第4课</a><a href="/lesson5">第5课</a><a href="/lesson6">第6课</a><a href="/lesson7">第7课</a><a href="/lesson8">第8课</a><a href="/lesson9">第9课</a><a href="/lesson10">第10课</a><a href="/lesson11">第11课</a><a href="/lesson12">第12课</a><a href="/lesson13">第13课</a>'
             page = (
                 template.replace("{{TITLE}}", "从编程 Agent 学评测")
                 .replace("{{NAV}}", nav)

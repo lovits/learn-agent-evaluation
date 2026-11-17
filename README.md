@@ -1,8 +1,8 @@
 # 从 Learn Claude Code 编程 Agent 学评测
 
-课程围绕同一个编程Agent递进，每课只引入当前评测需要的代码。
-第1课从最小循环与Bash开始；第2课加入文件工具、权限分支和可关联的轨迹。
-两课都使用真实模型决策，在Docker执行工具，再独立验收结果。
+全套16课围绕同一个编程Agent递进，每课只引入当前评测需要的代码。
+从最小循环与Bash开始，逐步加入知识库、RAG评测、工具与任务评测、数据集、版本比较和裁判校准，最后接通17项原生机制与独立验收。
+各课保留实际执行、构造样本、夹具控制与历史记录的来源，主文沿六部分、六步关键代码阅读。
 
 - [16课详细设计与制作规范](docs/course-specification.md)
 - [飞书云文档](https://my.feishu.cn/docx/V8CPdL3Y8oMZt4xJ8RCc4HfNnfb)
@@ -269,6 +269,24 @@ docker compose run --rm -T --entrypoint python course -m lessons.e15_calibration
 
 [第15课飞书完整教材](https://my.feishu.cn/docx/HBwudv2QzoZgeQxocH1cAMXcnFg)。
 
-## 综合项目：集成与验收进行中
+## 第16课与综合编程Agent评测项目
 
-[项目入口](integrated_agent/README.md)与[阶段范围](docs/e16-integration-status.md)。固定上游核心已接入，Docker真实跨文件修复与独立44条行为检查通过；工作流已执行中断、换进程恢复和日志缓存。正式第16课、17项能力完整验收和总体教材继续制作。
+[第16课教材](lessons/e16_regression/README.zh.md)、[完整架构与调用链](integrated_agent/architecture.md)、[17项机制与限制](integrated_agent/capabilities.md)、[实验结果](lessons/e16_regression/run_summary.md)、[验收记录](docs/e16-validation.md)。综合项目接入固定上游核心，默认只读挂载 `knowledge_base/e16`；模型登录保留在宿主，容器执行实际项目工具，另一个断网容器验收业务与原生状态。
+
+正常组合任务完成33次模型响应，导出28条原生trace；未授权与越界任务各3次响应，分别被实际权限边界拒绝。两个API的44条外部输入、原测试与运行状态独立通过。两轮双框架评分共20次裁判响应，采样漏命令修订前后均保留，指标口径与事实验收分开解释。
+
+先按[项目入口](integrated_agent/README.md)启动宿主模型桥并构建镜像，再使用全新的实验目录：
+
+```bash
+docker compose --profile capstone run --rm -T --entrypoint python agent \
+  -m integrated_agent.scenario --workspace /data/workspaces/my-capstone \
+  --report /data/runs/my-capstone.json
+docker compose --profile verify run --rm -T --entrypoint python verifier \
+  -m integrated_agent.verify --profile composed \
+  --workspace /data/workspaces/my-capstone --criteria /verification/e16-foundation.json \
+  --report /data/runs/my-capstone-evaluation.json
+```
+
+本地阅读：http://localhost:8765/lesson16 、http://localhost:8765/project-architecture 。讲师脚本明确负责阶段排序、计划批准与Git提交；这部分编排不冒充模型自主规划。自有项目需要重新定义成功合同，不能套用本练习的有限输入作为一般可靠性证明。
+
+[第16课飞书教材](https://my.feishu.cn/docx/UzRzdHS2ioW8m1x3702cX54onOh) / [综合项目飞书讲解](https://my.feishu.cn/docx/Odeld6l1Co6pWlx3qBTcItBLn3d)。

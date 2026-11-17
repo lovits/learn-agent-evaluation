@@ -1,0 +1,15 @@
+{
+  "lesson": "e16",
+  "method": "humanizer file mode; read complete current file from disk; Learn Claude Code sample voice takes priority",
+  "sections_reviewed": 6,
+  "working_steps_reviewed": 6,
+  "review_units": 12,
+  "uncovered_sections": [],
+  "protected_fragments": 66,
+  "protected_fragments_unchanged": true,
+  "before_sha256": "106594e5ec4e82699a561c2b838069fe421f7f727977b7cebd3749b6bdd7e39d",
+  "after_sha256": "6f07be565116e361a18b15c5062f4d49122cbf37e55879280039c99adb751edc",
+  "chinese_characters_excluding_code": 2245,
+  "edits": "Removed staged introduction, repeated responsibility list and defensive contrast; varied step explanations while keeping inputs, outputs, placement, evidence limits and all protected code/link fragments.",
+  "final_full_read_from_disk": true
+}

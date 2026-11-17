@@ -1,0 +1,219 @@
+{
+  "verified_on": "2026-11-17",
+  "reading_record_date": "2026-11-16",
+  "scope": "All available explanatory prose in the four frozen Feishu aggregate documents, including parameter/limitation notes and fenced-prose supplements. Historical reading receipts verified here; not a fresh read of every raw code line or a current complete crawl of official websites.",
+  "collections": [
+    {
+      "slug": "deepeval-guides",
+      "url": "https://my.feishu.cn/wiki/GbyYwf0lfioLd9k4B60cDV8Fn7g",
+      "document_id": "RMSkdusn8oeS1XxCTp6cNAK6noc",
+      "revision_id": 5,
+      "characters": 394610,
+      "lines": 8014,
+      "sha256": "4d2813063ffe73aaafbf1b38a20fb66f6088d49f98282f5fbb30d3999b01917d",
+      "tips": null,
+      "reference_types": []
+    },
+    {
+      "slug": "deepeval-tutorials",
+      "url": "https://my.feishu.cn/wiki/ARHlwd3Y4iGG2XkvOjRcEB5gnVh",
+      "document_id": "JQDedqwH5oFlMGx1uS3cXDUEnBh",
+      "revision_id": 2,
+      "characters": 149931,
+      "lines": 3508,
+      "sha256": "053d4b8de83f431f60b8db176dadc3e44ca8ceb68d2cf7f629fd4ce8e4ba2f1b",
+      "tips": null,
+      "reference_types": []
+    },
+    {
+      "slug": "deepeval-docs",
+      "url": "https://my.feishu.cn/wiki/QdzVwo9GgirkQNkJUExcfH35nsg",
+      "document_id": "Ve2RdP0tyoPsumxuhnxcvsXuneD",
+      "revision_id": 18,
+      "characters": 2011996,
+      "lines": 43982,
+      "sha256": "3d135339f36a266e562e37e260b1c3a9c5eafaf373959ce199cb75e285ae1319",
+      "tips": null,
+      "reference_types": []
+    },
+    {
+      "slug": "ragas-docs",
+      "url": "https://my.feishu.cn/wiki/F1zSwNynZi7ZVrkedp6cV05VnT9",
+      "document_id": "SOHsdGTt0ojxXoxVwbjcBzCYntg",
+      "revision_id": 26,
+      "characters": 1516886,
+      "lines": 42603,
+      "sha256": "8e1c2057bbf226e84b5375cf16accd098954188b17a141afd6021aca0c140ad3",
+      "tips": null,
+      "reference_types": []
+    },
+    {
+      "slug": "deepeval-library",
+      "url": "https://my.feishu.cn/wiki/NUb9wMe4Iis5ISkGnT8cSfMjnlc",
+      "document_id": "X3gadK6iSo2HeJxvmukc77XJnSb",
+      "revision_id": 1,
+      "characters": 121,
+      "lines": 3,
+      "sha256": "c91574ae91ae9aece35ef6f940be5ba9d599421e7c8525326b11ac3ce836180e",
+      "tips": null,
+      "reference_types": []
+    }
+  ],
+  "official_entries": 323,
+  "source_snapshot_hashes_verified": true,
+  "deepeval_docs_coverage": {
+    "pages_expected": 151,
+    "pages_parsed": 151,
+    "unique_urls": 151,
+    "indexed_urls": 151,
+    "all_index_urls_matched": true,
+    "program_full_text_scanned_pages": 151,
+    "overview_reviewed_pages": 151,
+    "focused_sections_reviewed_pages": 59,
+    "focused_page_ids": [
+      "D002",
+      "D003",
+      "D015",
+      "D016",
+      "D017",
+      "D018",
+      "D019",
+      "D022",
+      "D023",
+      "D024",
+      "D029",
+      "D032",
+      "D036",
+      "D037",
+      "D038",
+      "D039",
+      "D040",
+      "D041",
+      "D051",
+      "D052",
+      "D053",
+      "D054",
+      "D055",
+      "D056",
+      "D078",
+      "D079",
+      "D080",
+      "D081",
+      "D082",
+      "D083",
+      "D084",
+      "D085",
+      "D087",
+      "D097",
+      "D099",
+      "D101",
+      "D102",
+      "D103",
+      "D105",
+      "D107",
+      "D108",
+      "D109",
+      "D110",
+      "D111",
+      "D112",
+      "D113",
+      "D114",
+      "D118",
+      "D119",
+      "D120",
+      "D121",
+      "D122",
+      "D131",
+      "D135",
+      "D145",
+      "D147",
+      "D148",
+      "D150",
+      "D151"
+    ],
+    "all_151_pages_word_for_word_read": false,
+    "all_code_examples_executed": false,
+    "model_network_calls": 0,
+    "upstream_completeness_limit": "可确认本地文件与飞书API返回content一致、151页分段非空且目录一一对应；不能单凭快照证明官方站交互FAQ/公式/默认值全部完整。114页以空FAQ标题结尾，58页存在Defaulted to .默认值占位缺失。",
+    "explanatory_body_read_pages": 151,
+    "explanatory_body_remaining_pages": 0,
+    "explanatory_body_read_definition": "实际分批阅读去除重复多语言代码/导航后的解释性正文；参数说明、限制、示例语义包含；不代表代码执行或完整源码审计。",
+    "all_available_explanatory_body_read": true,
+    "full_raw_code_and_dynamic_web_content_read": false
+  },
+  "guides_tutorials_coverage": {
+    "pages_inventoried": 39,
+    "prose_close_read": 39,
+    "key_python_review_pages": 16,
+    "full_code_execution_pages": 0,
+    "all_repeated_multilanguage_code_read_line_by_line": false
+  },
+  "ragas_counts": {
+    "index_link_occurrences": 157,
+    "unique_indexed_urls": 133,
+    "presence_evidence_found": 133,
+    "unresolved_presence": 0,
+    "categories": {
+      "getstarted": 7,
+      "tutorials": 5,
+      "concepts": 33,
+      "howtos/customizations": 16,
+      "howtos/applications": 16,
+      "howtos/cli": 10,
+      "howtos/integrations": 27,
+      "references": 19
+    },
+    "evidence_kinds": {
+      "normalized_prose_signature": 116,
+      "navigation_heading": 3,
+      "rendered_api_anchor": 14
+    },
+    "review_depths": {
+      "inventory_and_topic_scan": 61,
+      "focused_conceptual_review": 54,
+      "api_surface_checked": 18
+    },
+    "available_explanatory_body_read_urls": 133,
+    "available_explanatory_body_remaining_urls": 0,
+    "focused_conceptual_review_urls": 54,
+    "all_code_examples_executed": false
+  },
+  "ragas_explanatory_items_read": 133,
+  "reading_receipts": [
+    {
+      "file": "body-read-deepeval-a.json",
+      "sha256": "7154da91240682a5dbf654699eb5174957fe660114c7efbb6e2dbe44f0326028"
+    },
+    {
+      "file": "body-read-deepeval-b.json",
+      "sha256": "8c258694762f0efbd445fa7c36c0f1365d37aee31876c9b2cfff28fbbdc861f4"
+    },
+    {
+      "file": "body-read-deepeval-c.json",
+      "sha256": "03aced300074d29cb3e8355d9a36432c63fe98b1ed681e2f7ac097d0357ddf2c"
+    },
+    {
+      "file": "body-read-deepeval-root.json",
+      "sha256": "f394d452ca706c7e42bf5bb53c5fc3b8b1785e18263bc54878f281eae145f41d"
+    },
+    {
+      "file": "body-read-ragas-api.json",
+      "sha256": "ac5226cd463f7b693d21bad722c1b22c4c08a2384d1098d48ddda1f72ff3afe4"
+    },
+    {
+      "file": "body-read-ragas-apps.json",
+      "sha256": "eb20bbfd0c71bf73aa60e265c649e4ae9717b0c9d442edab33a560c422229a83"
+    },
+    {
+      "file": "body-read-ragas-core.json",
+      "sha256": "74e9d448ae91175a89230e0aba78ec3dd7aa7071dc300dbe0ed0638ff73ebcde"
+    }
+  ],
+  "report_sha256": "23989d7f056ab1a516932510c827638a8c75300cdac8be73be55c923d89a1463",
+  "limitations": [
+    "Missing dynamic FAQ, formula/default-value rendering is recorded rather than invented.",
+    "All multilingual examples were not executed or audited line by line.",
+    "Ragas aggregate lost reliable per-URL boundaries; body presence and explanatory reading do not prove original per-page dynamic completeness.",
+    "Deleted DeepEval library child node 131012 was not recovered; four independent aggregates remained available."
+  ]
+}

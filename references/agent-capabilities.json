@@ -4,7 +4,9 @@
     "source_path": "learn-claude-code/s01_agent_loop/code.py",
     "sha256": "8feaf7f73da6f9a7f0f030a66ed017bdf13d9884c4537b0b5805a55b43dbfc00",
     "introduced_in": "e01",
-    "status": "e01_loop_and_bash_contract_verified"
+    "status": "e01_loop_and_bash_contract_verified",
+    "final_integrated_declared_contract_verified": true,
+    "final_integrated_contracts": "references/e16-capability-contracts.json"
   },
   {
     "upstream_lesson": "s02_tool_use",
@@ -12,7 +14,9 @@
     "sha256": "fde1337c5a17bc2f8666e9adc36717f37ea8803dbf04fe8d73e2400ce812a9fb",
     "introduced_in": "e02",
     "status": "e02_core_contract_verified_with_documented_adaptations",
-    "adaptations": "Five required-argument tools; outside file access denied; batch approval declined; audit hook pairs include rejection. No claim of complete upstream equivalence."
+    "adaptations": "Five required-argument tools; outside file access denied; batch approval declined; audit hook pairs include rejection. No claim of complete upstream equivalence.",
+    "final_integrated_declared_contract_verified": true,
+    "final_integrated_contracts": "references/e16-capability-contracts.json"
   },
   {
     "upstream_lesson": "s03_permission",
@@ -20,7 +24,9 @@
     "sha256": "97b42c55a782027517f365a379f17687f86444f38729772c1791105051a1ee2a",
     "introduced_in": "e02",
     "status": "e02_core_contract_verified_with_documented_adaptations",
-    "adaptations": "Five required-argument tools; outside file access denied; batch approval declined; audit hook pairs include rejection. No claim of complete upstream equivalence."
+    "adaptations": "Five required-argument tools; outside file access denied; batch approval declined; audit hook pairs include rejection. No claim of complete upstream equivalence.",
+    "final_integrated_declared_contract_verified": true,
+    "final_integrated_contracts": "references/e16-capability-contracts.json"
   },
   {
     "upstream_lesson": "s04_hooks",
@@ -28,7 +34,9 @@
     "sha256": "2ff90e604304083d0c4cda941c847420a338235482d318b70e7bd2edcf79505b",
     "introduced_in": "e02",
     "status": "e02_core_contract_verified_with_documented_adaptations",
-    "adaptations": "Five required-argument tools; outside file access denied; batch approval declined; audit hook pairs include rejection. No claim of complete upstream equivalence."
+    "adaptations": "Five required-argument tools; outside file access denied; batch approval declined; audit hook pairs include rejection. No claim of complete upstream equivalence.",
+    "final_integrated_declared_contract_verified": true,
+    "final_integrated_contracts": "references/e16-capability-contracts.json"
   },
   {
     "upstream_lesson": "s05_todo_write",
@@ -38,7 +46,9 @@
     "status": "e13_explicit_todo_contract_verified_with_adaptations",
     "adaptations": "Strict nonempty typed array, validation before replacement and three-tool-round reminder; no claim that upstream legacy literal inputs are accepted.",
     "lesson_validation": "docs/e13-validation.md",
-    "full_integrated_equivalence_verified": false
+    "full_integrated_equivalence_verified": false,
+    "final_integrated_declared_contract_verified": true,
+    "final_integrated_contracts": "references/e16-capability-contracts.json"
   },
   {
     "upstream_lesson": "s06_subagent",
@@ -48,7 +58,9 @@
     "status": "e13_fresh_one_shot_child_context_verified",
     "adaptations": "Fresh delegated request, shared workspace, assigned-file tools and no recursive delegation; persistent autonomous teammate lifecycle remains for e16.",
     "lesson_validation": "docs/e13-validation.md",
-    "full_integrated_equivalence_verified": false
+    "full_integrated_equivalence_verified": false,
+    "final_integrated_declared_contract_verified": true,
+    "final_integrated_contracts": "references/e16-capability-contracts.json"
   },
   {
     "upstream_lesson": "s07_skill_loading",
@@ -56,7 +68,9 @@
     "sha256": "0246964af87bfcc0494e9330f54ae808797ba20dd3906ff412c91711f0d93280",
     "introduced_in": "e04",
     "status": "e04_on_demand_document_loading_adaptation_verified",
-    "adaptations": "search_knowledge over mounted documents; SkillLoader full frontmatter/registry contract not claimed"
+    "adaptations": "search_knowledge over mounted documents; SkillLoader full frontmatter/registry contract not claimed",
+    "final_integrated_declared_contract_verified": true,
+    "final_integrated_contracts": "references/e16-capability-contracts.json"
   },
   {
     "upstream_lesson": "s08_context_compact",
@@ -66,7 +80,9 @@
     "status": "e12_recoverable_context_subset_verified",
     "adaptations": "Snip, persisted tool output, summaries, page recovery and actual input exposure checked; full proactive compaction/oversize retry integration remains for e16.",
     "lesson_validation": "docs/e12-validation.md",
-    "full_integrated_equivalence_verified": false
+    "full_integrated_equivalence_verified": false,
+    "final_integrated_declared_contract_verified": true,
+    "final_integrated_contracts": "references/e16-capability-contracts.json"
   },
   {
     "upstream_lesson": "s09_memory",
@@ -76,7 +92,9 @@
     "status": "e12_cross_session_memory_subset_verified",
     "adaptations": "Versioned extracted disk memory, stale facts and injected instruction boundary checked; full memory lifecycle/rollback integration remains for e16.",
     "lesson_validation": "docs/e12-validation.md",
-    "full_integrated_equivalence_verified": false
+    "full_integrated_equivalence_verified": false,
+    "final_integrated_declared_contract_verified": true,
+    "final_integrated_contracts": "references/e16-capability-contracts.json"
   },
   {
     "upstream_lesson": "s10_task_system",
@@ -86,7 +104,9 @@
     "status": "e13_dependency_owner_and_single_instance_atomic_claim_verified",
     "adaptations": "Persistent DAG, cycle rejection, owner checks and shared-instance RLock; no distributed or cross-process lock guarantee.",
     "lesson_validation": "docs/e13-validation.md",
-    "full_integrated_equivalence_verified": false
+    "full_integrated_equivalence_verified": false,
+    "final_integrated_declared_contract_verified": true,
+    "final_integrated_contracts": "references/e16-capability-contracts.json"
   },
   {
     "upstream_lesson": "s11_background_tasks",
@@ -96,7 +116,9 @@
     "status": "e14_explicit_background_and_current_source_receipts_subset_verified",
     "full_integrated_equivalence_verified": false,
     "adaptations": "Real POSIX processes, normal close and timeout cleanup, one notification and source receipts; full signal lifecycle/integrated combination remains for e16.",
-    "lesson_validation": "docs/e14-validation.md"
+    "lesson_validation": "docs/e14-validation.md",
+    "final_integrated_declared_contract_verified": true,
+    "final_integrated_contracts": "references/e16-capability-contracts.json"
   },
   {
     "upstream_lesson": "s12_cron_scheduler",
@@ -106,7 +128,9 @@
     "status": "e14_controlled_cron_persistence_and_receipt_subset_verified",
     "full_integrated_equivalence_verified": false,
     "adaptations": "Five-field cron, durable pending/ack/requeue and controlled datetime checked; resident real-time scheduler and full agent-idle integration remain for e16.",
-    "lesson_validation": "docs/e14-validation.md"
+    "lesson_validation": "docs/e14-validation.md",
+    "final_integrated_declared_contract_verified": true,
+    "final_integrated_contracts": "references/e16-capability-contracts.json"
   },
   {
     "upstream_lesson": "s13_agent_teams",
@@ -116,7 +140,9 @@
     "status": "e13_one_shot_handoff_mailbox_subset_verified",
     "adaptations": "Single-consumer result mailbox and stale-file guard checked; persistent WORK/IDLE, teammate protocols and worktrees remain for e16.",
     "lesson_validation": "docs/e13-validation.md",
-    "full_integrated_equivalence_verified": false
+    "full_integrated_equivalence_verified": false,
+    "final_integrated_declared_contract_verified": true,
+    "final_integrated_contracts": "references/e16-capability-contracts.json"
   },
   {
     "upstream_lesson": "s14_mcp_plugin",
@@ -126,21 +152,27 @@
     "status": "e10_dynamic_namespaced_tools_subset_verified",
     "adaptations": "Pinned local docs plugin stand-in with dynamic tools and argument checks; full upstream plugin/transport contract is not certified by these subset checks.",
     "lesson_validation": "docs/e10-validation.md",
-    "full_integrated_equivalence_verified": false
+    "full_integrated_equivalence_verified": false,
+    "final_integrated_declared_contract_verified": true,
+    "final_integrated_contracts": "references/e16-capability-contracts.json"
   },
   {
     "upstream_lesson": "s15_integrated_harness",
     "source_path": "learn-claude-code/s15_integrated_harness/code.py",
     "sha256": "8a50ce119d64881e4e8386dde831b5771dd2e097348a25798b4eab0574fb07bf",
     "introduced_in": "e16",
-    "status": "planned_not_implemented_or_validated"
+    "status": "e16_native_integrated_declared_contract_verified",
+    "final_integrated_declared_contract_verified": true,
+    "final_integrated_contracts": "references/e16-capability-contracts.json"
   },
   {
     "upstream_lesson": "s16_workflow_runtime",
     "source_path": "learn-claude-code/s16_workflow_runtime/code.py",
     "sha256": "0930f070d14a9eb93d2c57b26d0c7c081b754d04b85a4f0ba04538b9b2f2a66a",
     "introduced_in": "e16",
-    "status": "planned_not_implemented_or_validated"
+    "status": "e16_native_integrated_declared_contract_verified",
+    "final_integrated_declared_contract_verified": true,
+    "final_integrated_contracts": "references/e16-capability-contracts.json"
   },
   {
     "upstream_lesson": "s17_goal_loop",
@@ -150,6 +182,8 @@
     "status": "e11_public_stop_and_independent_acceptance_subset_verified",
     "adaptations": "Public component stopping separate from private finite behavior checks; full persisted goal-loop stop/recovery contract remains for e16.",
     "lesson_validation": "docs/e11-validation.md",
-    "full_integrated_equivalence_verified": false
+    "full_integrated_equivalence_verified": false,
+    "final_integrated_declared_contract_verified": true,
+    "final_integrated_contracts": "references/e16-capability-contracts.json"
   }
 ]

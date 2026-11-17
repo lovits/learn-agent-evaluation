@@ -12,5 +12,6 @@ runs
 .DS_Store
 generation/private
 draft_*_folder
+draft_*_folder
 workspaces
 evaluation_private

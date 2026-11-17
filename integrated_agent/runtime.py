@@ -142,6 +142,11 @@ class Runtime:
         self.host.client = self.host.MEMORY_RUNTIME.client = self.model
         native.close()
         memory_native.close()
+        self._native_create_worktree = self.host.create_worktree
+        self.host.create_worktree = self._bind_worktree
+        self.host.call_tool_handler = observe(name="integrated_tool", type="tool")(
+            self.host.call_tool_handler
+        )
         self.workflow = load_module("s16_workflow_runtime")
         self.workflow.STORE = self.workspace / ".workflow_runtime"
         install_course_workflow(self.workflow, self.workspace)
@@ -163,6 +168,11 @@ class Runtime:
         self.host.SKILLS_DIR = PROJECT / "integrated_agent/skills"
         self.host.scan_skills()
         self._services_started = False
+
+    def _bind_worktree(self, name, task_id):
+        # Keep validation, Git creation and final binding in one cross-process transaction.
+        with self.host.task_store_lock():
+            return self._native_create_worktree(name, task_id)
 
     def _batch_permission(self, block):
         if self.approved_commands is None:
@@ -297,6 +307,11 @@ class Runtime:
                 "backgrounds": backgrounds,
                 "tasks": [self.host.asdict(t) for t in self.host.list_tasks()],
                 "active_teammates": dict(self.host.active_teammates),
+                "todos": copy.deepcopy(self.host.CURRENT_TODOS),
+                "protocol_requests": [
+                    self.host.asdict(p) for p in self.host.pending_requests.values()
+                ],
+                "teammate_assignments": copy.deepcopy(self.host.teammate_assignments),
                 "schedules": [self.host.asdict(j) for j in self.host.scheduled_jobs.values()],
             }
         )

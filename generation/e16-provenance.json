@@ -1,0 +1,109 @@
+{
+  "generator": "The-Pocket/PocketFlow-Tutorial-Codebase-Knowledge",
+  "upstream_commit": "05b24cbbb0fe409c5e23c9791f0342f07524ffdc",
+  "backend": "local authenticated Codex CLI with tools disabled",
+  "actual_model_calls": 1,
+  "calls": [
+    {
+      "prompt_sha256": "ecd556d530d5f30f874b02e189dbf858ec67ab6634a456315ff76b743136a470",
+      "response_sha256": "2eb62f8e54967ee0b39c1ffe887af61911249424f65f653100b2fe89fc2e6a8e",
+      "elapsed_seconds": 67.226
+    }
+  ],
+  "nodes_run": [
+    "FetchRepo",
+    "BindLesson (fixed lesson adapter)",
+    "WriteChapters",
+    "CombineTutorial"
+  ],
+  "not_run": [
+    "IdentifyAbstractions",
+    "AnalyzeRelationships",
+    "OrderChapters"
+  ],
+  "reason": "The sixteen-lesson outline and current lesson are already fixed.",
+  "input_manifest": [
+    {
+      "path": "eval_course/records.py",
+      "sha256": "940890c3876981a2273497e8d0d06da4a882d7e65cea6098f6217f87de498181"
+    },
+    {
+      "path": "references/e16-metrics-v2-protocol.json",
+      "sha256": "0f88535adbc37335b5339ab9d9fd52458c2d6e39660b626d9edfae56391b5b55"
+    },
+    {
+      "path": "references/textbook-writing-standard.md",
+      "sha256": "f5b37acb847f10b22c835e46865394eb1b12d0119af01aa030faab4a817f0109"
+    },
+    {
+      "path": "references/e16-capability-contracts.json",
+      "sha256": "274468e9f49eb322a15e9939ab21197337af657ce74ccdb515be91a9a3bb1c6a"
+    },
+    {
+      "path": "references/versions.json",
+      "sha256": "75831131b2e85e8f0edd2ddd4534642f169a6d0cd0d5ac89d47c5465581ce99c"
+    },
+    {
+      "path": "references/e16-composed-v2-protocol.json",
+      "sha256": "3e05660c67f6452cf0074dead5eba98eb63e06eecb5f6579c432496f2e6b1bf5"
+    },
+    {
+      "path": "references/e16-diagram.json",
+      "sha256": "dbcfa824d97871f2d41bc7b511df910b67cdeab1b18c0fb37a337f238ac3ea1a"
+    },
+    {
+      "path": "integrated_agent/architecture.md",
+      "sha256": "05bf7158535e77a5fd128f425e1d3ed7d60f3d283a555aecb4352fb3d04b9f9a"
+    },
+    {
+      "path": "integrated_agent/capabilities.md",
+      "sha256": "df04173efeb9a82e90a99a689bff68aaa986d412096196938dcac609cef4355b"
+    },
+    {
+      "path": "integrated_agent/runtime.py",
+      "sha256": "e16f27371e2bbc6462675fa81d990e964af399e8610c8f2753232caa507ddf48"
+    },
+    {
+      "path": "integrated_agent/scenario.py",
+      "sha256": "1ef19ea8bc52571ac7ef083ff28672df1fa73153a7e01ba74be081c0e4276ca6"
+    },
+    {
+      "path": "integrated_agent/workflows.py",
+      "sha256": "9c35dbd2ae12ad53d08140e7f687c5cd8c58b8800530ea7fcec435c8c080526e"
+    },
+    {
+      "path": "integrated_agent/traces.py",
+      "sha256": "80f97f23b7186854250979607705e5d9c64530b5d51758dfc5335bed8c5d66f0"
+    },
+    {
+      "path": "lessons/e16_regression/solutions.md",
+      "sha256": "5f34a540f34e852a4ffdcbe9fc8a045ae59d17e7bba7a8462cb62533caef91c6"
+    },
+    {
+      "path": "lessons/e16_regression/run_summary.md",
+      "sha256": "f4ae3c1c41895289b0ee2e9318f3f33e1efa9728527532284424c2d00837979a"
+    },
+    {
+      "path": "lessons/e16_regression/exercises.md",
+      "sha256": "2fd8cf87d9f5f7e80c7304cbb8a3585da6b62405686e20a2c4972db3245e196a"
+    },
+    {
+      "path": "lessons/e16_regression/code.py",
+      "sha256": "ce8316788f4500e9072c7d63d9f27030e54f5110342340e11ee81bb2c3f52cd5"
+    },
+    {
+      "path": "lessons/e16_regression/cases.jsonl",
+      "sha256": "10a22bf55ed0e7ede3bbe6b876eaa4cd75a4a1e6995a82e3d2795f35cfe559f0"
+    },
+    {
+      "path": "lessons/e16_regression/source_walkthrough.md",
+      "sha256": "3c1075384f9e6aa40610dd380c94d8622ac454f271c7637731796a8824960354"
+    },
+    {
+      "path": "lessons/e16_regression/eval.py",
+      "sha256": "a4c166e1e91b84f62dd6ebf3abcbc9853f8c30b33202bc617a2d76517123d6e9"
+    }
+  ],
+  "brief_sha256": "f533d3755cc07c0ed424acf5e963b0d11fce817d406061513aaf0f848a328487",
+  "raw_output_directory": "generation/output/e16_regression"
+}

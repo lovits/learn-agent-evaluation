@@ -14,3 +14,5 @@ jobs:
         run: docker run --rm --network none --entrypoint ruff learn-agent-evaluation:ci check eval_course lessons tests tools integrated_agent
       - name: Test Bash loop and independent grading without internet
         run: docker run --rm --network none --mount "type=bind,source=${GITHUB_WORKSPACE}/evaluation_private,target=/app/evaluation_private,readonly" --entrypoint python learn-agent-evaluation:ci -m pytest -q
+      - name: Reject critical regressions in the saved actual integration evidence
+        run: docker run --rm --network none --entrypoint python learn-agent-evaluation:ci -m lessons.e16_regression.check --report /tmp/e16-release-gate.json

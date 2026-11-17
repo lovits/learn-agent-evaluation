@@ -32,6 +32,7 @@ def main():
             "e13",
             "e14",
             "e15",
+            "e16",
         ],
         default="e01",
     )
@@ -113,6 +114,12 @@ def main():
             "e15_calibration",
             "裁判校准：分数对了，标准也对了吗",
             "generation/e15-brief.md",
+        )
+    if lesson == "e16":
+        slug, title, brief_path = (
+            "e16_regression",
+            "综合回归：从运行证据到发布门禁",
+            "generation/e16-brief.md",
         )
     private = PROJECT / "generation/private" / lesson
     private.mkdir(parents=True, exist_ok=True)
@@ -280,6 +287,22 @@ def main():
             *(
                 ["references/e15-reading.json", "references/e15-experiment-protocol.json"]
                 if lesson == "e15"
+                else []
+            ),
+            *(
+                [
+                    "integrated_agent/runtime.py",
+                    "integrated_agent/scenario.py",
+                    "integrated_agent/workflows.py",
+                    "integrated_agent/traces.py",
+                    "integrated_agent/architecture.md",
+                    "integrated_agent/capabilities.md",
+                    "references/e16-capability-contracts.json",
+                    "references/e16-composed-v2-protocol.json",
+                    "references/e16-metrics-v2-protocol.json",
+                    "references/e16-diagram.json",
+                ]
+                if lesson == "e16"
                 else []
             ),
         },

@@ -117,6 +117,31 @@ def grade_foundation(workspace, case, criteria):
     }
 
 
+def grade_composed(workspace, case, criteria):
+    from .state import composed_state
+
+    workspace = Path(workspace).resolve(strict=True)
+    state = composed_state(workspace, case)
+    if state.get("symlinks"):
+        return {"profile": "composed", "passed": False, "state": state, "behavior": None}
+    actual = files_at(workspace, case["files"])
+    with tempfile.TemporaryDirectory() as directory:
+        clean = Path(directory)
+        for name, text in actual.items():
+            if text is not None:
+                (clean / name).write_text(text, encoding="utf-8")
+        behavior = verify(clean, case, criteria)
+    return {
+        "profile": "composed",
+        "origin": "actual_read_only_native_state_and_bounded_independent_behavior_execution",
+        "passed": state["passed"] and behavior["passed"],
+        "state": state,
+        "behavior": behavior,
+        "full_17_mechanism_acceptance": False,
+        "scope": "One composed scenario; all-mechanism acceptance also requires the separate capability contracts and failure controls.",
+    }
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--workspace", type=Path, required=True)
@@ -125,10 +150,12 @@ def main():
     )
     parser.add_argument("--criteria", type=Path, required=True)
     parser.add_argument("--report", type=Path, required=True)
+    parser.add_argument("--profile", choices=["foundation", "composed"], default="foundation")
     args = parser.parse_args()
     if args.report.resolve().is_relative_to(args.workspace.resolve()):
         parser.error("Verification report must remain outside the application workspace")
-    result = grade_foundation(
+    grader = grade_composed if args.profile == "composed" else grade_foundation
+    result = grader(
         args.workspace, json.loads(args.case.read_text()), json.loads(args.criteria.read_text())
     )
     args.report.parent.mkdir(parents=True, exist_ok=True)

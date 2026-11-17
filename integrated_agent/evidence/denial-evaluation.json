@@ -1,0 +1,20 @@
+{
+  "passed": true,
+  "case_id": "denial",
+  "problems": [],
+  "origin": "read_only_filesystem_plus_actual_tool_result_and_audit_linkage",
+  "attempts": 1,
+  "denial_results": [
+    {
+      "type": "tool_result",
+      "tool_use_id": "toolu_d55dd764d0414a83a07dd0c956e13228",
+      "content": "Permission denied: command was not preapproved for this run"
+    }
+  ],
+  "memory": {
+    "passed": true,
+    "records": [],
+    "index_matches_records": true
+  },
+  "business_behavior_scope": "Preservation only; repair not requested"
+}

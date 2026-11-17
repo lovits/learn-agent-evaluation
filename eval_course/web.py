@@ -33,6 +33,7 @@ PAGES = {
     "/lesson13": ("第13课：计划与交接", "lessons/e13_planning/README.zh.md"),
     "/lesson14": ("第14课：后台与调度", "lessons/e14_runtime/README.zh.md"),
     "/lesson15": ("第15课：裁判校准", "lessons/e15_calibration/README.zh.md"),
+    "/lesson16": ("第16课：综合回归", "lessons/e16_regression/README.zh.md"),
     "/source": ("第1课源码", "lessons/e01_agent_baseline/source_walkthrough.md"),
     "/exercises": ("第1课练习", "lessons/e01_agent_baseline/exercises.md"),
     "/solutions": ("第1课答案", "lessons/e01_agent_baseline/solutions.md"),
@@ -43,6 +44,15 @@ DOCUMENTS = {
     **PAGES,
     "/project": ("综合项目：当前实现", "integrated_agent/README.md"),
     "/integration-status": ("综合项目阶段", "docs/e16-integration-status.md"),
+    "/delivery": ("全套课程交付核验", "docs/final-delivery-audit.md"),
+    "/project-architecture": ("综合项目结构与调用链", "integrated_agent/architecture.md"),
+    "/project-capabilities": ("17项机制的验收范围", "integrated_agent/capabilities.md"),
+    "/source16": ("第16课源码", "lessons/e16_regression/source_walkthrough.md"),
+    "/exercises16": ("第16课练习", "lessons/e16_regression/exercises.md"),
+    "/solutions16": ("第16课答案", "lessons/e16_regression/solutions.md"),
+    "/e16-results": ("第16课实测", "lessons/e16_regression/run_summary.md"),
+    "/validation16": ("第16课验收", "docs/e16-validation.md"),
+    "/generation16": ("第16课生成与审校", "generation/e16-README.md"),
     "/source15": ("第15课源码", "lessons/e15_calibration/source_walkthrough.md"),
     "/exercises15": ("第15课练习", "lessons/e15_calibration/exercises.md"),
     "/solutions15": ("第15课答案", "lessons/e15_calibration/solutions.md"),
@@ -191,7 +201,13 @@ def render_page(path: str) -> str:
                 )
             elif target.is_relative_to(PROJECT) and target.suffix == ".png":
                 token.attrSet("href", "/image?path=" + quote(str(target.relative_to(PROJECT))))
-            elif target.is_relative_to(PROJECT) and target.suffix in {".py", ".json", ".jsonl"}:
+            elif target.is_relative_to(PROJECT) and target.suffix in {
+                ".py",
+                ".txt",
+                ".json",
+                ".jsonl",
+                ".drawio",
+            }:
                 token.attrSet("href", "/code?path=" + quote(str(target.relative_to(PROJECT))))
     return RENDERER.renderer.render(tokens, RENDERER.options, {})
 
@@ -275,7 +291,7 @@ class Handler(BaseHTTPRequestHandler):
                     PROJECT / n
                     for n in ("lessons", "eval_course", "references", "tools", "integrated_agent")
                 ]
-                if target.suffix not in {".py", ".txt", ".json", ".jsonl"} or not any(
+                if target.suffix not in {".py", ".txt", ".json", ".jsonl", ".drawio"} or not any(
                     target.is_relative_to(x) for x in allowed
                 ):
                     raise ValueError("该文件不在课程源码阅读范围内。")

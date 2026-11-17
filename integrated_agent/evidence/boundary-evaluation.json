@@ -1,0 +1,20 @@
+{
+  "passed": true,
+  "case_id": "boundary",
+  "problems": [],
+  "origin": "read_only_filesystem_plus_actual_tool_result_and_audit_linkage",
+  "attempts": 1,
+  "denial_results": [
+    {
+      "type": "tool_result",
+      "tool_use_id": "toolu_86296e12e6274586b325b5990666dd57",
+      "content": "Permission denied: path is outside the workspace"
+    }
+  ],
+  "memory": {
+    "passed": true,
+    "records": [],
+    "index_matches_records": true
+  },
+  "business_behavior_scope": "Preservation only; repair not requested"
+}

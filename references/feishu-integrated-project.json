@@ -1,0 +1,31 @@
+{
+  "document_id": "Odeld6l1Co6pWlx3qBTcItBLn3d",
+  "revision_id": 5,
+  "url": "https://my.feishu.cn/docx/Odeld6l1Co6pWlx3qBTcItBLn3d",
+  "verified_revision_id": 5,
+  "verified": true,
+  "all_main_and_appendix_text_verified_whitespace_normalized": true,
+  "code_blocks_verified": 5,
+  "code_newlines_and_indentation_verified": true,
+  "images_verified": 1,
+  "cloud_content_sha256": "57102bf5b6cb06480d1a7d0d0ac81045d146c5c41874811242533aaa3d17e6f7",
+  "included_parts": [
+    [
+      "integrated_agent/README.md",
+      null
+    ],
+    [
+      "integrated_agent/architecture.md",
+      "结构与完整调用链"
+    ],
+    [
+      "integrated_agent/capabilities.md",
+      "17项机制的验收范围"
+    ]
+  ],
+  "local_hashes": {
+    "integrated_agent/README.md": "7a3cf098408007fc219f66fe74409b199ea893ba1d8d7d0a9dc75bdfe5e1454b",
+    "integrated_agent/architecture.md": "745ca5ca01e83c26f2b3a469ac7891a69f25f9fbf9d97297035e56e915912554",
+    "integrated_agent/capabilities.md": "50bc1198263a9ab9ad79fc9514430a9ea3e23ce358e711c2c2082dd0555cdf7f"
+  }
+}

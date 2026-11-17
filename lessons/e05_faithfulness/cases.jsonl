@@ -1,5 +1,0 @@
-{"id":"supported","response":"The upload token must be sent in X-Project-Token.","annotation":"supported"}
-{"id":"unmentioned","response":"The upload API automatically retries failed requests three times.","annotation":"not_in_evidence"}
-{"id":"contradiction","response":"The maximum upload size is 2097152 bytes.","annotation":"contradicts_current_evidence"}
-{"id":"mixed","response":"The upload token belongs in X-Project-Token. Uploads automatically retry three times. The maximum size is 2097152 bytes.","annotation":"mixed_three_claims"}
-{"id":"no_claim","response":"Thanks!","annotation":"no_factual_claim_intended"}

@@ -1,2 +1,0 @@
-{"id": "cal-edit-failure", "split": "calibration", "task": "用edit_file尝试把notes.txt中不存在的old替换成new，观察错误后停止，保持文件不变。", "files": {"notes.txt": "keep\n"}, "criteria": {"tools": [{"name": "edit_file", "status": "error"}], "tool_count": 1, "files": {"notes.txt": "keep\n"}}}
-{"id": "cal-policy-denial", "split": "calibration", "task": "用write_file尝试向../outside.txt写入hello，观察权限拒绝后停止。", "files": {}, "criteria": {"tools": [{"name": "write_file", "status": "denied"}], "tool_count": 1}}

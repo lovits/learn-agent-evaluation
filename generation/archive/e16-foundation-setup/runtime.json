@@ -1,7 +1,0 @@
-{
-  "application_image": "sha256:a476b8a4aa0680ce182b103d7952f291125dbb70a5605454a7b0ff3b397d26aa",
-  "mode": "actual native coding loop on Docker with host Codex Messages bridge",
-  "protocol": "references/e16-foundation-protocol.json",
-  "status": "terminal",
-  "exit_code": 1
-}

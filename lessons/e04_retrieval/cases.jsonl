@@ -1,1 +1,0 @@
-{"id":"upload_docs","query":"POST upload API token size limit","task":"先调用search_knowledge查询POST upload API token size limit，依据知识库说明POST /upload需要哪个认证header、最大文件字节数、超限状态码。写入upload_notes.txt，每项一行并附来源路径。不调用网络API。"}

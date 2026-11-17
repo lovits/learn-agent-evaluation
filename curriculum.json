@@ -32,7 +32,7 @@
   "lessons": [
     {
       "id": "e01",
-      "slug": "e01_agent_baseline",
+      "slug": "e01_success",
       "title": "定义成功",
       "core_question": "模型停下了，任务就完成了吗？",
       "learn": "用一个循环和 Bash 完成文件任务，再从实际文件与执行结果判断是否成功。",
@@ -49,13 +49,10 @@
       ],
       "activity": "创建并运行 hello.py；再给评分器一条只有“已完成”的记录。",
       "understanding": "能顺着任务、动作、工具结果、文件和评分说明：为什么一次停止可以失败。",
-      "textbook": "lessons/e01_agent_baseline/README.zh.md",
-      "source_walkthrough": "lessons/e01_agent_baseline/source_walkthrough.md",
+      "textbook": "course/e01_success/README.zh.md",
+      "source_walkthrough": "course/e01_success/source_walkthrough.md",
       "outline_anchor": "01-定义成功",
       "implementation": "ready",
-      "legacy_modules": [
-        "e01_agent_baseline"
-      ],
       "source_paths": [
         "deepeval/deepeval/dataset/dataset.py",
         "deepeval/deepeval/evaluate/evaluate.py",
@@ -72,7 +69,7 @@
     },
     {
       "id": "e02",
-      "slug": "e02_run_samples",
+      "slug": "e02_samples",
       "title": "保存一次运行",
       "core_question": "怎样把 Agent 的一次工作变成评测样本？",
       "learn": "把任务、可见输入、最终输出、工具事件和产物对应起来，再转换成框架需要的字段。",
@@ -89,13 +86,10 @@
       ],
       "activity": "让同一任务产生一次合法写入和一次越界拒绝，核对两套样本是否仍指向同一轮运行。",
       "understanding": "能从评分样本追回真实动作，分清没有调用、被拒绝和执行失败。",
-      "textbook": null,
-      "source_walkthrough": null,
+      "textbook": "course/e02_samples/README.zh.md",
+      "source_walkthrough": "course/e02_samples/source_walkthrough.md",
       "outline_anchor": "02-保存一次运行",
-      "implementation": "planned",
-      "legacy_modules": [
-        "e02_tools_traces"
-      ],
+      "implementation": "ready",
       "source_paths": [
         "deepeval/deepeval/test_case/conversational_test_case.py",
         "deepeval/deepeval/test_case/llm_test_case.py",
@@ -136,9 +130,6 @@
       "source_walkthrough": null,
       "outline_anchor": "03-准备评测数据",
       "implementation": "planned",
-      "legacy_modules": [
-        "e08_datasets"
-      ],
       "source_paths": [
         "deepeval/deepeval/synthesizer/synthesizer.py",
         "ragas/src/ragas/testset/synthesizers/generate.py"
@@ -172,9 +163,6 @@
       "source_walkthrough": null,
       "outline_anchor": "04-给样本评分",
       "implementation": "planned",
-      "legacy_modules": [
-        "e03_judges"
-      ],
       "source_paths": [
         "deepeval/deepeval/metrics/dag/dag.py",
         "deepeval/deepeval/metrics/g_eval/g_eval.py",
@@ -213,9 +201,6 @@
       "source_walkthrough": null,
       "outline_anchor": "05-接通知识库",
       "implementation": "planned",
-      "legacy_modules": [
-        "e04_retrieval"
-      ],
       "source_paths": [
         "deepeval/deepeval/metrics/contextual_precision/contextual_precision.py",
         "deepeval/deepeval/metrics/contextual_recall/contextual_recall.py",
@@ -253,9 +238,6 @@
       "source_walkthrough": null,
       "outline_anchor": "06-上下文相关性与排序",
       "implementation": "planned",
-      "legacy_modules": [
-        "e04_retrieval"
-      ],
       "source_paths": [
         "deepeval/deepeval/metrics/contextual_precision/contextual_precision.py",
         "deepeval/deepeval/metrics/contextual_recall/contextual_recall.py",
@@ -293,9 +275,6 @@
       "source_walkthrough": null,
       "outline_anchor": "07-上下文覆盖与召回",
       "implementation": "planned",
-      "legacy_modules": [
-        "e04_retrieval"
-      ],
       "source_paths": [
         "deepeval/deepeval/metrics/contextual_precision/contextual_precision.py",
         "deepeval/deepeval/metrics/contextual_recall/contextual_recall.py",
@@ -333,9 +312,6 @@
       "source_walkthrough": null,
       "outline_anchor": "08-回答对上下文的忠实度",
       "implementation": "planned",
-      "legacy_modules": [
-        "e05_faithfulness"
-      ],
       "source_paths": [
         "deepeval/deepeval/metrics/faithfulness/faithfulness.py",
         "ragas/src/ragas/metrics/collections/faithfulness/metric.py"
@@ -368,9 +344,6 @@
       "source_walkthrough": null,
       "outline_anchor": "09-答案质量",
       "implementation": "planned",
-      "legacy_modules": [
-        "e06_answer_quality"
-      ],
       "source_paths": [
         "deepeval/deepeval/metrics/answer_relevancy/answer_relevancy.py",
         "ragas/src/ragas/metrics/collections/answer_correctness/metric.py",
@@ -405,9 +378,6 @@
       "source_walkthrough": null,
       "outline_anchor": "10-上下文干扰与故障定位",
       "implementation": "planned",
-      "legacy_modules": [
-        "e07_failure_diagnosis"
-      ],
       "source_paths": [
         "deepeval/deepeval/metrics/contextual_relevancy/contextual_relevancy.py",
         "ragas/src/ragas/metrics/collections/noise_sensitivity/metric.py"
@@ -440,9 +410,6 @@
       "source_walkthrough": null,
       "outline_anchor": "11-工具调用质量",
       "implementation": "planned",
-      "legacy_modules": [
-        "e10_tool_evaluation"
-      ],
       "source_paths": [
         "deepeval/deepeval/metrics/tool_correctness/tool_correctness.py",
         "ragas/src/ragas/metrics/collections/tool_call_accuracy/metric.py",
@@ -478,9 +445,6 @@
       "source_walkthrough": null,
       "outline_anchor": "12-任务完成度",
       "implementation": "planned",
-      "legacy_modules": [
-        "e11_task_completion"
-      ],
       "source_paths": [
         "deepeval/deepeval/metrics/base_metric.py",
         "deepeval/deepeval/metrics/task_completion/task_completion.py",
@@ -518,9 +482,6 @@
       "source_walkthrough": null,
       "outline_anchor": "13-会话上下文与约束保持",
       "implementation": "planned",
-      "legacy_modules": [
-        "e12_conversation"
-      ],
       "source_paths": [
         "deepeval/deepeval/simulator/conversation_simulator.py",
         "deepeval/deepeval/test_case/conversational_test_case.py",
@@ -556,9 +517,6 @@
       "source_walkthrough": null,
       "outline_anchor": "14-校准-llm-裁判",
       "implementation": "planned",
-      "legacy_modules": [
-        "e15_calibration"
-      ],
       "source_paths": [
         "deepeval/deepeval/metrics/g_eval/g_eval.py",
         "ragas/src/ragas/experiment.py"
@@ -592,10 +550,6 @@
       "source_walkthrough": null,
       "outline_anchor": "15-比较两个版本",
       "implementation": "planned",
-      "legacy_modules": [
-        "e09_comparison",
-        "e14_runtime"
-      ],
       "source_paths": [
         "ragas/src/ragas/experiment.py",
         "deepeval/deepeval/metrics/step_efficiency/step_efficiency.py",
@@ -638,10 +592,6 @@
       "source_walkthrough": null,
       "outline_anchor": "16-综合项目与持续回归",
       "implementation": "planned",
-      "legacy_modules": [
-        "e16_regression",
-        "e13_planning"
-      ],
       "source_paths": [
         "deepeval/deepeval/evaluate/evaluate.py",
         "deepeval/deepeval/metrics/faithfulness/faithfulness.py",
@@ -679,5 +629,5 @@
     "path": "content/TinyRAG",
     "role": "知识库接入和检索评测对象"
   },
-  "outline_version": 2
+  "outline_version": 3
 }

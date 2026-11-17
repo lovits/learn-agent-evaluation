@@ -1,8 +1,0 @@
-{
-  "scope": "Both actual full and compact 32-step/6-phase-cap protocol paths completed before persistent exposure receipts were added. Original run preserved. Normal native simulator still uses this exact image in its ongoing run.",
-  "image": "sha256:7e6c4e17e1e2ac6365e2277fd5d428f1d2bce01a4f06b4ad6e3dc8218e4a6e32",
-  "rows": [
-    "010be1dbdc894f33a8470852926a5202",
-    "521d0401cb0c4b18aa7ccca5d69c564a"
-  ]
-}

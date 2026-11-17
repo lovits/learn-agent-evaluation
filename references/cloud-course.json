@@ -1,0 +1,50 @@
+{
+  "folder": {
+    "created": true,
+    "folder_token": "Cap7fQoFVlH3Y3dtgJ4cP55dnFg",
+    "name": "从编程 Agent 学评测",
+    "parent_folder_token": "",
+    "url": "https://my.feishu.cn/drive/folder/Cap7fQoFVlH3Y3dtgJ4cP55dnFg"
+  },
+  "documents": {
+    "outline": {
+      "title": "从编程 Agent 学评测：16课大纲",
+      "document_id": "M17HduERpoFRljxpD3Oc0GUun3F",
+      "url": "https://my.feishu.cn/docx/M17HduERpoFRljxpD3Oc0GUun3F",
+      "paths": [
+        "README.md",
+        "docs/curriculum.md"
+      ]
+    },
+    "e01": {
+      "title": "第1课：模型停下了，任务完成了吗？",
+      "document_id": "Ma82dcIpVoTg3jxLzM6c3Fohnkg",
+      "url": "https://my.feishu.cn/docx/Ma82dcIpVoTg3jxLzM6c3Fohnkg",
+      "paths": [
+        "course/e01_success/README.zh.md",
+        "course/e01_success/source_walkthrough.md",
+        "course/e01_success/exercises.md",
+        "course/e01_success/solutions.md"
+      ]
+    },
+    "e02": {
+      "title": "第2课：一次运行，一份样本",
+      "document_id": "RgNId78OAogm4IxaSeHclErenhd",
+      "url": "https://my.feishu.cn/docx/RgNId78OAogm4IxaSeHclErenhd",
+      "paths": [
+        "course/e02_samples/README.zh.md",
+        "course/e02_samples/source_walkthrough.md",
+        "course/e02_samples/exercises.md",
+        "course/e02_samples/solutions.md"
+      ]
+    },
+    "specification": {
+      "title": "课程目标与制作规范",
+      "document_id": "Gq7NdsDEWoOpd5xkxEFcDLJlnad",
+      "url": "https://my.feishu.cn/docx/Gq7NdsDEWoOpd5xkxEFcDLJlnad",
+      "paths": [
+        "docs/course-specification.md"
+      ]
+    }
+  }
+}

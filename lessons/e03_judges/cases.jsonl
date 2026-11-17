@@ -1,4 +1,0 @@
-{"id":"correct","response":"{\"result\":48}","artifact_verified":true,"expected_tools":["read_file","edit_file","bash","write_file"],"observed_tools":["read_file","edit_file","bash","write_file"],"semantic_expected":1}
-{"id":"paraphrase","response":"程序已运行，结果为四十八。","artifact_verified":true,"expected_tools":["read_file","edit_file","bash","write_file"],"observed_tools":["read_file","bash"],"semantic_expected":1}
-{"id":"wrong_number","response":"{\"result\":47}","artifact_verified":true,"expected_tools":["read_file","edit_file","bash","write_file"],"observed_tools":["read_file","edit_file","bash","write_file"],"semantic_expected":0}
-{"id":"false_completion","response":"{\"result\":48}","artifact_verified":false,"expected_tools":["read_file","edit_file","bash","write_file"],"observed_tools":[],"semantic_expected":0}

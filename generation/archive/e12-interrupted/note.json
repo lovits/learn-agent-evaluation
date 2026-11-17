@@ -1,6 +1,0 @@
-{
-  "scope": "Partial run interrupted during user pause; original session handle no longer exists, no Docker experiment container remained at resume",
-  "protocol_image": "sha256:7e6c4e17e1e2ac6365e2277fd5d428f1d2bce01a4f06b4ad6e3dc8218e4a6e32",
-  "completed": false,
-  "observation": "First saved full-context path has model transport errors; compact path was not saved as complete"
-}

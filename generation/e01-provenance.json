@@ -1,69 +1,30 @@
 {
-  "generator": "The-Pocket/PocketFlow-Tutorial-Codebase-Knowledge",
+  "generator": "PocketFlow-Tutorial-Codebase-Knowledge",
   "upstream_commit": "05b24cbbb0fe409c5e23c9791f0342f07524ffdc",
-  "backend": "local authenticated Codex CLI with tools disabled",
-  "actual_model_calls": 1,
-  "calls": [
-    {
-      "prompt_sha256": "6a8e4c2b3dab3ccd319016da7c5982dac3d0986f7bda93c814abda7ca26a05e7",
-      "response_sha256": "1112e2dda74bb84b0d766fec525fa9dfe568c37d567b40f28363c221d449abc1",
-      "elapsed_seconds": 88.675
-    }
-  ],
   "nodes_run": [
     "FetchRepo",
-    "BindLesson (fixed lesson adapter)",
+    "BindLesson",
     "WriteChapters",
     "CombineTutorial"
   ],
-  "not_run": [
-    "IdentifyAbstractions",
-    "AnalyzeRelationships",
-    "OrderChapters"
-  ],
-  "reason": "The sixteen-lesson outline and current lesson are already fixed.",
-  "input_manifest": [
+  "actual_model_calls": 1,
+  "calls": [
     {
-      "path": "eval_course/records.py",
-      "sha256": "940890c3876981a2273497e8d0d06da4a882d7e65cea6098f6217f87de498181"
-    },
-    {
-      "path": "eval_course/runtime.py",
-      "sha256": "63cc28b345581b9aab2a29692670223016f8610c9faeb3fb0715776b48f731b3"
-    },
-    {
-      "path": "references/textbook-writing-standard.md",
-      "sha256": "1d9d770890d6c45f4fbb1b48f4a7580db0aa78c59dd8e44c39aa1dab6e9ba27f"
-    },
-    {
-      "path": "references/versions.json",
-      "sha256": "f35ce08018471b936e81b559919d942122b025c9ffa1e5f43a62c858bb362375"
-    },
-    {
-      "path": "lessons/e01_agent_baseline/solutions.md",
-      "sha256": "9db973ba8c493f3c3d0aca3e21df1d36d49afa30c37df98880c0ae0e054c228a"
-    },
-    {
-      "path": "lessons/e01_agent_baseline/exercises.md",
-      "sha256": "74c4ed16c8ed513d497a81f89aca84969bd066b6a9a5a5b7228bb1df7cefb22b"
-    },
-    {
-      "path": "lessons/e01_agent_baseline/code.py",
-      "sha256": "749d5b37cffdb2220b76ec199837076faa51cf1ef97c9912ed55f7bc0e1b2ced"
-    },
-    {
-      "path": "lessons/e01_agent_baseline/cases.jsonl",
-      "sha256": "f4b0f8f3cadf28417270d5f6af72de7673854aabead09fedbc7d98c7c0d4afc9"
-    },
-    {
-      "path": "lessons/e01_agent_baseline/source_walkthrough.md",
-      "sha256": "88741f89a9a63f9fa05d0f9ef1c8f8e68b8b69472b17dee03a6560d2e737dc0f"
-    },
-    {
-      "path": "lessons/e01_agent_baseline/eval.py",
-      "sha256": "0a33a65fa6fd92cf30f4b3c9139c02779ee203801f758f1678d609511b022e9a"
+      "prompt_sha256": "9bfa5c577ff6aa52e515a8d359ef57487332e659700e8d4a242369080ebdffce",
+      "response_sha256": "1c475dcf06fd6c45cf4f00b1212055a805ea7034c2d818303bf37352d6397ea8",
+      "seconds": 73.83
     }
   ],
-  "brief_sha256": "06df51a3360a6901108855e07fa071ae046978d490c8ec8424fd99a761f89aa4",
-  "raw_output_directory": "generation/output/e01_agent_baseline"
+  "input_sha256": {
+    "eval_course/runtime.py": "f4236018e4dea094fe4573c48cb3cc03fdcf4d837dac8ff30190367c1dc86fa4",
+    "course/e01_success/README.zh.md": "8ed7c36600ba7e0ca1fbb7b9628d375ac22e6a696f2d1c53c5ff6985e85d4cbf",
+    "course/e01_success/solutions.md": "bf023d9a02634f9ed91d2aed5b715ee266d22108d4c7ba906b34bf870aaf7e58",
+    "course/e01_success/exercises.md": "1f8d54e4d4718e5f14d07becb7c989191ab397d7b8176f8ecc4722767b653fe5",
+    "course/e01_success/code.py": "04a1174e41f38c1f628668409c3c3fc7a093fb641272604c5b39b9370c85d301",
+    "course/e01_success/cases.jsonl": "1ecc414d89a87831e5455f7db777a6fa74236dcaae332efd2362f4d2502ca752",
+    "course/e01_success/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "course/e01_success/source_walkthrough.md": "6e1a4a49d733f9e2f4b6a5dc91828990e181104816af0c43a9238f134de0728a",
+    "course/e01_success/eval.py": "7de6d8c99cc287d81fedfcd0f3cdb1e0ee9f0b34347e9cd51b52f551a214ab79"
+  },
+  "note": "Raw draft is reviewed and condensed; final textbook is in course/. The agreed outline is not model-reordered."
 }

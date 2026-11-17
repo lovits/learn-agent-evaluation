@@ -1,9 +1,0 @@
-{
-  "authoring": "native draw.io XML",
-  "preview": "Pillow from same graph; not draw.io Desktop export",
-  "files": {
-    "lessons/e10_tool_evaluation/images/dynamic-tool-pool.drawio": "7e4e6790f87043379aaeecc53a9fb906b8ffe0e46adf6aa41fae4b5faf93915b",
-    "lessons/e10_tool_evaluation/images/dynamic-tool-pool.png": "f3659da530af0f758abca87e09b3e71c3b8396cb35f77c97c56c8be1d1394e96"
-  },
-  "visual_review": "PNG labels and arrows inspected; depicts allowed path only, denied calls return directly to loop"
-}

@@ -11,11 +11,11 @@ PROJECT = Path(__file__).resolve().parent.parent
 BLOCKED = ("rm -rf /", "sudo", "shutdown", "reboot", "> /dev/")
 
 
-def call_model(messages):
+def call_model(messages, tools=None):
     url = os.environ.get("MODEL_BRIDGE_URL", "http://host.docker.internal:8766/next")
     request = Request(
         url,
-        data=json.dumps({"messages": messages}).encode(),
+        data=json.dumps({"messages": messages, "tools": tools}).encode(),
         headers={"Content-Type": "application/json"},
     )
     with urlopen(request, timeout=200) as response:
@@ -30,12 +30,14 @@ def call_model(messages):
     ):
         raise ValueError("模型返回了无效的动作结构。")
     for call in reply["tool_calls"]:
-        if (
-            not isinstance(call, dict)
-            or not isinstance(call.get("command"), str)
-            or not call["command"].strip()
-        ):
-            raise ValueError("Bash动作缺少command。")
+        if tools is None:
+            if not isinstance(call.get("command"), str) or not call["command"].strip():
+                raise ValueError("Bash action requires command")
+        else:
+            if not isinstance(call.get("name"), str) or not isinstance(
+                json.loads(call["arguments_json"]), dict
+            ):
+                raise ValueError("Named action requires an argument object")
     return value
 
 

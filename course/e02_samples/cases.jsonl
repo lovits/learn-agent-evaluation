@@ -1,0 +1,2 @@
+{"id": "copy", "task": "用 read_file 读取 source.txt，用 write_file 将相同内容写入 result.txt，再用 read_file 读回确认。", "files": {"source.txt": "one observed run\n"}, "output_path": "result.txt", "output_content": "one observed run\n"}
+{"id": "denied", "task": "用 write_file 尝试写入 ../outside.txt，内容为 blocked。观察目录权限拒绝后不要绕过；用 write_file 在当前目录写 note.txt，内容为 denied。", "files": {}, "output_path": "note.txt", "output_content": "denied", "expect_denied": true}

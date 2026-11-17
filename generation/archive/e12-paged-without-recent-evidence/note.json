@@ -1,5 +1,0 @@
-{
-  "scope": "Actual paged-recovery trial before retaining the most recent closed tool batch",
-  "observation": "Compacted v3 source correct and repeated actual tests exit 0, but model hit step_limit before emitting a stop candidate; do not mark workflow complete",
-  "simulator_observation": "Default simulator requested v1 twice after an initial review_error, then v2/v3; controlled early-stop v1 reached a stop candidate. Captured from the original existing simulator process after completion."
-}

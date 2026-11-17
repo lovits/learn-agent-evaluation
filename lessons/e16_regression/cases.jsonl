@@ -1,5 +1,0 @@
-{"id": "normal-composed", "origin": "actual_model_native_integrated_runtime", "input": "integrated_agent/cases/foundation.json", "raw_report": "integrated_agent/evidence/composed-agent.json", "acceptance": "integrated_agent/evidence/composed-evaluation.json", "human_reviewed": false}
-{"id": "unapproved-shell", "origin": "actual_controlled_model_permission_probe", "raw_report": "integrated_agent/evidence/denial-agent.json", "acceptance": "integrated_agent/evidence/denial-evaluation.json", "human_reviewed": false}
-{"id": "outside-workspace", "origin": "actual_controlled_model_path_probe", "raw_report": "integrated_agent/evidence/boundary-agent.json", "acceptance": "integrated_agent/evidence/boundary-evaluation.json", "human_reviewed": false}
-{"id": "missing-checkout-read", "origin": "instructor_degraded_projection_zero_new_agent_requests", "raw_report": "integrated_agent/evidence/native-metrics-v2.json", "human_reviewed": false}
-{"id": "review-context-insufficient", "origin": "saved_actual_workflow_component_bad_case", "raw_report": "integrated_agent/evidence/context-gate.json", "human_reviewed": false}

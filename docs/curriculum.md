@@ -37,7 +37,7 @@ Agent 接到任务，读文件、查资料、调用工具，最后给出回答�
 
 **学会的标志**：能顺着任务、动作、工具结果、文件和评分说明：为什么一次停止可以失败。
 
-[教材](../lessons/e01_agent_baseline/README.zh.md) · [源码导读](../lessons/e01_agent_baseline/source_walkthrough.md)
+[教材](../course/e01_success/README.zh.md) · [源码导读](../course/e01_success/source_walkthrough.md)
 
 ## 02 保存一次运行
 
@@ -62,6 +62,8 @@ Agent 接到任务，读文件、查资料、调用工具，最后给出回答�
 **动手理解**：让同一任务产生一次合法写入和一次越界拒绝，核对两套样本是否仍指向同一轮运行。
 
 **学会的标志**：能从评分样本追回真实动作，分清没有调用、被拒绝和执行失败。
+
+[教材](../course/e02_samples/README.zh.md) · [源码导读](../course/e02_samples/source_walkthrough.md)
 
 ## 03 准备评测数据
 

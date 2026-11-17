@@ -1,6 +1,6 @@
 {
   "outline_version": 3,
-  "review": "第11课依据 PocketFlow 实际草稿凝练；修正 should_exact_match 被写成模型判断开关、ArgumentCorrectness 被误认为参考匹配，以及用原始调用次数代入去重集合 F1 的概括。核对加权 LCS、部分参数权重、空调用不适用、工具执行失败与合法替代路径；保留回顾性参数裁判的证据范围。",
+  "review": "第12课依据 PocketFlow 两次实际草稿组织并凝练。移除房屋、快递类比和重复小结，保留真实程序行为与输入副作用。明确程序契约只覆盖可执行条件，说明义务另由语义裁判判断；修正原草稿将程序契约通过写成全部任务完成的概括。保留固定版本无trace兼容路径与官方tracing推荐的区别，不伪造span。终稿澄清源码导读和流程图中的覆盖边界，生成时输入哈希保持原样，发布文件另记最终哈希。",
   "published_sha256": {
     "course/run.py": "d4f0b75ebfc46cf0eeb897dfbe4c4b22db0626231aac9d72f30093a9caa2cb1c",
     "course/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
@@ -171,7 +171,7 @@
     "course/e10_rag_diagnosis/images/pipeline-flow.drawio": "14706f3a8089e55234c9fb0fb556b970e58f701dbee134c9c876d7ef30420843",
     "course/e10_rag_diagnosis/images/diagnosis-flow.png": "a1eb9dc7be0efd2a2511617437dfb4c615ad85581fbafa26e9d95f0bafea4131",
     "course/e10_rag_diagnosis/images/diagnosis-flow.drawio.svg": "25f4059ce1ab14a8c4d4346cd598db3e4342380ba212c2274fb7df6c278c4629",
-    "course/e11_tool_quality/README.zh.md": "408ae6158d1ef2c7dc0445bdb6d50bb08ee560e0c9500dfaf2bb9cbc57f4e7d3",
+    "course/e11_tool_quality/README.zh.md": "94e63893b1e83a102f2b3fb95fd78bfd15a179fd3f58250496d29cb9a027bd0a",
     "course/e11_tool_quality/solutions.md": "49bec1104edfc94eaf4e0a20d819a54856b9e4a679c09b7c1864d90083001d16",
     "course/e11_tool_quality/assessment.json": "4f2de0579256a92d05087b553106eb3ae51ab0bde213f8af105028367d8e16a0",
     "course/e11_tool_quality/exercises.md": "e9a42aacb0499d69a3b6f2a70603250eae1aa747536c8d64a51184ef4a84859c",
@@ -186,7 +186,23 @@
     "course/e11_tool_quality/images/tool-flow.drawio.svg": "bbb9e7410f5e1f98f727e23584420c5eebdb9f9b2325dea216552e21c6166d43",
     "course/e11_tool_quality/images/scoring-flow.drawio": "69e7ea9cb58e32c4df17fe5236405d9a0aa341f19ffcacf1f0c7d7413f809aa8",
     "course/e11_tool_quality/images/scoring-flow.png": "d03cf1dbb92cbaa1502b03209eef6cf6620a4f3829bd3b8e7eb76f4b0c14b2a5",
-    "course/e11_tool_quality/assessment.md": "732ad84c398d41187fcb0f7f9d26802ec25dd416d0783161b5c1691b9310402f"
+    "course/e11_tool_quality/assessment.md": "732ad84c398d41187fcb0f7f9d26802ec25dd416d0783161b5c1691b9310402f",
+    "course/e12_task_completion/README.zh.md": "63c64d34702b2d05af8d2dff1ce93f8a41cd06a84e0159f427f7c683e9bcddb9",
+    "course/e12_task_completion/solutions.md": "2ab67f7694af5c4c637615b430102b101e8f6f7acca82ed6b6bcbf20d65a548e",
+    "course/e12_task_completion/exercises.md": "54d8b18117a672f50b151adb280a694ca4081a0f79566ae28c143acc34697261",
+    "course/e12_task_completion/code.py": "8c30e7ad872fc8266ba498497ee81d63a362cd5fd73bf66b83d87b02bd52a62b",
+    "course/e12_task_completion/cases.jsonl": "22c5f67a362c4e886d645dc4741cab2d9be5ca13b8da3882dbb95ecae125e80c",
+    "course/e12_task_completion/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "course/e12_task_completion/source_walkthrough.md": "54b5ceb74218f5a153b6aa3ac564458c760bead3b183045517f1cd3dac118c94",
+    "course/e12_task_completion/eval.py": "d3996fa307626071245edfa4d2a52bf8bcfadde858065bd57b47eb929a18bd29",
+    "course/e12_task_completion/images/delivery-flow.drawio.svg": "ce36c367700e935454d18ec8259a7d24759b820ec63f6df353391f26f2f6c822",
+    "course/e12_task_completion/images/completion-flow.png": "de37f6a1224ed07a1caf24f2ec8216ebaef727a5a02642c0af4582bdaad3eb05",
+    "course/e12_task_completion/images/delivery-flow.png": "cc340ef8bd9f50997021944f786986feaf3b07f36083077611d190892f61b84b",
+    "course/e12_task_completion/images/completion-flow.drawio": "345f04ac6d6b63c3a6059df5eeb5e45a7ec797dcb2035a782b2f0302386423ea",
+    "course/e12_task_completion/images/completion-flow.drawio.svg": "a7f65affc85a1a8ba898f2f7613f84166d953358cb87b5eb98544e1958b38ce2",
+    "course/e12_task_completion/images/delivery-flow.drawio": "1504081c45e8a63c2d77ecf87a2e2d230c45b003eed10e610b946910b16859f9",
+    "course/e12_task_completion/assessment.json": "96a3689b1e72c976e8312de2384c9c3d4c02b25c18d2d504c38857cecef24474",
+    "course/e12_task_completion/assessment.md": "d93a21a19cd09b4f45d77832e8644e0c9eb38e02c5f1a5363e97128cf562c16f"
   },
   "provenance": [
     "generation/e01-provenance.json",
@@ -199,7 +215,8 @@
     "generation/e08-provenance.json",
     "generation/e09-provenance.json",
     "generation/e10-provenance.json",
-    "generation/e11-provenance.json"
+    "generation/e11-provenance.json",
+    "generation/e12-provenance.json"
   ],
   "runtime_evidence": "generation/runtime-evidence.json",
   "figures": "references/figures.json"

@@ -1,6 +1,6 @@
 # e11: 工具名选对了，事情做对了吗？
 
-[e10](../e10_rag_diagnosis/README.zh.md) → `e11` → [e12](../../docs/curriculum.md#12-任务完成度) → … → e16
+[e10](../e10_rag_diagnosis/README.zh.md) → `e11` → [e12](../e12_task_completion/README.zh.md) → … → e16
 
 > 分开看名字、参数、顺序和执行结果。
 

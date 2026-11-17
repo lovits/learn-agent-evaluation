@@ -324,6 +324,8 @@ Agent 接到任务，读文件、查资料、调用工具，最后给出回答�
 
 **学会的标志**：能给自己的业务写可检查的成功条件，并交代程序检查和模型判断各自的局限。
 
+[教材](../course/e12_task_completion/README.zh.md) · [源码导读](../course/e12_task_completion/source_walkthrough.md)
+
 ## 13 会话上下文与约束保持
 
 用户改了要求以后，Agent 还记得哪一版？

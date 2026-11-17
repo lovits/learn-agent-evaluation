@@ -1,0 +1,33 @@
+{
+  "generator": "PocketFlow-Tutorial-Codebase-Knowledge",
+  "upstream_commit": "05b24cbbb0fe409c5e23c9791f0342f07524ffdc",
+  "nodes_run": [
+    "FetchRepo",
+    "BindLesson",
+    "WriteChapters",
+    "CombineTutorial"
+  ],
+  "actual_model_calls": 1,
+  "calls": [
+    {
+      "prompt_sha256": "349ea5ee31bc5c044ad283f5c19945691798388da58f65e3463d7b3d6df963e7",
+      "response_sha256": "45e89abc9e25f07cdccc048b2c3d3385f3a981b2e9d9c7fbc52663a40f4cdcdc",
+      "seconds": 73.7
+    }
+  ],
+  "input_sha256": {
+    "eval_course/runtime.py": "f4236018e4dea094fe4573c48cb3cc03fdcf4d837dac8ff30190367c1dc86fa4",
+    "course/e12_task_completion/solutions.md": "2ab67f7694af5c4c637615b430102b101e8f6f7acca82ed6b6bcbf20d65a548e",
+    "course/e12_task_completion/exercises.md": "54d8b18117a672f50b151adb280a694ca4081a0f79566ae28c143acc34697261",
+    "course/e12_task_completion/code.py": "8c30e7ad872fc8266ba498497ee81d63a362cd5fd73bf66b83d87b02bd52a62b",
+    "course/e12_task_completion/cases.jsonl": "22c5f67a362c4e886d645dc4741cab2d9be5ca13b8da3882dbb95ecae125e80c",
+    "course/e12_task_completion/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "course/e12_task_completion/source_walkthrough.md": "8a7be1b07086b00881f0d3b9f7713af16db3dbbccb3b6caf015629040cbb3845",
+    "course/e12_task_completion/eval.py": "d3996fa307626071245edfa4d2a52bf8bcfadde858065bd57b47eb929a18bd29",
+    "course/e12_task_completion/images/delivery-flow.drawio.svg": "ce36c367700e935454d18ec8259a7d24759b820ec63f6df353391f26f2f6c822",
+    "course/e12_task_completion/images/completion-flow.drawio": "a619ee8f83fc32dbc9eb11d5e334dad5accab0fc3da80de8eb75cf986988729b",
+    "course/e12_task_completion/images/completion-flow.drawio.svg": "4d810ce8fc6939baf18060e44ed7b58865bdad09b6348704d91cacd0de2a359e",
+    "course/e12_task_completion/images/delivery-flow.drawio": "1504081c45e8a63c2d77ecf87a2e2d230c45b003eed10e610b946910b16859f9"
+  },
+  "note": "Raw draft is reviewed and condensed; final textbook is in course/. The agreed outline is not model-reordered."
+}

@@ -406,5 +406,41 @@
     "visual_review": "passed",
     "node_font_size": 16,
     "edge_font_size": 13
+  },
+  {
+    "name": "e12-delivery-flow",
+    "slug": "e12_task_completion",
+    "title": "第12课：声明、轨迹与实际产物",
+    "diagram_type": "flowchart",
+    "generator": "draw.io",
+    "candidate": "course/e12_task_completion/images/delivery-flow.drawio",
+    "output": "course/e12_task_completion/images/delivery-flow.drawio.svg",
+    "png": "course/e12_task_completion/images/delivery-flow.png",
+    "readme_preview": "course/e12_task_completion/images/delivery-flow.png",
+    "preview_url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e12-delivery-flow.png",
+    "url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e12-delivery-flow.svg",
+    "artifact_sha256": "ce36c367700e935454d18ec8259a7d24759b820ec63f6df353391f26f2f6c822",
+    "png_sha256": "cc340ef8bd9f50997021944f786986feaf3b07f36083077611d190892f61b84b",
+    "visual_review": "passed",
+    "node_font_size": 16,
+    "edge_font_size": 13
+  },
+  {
+    "name": "e12-completion-flow",
+    "slug": "e12_task_completion",
+    "title": "第12课：交付条件与语义完成度",
+    "diagram_type": "flowchart",
+    "generator": "draw.io",
+    "candidate": "course/e12_task_completion/images/completion-flow.drawio",
+    "output": "course/e12_task_completion/images/completion-flow.drawio.svg",
+    "png": "course/e12_task_completion/images/completion-flow.png",
+    "readme_preview": "course/e12_task_completion/images/completion-flow.png",
+    "preview_url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e12-completion-flow.png",
+    "url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e12-completion-flow.svg",
+    "artifact_sha256": "a7f65affc85a1a8ba898f2f7613f84166d953358cb87b5eb98544e1958b38ce2",
+    "png_sha256": "de37f6a1224ed07a1caf24f2ec8216ebaef727a5a02642c0af4582bdaad3eb05",
+    "visual_review": "passed",
+    "node_font_size": 16,
+    "edge_font_size": 13
   }
 ]

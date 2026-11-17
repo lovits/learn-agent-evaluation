@@ -19,7 +19,7 @@
 | 09 | [答案质量](course/e09_answer_quality/README.zh.md) | 忠于资料，为什么仍可能没有回答好问题？ |
 | 10 | [上下文干扰与故障定位](course/e10_rag_diagnosis/README.zh.md) | 答案错了，应该先改资料、检索还是生成？ |
 | 11 | [工具调用质量](course/e11_tool_quality/README.zh.md) | 名字选对了，工具就用对了吗？ |
-| 12 | [任务完成度](docs/curriculum.md#12-任务完成度) | 怎样确认 Agent 真的交付了用户要的结果？ |
+| 12 | [任务完成度](course/e12_task_completion/README.zh.md) | 怎样确认 Agent 真的交付了用户要的结果？ |
 | 13 | [会话上下文与约束保持](docs/curriculum.md#13-会话上下文与约束保持) | 用户改了要求以后，Agent 还记得哪一版？ |
 | 14 | [校准 LLM 裁判](docs/curriculum.md#14-校准-llm-裁判) | 评分器自己的判断可信吗？ |
 | 15 | [比较两个版本](docs/curriculum.md#15-比较两个版本) | 分数变高，怎样判断改动真的有用？ |

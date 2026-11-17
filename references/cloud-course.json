@@ -15,7 +15,7 @@
         "README.md",
         "docs/curriculum.md"
       ],
-      "verified_revision": 27
+      "verified_revision": 28
     },
     "e01": {
       "title": "第1课：模型停下了，任务完成了吗？",
@@ -264,7 +264,28 @@
         "course/e11_tool_quality/exercises.md",
         "course/e11_tool_quality/solutions.md"
       ],
-      "verified_revision": 5
+      "verified_revision": 6
+    },
+    "assessment12": {
+      "title": "第12课：样本与评测记录",
+      "document_id": "PngpdBCIUo33Gpx1EAGcZqkfn2b",
+      "url": "https://my.feishu.cn/docx/PngpdBCIUo33Gpx1EAGcZqkfn2b",
+      "paths": [
+        "course/e12_task_completion/assessment.md"
+      ],
+      "verified_revision": 3
+    },
+    "e12": {
+      "title": "第12课：任务完成度",
+      "document_id": "VazbdjUQ6oL8GSxbq9dci9Gqndf",
+      "url": "https://my.feishu.cn/docx/VazbdjUQ6oL8GSxbq9dci9Gqndf",
+      "paths": [
+        "course/e12_task_completion/README.zh.md",
+        "course/e12_task_completion/source_walkthrough.md",
+        "course/e12_task_completion/exercises.md",
+        "course/e12_task_completion/solutions.md"
+      ],
+      "verified_revision": 6
     }
   }
 }

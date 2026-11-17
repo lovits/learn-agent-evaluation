@@ -452,16 +452,19 @@
       ],
       "activity": "让输出文字相同的两次运行产生不同文件结果，对照外部规则与语义裁判。",
       "understanding": "能给自己的业务写可检查的成功条件，并交代程序检查和模型判断各自的局限。",
-      "textbook": null,
-      "source_walkthrough": null,
+      "textbook": "course/e12_task_completion/README.zh.md",
+      "source_walkthrough": "course/e12_task_completion/source_walkthrough.md",
       "outline_anchor": "12-任务完成度",
-      "implementation": "planned",
+      "implementation": "ready",
       "source_paths": [
         "deepeval/deepeval/metrics/base_metric.py",
         "deepeval/deepeval/metrics/task_completion/task_completion.py",
+        "deepeval/deepeval/metrics/task_completion/schema.py",
+        "deepeval/deepeval/metrics/task_completion/templates/extract_goal_and_outcome.txt",
+        "deepeval/deepeval/metrics/task_completion/templates/generate_verdict.txt",
         "ragas/src/ragas/metrics/collections/agent_goal_accuracy/metric.py",
-        "ragas/src/ragas/metrics/collections/base.py",
-        "learn-claude-code/s17_goal_loop/code.py"
+        "ragas/src/ragas/metrics/collections/agent_goal_accuracy/util.py",
+        "ragas/src/ragas/metrics/collections/base.py"
       ],
       "readings": [
         "https://deepeval.com/docs/metrics-task-completion",

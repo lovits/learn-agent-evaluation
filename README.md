@@ -27,30 +27,23 @@
 
 [完整大纲](docs/curriculum.md)
 
-## 每课学什么，代码在哪里
+## 能学到哪些知识点与原理
 
-每课只展开一个核心问题。按“教材 → 本课代码 → 评分代码 → 源码导读”阅读；源码导读解释本课调用链，并给出 Learn Claude Code、DeepEval、Ragas 的相关依据。Ragas 用来理解评测原理，实际框架接入统一使用 DeepEval。
-
-`code.py` 是本课机制或实验的主入口，`eval.py` 保存评分或证据检查逻辑。只有前两课直接实现 Agent 循环；后续按需要复用，避免重复贴一套 Agent。
-
-| 课 | 知识点与学完能做什么 | 教材 | 本课代码 | 评分代码 | 源码导读 |
-|---|---|---|---|---|---|
-| 01 · 定义成功 | Agent 的模型—Bash 循环；停止条件；运行证据；独立检查文件与输出。学会把“任务完成”写成可检查的条件。 | [教材](course/e01_success/README.zh.md) | [code.py](course/e01_success/code.py) | [eval.py](course/e01_success/eval.py) | [导读](course/e01_success/source_walkthrough.md) |
-| 02 · 保存一次运行 | 具名工具与分发；文件权限边界；消息与动作轨迹；DeepEval 样本字段。学会把一次运行整理成可评测的证据。 | [教材](course/e02_samples/README.zh.md) | [code.py](course/e02_samples/code.py) | [eval.py](course/e02_samples/eval.py) | [导读](course/e02_samples/source_walkthrough.md) |
-| 03 · 准备评测数据 | 候选题生成与人工审核；来源与参考答案；去重、能力覆盖；开发集与留出集。学会构建数据集并避免题目泄漏。 | [教材](course/e03_datasets/README.zh.md) | [code.py](course/e03_datasets/code.py) | [eval.py](course/e03_datasets/eval.py) | [导读](course/e03_datasets/source_walkthrough.md) |
-| 04 · 给样本评分 | 规则评分与 G-Eval；评价量表、阈值与评分理由；异常和缺失分数。学会为不同问题选择评分方法。 | [教材](course/e04_scoring/README.zh.md) | [code.py](course/e04_scoring/code.py) | [eval.py](course/e04_scoring/eval.py) | [导读](course/e04_scoring/source_walkthrough.md) |
-| 05 · 接通知识库 | TinyRAG 的分块、向量检索与工具接入；只读知识库；来源版本；候选片段与实际上下文。学会追踪模型究竟看到了什么。 | [教材](course/e05_knowledge_context/README.zh.md) | [code.py](course/e05_knowledge_context/code.py) | [eval.py](course/e05_knowledge_context/eval.py) | [导读](course/e05_knowledge_context/source_walkthrough.md) |
-| 06 · 上下文相关性与排序 | 上下文相关性；Precision、AP、倒数排名与 NDCG；DeepEval 的上下文指标。学会区分“资料相关”和“相关资料排在前面”。 | [教材](course/e06_context_precision/README.zh.md) | [code.py](course/e06_context_precision/code.py) | [eval.py](course/e06_context_precision/eval.py) | [导读](course/e06_context_precision/source_walkthrough.md) |
-| 07 · 上下文覆盖与召回 | 必要事实与参考答案；证据覆盖；上下文召回与归因；缺失资料。学会发现相关资料中仍然漏掉的必要信息。 | [教材](course/e07_context_recall/README.zh.md) | [code.py](course/e07_context_recall/code.py) | [eval.py](course/e07_context_recall/eval.py) | [导读](course/e07_context_recall/source_walkthrough.md) |
-| 08 · 回答对上下文的忠实度 | 回答声明拆分；逐条证据支持；不支持与模糊判断；忠实度聚合。学会判断回答中的事实有没有资料依据。 | [教材](course/e08_faithfulness/README.zh.md) | [code.py](course/e08_faithfulness/code.py) | [eval.py](course/e08_faithfulness/eval.py) | [导读](course/e08_faithfulness/source_walkthrough.md) |
-| 09 · 答案质量 | 回答相关性；事实精度、召回与 F 分数；任务量表；正确性与完整性。学会区分有依据的回答和真正答好问题的回答。 | [教材](course/e09_answer_quality/README.zh.md) | [code.py](course/e09_answer_quality/code.py) | [eval.py](course/e09_answer_quality/eval.py) | [导读](course/e09_answer_quality/source_walkthrough.md) |
-| 10 · 上下文干扰与故障定位 | 资料、检索、上下文组装与生成的边界；干扰片段；单变量对照。学会沿证据链定位 RAG 失败的环节。 | [教材](course/e10_rag_diagnosis/README.zh.md) | [code.py](course/e10_rag_diagnosis/code.py) | [eval.py](course/e10_rag_diagnosis/eval.py) | [导读](course/e10_rag_diagnosis/source_walkthrough.md) |
-| 11 · 工具调用质量 | 工具名、参数、顺序与调用结果；参考轨迹；ToolCorrectness 与 ArgumentCorrectness。学会解释工具调用究竟错在哪里。 | [教材](course/e11_tool_quality/README.zh.md) | [code.py](course/e11_tool_quality/code.py) | [eval.py](course/e11_tool_quality/eval.py) | [导读](course/e11_tool_quality/source_walkthrough.md) |
-| 12 · 任务完成度 | 业务交付条件；文件产物与行为检查；过程证据；TaskCompletion。学会独立核对 Agent 是否真正完成任务。 | [教材](course/e12_task_completion/README.zh.md) | [code.py](course/e12_task_completion/code.py) | [eval.py](course/e12_task_completion/eval.py) | [导读](course/e12_task_completion/source_walkthrough.md) |
-| 13 · 会话上下文与约束保持 | 原始历史与实际模型输入；新增、覆盖和撤销约束；知识保持与会话完整性。学会判断 Agent 是否遵守用户当前的要求。 | [教材](course/e13_conversation/README.zh.md) | [code.py](course/e13_conversation/code.py) | [eval.py](course/e13_conversation/eval.py) | [导读](course/e13_conversation/source_walkthrough.md) |
-| 14 · 校准 LLM 裁判 | 人工参考标签；误判与分歧；阈值校准；等价表达、位置变化与裁判指令干扰。学会检查评分器本身是否可信。 | [教材](course/e14_judge_calibration/README.zh.md) | [code.py](course/e14_judge_calibration/code.py) | [eval.py](course/e14_judge_calibration/eval.py) | [导读](course/e14_judge_calibration/source_walkthrough.md) |
-| 15 · 比较两个版本 | 同题配对；单变量改动；重复运行与题族重采样；质量、用量与成本。学会判断分数差异是否足以支持改进结论。 | [教材](course/e15_version_comparison/README.zh.md) | [code.py](course/e15_version_comparison/code.py) | [eval.py](course/e15_version_comparison/eval.py) | [导读](course/e15_version_comparison/source_walkthrough.md) |
-| 16 · 综合项目与持续回归 | 组合 Agent、TinyRAG 与评分器；失败复核与回归集；关键条件与缺失证据；持续回归。学会把一次修复变成可持续检查的评测链。 | [教材](course/e16_regression/README.zh.md) | [code.py](course/e16_regression/code.py) | [eval.py](course/e16_regression/eval.py) | [导读](course/e16_regression/source_walkthrough.md) |
+- **Agent 的工作原理**：模型、工具与执行结果怎样组成循环；停止条件、权限边界和运行轨迹各自解决什么问题。
+- **评测的基本组成**：任务目标、成功条件、运行证据、参考答案与评分标准之间的关系；过程质量和最终结果为什么要分别判断。
+- **评测样本与数据集**：单次运行如何表示为评测样本；题目来源、人工审核、去重与能力覆盖；开发集、留出集和数据泄漏。
+- **规则评分与 LLM 裁判**：确定性检查与语义判断的适用范围；G-Eval 的评价步骤、量表、阈值和评分理由；异常与缺失分数的含义。
+- **RAG 与上下文构建**：文档分块、向量检索和上下文组装的基本过程；检索候选与模型实际看到的资料有什么区别；如何保留来源和版本。
+- **上下文相关性与排序**：Precision、AP、倒数排名和 NDCG 的计算思路；相关资料的数量与排列位置如何影响检索质量。
+- **上下文覆盖与召回**：必要事实、参考答案与证据归因；如何判断资料是否足以覆盖问题，以及精度与召回各自关注什么。
+- **回答忠实度**：将回答拆成事实声明，逐条核对上下文支持，再聚合评分；忠实度与事实正确性的区别。
+- **答案质量**：回答相关性、事实精度、事实召回、F 分数与完整性；为什么有依据的回答仍可能没有答好问题。
+- **RAG 故障定位**：资料缺失、检索遗漏、上下文组装和生成错误的区别；通过干扰样本与单变量对照追踪失败原因。
+- **工具调用与任务完成度**：工具选择、参数、顺序和执行结果的评价方法；如何结合业务条件、文件产物与行为证据判断任务是否完成。
+- **多轮会话评测**：历史消息与实际模型输入的区别；用户约束如何新增、覆盖和撤销；知识保持与会话完整性的评价思路。
+- **LLM 裁判校准**：人工参考标签、误判、分歧与阈值；等价表达、位置变化和指令干扰如何影响裁判判断。
+- **版本比较与持续回归**：同题配对、重复运行、题族重采样和不确定性；如何同时考虑质量与成本，并将复核后的失败样本纳入回归集。
+- **DeepEval 与 Ragas 的指标原理**：从文档和关键源码理解样本字段、证据提取、逐项判断与分数聚合；实际评测统一接入 DeepEval，借 Ragas 对照理解指标定义与适用边界。
 
 ## 仓库结构
 

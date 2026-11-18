@@ -100,8 +100,8 @@ def test_new_course_pages_and_source_boundary():
             for diagram in lesson_diagrams:
                 assert f'src="/image?path={diagram["readme_preview"]}"' in body
                 with urlopen(base + "/image?path=" + diagram["readme_preview"]) as response:
-                    assert response.headers.get_content_type() == "image/png"
-                    assert response.read(8) == b"\x89PNG\r\n\x1a\n"
+                    assert response.headers.get_content_type() == "image/svg+xml"
+                    assert b"<svg" in response.read(300)
         for path in [
             "/code",
             "/code?path=../../.env",

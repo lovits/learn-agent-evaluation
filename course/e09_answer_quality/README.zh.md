@@ -14,11 +14,11 @@
 
 固定问题与参考，构造离题、错误、漏项和完整回答。再固定回答、减少可见资料，比较无依据猜答与合理拒答。各维度分别保留，不直接平均成一个总分。
 
-![分别用问题、参考和可见资料检查答案质量](https://lovits.github.io/learn-agent-evaluation/diagrams/e09-quality-flow.png)
+![分别用问题、参考和可见资料检查答案质量](https://lovits.github.io/learn-agent-evaluation/diagrams/e09-quality-flow.svg?v=887a9758d882)
 
 切题性使用 DeepEval 原生指标；事实 ID 标签展开正确与遗漏的算式；G-Eval 则依据本课明确的任务标准，综合判断是否恰当地回答或拒答。
 
-![G-Eval 根据证据充分程度判断回答或拒答](https://lovits.github.io/learn-agent-evaluation/diagrams/e09-scoring-flow.png)
+![G-Eval 根据证据充分程度判断回答或拒答](https://lovits.github.io/learn-agent-evaluation/diagrams/e09-scoring-flow.svg?v=ff82d0d79651)
 
 ## 工作原理
 

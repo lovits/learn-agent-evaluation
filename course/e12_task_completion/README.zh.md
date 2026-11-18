@@ -14,11 +14,11 @@ Agent 要修复一个金额函数：每项单价乘数量，再求和。它写�
 
 Agent 继续使用已有循环和工具。运行结束后，评分端读取文件，调用函数检查业务行为，再核对保护条件。
 
-![完成声明、工具轨迹与实际产物分别保留](https://lovits.github.io/learn-agent-evaluation/diagrams/e12-delivery-flow.png)
+![完成声明、工具轨迹与实际产物分别保留](https://lovits.github.io/learn-agent-evaluation/diagrams/e12-delivery-flow.svg?v=9e0dcb543d86)
 
 可执行的条件交给自定义 DeepEval 指标，Task Completion 补充语义判断。两种结果各自保留。
 
-![独立业务条件与语义完成度分别判断](https://lovits.github.io/learn-agent-evaluation/diagrams/e12-completion-flow.png)
+![独立业务条件与语义完成度分别判断](https://lovits.github.io/learn-agent-evaluation/diagrams/e12-completion-flow.svg?v=526a1d6a53fe)
 
 ## 工作原理
 

@@ -16,11 +16,11 @@
 
 给动作起名字，并把参数和执行结果留在同一条事件中。
 
-![模型与工具之间的循环](https://lovits.github.io/learn-agent-evaluation/diagrams/e02-agent-loop.png)
+![模型与工具之间的循环](https://lovits.github.io/learn-agent-evaluation/diagrams/e02-agent-loop.svg?v=7009ab402637)
 
 评分时就能从样本追回实际执行。
 
-![运行记录、产物与独立评分](https://lovits.github.io/learn-agent-evaluation/diagrams/e02-evaluation-path.png)
+![运行记录、产物与独立评分](https://lovits.github.io/learn-agent-evaluation/diagrams/e02-evaluation-path.svg?v=88f185703e0b)
 
 ## 工作原理
 

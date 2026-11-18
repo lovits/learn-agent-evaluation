@@ -16,11 +16,11 @@
 
 复用第 5 课的真实回答和当时交给模型的资料。DeepEval 先从资料抽取 truths、从回答抽取 claims，再逐声明判定。中间结果随分数一起保存。
 
-![从实际上下文与回答分别抽取事实和声明，再逐条判断](https://lovits.github.io/learn-agent-evaluation/diagrams/e08-claim-flow.png)
+![从实际上下文与回答分别抽取事实和声明，再逐条判断](https://lovits.github.io/learn-agent-evaluation/diagrams/e08-claim-flow.svg?v=a4893fd286ab)
 
 判定之后还要核对聚合口径。同一批裁决可以分别计算默认比例和明确支持比例，整个过程不需要再次调用裁判。
 
-![检查声明与裁决数量，再按两种口径聚合](https://lovits.github.io/learn-agent-evaluation/diagrams/e08-scoring-flow.png)
+![检查声明与裁决数量，再按两种口径聚合](https://lovits.github.io/learn-agent-evaluation/diagrams/e08-scoring-flow.svg?v=1d116c6691d1)
 
 ## 工作原理
 

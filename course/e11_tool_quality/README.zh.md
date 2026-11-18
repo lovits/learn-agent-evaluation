@@ -16,11 +16,11 @@
 
 复用第 2 课的循环和三个具名工具，保留每次调用的 name、arguments、result。构造少量调用轨迹，实际执行，再与参考比较。
 
-![具名调用经过校验与分发，状态和输出进入事件记录](https://lovits.github.io/learn-agent-evaluation/diagrams/e11-tool-flow.png)
+![具名调用经过校验与分发，状态和输出进入事件记录](https://lovits.github.io/learn-agent-evaluation/diagrams/e11-tool-flow.svg?v=8022eba4fe33)
 
 同一条轨迹分别按名称、参数、顺序和输出检查。需要语义判断时，再使用 DeepEval 的 Argument Correctness。
 
-![参考匹配与参数语义裁判分别保留结果](https://lovits.github.io/learn-agent-evaluation/diagrams/e11-scoring-flow.png)
+![参考匹配与参数语义裁判分别保留结果](https://lovits.github.io/learn-agent-evaluation/diagrams/e11-scoring-flow.svg?v=199c5383280d)
 
 ## 工作原理
 

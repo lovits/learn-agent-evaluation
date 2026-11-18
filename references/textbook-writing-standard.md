@@ -15,4 +15,4 @@
 
 实际范本：[s01](https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s01_agent_loop/README.zh.md)、[s02](https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s02_tool_use/README.zh.md)。
 
-实际评测框架仅 DeepEval，Ragas 用于原理和源码导读。每课正文直接嵌入两张紧凑 PNG，字号适度提高，源文件随仓库保存，GitHub 使用课程发布的图片地址；实际在 GitHub 页面核对两图加载。
+实际评测框架仅 DeepEval，Ragas 用于原理和源码导读。每课正文直接嵌入两张紧凑原生 SVG 矢量图，采用 Learn Claude Code 的纯 SVG 文字与路径方式；字号适度提高，源文件随仓库保存，GitHub 使用课程发布的图片地址；飞书使用3倍像素 PNG；实际在 GitHub 页面核对两图加载。

@@ -14,11 +14,11 @@ Agent 要为 Atlas 项目写一份发布检查命令。资料在知识库里，�
 
 复用已有循环和文件工具，加入只读的 `search_knowledge`。用 TinyRAG 检索挂载目录，将候选和选中的片段分别记录，再保存下一次模型调用的输入。
 
-![文档经 TinyRAG 检索后回填给模型](https://lovits.github.io/learn-agent-evaluation/diagrams/e05-retrieval-flow.png)
+![文档经 TinyRAG 检索后回填给模型](https://lovits.github.io/learn-agent-evaluation/diagrams/e05-retrieval-flow.svg?v=ef19778acb31)
 
 已审核参考资料走独立路径。后续评分既要知道模型收到什么，也要知道参考依据什么。
 
-![候选、回填与实际上下文的评测范围](https://lovits.github.io/learn-agent-evaluation/diagrams/e05-context-evaluation.png)
+![候选、回填与实际上下文的评测范围](https://lovits.github.io/learn-agent-evaluation/diagrams/e05-context-evaluation.svg?v=84f6dfe6dcfb)
 
 ## 工作原理
 

@@ -14,11 +14,11 @@ Atlas 的问题多了一项：发布前运行什么检查、满足什么条件�
 
 把参考拆成明确的事实，为每条事实注明证据来源。复用 TinyRAG 的候选，分别保留完整资料、移除日志资料，再检查覆盖情况。
 
-![从参考事实对照实际上下文，指出覆盖与遗漏](https://lovits.github.io/learn-agent-evaluation/diagrams/e07-coverage-flow.png)
+![从参考事实对照实际上下文，指出覆盖与遗漏](https://lovits.github.io/learn-agent-evaluation/diagrams/e07-coverage-flow.svg?v=e7cf7a7b6a74)
 
 已知来源映射适合手算和定位。需要判断语义支持时，再把参考与上下文交给 DeepEval 的 Contextual Recall。
 
-![DeepEval 逐参考句判断归因并汇总召回](https://lovits.github.io/learn-agent-evaluation/diagrams/e07-scoring-flow.png)
+![DeepEval 逐参考句判断归因并汇总召回](https://lovits.github.io/learn-agent-evaluation/diagrams/e07-scoring-flow.svg?v=18fa6eb2bcff)
 
 ## 工作原理
 

@@ -16,11 +16,11 @@
 
 复用 TinyRAG 取得候选，固定问题、参考和片段内容。按“能否帮助回答参考中的命令与发布条件”给片段标 0/1，再保持标签不变，移动位置。
 
-![固定标签后分别计算普通精度与列表 AP](https://lovits.github.io/learn-agent-evaluation/diagrams/e06-ranking-flow.png)
+![固定标签后分别计算普通精度与列表 AP](https://lovits.github.io/learn-agent-evaluation/diagrams/e06-ranking-flow.svg?v=27768952155e)
 
 然后用 DeepEval 原生指标观察模型怎样判定。逐片段判断和逐陈述判断分别保存，分数连同单位一起解释。
 
-![两类 DeepEval 原生指标的评分过程](https://lovits.github.io/learn-agent-evaluation/diagrams/e06-scoring-flow.png)
+![两类 DeepEval 原生指标的评分过程](https://lovits.github.io/learn-agent-evaluation/diagrams/e06-scoring-flow.svg?v=fab93946eccc)
 
 ## 工作原理
 

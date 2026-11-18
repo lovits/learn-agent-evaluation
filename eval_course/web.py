@@ -61,7 +61,7 @@ def render(path):
                 src = token.attrGet("src") or ""
                 preview = next((row for row in diagrams if row.get("preview_url") == src), None)
                 if preview:
-                    token.attrSet("src", "/image?path=" + quote(preview["png"]))
+                    token.attrSet("src", "/image?path=" + quote(preview["readme_preview"]))
                     continue
                 image = urlparse(src)
                 target = (source.parent / unquote(image.path)).resolve()

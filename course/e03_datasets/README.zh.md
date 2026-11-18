@@ -16,11 +16,11 @@
 
 先从少量事实写种子题，再让模型补充候选。每道题保留资料版本、原文证据和审核记录；审核后去重，按题族固定划分。
 
-![从资料到审核后的评测集](https://lovits.github.io/learn-agent-evaluation/diagrams/e03-dataset-flow.png)
+![从资料到审核后的评测集](https://lovits.github.io/learn-agent-evaluation/diagrams/e03-dataset-flow.svg?v=d8998939c132)
 
 题目与参考先进入 DeepEval 的 `Golden`。复用第二课 Agent 作答后，才得到实际输出，组成后续评分需要的样本。
 
-![参考与实际输出进入同一评测样本](https://lovits.github.io/learn-agent-evaluation/diagrams/e03-sample-flow.png)
+![参考与实际输出进入同一评测样本](https://lovits.github.io/learn-agent-evaluation/diagrams/e03-sample-flow.svg?v=d97fcdf3f89c)
 
 ## 工作原理
 

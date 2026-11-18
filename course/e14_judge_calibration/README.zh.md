@@ -14,11 +14,11 @@
 
 先固定问题、资料和回答，再准备有来源的参考标签。开发材料用于修订裁判，留出材料用于核对；有分歧的标签保留待决。
 
-![先定义标准，处理标签分歧，再分开开发与留出材料](https://lovits.github.io/learn-agent-evaluation/diagrams/e14-calibration-flow.png)
+![先定义标准，处理标签分歧，再分开开发与留出材料](https://lovits.github.io/learn-agent-evaluation/diagrams/e14-calibration-flow.svg?v=ca4c2a5f46c7)
 
 保留每条裁决，分别统计误接收、误拒绝与覆盖率。另用语义等价的长短、中英回答和位置对照，观察判断是否受形式影响。
 
-![裁判配置分别评分，逐行对齐参考，并保留缺失与偏差观察](https://lovits.github.io/learn-agent-evaluation/diagrams/e14-judge-check-flow.png)
+![裁判配置分别评分，逐行对齐参考，并保留缺失与偏差观察](https://lovits.github.io/learn-agent-evaluation/diagrams/e14-judge-check-flow.svg?v=623b33e60384)
 
 ## 工作原理
 

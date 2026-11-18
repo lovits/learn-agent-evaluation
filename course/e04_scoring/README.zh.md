@@ -22,11 +22,11 @@
 
 让规则检查 JSON 合约，让 DeepEval 的 G-Eval 按量表判断解释。两项都使用已有的 `LLMTestCase`，分别保存判断和理由。
 
-![同一样本的规则与语义评分](https://lovits.github.io/learn-agent-evaluation/diagrams/e04-scoring-flow.png)
+![同一样本的规则与语义评分](https://lovits.github.io/learn-agent-evaluation/diagrams/e04-scoring-flow.svg?v=029921888810)
 
 裁判的返回也要检查。有效分数才能与阈值比较；接口、格式或数值错误单独保存。
 
-![从裁判调用到评分状态与达标判断](https://lovits.github.io/learn-agent-evaluation/diagrams/e04-judging-flow.png)
+![从裁判调用到评分状态与达标判断](https://lovits.github.io/learn-agent-evaluation/diagrams/e04-judging-flow.svg?v=0f4951c4e160)
 
 ## 工作原理
 

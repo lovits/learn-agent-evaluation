@@ -14,11 +14,11 @@
 
 复用第5课的 Agent 和 TinyRAG，候选仍检索3条，只改变送入模型的 context_limit：baseline 为1，candidate 为3。同题各跑两次，第二次交换先后顺序。
 
-![固定同题，只改变上下文条数，保留每次运行和裁决](https://lovits.github.io/learn-agent-evaluation/diagrams/e15-paired-run-flow.png)
+![固定同题，只改变上下文条数，保留每次运行和裁决](https://lovits.github.io/learn-agent-evaluation/diagrams/e15-paired-run-flow.svg?v=91ed3bbe050e)
 
 按任务ID和重复编号找到两个版本，再计算差值。分题型看失败，按题族观察波动；延迟和调用量单列。
 
-![有效同题配对后看差值、覆盖率、题族波动和成本](https://lovits.github.io/learn-agent-evaluation/diagrams/e15-comparison-flow.png)
+![有效同题配对后看差值、覆盖率、题族波动和成本](https://lovits.github.io/learn-agent-evaluation/diagrams/e15-comparison-flow.svg?v=e175ff093ef8)
 
 ## 工作原理
 

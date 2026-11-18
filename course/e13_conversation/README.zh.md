@@ -16,11 +16,11 @@
 
 保留原始约定、每次实际模型输入与最终产物。用完整历史、过期摘要、当前摘要和归档恢复几个小场景，观察同一请求怎样执行。
 
-![原始会话经过上下文选择后进入现有 Agent](https://lovits.github.io/learn-agent-evaluation/diagrams/e13-context-flow.png)
+![原始会话经过上下文选择后进入现有 Agent](https://lovits.github.io/learn-agent-evaluation/diagrams/e13-context-flow.svg?v=95b575b73552)
 
 评分先核对最新有效条件，再检查文件。DeepEval 会话指标补充判断回复中的事实保留与意图满足。
 
-![当前约束、会话裁决与实际输入分别帮助判断和定位](https://lovits.github.io/learn-agent-evaluation/diagrams/e13-conversation-scoring.png)
+![当前约束、会话裁决与实际输入分别帮助判断和定位](https://lovits.github.io/learn-agent-evaluation/diagrams/e13-conversation-scoring.svg?v=238759e90a95)
 
 ## 工作原理
 

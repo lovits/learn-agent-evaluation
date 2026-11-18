@@ -14,11 +14,11 @@
 
 固定第 9 课真实运行中的检索查询，分别保存资料快照、原生候选、检索输出和实际上下文。每次只在一个位置改动，再重放同一个生成环节。
 
-![从知识库到生成回答，保留各阶段快照](https://lovits.github.io/learn-agent-evaluation/diagrams/e10-pipeline-flow.png)
+![从知识库到生成回答，保留各阶段快照](https://lovits.github.io/learn-agent-evaluation/diagrams/e10-pipeline-flow.svg?v=aa9bdc972a7b)
 
 先检查目标证据在哪里缺失或版本不符，再看回答怎样使用资料。诊断输出表示下一步先查哪里，不能代替完整的根因分析。
 
-![沿来源、检索与组装逐层检查证据缺口](https://lovits.github.io/learn-agent-evaluation/diagrams/e10-diagnosis-flow.png)
+![沿来源、检索与组装逐层检查证据缺口](https://lovits.github.io/learn-agent-evaluation/diagrams/e10-diagnosis-flow.svg?v=bf1b36dcb766)
 
 ## 工作原理
 

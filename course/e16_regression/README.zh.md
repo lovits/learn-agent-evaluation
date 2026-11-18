@@ -14,11 +14,11 @@
 
 把前面的机制组合起来：同一个 Agent 循环调用文件、Bash 和 TinyRAG 工具，留下实际上下文、动作和文件。每次任务都从新工作区开始。
 
-![一个 Agent 循环连接模型、具名工具、只读知识库与交付文件](https://lovits.github.io/learn-agent-evaluation/diagrams/e16-integrated-agent-flow.png)
+![一个 Agent 循环连接模型、具名工具、只读知识库与交付文件](https://lovits.github.io/learn-agent-evaluation/diagrams/e16-integrated-agent-flow.svg?v=6bd1187ddf0b)
 
 运行之外，独立检查函数行为，用 DeepEval 分别评价任务完成和上下文覆盖。任一关键条件失败就拒绝；证据或评分缺失时暂停判断，先补齐。
 
-![补充任务，比较版本，按关键条件接受、拒绝或保留未决](https://lovits.github.io/learn-agent-evaluation/diagrams/e16-regression-gate-flow.png)
+![补充任务，比较版本，按关键条件接受、拒绝或保留未决](https://lovits.github.io/learn-agent-evaluation/diagrams/e16-regression-gate-flow.svg?v=1c47918ea1cc)
 
 ## 工作原理
 

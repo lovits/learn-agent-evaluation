@@ -550,5 +550,41 @@
     "visual_review": "passed",
     "node_font_size": 16,
     "edge_font_size": 13
+  },
+  {
+    "name": "e16-integrated-agent-flow",
+    "slug": "e16_regression",
+    "title": "第16课：组合已有 Agent 与知识库",
+    "diagram_type": "flowchart",
+    "generator": "draw.io",
+    "candidate": "course/e16_regression/images/integrated-agent-flow.drawio",
+    "output": "course/e16_regression/images/integrated-agent-flow.drawio.svg",
+    "png": "course/e16_regression/images/integrated-agent-flow.png",
+    "readme_preview": "course/e16_regression/images/integrated-agent-flow.png",
+    "preview_url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e16-integrated-agent-flow.png",
+    "url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e16-integrated-agent-flow.svg",
+    "artifact_sha256": "8f0e67aa57ea4c35f8761b705176bdaf95ce776a8f1c1de278bc78b46ad9739a",
+    "png_sha256": "080d332e0095d30280ca81fed516de0c832f3b2bd9f1a4c46b3681c9981da50e",
+    "visual_review": "passed",
+    "node_font_size": 16,
+    "edge_font_size": 13
+  },
+  {
+    "name": "e16-regression-gate-flow",
+    "slug": "e16_regression",
+    "title": "第16课：关键条件与持续回归",
+    "diagram_type": "flowchart",
+    "generator": "draw.io",
+    "candidate": "course/e16_regression/images/regression-gate-flow.drawio",
+    "output": "course/e16_regression/images/regression-gate-flow.drawio.svg",
+    "png": "course/e16_regression/images/regression-gate-flow.png",
+    "readme_preview": "course/e16_regression/images/regression-gate-flow.png",
+    "preview_url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e16-regression-gate-flow.png",
+    "url": "https://lovits.github.io/learn-agent-evaluation/diagrams/e16-regression-gate-flow.svg",
+    "artifact_sha256": "300fe16b55de679301303e4dd4fc71ad701be4b08ec07c5a88efb9fe3027c2cd",
+    "png_sha256": "95d4613d501959c130828dfe3fbf546ba4332a7aceb6b13ee990d20b5759d009",
+    "visual_review": "passed",
+    "node_font_size": 16,
+    "edge_font_size": 13
   }
 ]

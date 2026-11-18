@@ -1,6 +1,6 @@
 # e15: 改了参数，真的更好吗？
 
-[e14](../e14_judge_calibration/README.zh.md) → `e15` → [e16](../../docs/curriculum.md#16-综合项目与持续回归)
+[e14](../e14_judge_calibration/README.zh.md) → `e15` → [e16](../e16_regression/README.zh.md)
 
 > 固定同一道题，比较两个版本各自交出了什么。
 

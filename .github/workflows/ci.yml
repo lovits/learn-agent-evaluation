@@ -14,3 +14,9 @@ jobs:
         run: docker run --rm --network none --entrypoint ruff learn-agent-evaluation:ci check eval_course course tests tools
       - name: Test Bash loop and independent grading without internet
         run: docker run --rm --network none --entrypoint python learn-agent-evaluation:ci -m pytest -q
+      - name: Run integrated offline regression with explicit semantic fixtures
+        run: >-
+          docker run --rm --network none
+          -e KNOWLEDGE_DIR=/app/knowledge_base -e RUNS_DIR=/tmp/runs
+          -e WORKSPACES_DIR=/tmp/workspaces --entrypoint python
+          learn-agent-evaluation:ci -m course.e16_regression.code --gate

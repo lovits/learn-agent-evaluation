@@ -1,0 +1,35 @@
+{
+  "generator": "PocketFlow-Tutorial-Codebase-Knowledge",
+  "upstream_commit": "05b24cbbb0fe409c5e23c9791f0342f07524ffdc",
+  "nodes_run": [
+    "FetchRepo",
+    "BindLesson",
+    "WriteChapters",
+    "CombineTutorial"
+  ],
+  "actual_model_calls": 1,
+  "calls": [
+    {
+      "prompt_sha256": "4c30cc0dd67e3141810a3e29f92b333c323ef5217ab1fa40ea18f3ee06cdd2c1",
+      "response_sha256": "3f338a5947daae7762d52344b42d2e22d6c225f69d540cb29bd931c93f139126",
+      "seconds": 92.05
+    }
+  ],
+  "input_sha256": {
+    "eval_course/runtime.py": "f4236018e4dea094fe4573c48cb3cc03fdcf4d837dac8ff30190367c1dc86fa4",
+    "course/e16_regression/README.zh.md": "c24f3943ae726a72e4063229bcce408c46031ab39ba14fa21a771e1c3d74a500",
+    "course/e16_regression/solutions.md": "fda15feae878fb8a8ba92fb0116f31e9ce49f39c80a2121b43cac06f51065522",
+    "course/e16_regression/exercises.md": "c89fbdc23853c2da65de795383ae3f214aa317f80976b81a9e857374548e34af",
+    "course/e16_regression/code.py": "a2e5bc4f90e114c853f5bf0223fd86eb00e16f14538a3000b59d1632125ff518",
+    "course/e16_regression/cases.jsonl": "12141fdbd39649cf1b2020583d91f7bfb135a09671134cdb7a5aa0376ecebfb7",
+    "course/e16_regression/__init__.py": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+    "course/e16_regression/source_walkthrough.md": "d5fd948f26345b6cb0696c85472564720fbdc6b0225d842912ece4e48d8fdae9",
+    "course/e16_regression/failure_origin.json": "85742955d4934328d7770bc587b963f6d03403c132f5646b66659a3df962d35e",
+    "course/e16_regression/eval.py": "ddb4d4dc0cc9fe213ceff4730a37ca7e80b62fd0b2bd533fd0087bee20d6b16b",
+    "course/e16_regression/images/integrated-agent-flow.drawio": "95beff1b04d13577a1e7af23ce2ffdb86102a03fc7068b515d130a5b32c5a467",
+    "course/e16_regression/images/integrated-agent-flow.drawio.svg": "8f0e67aa57ea4c35f8761b705176bdaf95ce776a8f1c1de278bc78b46ad9739a",
+    "course/e16_regression/images/regression-gate-flow.drawio": "ea96c6efc2aaa74aad47d9ad1ec89f1d827bfd9f9ff5e9ad39d56316f6ca5783",
+    "course/e16_regression/images/regression-gate-flow.drawio.svg": "300fe16b55de679301303e4dd4fc71ad701be4b08ec07c5a88efb9fe3027c2cd"
+  },
+  "note": "Raw draft is reviewed and condensed; final textbook is in course/. The agreed outline is not model-reordered."
+}

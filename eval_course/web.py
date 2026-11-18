@@ -10,7 +10,12 @@ from markdown_it import MarkdownIt
 
 from .knowledge import PROJECT, catalog
 
-PAGES = {"/": "README.md", "/curriculum": "docs/curriculum.md"}
+PAGES = {
+    "/": "README.md",
+    "/curriculum": "docs/curriculum.md",
+    "/project": "docs/integrated-project.md",
+    "/requirements": "docs/course-requirements.md",
+}
 for number, slug in [
     (1, "e01_success"),
     (2, "e02_samples"),
@@ -27,6 +32,7 @@ for number, slug in [
     (13, "e13_conversation"),
     (14, "e14_judge_calibration"),
     (15, "e15_version_comparison"),
+    (16, "e16_regression"),
 ]:
     for route, name in [
         ("lesson", "README.zh.md"),
@@ -131,7 +137,7 @@ class Handler(BaseHTTPRequestHandler):
             else:
                 return self.send(404, b"Not found", "text/plain")
             template = (PROJECT / "eval_course/page.html").read_text()
-            nav = '<a href="/">课程</a><a href="/curriculum">大纲</a><a href="/lesson1">第1课</a><a href="/lesson2">第2课</a><a href="/lesson3">第3课</a><a href="/lesson4">第4课</a><a href="/lesson5">第5课</a><a href="/lesson6">第6课</a><a href="/lesson7">第7课</a><a href="/lesson8">第8课</a><a href="/lesson9">第9课</a><a href="/lesson10">第10课</a><a href="/lesson11">第11课</a><a href="/lesson12">第12课</a><a href="/lesson13">第13课</a><a href="/lesson14">第14课</a><a href="/lesson15">第15课</a>'
+            nav = '<a href="/">课程</a><a href="/curriculum">大纲</a><a href="/lesson1">第1课</a><a href="/lesson2">第2课</a><a href="/lesson3">第3课</a><a href="/lesson4">第4课</a><a href="/lesson5">第5课</a><a href="/lesson6">第6课</a><a href="/lesson7">第7课</a><a href="/lesson8">第8课</a><a href="/lesson9">第9课</a><a href="/lesson10">第10课</a><a href="/lesson11">第11课</a><a href="/lesson12">第12课</a><a href="/lesson13">第13课</a><a href="/lesson14">第14课</a><a href="/lesson15">第15课</a><a href="/lesson16">第16课</a>'
             page = (
                 template.replace("{{TITLE}}", "从编程 Agent 学评测")
                 .replace("{{NAV}}", nav)

@@ -18,6 +18,8 @@ def test_new_course_pages_and_source_boundary():
         for path in [
             "/",
             "/curriculum",
+            "/project",
+            "/requirements",
             "/lesson1",
             "/lesson2",
             "/source2",
@@ -60,6 +62,9 @@ def test_new_course_pages_and_source_boundary():
             "/lesson15",
             "/source15",
             "/assessment15",
+            "/lesson16",
+            "/source16",
+            "/assessment16",
             "/assessment1",
             "/assessment2",
             "/code?path=course/e02_samples/code.py",
@@ -86,6 +91,7 @@ def test_new_course_pages_and_source_boundary():
             (13, "e13_conversation"),
             (14, "e14_judge_calibration"),
             (15, "e15_version_comparison"),
+            (16, "e16_regression"),
         ]:
             with urlopen(base + f"/lesson{lesson}") as response:
                 body = response.read().decode()
@@ -108,7 +114,7 @@ def test_new_course_pages_and_source_boundary():
             assert error.value.code == 400
             error.value.close()
         with pytest.raises(HTTPError) as old:
-            urlopen(base + "/lesson16")
+            urlopen(base + "/lesson17")
         assert old.value.code == 404
         old.value.close()
     finally:

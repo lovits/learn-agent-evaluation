@@ -428,6 +428,8 @@ Agent 接到任务，读文件、查资料、调用工具，最后给出回答�
 
 **学会的标志**：能把整条评测链讲清楚，并独立为自己的 Agent 加入持续回归。
 
+[教材](../course/e16_regression/README.zh.md) · [源码导读](../course/e16_regression/source_walkthrough.md) · [完整项目导读](integrated-project.md)
+
 ## 范围与依据
 
 主线只保留对解释评测有直接帮助的机制。计划、重试、权限与效率通过必要案例出现；完整团队调度、复杂记忆平台、MCP 协议、多模态和 SQL 专项不作为独立课程。

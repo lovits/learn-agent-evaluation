@@ -1,6 +1,6 @@
 {
   "outline_version": 3,
-  "review": "第15课已完整阅读 PocketFlow 草稿并凝练。删除考试、抽卡等类比与重复小结，纠正构造分平均提高的错误（实际差值为0）。保留固定首步与真实模型续跑边界、题族重采样限制、未知模型快照及价格；正文不放成绩表，真实结果另页。",
+  "review": "16课与综合项目完成结构核对；第16课完整阅读577行PocketFlow草稿，删去旧伤、医生、桌子等类比和重复小结，纠正草稿中的Ragas提交拼写。保留明确量表、原始证据、构造与真实运行的边界；主教材不放制作记录、环境要求与成绩表。原TaskCompletion误判、真实模型失败及恢复未决均独立保存，没有把候选改动制造为质量提升。生成输入快照未重写，最终正文与图另记哈希。",
   "published_sha256": {
     "course/run.py": "d4f0b75ebfc46cf0eeb897dfbe4c4b22db0626231aac9d72f30093a9caa2cb1c",
     "course/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
@@ -237,7 +237,7 @@
     "course/e14_judge_calibration/images/judge-check-flow.drawio.svg": "ecfc872129a2b33281d6aeeb7bc956f788f1d13c1a1f60f5ab1c87dd1eda69d1",
     "course/e14_judge_calibration/images/calibration-flow.drawio.svg": "f8802c4c6511502d2d9fff99d20512243cde5fed30ab3afee2e305d0deb2b454",
     "course/e14_judge_calibration/images/judge-check-flow.drawio": "43c9d55fa940614d73c7f37f06661a2acef73a3ccf900bd366f92692916fc3c4",
-    "course/e15_version_comparison/README.zh.md": "753bd7e7d75081e82e3a29a15a10f7ad1544d10c31d87e877ac4fa8538baa15a",
+    "course/e15_version_comparison/README.zh.md": "21d8a69e6c35f1020dddf130f98fdb6867962cd5457dd02745115e02f9d1db76",
     "course/e15_version_comparison/__init__.py": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
     "course/e15_version_comparison/assessment.json": "d25f1f9d35cfaefae3cd1e7cb3ff8b8bd7b3c57719b34ff231e8809df00374b1",
     "course/e15_version_comparison/assessment.md": "5a48cfca8f7dc68ab1ad43450624a693f543906bbe0cfc0cf7785fe7076d7e69",
@@ -252,7 +252,34 @@
     "course/e15_version_comparison/images/paired-run-flow.drawio.svg": "323e324531bf59be18947ffeea80df7af6c43af68eb6920ea94996b645f316c3",
     "course/e15_version_comparison/images/paired-run-flow.png": "a1e2818c3c00eda4f5635524996548bd7dba663f0d6fe2e056b42e9fb180bd38",
     "course/e15_version_comparison/solutions.md": "09bb70cf0c5ddf773a991ed92a0a9558159c8bc524dc619b53e518fde730c508",
-    "course/e15_version_comparison/source_walkthrough.md": "26297d936dfb260a9986380fc1d4ee46be0d82fa1444dfdc4e7e83230d933df6"
+    "course/e15_version_comparison/source_walkthrough.md": "26297d936dfb260a9986380fc1d4ee46be0d82fa1444dfdc4e7e83230d933df6",
+    ".github/workflows/ci.yml": "22fd4a155d0b0f3b467d622e9bb4d3ecba7ef96dd9622ac98573b21506b22ee4",
+    "README.md": "d15498016181ee2ce684aceb1c8b2b62d781457d652ae9d44c84d58686687165",
+    "course/e16_regression/README.zh.md": "4120d30fb01b570fbc1b7d1d16ea71ea245f4f4445942f3ae8b5c64bf3b6431b",
+    "course/e16_regression/__init__.py": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+    "course/e16_regression/assessment.json": "02241c2276dec15d436a64e1170db425211aff52dc7d934c62a1951b4df06315",
+    "course/e16_regression/assessment.md": "d177aed75a859843652115eaccc10f815a5d6e96d59d1c7d2073135833ec889e",
+    "course/e16_regression/cases.jsonl": "12141fdbd39649cf1b2020583d91f7bfb135a09671134cdb7a5aa0376ecebfb7",
+    "course/e16_regression/code.py": "a2e5bc4f90e114c853f5bf0223fd86eb00e16f14538a3000b59d1632125ff518",
+    "course/e16_regression/eval.py": "ddb4d4dc0cc9fe213ceff4730a37ca7e80b62fd0b2bd533fd0087bee20d6b16b",
+    "course/e16_regression/exercises.md": "c89fbdc23853c2da65de795383ae3f214aa317f80976b81a9e857374548e34af",
+    "course/e16_regression/failure_origin.json": "85742955d4934328d7770bc587b963f6d03403c132f5646b66659a3df962d35e",
+    "course/e16_regression/images/integrated-agent-flow.drawio": "95beff1b04d13577a1e7af23ce2ffdb86102a03fc7068b515d130a5b32c5a467",
+    "course/e16_regression/images/integrated-agent-flow.drawio.svg": "8f0e67aa57ea4c35f8761b705176bdaf95ce776a8f1c1de278bc78b46ad9739a",
+    "course/e16_regression/images/integrated-agent-flow.png": "080d332e0095d30280ca81fed516de0c832f3b2bd9f1a4c46b3681c9981da50e",
+    "course/e16_regression/images/regression-gate-flow.drawio": "ea96c6efc2aaa74aad47d9ad1ec89f1d827bfd9f9ff5e9ad39d56316f6ca5783",
+    "course/e16_regression/images/regression-gate-flow.drawio.svg": "300fe16b55de679301303e4dd4fc71ad701be4b08ec07c5a88efb9fe3027c2cd",
+    "course/e16_regression/images/regression-gate-flow.png": "95d4613d501959c130828dfe3fbf546ba4332a7aceb6b13ee990d20b5759d009",
+    "course/e16_regression/observed_failure.json": "639a7e2239bad9311872d36298e14ee46af6984eb1bf90c25c9fc1a9a19a9df4",
+    "course/e16_regression/solutions.md": "fda15feae878fb8a8ba92fb0116f31e9ce49f39c80a2121b43cac06f51065522",
+    "course/e16_regression/source_walkthrough.md": "d5fd948f26345b6cb0696c85472564720fbdc6b0225d842912ece4e48d8fdae9",
+    "curriculum.json": "40f386d1c1ba60d8813afbb06714299a6a1b2a419a1ce8f78efe7049ccbe9a6b",
+    "docs/curriculum.md": "d9982d989bb3793d6e1d5ed2ac405efefcedd53c387ed4bdc4fb0c264dd3e6c8",
+    "docs/integrated-project.md": "b424f3f228c601fdba78353c24cd7a456c1a4e8977f600ee1fc42c0f30fd224d",
+    "eval_course/web.py": "d99dac11666114e1df15ff09904f911780234e4b8a1d1e46692f8319d1f261ef",
+    "knowledge_base/e16/billing.md": "b8fdbde40d18e5ec8aece46df984a747c75c09f155e62c4a0bb5b11064cf48b4",
+    "tests/test_reader.py": "53b6a0a0fffb456743a7d2ebb38fcc5cd05bc51ec5da50ef01bfc99edab4e6bb",
+    "tests/test_regression.py": "2aef2d4974bec9b477213dbbb23a91b6dfbcf3316903775a54757bf6d684fa1c"
   },
   "provenance": [
     "generation/e01-provenance.json",
@@ -269,7 +296,8 @@
     "generation/e12-provenance.json",
     "generation/e13-provenance.json",
     "generation/e14-provenance.json",
-    "generation/e15-provenance.json"
+    "generation/e15-provenance.json",
+    "generation/e16-provenance.json"
   ],
   "runtime_evidence": "generation/runtime-evidence.json",
   "figures": "references/figures.json"

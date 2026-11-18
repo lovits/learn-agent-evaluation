@@ -15,7 +15,7 @@
         "README.md",
         "docs/curriculum.md"
       ],
-      "verified_revision": 31
+      "verified_revision": 33
     },
     "e01": {
       "title": "第1课：模型停下了，任务完成了吗？",
@@ -348,7 +348,37 @@
         "course/e15_version_comparison/exercises.md",
         "course/e15_version_comparison/solutions.md"
       ],
-      "verified_revision": 5
+      "verified_revision": 6
+    },
+    "integrated": {
+      "title": "完整项目：编程 Agent 与评测链",
+      "document_id": "ZOVAdCgC3oyLWVxnr8ScmoR1nUb",
+      "url": "https://my.feishu.cn/docx/ZOVAdCgC3oyLWVxnr8ScmoR1nUb",
+      "paths": [
+        "docs/integrated-project.md"
+      ],
+      "verified_revision": 3
+    },
+    "assessment16": {
+      "title": "第16课：样本与评测记录",
+      "document_id": "DGatdxAhnoBYOcx7PZZcCFfnn7d",
+      "url": "https://my.feishu.cn/docx/DGatdxAhnoBYOcx7PZZcCFfnn7d",
+      "paths": [
+        "course/e16_regression/assessment.md"
+      ],
+      "verified_revision": 3
+    },
+    "e16": {
+      "title": "第16课：综合项目与持续回归",
+      "document_id": "Yt84do4eQofZ5UxTrj1c1OYYnLb",
+      "url": "https://my.feishu.cn/docx/Yt84do4eQofZ5UxTrj1c1OYYnLb",
+      "paths": [
+        "course/e16_regression/README.zh.md",
+        "course/e16_regression/source_walkthrough.md",
+        "course/e16_regression/exercises.md",
+        "course/e16_regression/solutions.md"
+      ],
+      "verified_revision": 6
     }
   }
 }

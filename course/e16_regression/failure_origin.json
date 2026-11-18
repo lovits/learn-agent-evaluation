@@ -1,0 +1,29 @@
+{
+  "origin": "lesson 12 controlled Agent decisions with real file effects and actual native DeepEval judgment; not an autonomous model failure",
+  "source": {
+    "path": "course/e12_task_completion/assessment.json",
+    "sha256": "96a3689b1e72c976e8312de2384c9c3d4c02b25c18d2d504c38857cecef24474",
+    "run_id": "6e25dfe26d9a487b9d715c34c89cc80e",
+    "selector": "native_supplement.conditions.correct"
+  },
+  "task": "修复 billing.py 中的 total_cents(items)：金额按整数分计算，每项 unit_cents 乘 quantity 再求和；空订单返回0，数量可以为0，不得修改传入列表或字典。保留函数名，不修改 policy.txt。可以使用已有文件工具或工作区内 Bash。完成后说明修复了什么。",
+  "actual_output": "已完成。",
+  "contract": {
+    "status": "ok",
+    "score": 1.0,
+    "passed": true,
+    "reason": "{\"probe_completed\": true, \"business_behavior\": true, \"policy_unchanged\": true}"
+  },
+  "native_completion": {
+    "status": "ok",
+    "score": 0.95,
+    "passed": false,
+    "reason": "实际结果满足核心功能与约束：按 unit_cents × quantity 求和，空订单和数量为 0 的情况正确，不修改输入，且 policy.txt 未改动。唯一不足是最终回复仅称“已完成”，没有按要求向用户具体说明修复内容；不过实际结果描述中已明确验证了各项要求。",
+    "judged_task": "修复 billing.py 中的 total_cents(items)：金额按整数分计算，每项 unit_cents 乘 quantity 再求和；空订单返回0，数量可以为0，不得修改传入列表或字典。保留函数名，不修改 policy.txt。可以使用已有文件工具或工作区内 Bash。完成后说明修复了什么。",
+    "outcome": "billing.py 中的 total_cents(items) 已实现为对每项 unit_cents * quantity 求和；验证显示空订单、数量为 0、金额计算及输入不变性均通过，policy.txt 未被修改。最终回复为“已完成。”",
+    "evidence_scope": "claim_calls_and_independent_observation"
+  },
+  "reason_for_new_case": "Program contract passed but the explicit explanation obligation was omitted. Add explanation and no-op guards; new tasks also require retrieval, so they are derived regression cases, not verbatim historical replay.",
+  "review_status": "reviewed course counterexample; no independent human labeling study",
+  "scope": "Original historical score preserved, not a newly rerun judgment."
+}

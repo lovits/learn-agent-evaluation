@@ -23,7 +23,7 @@
 | 13 | [会话上下文与约束保持](course/e13_conversation/README.zh.md) | 用户改了要求以后，Agent 还记得哪一版？ |
 | 14 | [校准 LLM 裁判](course/e14_judge_calibration/README.zh.md) | 评分器自己的判断可信吗？ |
 | 15 | [比较两个版本](course/e15_version_comparison/README.zh.md) | 分数变高，怎样判断改动真的有用？ |
-| 16 | [综合项目与持续回归](docs/curriculum.md#16-综合项目与持续回归) | 怎样让一次修复成为以后不会再犯的经验？ |
+| 16 | [综合项目与持续回归](course/e16_regression/README.zh.md) | 怎样让一次修复成为以后不会再犯的经验？ |
 
 [飞书课程目录](https://my.feishu.cn/drive/folder/Cap7fQoFVlH3Y3dtgJ4cP55dnFg) · [完整大纲](docs/curriculum.md)
 
@@ -39,6 +39,6 @@
 
 每课从一个具体困难开始，接着给出最小机制，再沿关键代码解释它怎样工作。教材只展开当前知识点，完整函数和框架依据放在源码导读，动手问题及参考解另放。
 
-一条任务贯穿 Agent 与评分器：Agent 负责工作，评分器根据实际记录和结果判断。后续课程复用已有能力，最后组合成完整项目。代码可在 Docker 中执行，知识库通过只读目录挂载。
+一条任务贯穿 Agent 与评分器：Agent 负责工作，评分器根据实际记录和结果判断。后续课程复用已有能力，最后组合成[完整项目](docs/integrated-project.md)。代码可在 Docker 中执行，知识库通过只读目录挂载。
 
 [来源与许可](THIRD_PARTY.md) · [固定源码版本](references/versions.json)

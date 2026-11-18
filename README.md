@@ -25,7 +25,7 @@
 | 15 | [比较两个版本](course/e15_version_comparison/README.zh.md) | 分数变高，怎样判断改动真的有用？ |
 | 16 | [综合项目与持续回归](course/e16_regression/README.zh.md) | 怎样让一次修复成为以后不会再犯的经验？ |
 
-[飞书课程目录](https://my.feishu.cn/drive/folder/Cap7fQoFVlH3Y3dtgJ4cP55dnFg) · [完整大纲](docs/curriculum.md)
+[完整大纲](docs/curriculum.md)
 
 ## 学完能做什么
 

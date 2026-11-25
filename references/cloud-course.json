@@ -15,7 +15,7 @@
         "README.md",
         "docs/curriculum.md"
       ],
-      "verified_revision": 33
+      "verified_revision": 39
     },
     "e01": {
       "title": "第1课：模型停下了，任务完成了吗？",
@@ -27,7 +27,7 @@
         "course/e01_success/exercises.md",
         "course/e01_success/solutions.md"
       ],
-      "verified_revision": 27
+      "verified_revision": 31
     },
     "e02": {
       "title": "第2课：一次运行，一份样本",
@@ -39,7 +39,7 @@
         "course/e02_samples/exercises.md",
         "course/e02_samples/solutions.md"
       ],
-      "verified_revision": 30
+      "verified_revision": 34
     },
     "specification": {
       "title": "课程目标与制作规范",
@@ -48,7 +48,7 @@
       "paths": [
         "docs/course-specification.md"
       ],
-      "verified_revision": 13
+      "verified_revision": 15
     },
     "assessment1": {
       "title": "第1课：样本与评测记录",
@@ -57,7 +57,7 @@
       "paths": [
         "course/e01_success/assessment.md"
       ],
-      "verified_revision": 3
+      "verified_revision": 5
     },
     "assessment2": {
       "title": "第2课：样本与评测记录",
@@ -66,7 +66,7 @@
       "paths": [
         "course/e02_samples/assessment.md"
       ],
-      "verified_revision": 5
+      "verified_revision": 7
     },
     "requirements": {
       "title": "课程需求与实施范围",
@@ -75,7 +75,7 @@
       "paths": [
         "docs/course-requirements.md"
       ],
-      "verified_revision": 10
+      "verified_revision": 12
     },
     "assessment3": {
       "title": "第3课：样本与评测记录",
@@ -84,7 +84,7 @@
       "paths": [
         "course/e03_datasets/assessment.md"
       ],
-      "verified_revision": 3
+      "verified_revision": 5
     },
     "e03": {
       "title": "第3课：准备评测数据",
@@ -96,7 +96,7 @@
         "course/e03_datasets/exercises.md",
         "course/e03_datasets/solutions.md"
       ],
-      "verified_revision": 10
+      "verified_revision": 14
     },
     "assessment4": {
       "title": "第4课：样本与评测记录",
@@ -105,7 +105,7 @@
       "paths": [
         "course/e04_scoring/assessment.md"
       ],
-      "verified_revision": 4
+      "verified_revision": 6
     },
     "e04": {
       "title": "第4课：给样本评分",
@@ -117,7 +117,7 @@
         "course/e04_scoring/exercises.md",
         "course/e04_scoring/solutions.md"
       ],
-      "verified_revision": 10
+      "verified_revision": 14
     },
     "assessment5": {
       "title": "第5课：样本与评测记录",
@@ -126,7 +126,7 @@
       "paths": [
         "course/e05_knowledge_context/assessment.md"
       ],
-      "verified_revision": 3
+      "verified_revision": 5
     },
     "e05": {
       "title": "第5课：接通知识库",
@@ -138,7 +138,7 @@
         "course/e05_knowledge_context/exercises.md",
         "course/e05_knowledge_context/solutions.md"
       ],
-      "verified_revision": 10
+      "verified_revision": 14
     },
     "assessment6": {
       "title": "第6课：样本与评测记录",
@@ -147,7 +147,7 @@
       "paths": [
         "course/e06_context_precision/assessment.md"
       ],
-      "verified_revision": 3
+      "verified_revision": 5
     },
     "e06": {
       "title": "第6课：上下文相关性与排序",
@@ -159,7 +159,7 @@
         "course/e06_context_precision/exercises.md",
         "course/e06_context_precision/solutions.md"
       ],
-      "verified_revision": 10
+      "verified_revision": 14
     },
     "assessment7": {
       "title": "第7课：样本与评测记录",
@@ -168,7 +168,7 @@
       "paths": [
         "course/e07_context_recall/assessment.md"
       ],
-      "verified_revision": 3
+      "verified_revision": 5
     },
     "e07": {
       "title": "第7课：上下文覆盖与召回",
@@ -180,7 +180,7 @@
         "course/e07_context_recall/exercises.md",
         "course/e07_context_recall/solutions.md"
       ],
-      "verified_revision": 10
+      "verified_revision": 14
     },
     "assessment8": {
       "title": "第8课：样本与评测记录",
@@ -189,7 +189,7 @@
       "paths": [
         "course/e08_faithfulness/assessment.md"
       ],
-      "verified_revision": 3
+      "verified_revision": 5
     },
     "e08": {
       "title": "第8课：回答对上下文的忠实度",
@@ -201,7 +201,7 @@
         "course/e08_faithfulness/exercises.md",
         "course/e08_faithfulness/solutions.md"
       ],
-      "verified_revision": 10
+      "verified_revision": 14
     },
     "assessment9": {
       "title": "第9课：样本与评测记录",
@@ -210,7 +210,7 @@
       "paths": [
         "course/e09_answer_quality/assessment.md"
       ],
-      "verified_revision": 3
+      "verified_revision": 5
     },
     "e09": {
       "title": "第9课：答案质量",
@@ -222,7 +222,7 @@
         "course/e09_answer_quality/exercises.md",
         "course/e09_answer_quality/solutions.md"
       ],
-      "verified_revision": 10
+      "verified_revision": 14
     },
     "assessment10": {
       "title": "第10课：样本与评测记录",
@@ -231,7 +231,7 @@
       "paths": [
         "course/e10_rag_diagnosis/assessment.md"
       ],
-      "verified_revision": 3
+      "verified_revision": 5
     },
     "e10": {
       "title": "第10课：上下文干扰与故障定位",
@@ -243,7 +243,7 @@
         "course/e10_rag_diagnosis/exercises.md",
         "course/e10_rag_diagnosis/solutions.md"
       ],
-      "verified_revision": 10
+      "verified_revision": 14
     },
     "assessment11": {
       "title": "第11课：样本与评测记录",
@@ -252,7 +252,7 @@
       "paths": [
         "course/e11_tool_quality/assessment.md"
       ],
-      "verified_revision": 3
+      "verified_revision": 5
     },
     "e11": {
       "title": "第11课：工具调用质量",
@@ -264,7 +264,7 @@
         "course/e11_tool_quality/exercises.md",
         "course/e11_tool_quality/solutions.md"
       ],
-      "verified_revision": 10
+      "verified_revision": 14
     },
     "assessment12": {
       "title": "第12课：样本与评测记录",
@@ -273,7 +273,7 @@
       "paths": [
         "course/e12_task_completion/assessment.md"
       ],
-      "verified_revision": 3
+      "verified_revision": 5
     },
     "e12": {
       "title": "第12课：任务完成度",
@@ -285,7 +285,7 @@
         "course/e12_task_completion/exercises.md",
         "course/e12_task_completion/solutions.md"
       ],
-      "verified_revision": 11
+      "verified_revision": 15
     },
     "assessment13": {
       "title": "第13课：样本与评测记录",
@@ -294,7 +294,7 @@
       "paths": [
         "course/e13_conversation/assessment.md"
       ],
-      "verified_revision": 3
+      "verified_revision": 5
     },
     "e13": {
       "title": "第13课：会话上下文与约束保持",
@@ -306,7 +306,7 @@
         "course/e13_conversation/exercises.md",
         "course/e13_conversation/solutions.md"
       ],
-      "verified_revision": 11
+      "verified_revision": 15
     },
     "assessment14": {
       "title": "第14课：样本与评测记录",
@@ -315,7 +315,7 @@
       "paths": [
         "course/e14_judge_calibration/assessment.md"
       ],
-      "verified_revision": 3
+      "verified_revision": 5
     },
     "e14": {
       "title": "第14课：校准 LLM 裁判",
@@ -327,7 +327,7 @@
         "course/e14_judge_calibration/exercises.md",
         "course/e14_judge_calibration/solutions.md"
       ],
-      "verified_revision": 11
+      "verified_revision": 15
     },
     "assessment15": {
       "title": "第15课：样本与评测记录",
@@ -336,7 +336,7 @@
       "paths": [
         "course/e15_version_comparison/assessment.md"
       ],
-      "verified_revision": 3
+      "verified_revision": 5
     },
     "e15": {
       "title": "第15课：比较两个版本",
@@ -348,7 +348,7 @@
         "course/e15_version_comparison/exercises.md",
         "course/e15_version_comparison/solutions.md"
       ],
-      "verified_revision": 10
+      "verified_revision": 14
     },
     "integrated": {
       "title": "完整项目：编程 Agent 与评测链",
@@ -357,7 +357,7 @@
       "paths": [
         "docs/integrated-project.md"
       ],
-      "verified_revision": 3
+      "verified_revision": 5
     },
     "assessment16": {
       "title": "第16课：样本与评测记录",
@@ -366,7 +366,7 @@
       "paths": [
         "course/e16_regression/assessment.md"
       ],
-      "verified_revision": 3
+      "verified_revision": 5
     },
     "e16": {
       "title": "第16课：综合项目与持续回归",
@@ -378,7 +378,7 @@
         "course/e16_regression/exercises.md",
         "course/e16_regression/solutions.md"
       ],
-      "verified_revision": 10
+      "verified_revision": 14
     }
   }
 }

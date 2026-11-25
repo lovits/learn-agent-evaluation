@@ -4,61 +4,55 @@
 
 ## 资料与样本
 
-固定 Atlas 发布问题，参考分为 command、gate、fix 三个必答单元。command 将工作目录与命令合在同一单元；错误命令不能覆盖该单元，即使回答中的“根目录”正确。更细的拆分会改变计数，需要重新标注。
+本课固定一条 Atlas 补丁发布问题，参考标准分为 `command`、`gate`、`fix` 三个必答单元。其中 `command` 将运行目录与命令合并为一个单元，命令写错即使目录正确也记为未覆盖；更改事实拆分粒度需要同步调整标注。
 
-六组答案是课程编写助手构造的对照，事实 ID 是教学标注，不是独立人工金标准或模型抽取结果。前四组使用发布与日志资料；后两组只使用日志资料，分别给出猜中的发布要求和明确拒答。资料选择是控制条件，不声称六组都由检索器真实产生。
-
-发布、日志文档均校验 SHA-256。实际评分仍只用 DeepEval；Ragas 用于源码分析，没有运行另一套评分或嵌入模型。
+[cases.jsonl](cases.jsonl) 中的六组对照答案由课程构造，并附有教学用的事实 ID 标注。前四组携带 `atlas/release.md` 和 `atlas/logs.md` 两份上下文，后两组只携带 `atlas/logs.md`，用来分别观察无依据猜答与合理拒答。文档内容均在加载时校验 SHA-256。
 
 ## Docker 中的事实计算
 
-运行编号 `7c7b58577c2a4feaae88ef3cc6a7424d`，没有裁判请求。
+离线集合计算运行编号为 `7c7b58577c2a4feaae88ef3cc6a7424d`，在 Docker 中执行，无裁判模型请求：
 
 | 条件 | TP | FP | FN | 精确率 | 召回率 | F1 |
 |---|---:|---:|---:|---:|---:|---:|
-| off_topic | 0 | 1 | 3 | 0 | 0 | 0 |
-| on_topic_wrong | 0 | 2 | 3 | 0 | 0 | 0 |
-| incomplete | 1 | 0 | 2 | 1 | 1/3 | 1/2 |
-| complete | 3 | 0 | 0 | 1 | 1 | 1 |
-| unsupported_answer | 3 | 0 | 0 | 1 | 1 | 1 |
-| reasonable_refusal | 0 | 0 | 3 | 未定义 | 0 | 0 |
+| `off_topic` | 0 | 1 | 3 | 0 | 0 | 0 |
+| `on_topic_wrong` | 0 | 2 | 3 | 0 | 0 | 0 |
+| `incomplete` | 1 | 0 | 2 | 1 | 1/3 | 1/2 |
+| `complete` | 3 | 0 | 0 | 1 | 1 | 1 |
+| `unsupported_answer` | 3 | 0 | 0 | 1 | 1 | 1 |
+| `reasonable_refusal` | 0 | 0 | 3 | 未定义 | 0 | 0 |
 
-off_topic 的日志期限真实，但不在本题发布参考内，所以标为参考未支持的额外项，不能据此说日志期限本身错误。合理拒答没有给出发布事实，其事实 F1 低也不证明行为不合理。
+`off_topic` 给出的审计日志天数符合知识库原文，但不在本题参考集合内，因此计为 1 个 `fp`。`reasonable_refusal` 没有说出发布事实，在集合指标上精确率未定义、F1 为 `0`，但它在证据策略维度上属于正确行为。
 
 ## DeepEval 原生评分
 
-有效运行编号 `ec1898e29726435b8d15a120d507507f`，共 21 次实际裁判请求：七个条件各有两次相关性请求和一次 G-Eval 请求。G-Eval 指定评价步骤和 0～2 rubric，SDK 归一化，适配器不伪造 logprobs。
+有效原生评测运行编号为 `ec1898e29726435b8d15a120d507507f`，共发出 21 次实际裁判请求：7 个条件各有 2 次 `AnswerRelevancyMetric` 请求（抽陈述、判裁决）和 1 次 `GEval` 请求。`task_metric` 依据 0 到 2 三档 `Rubric` 打分并由 SDK 归一化到 `0` 到 `1`。
 
-| 条件 | Answer Relevancy | G-Eval 任务质量 | 理由中的关键依据 |
+| 条件 | `AnswerRelevancyMetric` | `GEval` 任务质量 | 理由中的关键依据 |
 |---|---:|---:|---|
-| off_topic | 0 | 0 | 只谈日志期限，未答发布要求 |
-| on_topic_wrong | 1 | 0 | 切题，但命令和失败后发布规则违背资料 |
-| incomplete | 1 | 0.5 | 命令正确，遗漏发布门槛与失败处理 |
-| complete | 1 | 1 | 三项要求正确且有资料依据 |
-| unsupported_answer | 1 | 0 | 只收到日志资料，却自信给出全部发布事实 |
-| reasonable_refusal | 1 | 1 | 明确资料不足并请求发布规范，没有猜测 |
-| live_agent | 1 | 1 | 真实检索后完整回答，遵守不执行要求 |
+| `off_topic` | 0 | 0 | 只谈日志期限，未答发布要求 |
+| `on_topic_wrong` | 1 | 0 | 切题，但命令和失败后发布规则违背资料 |
+| `incomplete` | 1 | 0.5 | 命令正确，遗漏发布门槛与失败处理 |
+| `complete` | 1 | 1 | 三项要求正确且有资料依据 |
+| `unsupported_answer` | 1 | 0 | 只收到日志资料，却自信给出全部发布事实 |
+| `reasonable_refusal` | 1 | 1 | 明确资料不足并请求发布规范，没有猜测 |
+| `live_agent` | 1 | 1 | 真实检索后完整回答，遵守不执行要求 |
 
-reasonable_refusal 的原生相关性裁决为三条 borderline，固定 SDK 将它们计入通过项，因而得到 1；这不表示它直接给出了三个发布事实。其他条件也需结合 statements、verdicts 与理由阅读，而非只比较数字。
-
-G-Eval 的任务分数是在本课证据策略下的判断，不是事实 F1，也不是相关性与其他分数的平均。阈值与 rubric 未做业务校准。
+`reasonable_refusal` 在 `AnswerRelevancyMetric` 中抽出三条陈述且全部判为 `borderline`，SDK 默认将 `borderline` 计入通过项，因而得分为 `1`。阅读这一结果时要对照原始 `statements`、`verdicts` 和 `GEval` 理由，区分“合理澄清获得相关性默认通过”与“直接给出发布规范”。
 
 ## 真实 Agent 运行
 
-复用第5课 `run_task`，k=3、每次 context_limit=2。实际有两次成功模型输入、一次 search_knowledge 调用；选中 release、logs 两个片段，参考版本 current，状态 finished。工具轨迹只有搜索，没有 Bash、测试或发布调用。
+`live_agent` 复用第 5 课 `run_task`（`k=3`、`context_limit=2`），实际完成 2 轮模型输入与 1 次 `search_knowledge` 调用，最终选中 `atlas/release.md` 和 `atlas/logs.md` 两个片段，参考版本为 `current`，运行状态为 `finished`，且没有执行 Bash、测试或发布命令。
 
-实际回答为：
+模型最终回答原文如下：
 
 > 在 Atlas 项目根目录运行 `python -m pytest -q`。只有全部检查通过后才能提交发布；如果检查失败，应先修复失败项并重新检查，不得跳过。按要求，此处未执行测试或发布。
 
-新回答没有预设事实 ID，因此没有伪造一份作者事实 F1。原生相关性与任务质量均实际评分，完整轨迹和当时上下文保留在记录中。
+新生成的回答没有预设事实 ID，只由原生 `AnswerRelevancyMetric`（6 条陈述全部判为 `yes`）与 `task_metric`（得 `1`）评分，完整对话历史、检索记录与实际 `retrieval_context` 保存在记录中。
 
-## 首次失败与修复后的检查
+## 首次失败记录与软件检查
 
-首次执行在还原带工具调用的真实样本时，SDK 拒绝 tools_called 中的序列化字典，未形成完整评分文件。失败日志保留在 assessment.json；丢失的中间分数和请求计数没有重建或猜测。
+首次运行因 `LLMTestCase.model_validate` 拒绝 `live_agent` 样本中已序列化的 `tools_called` 字典而报错中断，完整报错日志保留在 `assessment.json` 的 `failed_attempt` 字段中。修复后，[code.py](code.py) 在构造送评样本时只提取 `input`、`actual_output`、`expected_output` 和 `retrieval_context` 四个字段，完整 `tools_called` 轨迹继续留在 `conditions["live_agent"]["sample"]` 内，并在每次模型调用后增量存盘。
 
-修复后，评分只从记录取所需四个字段，完整工具调用仍保存。每个条件完成或抛出异常时都保存已得到的评分与裁判返回。修复后的有效运行独立记录，未把首次失败当作 Agent 答案低分。
+配套单元测试核对了以下行为：`fact_scores` 在 TP/FP/FN 计算、精确率与召回率分母区分、`beta` 权重调节、集合去重、空集返回 `None` 以及非正 `beta` 抛错上的表现；`judge_relevance` 在切题但命令错误时仍得 `1` 且空陈述返回 `not_applicable`；`task_metric` 正确配置四个输入字段与 `threshold=1.0`；以及 `--live --judge` 路径在保留 `tools_called` 的前提下完成四字段送评。
 
-软件检查覆盖 TP/FP/FN 与两个分母、β 权重、去重、空集和非法 β；构造响应检查相关性不能校验事实、空陈述标记不适用。另复现带工具调用的序列化样本，验证四字段评分路径和完整轨迹留存。这些构造响应不冒充真实裁判调用。
-
-这里只有六个公开教学对照和一次真实 Agent 运行，不能推断业务总体质量。参考是否完整、事实拆分粒度、证据策略与裁判稳定性都影响解释。
+本课评估基于六个教学构造条件与一次真实 Agent 运行，具体业务接入时仍需结合行业文档重新校准参考事实拆分粒度与阈值。

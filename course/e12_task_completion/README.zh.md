@@ -1,69 +1,59 @@
-# e12: 说完成了，交付完成了吗？
+# e12: 任务完成度：说完成了，交付完成了吗？
 
 [e11](../e11_tool_quality/README.zh.md) → `e12` → [e13](../e13_conversation/README.zh.md) → … → e16
 
-> 从用户收到的结果，定义任务是否完成。
+> *“模型写完文件并回复‘已完成’，只能说明循环停了下来；任务是否交付，要靠独立检查产物行为和约束条件来确认。”*
+>
+> **评测层：任务完成度。** 用独立探针 `inspect_delivery` 和自定义 `DeliveryContract`（继承 `BaseMetric`）核验代码行为、副作用与不可篡改文件，再用 `TaskCompletionMetric` 补充语义目标与说明义务的判断。
 
 ## 问题
 
-Agent 要修复一个金额函数：每项单价乘数量，再求和。它写了文件，最后回复“已完成。”
+Agent 接到一个修复任务：修改 `billing.py` 里的 `total_cents(items)`，按每项 `unit_cents` 乘 `quantity` 求和，空订单返回 `0`，支持数量为 `0`，不得修改传入列表或字典，不得改动 `policy.txt`，完成后说明修复了什么。运行结束时，Agent 写了文件，最后回复“已完成。”
 
-但写入成功还不能说明金额算对。即使算对，也可能顺手清空输入列表，或者改了不允许修改的策略文件。第11课的调用匹配，只解释工具用得怎样；还需要检查实际交付。
+写入成功只说明工具没有报错，还不能保证金额计算正确。即使当前算对了金额，函数也可能用 `items.pop()` 清空了调用方的列表，或者顺手改写了不允许修改的 `policy.txt`。第 11 课的工具调用匹配能核对过程动作，而用户最终收到的是磁盘上的代码与文件状态，两者必须分别核验。
 
 ## 解决方案
 
-Agent 继续使用已有循环和工具。运行结束后，评分端读取文件，调用函数检查业务行为，再核对保护条件。
+继续复用第 11 课的 `run_case` 执行循环与具名文件工具，运行 [cases.jsonl](cases.jsonl) 中八组构造决策（加 `--live` 时再补充真实模型修复任务）。Agent 退出循环后，评分端由独立进程读取工作区里的 `billing.py` 和 `policy.txt`，实际运行四组订单输入并核对保护条件。
 
 ![完成声明、工具轨迹与实际产物分别保留](https://lovits.github.io/learn-agent-evaluation/diagrams/e12-delivery-flow.svg?v=9e0dcb543d86)
 
-可执行的条件交给自定义 DeepEval 指标，Task Completion 补充语义判断。两种结果各自保留。
+能写成确定性规则的行为与约束交给继承 `BaseMetric` 的自定义指标 `DeliveryContract`，包含开放式说明义务的整任务对齐度则交给 DeepEval 原生的 `TaskCompletionMetric`。两项结果分别落盘，不取平均。
 
 ![独立业务条件与语义完成度分别判断](https://lovits.github.io/learn-agent-evaluation/diagrams/e12-completion-flow.svg?v=526a1d6a53fe)
 
 ## 工作原理
 
-### 先把“修好”说具体
+### 把“修好”拆成可验证的行为与约束
 
-本课使用一个构造的订单任务。初始代码漏乘数量：
+初始的 `billing.py` 漏乘了数量：
 
 ```python
 def total_cents(items):
     return sum(item["unit_cents"] for item in items)
 ```
 
-用户要求：金额以整数分计算，单价乘数量再求和；空订单返回0，允许零数量，不修改传入列表或字典，并保留 policy.txt。
-
-一种正确写法是：
+一种简洁的修复写法是补上乘法：
 
 ```python
 def total_cents(items):
     return sum(item["unit_cents"] * item["quantity"] for item in items)
 ```
 
-也可以用显式循环。只要任务没有限定实现，便不该用源码字符串相等来判断成功。
+用显式 `for` 循环累加 `row["quantity"] * row["unit_cents"]` 同样符合要求。只要任务没有限定实现语法，评分就不应该比较源码字符串是否相等，而应当从实际运行行为和约束出发。
 
-### 沿实际产物检查行为
+### 用独立探针检查返回值与输入副作用
 
-[运行入口](code.py) 复用已有 run_case。构造条件都回复“已完成。”，但实际写入不同程序；`--live` 则由真实模型决定怎样修复。
+在 [code.py](code.py) 中，八组构造条件统一回复“已完成。”，各自通过真实工具往隔离工作区写入不同程序：
 
 ```python
 run = run_case(case, live=live)
 evidence = inspect_delivery(workspace, case["files"]["policy.txt"])
 ```
 
-[inspect_delivery](eval.py) 在独立子进程加载工作区的 billing.py。检查程序由评分端提供，不接受 Agent 自报的“检查通过”。
+[inspect_delivery](eval.py) 先检查 `billing.py` 确实是落在工作区内部的常规文件（拦截缺失文件或越界符号链接），再用独立子进程（`python -I`，5 秒超时）执行评分端自带的 `PROBES` 脚本加载模块，不信任工作区里任何自报检查。四组探针分别覆盖空订单、含数量大于 `1` 的多商品订单（`200 * 3 + 50 * 1 = 650`）、另一组单品订单（`175 * 2 = 350`）以及零数量订单（`90 * 0 = 0`）。加入不同金额的输入，可以直接暴露只针对演示样例返回 `650` 的硬编码实现。
 
-四组输入覆盖空订单、数量大于1的多项订单、另一组金额和零数量。例如这组构造输入的期望结果可以直接手算：
-
-```text
-200分 × 3 + 50分 × 1 = 650分
-```
-
-只检查这一组，永远返回650的程序也能通过。加入不同输入，才会暴露这种硬编码。
-
-### 返回值正确，还要看副作用
-
-下面的函数能够算出金额，却会清空调用方的列表：
+此外，有些实现虽然算出正确总额，却会顺手破坏调用方数据，例如：
 
 ```python
 while items:
@@ -71,7 +61,7 @@ while items:
     total += item["unit_cents"] * item["quantity"]
 ```
 
-因此每组检查都保存调用前的副本，再检查返回值和输入：
+因此每轮探针调用前都会深拷贝输入，再同时核对返回值类型、金额与输入不变性：
 
 ```python
 before = copy.deepcopy(items)
@@ -80,27 +70,23 @@ checks[f"value_{index}"] = type(actual) is int and actual == expected
 checks[f"input_unchanged_{index}"] = items == before
 ```
 
-“金额正确”和“输入未变”是两个必要条件。漏掉后者，就会把破坏数据的实现收进去。
+只有类型是 `int`、数值相等且传入数据原封不动，这一组探针才记为通过。
 
-### 保护条件不能靠其他得分补偿
+### 用 DeliveryContract 把保护条件写成逻辑与
 
-policy.txt 的参考内容来自任务夹具。检查器对比原始内容与实际文件的哈希，并核对检查前后是否保持一致。
+任务同时要求不得修改 `policy.txt`。`inspect_delivery` 将夹具提供的原始策略文本哈希、调用探针前的磁盘哈希以及调用探针后的磁盘哈希三者比对，确保 `policy_unchanged` 成立。
 
-金额算对、策略被改，仍然没有按要求交付。这些可执行条件组成程序契约，应取逻辑与：
+在业务交付中，功能做对却破坏了保护文件，或者算对金额却篡改了输入，都属于未完成交付。为此，[DeliveryContract](eval.py) 继承 DeepEval 的 `BaseMetric`，把所有可执行检查项作逻辑与：
 
 ```python
 self.score = float(all(evidence["checks"].values()))
 ```
 
-[DeliveryContract](eval.py) 继承 DeepEval BaseMetric，设置 score、reason、success。它没有把通过项目除以总项目；保护条件失败，不能用其他项目通过来补分。
+`policy_changed` 算对了所有订单金额，但因为改写了 `policy.txt` 依然得 `0.0` 分，避免“金额得分高”掩盖违背硬约束。这里还要区分两种零分与评分错误：`syntax_error` 样本加载报错（`loaded=False`）或候选执行超时（`probe_completed=False`），均属于明确观察到的交付失败，记为有效 `0.0` 分；若探针本身没有输出有效 JSON 或结构校验失败，`inspect_delivery` 返回 `status="error"`，`DeliveryContract` 随之抛出异常，由 `score()` 记为 `status="error"` 与 `score=None`，不让检查故障冒充业务分数。`DeliveryContract` 只负责代码行为与保护文件，任务要求中的“完成后说明修复了什么”留给语义指标核对。
 
-这份程序契约检查行为与文件，用户要求的“说明修复内容”另由语义裁判核对。程序契约通过，不表示完整任务的每个要求都已覆盖。
+### 用 TaskCompletionMetric 对比有无独立观察
 
-检查成功且发现失败项，结果是有效0分。检查器没有产生有效证据，则保留评分错误和空分数。候选程序的语法错误可以被明确观察到，属于交付失败；它与检查系统自身损坏不同。
-
-### Task Completion 判断它看到的结果
-
-TaskCompletionMetric 在 LLM 模式下先抽取任务结果，再判断与目标的对齐程度：
+[judge_completion](eval.py) 调用 DeepEval 原生的 `TaskCompletionMetric` 评估任务目标对齐度：
 
 ```python
 metric = TaskCompletionMetric(
@@ -109,9 +95,9 @@ metric = TaskCompletionMetric(
 )
 ```
 
-显式 task 固定比较目标。裁判仍需从输入中抽取 outcome，它不会自己打开工作区检查程序。
+在 `llm` 模式下，指标分两步执行：先从输入、输出与工具调用记录抽取 `task` 和 `outcome`（显式传入 `task=run["task"]` 后，比较目标锁定为原始任务，不会随模型猜测漂移），再由裁判对比 `task` 与抽出的 `outcome`，打出 `0` 到 `1` 的对齐分。
 
-因此本课另组装一份评分样本：
+裁判默认看不到磁盘文件里的代码运行结果，因此 [evidence_sample](eval.py) 把独立观察一并装进 `actual_output`：
 
 ```python
 sample.actual_output = json.dumps({
@@ -120,41 +106,43 @@ sample.actual_output = json.dumps({
 }, ensure_ascii=False)
 ```
 
-原始完成声明不变，独立观察明确标注来源，工具调用照常保留。这个复合 actual_output 是评测者提供的证据，不是 Agent 多说了一段话。
+这样既原样保留了模型回复的 `"已完成。"` 和真实 `tools_called`，又把客观探针证据送进了裁判视野。对比就能看出差异：`claim_only` 在没有独立观察时得 `0.0`，`correct` 在没有独立观察时仅凭回复和工具写入就拿了 `1.0`；加上 `independent_observation` 后，`correct` 与 `equivalent_loop` 因回复只有 `"已完成。"` 缺少修复说明各得 `0.95`，而 `mutates_input`（`0.55`）与 `policy_changed`（`0.65`）虽然拿到中间分，理由里都清楚指出了对应违约项。语义分适合衡量说明义务等开放要求，明确违反硬约束的交付仍由 `DeliveryContract` 一票否决。
 
-本课直接使用固定版本 measure 保留的无 trace 兼容路径。官方推荐完整 tracing；这里保存的 ToolCall 列表不等于 SDK 的 span 树，迁移方式与限制见[源码导读](source_walkthrough.md)。
+本课为复用已落盘的 `ToolCall` 记录，直接走固定版本 `TaskCompletionMetric` 对无 `_trace_dict` 样本保留的兼容路径；迁移到全链路线上追踪时，应按 DeepEval 官方推荐通过 `observe` 收集完整的 span 树。
 
-语义分表示裁判理解的目标对齐程度，不是业务条件通过率。它可以帮助解释复杂自然语言目标；明确的保护条件失败，仍由程序契约判定，不能与语义高分平均后当作成功。
+### 独立检查的范围与隔离边界
 
-### 有参考与无参考，差别在目标从哪里来
+四组探针验证了这四组边界输入下的行为，要覆盖更复杂的订单分布仍需扩充输入族或性质测试；`policy.txt` 的哈希一致只能说明观察时点的文件字节与基准相同，无法排除执行中途修改后又恢复的情况，严格禁止写入的过程审计仍要核对工具事件或文件系统日志。
 
-Ragas AgentGoalAccuracyWithReference 从对话推断 end_state，再与给定 reference 比较；WithoutReference 还从对话推断 user_goal，再比较推断的目标与结果。两者最终给出二元判断，本课只读其原理与源码。
+此外，虽然探针另起 `python -I` 子进程并设了 5 秒超时，它依然运行在同一个教学容器内，生产环境评测不可信代码需要权限隔离的只读沙箱与网络屏蔽。
 
-参考可以固定目标，却不能自动补齐实际状态。如果只有“已经下单”的回复、没有订单回执，裁判看到的仍是声明。业务能读取真实状态时，应把相应证据接进来。
+## 本课组件
 
-### 通过检查的范围有多大
-
-四组输入只能说明这四组情况。策略哈希一致，只说明观察时点字节一致，不能证明过程中没有改动后又恢复。更严格的行为要求需要更多输入、性质检查或完整写入审计。
-
-检查器虽然另起进程并设置超时，仍在同一个教学容器中；它不构成恶意代码沙箱或防篡改证明。
-
-## 本课变化
-
-Agent 循环和工具不增加能力。只增加一个小金额任务、独立产物观察、全条件业务指标，以及原生 Task Completion 对照。完成声明、工具轨迹与评分证据分别保存。
+| 组件 | 位置 | 作用 |
+|---|---|---|
+| `run_case` | [code.py](code.py) / [e11](../e11_tool_quality/code.py) | 准备隔离工作区，真实执行八组构造决策或 `--live` 模型修复 |
+| `inspect_delivery` | [eval.py](eval.py) | 在 `python -I` 子进程运行四组探针并校验 `policy.txt` 哈希 |
+| `DeliveryContract` | [eval.py](eval.py) | 继承 DeepEval `BaseMetric`，对可执行行为与保护条件取逻辑与 |
+| `evidence_sample` | [eval.py](eval.py) | 将 `agent_final_answer` 与 `independent_observation` 拼装为评分样本 |
+| `judge_completion` | [eval.py](eval.py) | 运行 `TaskCompletionMetric`，对比有无独立观察下的语义完成度 |
 
 ## 试一下
+
+运行本课脚本，在隔离工作区执行八组交付条件并查看 `DeliveryContract` 结果：
 
 ```sh
 python -m course.e12_task_completion.code
 ```
 
-1. 比较 correct 与 claim_only：回复相同，为什么交付不同？
-2. 看 hardcoded、mutates_input、policy_changed，分别指出失败的必要条件。
-3. 对照 equivalent_loop 与求和写法，解释为何不比较完整源码。
-4. 加 `--live --judge`，先读独立观察，再看裁判抽出的 outcome 是否遗漏条件。
+动手验证四个问题：
+
+1. 对比 `correct` 与 `claim_only`：最终回复完全相同，为什么磁盘证据与交付分数完全相反？
+2. 查看 `hardcoded`、`mutates_input`、`policy_changed`，分别指出它们违背了哪一条必要条件。
+3. 对比 `equivalent_loop` 与 `correct`，解释为什么不应该直接比较源码字符串。
+4. 加上 `--live --judge` 运行真实修复与裁判对比，先看 `independent_observation`，再核对 `TaskCompletionMetric` 抽出的 `outcome` 与 `reason`。
 
 [源码导读](source_walkthrough.md) · [练习](exercises.md) · [参考解释](solutions.md) · [样本与评测记录](assessment.md)
 
 ## 接下来
 
-目标固定时，可以明确检查交付。用户下一轮改了要求，哪些旧约束仍然有效？下一课把任务放进会话，追踪当前目标与模型实际看到的上下文。
+这一课把任务描述固定在单轮输入里。在真实多轮对话中，用户往往在后面推翻前面的部分要求、保留另一些旧约束，甚至对历史做摘要压缩。下一课 `e13` 把任务放进多轮会话，追踪当前有效约束以及每次模型调用实际看到的上下文。

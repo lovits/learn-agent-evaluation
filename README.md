@@ -1,131 +1,133 @@
 # 从编程 Agent 学评测
 
-从一个循环和 Bash 开始，让 Agent 真正处理文件，再问：怎样知道它做得对？
+从一个最小循环和 Bash 工具出发，先让 Agent 动手处理文件，再沿着每一次执行追问：怎么确认它真的把事做对了？
 
-课程沿 [Learn Claude Code](https://github.com/shareAI-lab/learn-claude-code) 的思路逐步增加机制。知识库使用 [Datawhale TinyRAG](https://github.com/datawhalechina/tiny-universe/tree/main/content/TinyRAG)，实际评测框架统一使用 DeepEval；同时从 Ragas 的文档与源码学习指标原理和数据集设计。适合会 Python、了解 RAG 与 Agent，想系统学习评测的读者。
+课程中的编程 Agent 沿 [Learn Claude Code](https://github.com/shareAI-lab/learn-claude-code) 的递进方式逐步长出工具、权限、知识库检索与多轮记忆；知识库接入 [Datawhale TinyRAG](https://github.com/datawhalechina/tiny-universe/tree/main/content/TinyRAG)，评测体系基于 [DeepEval](https://deepeval.com/docs/evaluation-introduction) 展开。适合会写 Python、了解 RAG 与 Agent，想把评测真正落到代码里的读者。
 
 ## 课程
+
+全课分四个阶段推进：第 1 至 4 课搭起成功条件、样本、数据集与评分器；第 5 至 10 课接入 TinyRAG，评测检索上下文与生成回答；第 11 至 13 课评测工具调用、任务交付与多轮会话；第 14 至 16 课校准 LLM 裁判、对比版本并建立持续回归。
 
 | 课 | 核心知识点 | 要解决的问题 |
 |---|---|---|
 | 01 | [定义成功](course/e01_success/README.zh.md) | 模型停下了，任务就完成了吗？ |
 | 02 | [保存一次运行](course/e02_samples/README.zh.md) | 怎样把 Agent 的一次工作变成评测样本？ |
 | 03 | [准备评测数据](course/e03_datasets/README.zh.md) | 怎样让题目代表你真正关心的能力？ |
-| 04 | [给样本评分](course/e04_scoring/README.zh.md) | 什么时候用规则，什么时候请模型判断？ |
-| 05 | [接通知识库](course/e05_knowledge_context/README.zh.md) | 检索出的资料，最后有哪些真的交给了模型？ |
-| 06 | [上下文相关性与排序](course/e06_context_precision/README.zh.md) | 找到了资料，为什么还要看相关性和顺序？ |
-| 07 | [上下文覆盖与召回](course/e07_context_recall/README.zh.md) | 资料看起来都相关，为什么问题仍答不全？ |
-| 08 | [回答对上下文的忠实度](course/e08_faithfulness/README.zh.md) | 回答里的每条事实，资料都支持吗？ |
-| 09 | [答案质量](course/e09_answer_quality/README.zh.md) | 忠于资料，为什么仍可能没有回答好问题？ |
-| 10 | [上下文干扰与故障定位](course/e10_rag_diagnosis/README.zh.md) | 答案错了，应该先改资料、检索还是生成？ |
-| 11 | [工具调用质量](course/e11_tool_quality/README.zh.md) | 名字选对了，工具就用对了吗？ |
-| 12 | [任务完成度](course/e12_task_completion/README.zh.md) | 怎样确认 Agent 真的交付了用户要的结果？ |
-| 13 | [会话上下文与约束保持](course/e13_conversation/README.zh.md) | 用户改了要求以后，Agent 还记得哪一版？ |
-| 14 | [校准 LLM 裁判](course/e14_judge_calibration/README.zh.md) | 评分器自己的判断可信吗？ |
-| 15 | [比较两个版本](course/e15_version_comparison/README.zh.md) | 分数变高，怎样判断改动真的有用？ |
-| 16 | [综合项目与持续回归](course/e16_regression/README.zh.md) | 怎样让一次修复成为以后不会再犯的经验？ |
+| 04 | [给样本评分](course/e04_scoring/README.zh.md) | 什么时候写规则，什么时候请模型当裁判？ |
+| 05 | [接通知识库](course/e05_knowledge_context/README.zh.md) | 检索出的资料，最后有哪些真的送进了模型？ |
+| 06 | [上下文相关性与排序](course/e06_context_precision/README.zh.md) | 找到了资料，为什么还要看相关性和先后顺序？ |
+| 07 | [上下文覆盖与召回](course/e07_context_recall/README.zh.md) | 返回的资料都相关，为什么问题还是答不全？ |
+| 08 | [回答对上下文的忠实度](course/e08_faithfulness/README.zh.md) | 回答里的每条事实，上下文都给过依据吗？ |
+| 09 | [答案质量](course/e09_answer_quality/README.zh.md) | 句句有出处，为什么仍可能没把问题答好？ |
+| 10 | [上下文干扰与故障定位](course/e10_rag_diagnosis/README.zh.md) | 答案错了，该先查资料、检索还是生成？ |
+| 11 | [工具调用质量](course/e11_tool_quality/README.zh.md) | 工具名选对了，调用就算合格了吗？ |
+| 12 | [任务完成度](course/e12_task_completion/README.zh.md) | 怎样确认 Agent 真正交付了用户要的结果？ |
+| 13 | [会话上下文与约束保持](course/e13_conversation/README.zh.md) | 用户中途改过要求，Agent 还在按哪一版执行？ |
+| 14 | [校准 LLM 裁判](course/e14_judge_calibration/README.zh.md) | 用来打分的模型裁判，它自己的判断可信吗？ |
+| 15 | [比较两个版本](course/e15_version_comparison/README.zh.md) | 平均分涨了，怎么判断改动确实有效？ |
+| 16 | [综合项目与持续回归](course/e16_regression/README.zh.md) | 怎样把一次线上修复沉淀成长期回归门禁？ |
 
 [完整大纲](docs/curriculum.md)
 
 ## 能学到哪些知识点与原理
 
-- **Agent 的工作原理**：模型、工具与执行结果怎样组成循环；停止条件、权限边界和运行轨迹各自解决什么问题。
-- **评测的基本组成**：任务目标、成功条件、运行证据、参考答案与评分标准之间的关系；过程质量和最终结果为什么要分别判断。
-- **评测样本与数据集**：单次运行如何表示为评测样本；题目来源、人工审核、去重与能力覆盖；开发集、留出集和数据泄漏。
-- **规则评分与 LLM 裁判**：确定性检查与语义判断的适用范围；G-Eval 的评价步骤、量表、阈值和评分理由；异常与缺失分数的含义。
-- **RAG 与上下文构建**：文档分块、向量检索和上下文组装的基本过程；检索候选与模型实际看到的资料有什么区别；如何保留来源和版本。
-- **上下文相关性与排序**：Precision、AP、倒数排名和 NDCG 的计算思路；相关资料的数量与排列位置如何影响检索质量。
-- **上下文覆盖与召回**：必要事实、参考答案与证据归因；如何判断资料是否足以覆盖问题，以及精度与召回各自关注什么。
-- **回答忠实度**：将回答拆成事实声明，逐条核对上下文支持，再聚合评分；忠实度与事实正确性的区别。
-- **答案质量**：回答相关性、事实精度、事实召回、F 分数与完整性；为什么有依据的回答仍可能没有答好问题。
-- **RAG 故障定位**：资料缺失、检索遗漏、上下文组装和生成错误的区别；通过干扰样本与单变量对照追踪失败原因。
-- **工具调用与任务完成度**：工具选择、参数、顺序和执行结果的评价方法；如何结合业务条件、文件产物与行为证据判断任务是否完成。
-- **多轮会话评测**：历史消息与实际模型输入的区别；用户约束如何新增、覆盖和撤销；知识保持与会话完整性的评价思路。
-- **LLM 裁判校准**：人工参考标签、误判、分歧与阈值；等价表达、位置变化和指令干扰如何影响裁判判断。
-- **版本比较与持续回归**：同题配对、重复运行、题族重采样和不确定性；如何同时考虑质量与成本，并将复核后的失败样本纳入回归集。
-- **DeepEval 与 Ragas 的指标原理**：从文档和关键源码理解样本字段、证据提取、逐项判断与分数聚合；实际评测统一接入 DeepEval，借 Ragas 对照理解指标定义与适用边界。
+- 模型、工具与执行框架（Harness）怎样配合形成 Agent 循环，循环退出状态、目录权限边界与运行轨迹各自记录什么信息。
+- 任务目标、成功条件、运行证据、参考答案与评分标准怎样各司其职，为什么要把执行过程和最终产物分开核验。
+- 一次真实运行如何映射为 DeepEval 的 `LLMTestCase` 与 `ToolCall`，以及 `Golden`、`EvaluationDataset`、`Synthesizer` 在候选出题、人工复核、语义去重和开发/留出集划分中的用法。
+- 确定性规则（继承 `BaseMetric`）与语义裁判（`GEval`、`Rubric`、`evaluation_steps`）各自的适用边界，量表归一化与阈值判定怎样计算，以及有效零分、指标不适用与接口报错为什么要分开记录。
+- TinyRAG 文档分块、向量检索与上下文组装的完整数据流，检索候选列表与模型实际收到的 `retrieval_context` 有何差别，以及如何追踪文档来源与内容版本。
+- 检索上下文相关性与排序原理：普通精度、平均精度（AP）、倒数排名（MRR）与 NDCG 的计算方式，以及 DeepEval 中 `ContextualPrecisionMetric`（按片段排序加权）和 `ContextualRelevancyMetric`（按陈述相关性占比）的判分差异。
+- 检索上下文覆盖与召回原理：参考事实如何拆解并与上下文归因比对，`ContextualRecallMetric` 的分母由什么决定，以及为什么高精度检索仍可能漏掉关键证据。
+- 回答忠实度（`FaithfulnessMetric`）的三步判分过程：从上下文提取 `truths`、从回答拆出 `claims`、逐条做自然语言推断（`yes` / `no` / `borderline`），以及 `penalize_ambiguous_claims` 如何影响聚合得分。
+- 答案质量的多维拆解：切题程度（`AnswerRelevancyMetric`）、事实精度与召回、F 分数、需求完整性以及缺证据时的合理拒答。
+- RAG 链路故障定位方法：通过受控对照隔离文档缺失、版本过期、检索漏召回、上下文截断和生成阶段幻觉。
+- 工具调用评测原理：用 `ToolCorrectnessMetric` 和 `ArgumentCorrectnessMetric` 分别检查工具选择、参数内容、调用顺序与重复动作，理解工具匹配高分与实际执行成功之间的差距。
+- 任务完成度评测：将文件产物、程序行为契约与 `TaskCompletionMetric` 结合起来，避免只凭一句“已完成”或局部轨迹放行错误交付。
+- 多轮会话评测：区分原始对话历史与压缩后送入模型的上下文，追踪用户约束的新增、覆盖与撤销，理解 `KnowledgeRetentionMetric` 与 `ConversationCompletenessMetric` 的输入视角。
+- LLM 裁判校准原理：用独立参考标签统计误接收与误拒绝，排查顺序、篇幅和语言风格带来的裁判偏差，并在冻结的开发集与留出集上验证提示词修订。
+- 版本对比与持续回归：同题配对比较、重复运行波动、按题族重采样（Bootstrap）与调用成本核算，将复核后的失败案例收进回归集持续守门。
 
 ## 仓库结构
 
 ```text
 learn-agent-evaluation/
-├── README.md                    课程总览、知识点与文件导航
+├── README.md                    课程总览、知识点与目录导航
 ├── course/
 │   ├── e01_success/             最小 Agent 循环与成功条件
-│   ├── e02_samples/             工具、权限、轨迹与统一样本
-│   ├── e03_datasets/            评测数据集
-│   ├── e04_scoring/             规则评分与 LLM 裁判
-│   ├── e05_knowledge_context/   Agent 接入 TinyRAG
-│   ├── e06_context_precision/  上下文相关性与排序
+│   ├── e02_samples/             具名工具、权限、轨迹与 DeepEval 样本
+│   ├── e03_datasets/            评测数据集构建、审核与划分
+│   ├── e04_scoring/             规则评分与 G-Eval 裁判
+│   ├── e05_knowledge_context/   接入 TinyRAG 与上下文追踪
+│   ├── e06_context_precision/   上下文相关性与排序
 │   ├── e07_context_recall/      上下文覆盖与召回
 │   ├── e08_faithfulness/        回答忠实度
 │   ├── e09_answer_quality/      答案质量
 │   ├── e10_rag_diagnosis/       RAG 故障定位
 │   ├── e11_tool_quality/        工具调用质量
 │   ├── e12_task_completion/     任务完成度
-│   ├── e13_conversation/        多轮约束保持
-│   ├── e14_judge_calibration/   裁判校准
-│   ├── e15_version_comparison/  版本比较
-│   ├── e16_regression/          综合 Agent 与持续回归
-│   ├── run.py                  前两课的任务运行入口
-│   └── grade.py                前两课的记录评分入口
-├── eval_course/                 模型调用、裁判适配、TinyRAG 与记录等共享代码
-├── knowledge_base/              可挂载的知识库资料
-├── docs/                        完整大纲、课程规范与综合项目讲解
-├── references/                  上游文档、指标源码依据与固定版本
-├── vendor/                      课程引用的上游代码片段
-├── generation/                  PocketFlow 教材组织输入与生成依据
-├── tools/                       教材生成、模型桥接和绘图工具
-├── tests/                       代码检查，独立于课程质量评测
-├── Dockerfile                   课程运行镜像
-└── compose.yaml                 知识库、工作区与运行记录的挂载配置
+│   ├── e13_conversation/        多轮会话与约束保持
+│   ├── e14_judge_calibration/   LLM 裁判校准
+│   ├── e15_version_comparison/  双版本配对比较
+│   ├── e16_regression/          综合项目与持续回归
+│   ├── run.py                   前两课的任务运行入口
+│   └── grade.py                 前两课的独立评分入口
+├── eval_course/                 模型调用、裁判适配、TinyRAG 与记录等共享模块
+├── knowledge_base/              只读挂载的知识库文档
+├── docs/                        完整大纲、制作规范与综合项目导读
+├── references/                  上游文档、源码依据与固定版本号
+├── vendor/                      引用的上游代码快照
+├── generation/                  教材生成输入与运行证据留档
+├── tools/                       教材生成、模型桥接与绘图脚本
+├── tests/                       仓库单元测试
+├── Dockerfile                   运行环境镜像
+└── compose.yaml                 知识库、工作区与运行记录挂载配置
 ```
 
-### 每课的文件结构
+### 每课目录
 
-下面是各课共有的结构。`code.py` 与 `eval.py` 分开，方便对照“被观察的过程”和“判断它的依据”；主教材不混入运行报告。
+每一课都是 `course/` 下的独立目录，把被测实现 `code.py` 和评分逻辑 `eval.py` 分开存放，方便对照“Agent 做了什么”与“评测器怎么判断”：
 
 ```text
 course/eXX_topic/
-├── README.zh.md            教材：问题、解决方案、工作原理与关键代码
-├── code.py                 本课机制或实验入口，按需复用已有 Agent
-├── eval.py                 本课评分、指标调用或证据检查
-├── cases.jsonl             任务、参考与评测样本
-├── source_walkthrough.md   关键调用链及上游文档、源码依据
-├── exercises.md            动手问题
-├── solutions.md            参考解释
-├── assessment.md           独立的评测样本说明与运行结果
-├── assessment.json         对应的结构化记录
-└── images/                 两张关键流程图及源文件
+├── README.zh.md            主教材：从具体问题出发讲解机制与代码
+├── code.py                 本课运行或实验入口，按需复用前课 Agent
+├── eval.py                 本课评分器、DeepEval 指标调用或产物检查
+├── cases.jsonl             任务输入、参考答案与测试样本
+├── source_walkthrough.md   本课调用链与 DeepEval 源码导读
+├── exercises.md            动手练习
+├── solutions.md            练习参考解答
+├── assessment.md           样本设计与实际运行记录
+├── assessment.json         结构化评分结果留档
+└── images/                 两张 SVG 流程图及源文件
 ```
 
-少数课程有额外文件：第 2 课的 [tools.py](course/e02_samples/tools.py) 实现工具与权限边界，[samples.py](course/e02_samples/samples.py) 转换评测样本；第 3 课的 [generate.py](course/e03_datasets/generate.py) 准备候选题；第 13 课的 [scenario.json](course/e13_conversation/scenario.json) 保存会话场景。其余配套文件在各课源码导读中解释。
+部分课程带有专用模块：第 2 课用 [tools.py](course/e02_samples/tools.py) 实现工具分发与路径边界，用 [samples.py](course/e02_samples/samples.py) 导出 DeepEval 样本；第 3 课用 [generate.py](course/e03_datasets/generate.py) 生成候选题目；第 13 课用 [scenario.json](course/e13_conversation/scenario.json) 描述多轮对话场景。
 
-### Agent 的代码从哪里读
+### Agent 代码入口
 
-| 部分 | 文件 | 负责什么 |
+后续指标课直接复用前几课搭好的 Agent 内核，避免每课重复贴同一套循环：
+
+| 模块 | 文件 | 职责 |
 |---|---|---|
-| 最小循环 | [第 1 课 code.py](course/e01_success/code.py) | 请求模型、执行 Bash、把结果交回模型 |
-| 具名工具循环 | [第 2 课 code.py](course/e02_samples/code.py) | 复用的 Agent 主循环，记录工具动作与返回 |
-| 工具与权限 | [第 2 课 tools.py](course/e02_samples/tools.py) | 文件读写、Bash 分发与文件路径边界 |
-| 评测样本转换 | [第 2 课 samples.py](course/e02_samples/samples.py) | 将运行记录转换为 DeepEval 样本 |
-| 知识库接入 | [第 5 课 code.py](course/e05_knowledge_context/code.py) · [tinyrag.py](eval_course/tinyrag.py) | 增加检索工具，保存检索结果与实际送入模型的上下文 |
-| 综合项目 | [第 16 课 code.py](course/e16_regression/code.py) · [eval.py](course/e16_regression/eval.py) | 组合既有 Agent 与评测逻辑，形成回归流程 |
+| 最小循环 | [第 1 课 code.py](course/e01_success/code.py) | 请求模型、执行 Bash、把命令输出喂回模型 |
+| 具名工具循环 | [第 2 课 code.py](course/e02_samples/code.py) | 贯穿全课的 Agent 主循环，按步记录工具调用与结果 |
+| 工具与权限 | [第 2 课 tools.py](course/e02_samples/tools.py) | 文件读写、Bash 分发与工作区路径校验 |
+| 样本转换 | [第 2 课 samples.py](course/e02_samples/samples.py) | 把运行事件转换为 DeepEval `LLMTestCase` |
+| 知识库接入 | [第 5 课 code.py](course/e05_knowledge_context/code.py) · [tinyrag.py](eval_course/tinyrag.py) | 注册检索工具，分别保存候选结果与送入模型的上下文 |
+| 综合回归 | [第 16 课 code.py](course/e16_regression/code.py) · [eval.py](course/e16_regression/eval.py) | 串联 Agent、TinyRAG 与各项判据，执行回归门禁 |
 
-上游原代码与课程代码的对应关系见每课源码导读；本地参考片段位于 [vendor](vendor/) 与 [references/upstream](references/upstream/)，固定版本见 [versions.json](references/versions.json)。
+上游参考片段存放在 [vendor](vendor/) 与 [references/upstream](references/upstream/)，对应提交哈希见 [versions.json](references/versions.json)。
 
 ## 学完能做什么
 
-- 把用户目标写成可检查的成功条件，从运行记录构造评测样本。
-- 建立有来源、有参考、有划分的数据集，选用规则和 LLM 裁判。
-- 评价上下文是否相关、排得合理、覆盖充分，以及回答是否有依据、正确、完整。
-- 分开判断工具调用、任务完成和多轮约束，用证据定位失败。
-- 读懂 DeepEval、Ragas 的关键判分过程，校准裁判、比较版本并接入持续回归。
+- 把模糊的业务目标拆成可验证的成功条件，将 Agent 运行轨迹整理成标准评测样本。
+- 搭建带来源追踪、人工审核与开发/留出划分的数据集，合理搭配代码规则与 `GEval` 裁判。
+- 诊断 RAG 检索的相关性、排序与覆盖率，核验回答忠实度与答案质量，定位链路出错位置。
+- 独立评测工具调用、文件交付与多轮约束保持，不再被一句“已完成”误导。
+- 读懂 DeepEval 指标背后的拆解、裁决与聚合源码，校准模型裁判，完成版本对比与持续回归。
 
-## 怎样读
+## 如何阅读
 
-每课从一个具体困难开始，接着给出最小机制，再沿关键代码解释它怎样工作。教材只展开当前知识点，完整函数和框架依据放在源码导读，动手问题及参考解另放。
-
-一条任务贯穿 Agent 与评分器：Agent 负责工作，评分器根据实际记录和结果判断。后续课程复用已有能力，最后组合成[完整项目](docs/integrated-project.md)。代码可在 Docker 中执行，知识库通过只读目录挂载。
+按 `e01` 到 `e16` 的顺序往下读。每课先摆出一个具体故障，再引入解决它的最小代码，逐步拆解数据流与判分逻辑；想深挖 SDK 细节时打开同目录下的 `source_walkthrough.md`，想看运行输出时查阅 `assessment.md`，最后在[综合项目导读](docs/integrated-project.md)里把整条评测链串起来。
 
 [来源与许可](THIRD_PARTY.md) · [固定源码版本](references/versions.json)

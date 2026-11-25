@@ -1,41 +1,41 @@
 # 从编程 Agent 学评测：课程大纲
 
-Agent 接到任务，读文件、查资料、调用工具，最后给出回答。评测要沿着这条过程问清楚：目标是什么，证据在哪里，评分依据是什么，下一步应该改哪里。
+Agent 接到任务后，先读取文件、检索资料、调用工具，最后组织回答。评测要沿着这条链路把四个问题落到代码里：目标是什么、证据在哪里、判据怎样计算、下一步该修哪一层。
 
-课程从 Learn Claude Code 的最小循环开始。知识库部分接入 Datawhale TinyRAG，实际评测框架统一使用 DeepEval；Ragas 的文档与固定版本源码用于解释指标和数据集设计。每课只展开一个核心问题；评分课复用已有 Agent，不为讲指标添加无关功能。
+课程沿 [Learn Claude Code](https://github.com/shareAI-lab/learn-claude-code) 的递进路线搭建编程 Agent，知识库部分接入 [Datawhale TinyRAG](https://github.com/datawhalechina/tiny-universe/tree/main/content/TinyRAG)，评测体系统一基于 [DeepEval](https://deepeval.com/docs/evaluation-introduction) 展开。每课围绕一个核心问题推进，指标课直接复用前面搭好的 Agent 内核。
 
 | 阶段 | 课程 | 要建立的理解 |
 |---|---|---|
-| 建立评测 | 01—04 | 定义成功，保存样本，准备数据，选择评分方法 |
-| 评价上下文与回答 | 05—10 | 接通 TinyRAG，评价相关性、排序、覆盖、忠实度与答案质量，定位故障 |
-| 评价 Agent 行为 | 11—13 | 工具、最终任务和会话约束分别怎样判断 |
-| 形成改进闭环 | 14—16 | 校准裁判，比较版本，把失败接入持续回归 |
+| 建立评测 | 01 至 04 | 定义成功条件，保存运行样本，准备与审核数据，选择规则或语义评分 |
+| 评价上下文与回答 | 05 至 10 | 接通 TinyRAG，评价检索相关性、排序、覆盖、忠实度与答案质量，定位链路故障 |
+| 评价 Agent 行为 | 11 至 13 | 分别核对工具调用过程、最终交付产物和多轮会话约束 |
+| 形成改进闭环 | 14 至 16 | 校准模型裁判，开展同题版本对比，将复核后的失败接入持续回归 |
 
-上下文评测贯穿第5—10课，第13课继续讨论多轮会话中模型实际看到的内容。检索返回的片段、送给模型的资料和原始文档分别保存，避免拿错评测对象。
+上下文追踪贯穿第 5 至 10 课，第 13 课进一步延伸到多轮对话压缩后模型实际可见的输入。检索候选、送入模型的片段和原始知识文档分开存档，避免拿错评测对象。
 
 ## 01 定义成功
 
 模型停下了，任务就完成了吗？
 
-用一个循环和 Bash 完成文件任务，再从实际文件与执行结果判断是否成功。
+用一个最小循环和 Bash 执行文件任务，再从实际文件与命令输出判断是否成功。
 
-**知识点**
+知识点：
 
-- 模型、执行框架与工具的分工
-- 消息回填与循环停止
-- 停止状态、工具结果与任务成功
-- 独立评分及逐项证据
+- 模型、执行框架与工具的职责分工
+- 消息回填与循环退出状态
+- 停止状态、命令退出码与任务成功条件
+- 独立评分及逐项证据核验
 
-**本课代码**：仅模型请求、Bash、消息回填；记录够本课评分使用的事件。
+本课代码：仅保留模型请求、Bash 执行与消息回填，记录够独立评分使用的事件。
 
-**源码依据**
+源码依据：
 
-- DeepEval：Golden、LLMTestCase 与 evaluate 的分工
-- Ragas：Dataset、experiment 与逐行结果的分工
+- Learn Claude Code：`s01_agent_loop` 最小循环
+- DeepEval：`Golden`、`LLMTestCase` 与 `evaluate` 的三层职责
 
-**动手理解**：创建并运行 hello.py；再给评分器一条只有“已完成”的记录。
+动手理解：创建并运行 `hello.py`，再把一条只回复“已完成”的记录交给评分器。
 
-**学会的标志**：能顺着任务、动作、工具结果、文件和评分说明：为什么一次停止可以失败。
+学会的标志：能沿着任务要求、执行事件、磁盘文件和评分规则，解释为什么模型正常停止依然可能判为失败。
 
 [教材](../course/e01_success/README.zh.md) · [源码导读](../course/e01_success/source_walkthrough.md)
 
@@ -43,25 +43,25 @@ Agent 接到任务，读文件、查资料、调用工具，最后给出回答�
 
 怎样把 Agent 的一次工作变成评测样本？
 
-把任务、可见输入、最终输出、工具事件和产物对应起来，再转换成框架需要的字段。
+把任务、可见输入、最终输出、工具调用和产物对应起来，再转换成 DeepEval 样本结构。
 
-**知识点**
+知识点：
 
-- 任务编号与运行编号
-- 原始事件、trace/span 与统一样本
-- 具名工具、参数、执行结果与拒绝结果
-- DeepEval 的 input/actual_output 与工具字段映射
+- 任务编号、运行编号与事件位置编号
+- 原始运行轨迹与标准化样本映射
+- 具名工具、输入参数、执行结果与权限拒绝状态
+- DeepEval 的 `input`、`actual_output` 与 `ToolCall` 字段映射
 
-**本课代码**：在 Bash 之外加入 read_file、write_file；只保留必要的目录权限和事件字段。
+本课代码：在 Bash 之外加入 `read_file` 和 `write_file`，补上工作区路径校验和结构化事件记录。
 
-**源码依据**
+源码依据：
 
-- DeepEval：LLMTestCase、ToolCall 与 trace 入口
-- Ragas：从单轮与过程样本理解证据范围（源码导读）
+- Learn Claude Code：`s02_tool_use` 与 `s03_permission` 工具分发及路径边界
+- DeepEval：`LLMTestCase`、`ToolCall` 与 `tracing` 入口
 
-**动手理解**：让同一任务产生一次合法写入和一次越界拒绝，核对 DeepEval 样本是否仍保留真实动作、参数与结果。
+动手理解：让同一任务触发一次合法写入和一次越界拒绝，核对导出的 `LLMTestCase` 是否完整保留真实动作、参数与状态。
 
-**学会的标志**：能从评分样本追回真实动作，分清没有调用、被拒绝和执行失败。
+学会的标志：能从评测样本追回每一步真实动作，区分工具未调用、权限拒绝与执行报错。
 
 [教材](../course/e02_samples/README.zh.md) · [源码导读](../course/e02_samples/source_walkthrough.md)
 
@@ -69,25 +69,24 @@ Agent 接到任务，读文件、查资料、调用工具，最后给出回答�
 
 怎样让题目代表你真正关心的能力？
 
-先写少量任务及参考，再从知识库生成候选，经审核形成可重复使用的评测集。
+先编写少量覆盖核心行为的种子题，再结合文档生成候选，经过人工审核与去重后划分数据集。
 
-**知识点**
+知识点：
 
-- 任务、参考答案、参考上下文与实际输出
-- 正常、错误、缺证据与边界任务
-- 来源、版本、候选生成和人工审核
-- 语义去重、题族划分与开发/留出集
+- 任务、参考答案、参考上下文与实际输出的区别
+- 正常、错误前提、边界与缺证据四类题型
+- 来源哈希、原文引文、候选生成与人工审核状态
+- 按题意去重以及按题族隔离开发集和留出集
 
-**本课代码**：复用前两课 Agent；只增加数据读取、审核记录和划分。
+本课代码：复用前两课 Agent，新增数据审核过滤、候选生成和集合检查。
 
-**源码依据**
+源码依据：
 
-- DeepEval：Golden、EvaluationDataset、Synthesizer
-- Ragas：Dataset、TestsetGenerator 与场景生成
+- DeepEval：`Golden`、`EvaluationDataset` 与 `Synthesizer`
 
-**动手理解**：为一个小知识库编写种子题，生成候选并剔除无依据或重复的题；同题族保持同一划分。
+动手理解：围绕上传规范编写种子题，生成候选并剔除无原文支撑或同义重复的条目，保证同一题族落在同一划分中。
 
-**学会的标志**：能解释一道题测什么、参考来自哪里，以及为何不能把调试题当独立验证。
+学会的标志：能说明每道题测什么、参考依据出自哪个版本，以及为何不能用调试题充当独立验收集。
 
 [教材](../course/e03_datasets/README.zh.md) · [源码导读](../course/e03_datasets/source_walkthrough.md)
 
@@ -95,25 +94,24 @@ Agent 接到任务，读文件、查资料、调用工具，最后给出回答�
 
 什么时候用规则，什么时候请模型判断？
 
-从可直接判断的条件走到语义标准，明确评分单位、裁决和聚合。
+从结构与固定值检查走到自然语言语义量表，明确评分单位、阈值和异常处理方式。
 
-**知识点**
+知识点：
 
-- 精确匹配、结构检查与任务规则
-- rubric、结构化裁决和阈值
-- 集合 precision/recall/F1 的评分单位
-- 有效零分、未定义与评分失败
+- 精确匹配、结构契约与业务规则检查
+- `GEval` 的 `evaluation_steps`、`rubric` 与阈值归一化
+- 集合 Precision、Recall 与 F1 的评分单位和分母
+- 有效零分、分母未定义与接口报错三类状态分离
 
-**本课代码**：复用统一样本；加入一个规则评分器和一个最小 LLM 裁判。
+本课代码：复用统一样本，新增继承 `BaseMetric` 的规则检查器和一个 `GEval` 语义裁判。
 
-**源码依据**
+源码依据：
 
-- DeepEval：G-Eval 的 criteria、steps 与分数；DAG 只作规则分支对照
-- Ragas：AspectCritic、rubric 与 MetricResult
+- DeepEval：`BaseMetric`、`GEval`（`criteria`、`steps`、量表归一化）与 `DAGMetric` 分支思路
 
-**动手理解**：对同义答案、漏项答案和裁判接口错误分别评分，观察规则与语义标准适用的位置。
+动手理解：分别对同义改写、缺漏要点的回答和裁判接口报错打分，观察规则与语义标准各自负责的边界。
 
-**学会的标志**：能追到一次评分的输入、判据与分母，接口失败不会被当成零分。
+学会的标志：能追到每次打分的输入字段、量表分母与状态标签，把接口异常从业务零分中摘出来。
 
 [教材](../course/e04_scoring/README.zh.md) · [源码导读](../course/e04_scoring/source_walkthrough.md)
 
@@ -121,26 +119,25 @@ Agent 接到任务，读文件、查资料、调用工具，最后给出回答�
 
 检索出的资料，最后有哪些真的交给了模型？
 
-用 Datawhale TinyRAG 接入可挂载知识库，保存文档到实际模型上下文的路径。
+接入 Datawhale TinyRAG 与只读知识库，记录从文档分块、检索命中到实际送入模型输入的完整路径。
 
-**知识点**
+知识点：
 
-- 文档、分块、向量、相似度与 top-k
-- 检索结果与最终上下文的区别
-- 来源、内容哈希、分块位置与知识库版本
-- 本地 TF-IDF 基线的能力边界
+- 文档切分、向量相似度与 `top-k` 预算截断
+- 全部检索候选（`hits`）与实际回填上下文（`retrieval_context`）的区别
+- 文档路径、字符偏移、内容哈希与知识快照版本
+- 本地 TF-IDF 词面基线的能力边界
 
-**本课代码**：只加入 search_knowledge 和上下文组装；知识库只读挂载，工作区可写。
+本课代码：新增只读 `search_knowledge` 工具与上下文组装，每次成功请求前深拷贝 `model_inputs`。
 
-**源码依据**
+源码依据：
 
-- TinyRAG：VectorStore 的建库与 query
-- DeepEval：context 与 retrieval_context
-- Ragas：retrieved_contexts 与 reference_contexts
+- TinyRAG：`VectorStore` 建库与余弦检索
+- DeepEval：`LLMTestCase` 中的 `context` 与 `retrieval_context`
 
-**动手理解**：替换挂载文档、调整 top-k，逐项查看命中文档、返回片段和实际送入模型的资料。
+动手理解：调整 `k` 和 `context_limit`，或更换知识库文档，核对命中候选、工具返回值与模型最后一次实际输入。
 
-**学会的标志**：能拿出一次回答实际看到的上下文，并说明它来自哪个版本。
+学会的标志：能取出一次回答真正看过的知识片段，并说明它对应的文档版本是否过期。
 
 [教材](../course/e05_knowledge_context/README.zh.md) · [源码导读](../course/e05_knowledge_context/source_walkthrough.md)
 
@@ -148,25 +145,24 @@ Agent 接到任务，读文件、查资料、调用工具，最后给出回答�
 
 找到了资料，为什么还要看相关性和顺序？
 
-固定问题与候选片段，分别判断无关内容的比例和有用内容的位置。
+固定问题与候选片段，分别考察无关片段占比和有用证据排在列表前后的差异。
 
-**知识点**
+知识点：
 
-- 相关性标签及参考答案的作用
-- 普通精度与排名加权精度
-- Context Precision、Contextual Precision 与 Contextual Relevancy
-- AP 为主，MRR/NDCG 作排序视角对照
+- 相关性二元标签与参考答案的作用
+- 普通精度与按位置加权的列表 AP
+- AP、MRR 与 NDCG 的排序视角对照
+- `ContextualPrecisionMetric` 与 `ContextualRelevancyMetric` 的评分单位
 
-**本课代码**：复用 TinyRAG；只增加相关性标注与排序评分。
+本课代码：复用 TinyRAG 候选，新增相关性标注与排序聚合检查。
 
-**源码依据**
+源码依据：
 
-- DeepEval：ContextualPrecisionMetric、ContextualRelevancyMetric
-- Ragas：ContextPrecision 的判定与聚合
+- DeepEval：`ContextualPrecisionMetric`、`ContextualRelevancyMetric` 与 `score_qag_verdicts`
 
-**动手理解**：把同一有用片段移到列表前后，再插入无关片段；比较命中率与排序分数为何不同。
+动手理解：保持片段内容和标签不变，仅调整有用片段的先后次序并追加干扰片段，比较命中率与排序分数的变化。
 
-**学会的标志**：能说明评分单位、参考依赖、分母及排序变化的影响。
+学会的标志：能解释精度指标的参考依赖、分母构成以及排序位置变动对得分的影响。
 
 [教材](../course/e06_context_precision/README.zh.md) · [源码导读](../course/e06_context_precision/source_walkthrough.md)
 
@@ -174,25 +170,24 @@ Agent 接到任务，读文件、查资料、调用工具，最后给出回答�
 
 资料看起来都相关，为什么问题仍答不全？
 
-先定义应该找到的证据，再看实际上下文覆盖了多少。
+先明确回答问题所需的参考事实，再检查实际送入模型的上下文覆盖了多少必要证据。
 
-**知识点**
+知识点：
 
-- 文档级召回与声明级召回
-- reference 中的事实与证据覆盖
-- Context Recall 与 Contextual Recall
-- 参考不完整、空参考与分母变化
+- 文档级召回与事实级召回的口径差异
+- 参考事实拆解与证据来源映射
+- `ContextualRecallMetric` 的逐句归因判断
+- 参考条目变化与空参考下的分母边界
 
-**本课代码**：复用检索结果；只增加参考事实和覆盖判定。
+本课代码：复用检索记录，新增参考事实覆盖统计和原生归因检查。
 
-**源码依据**
+源码依据：
 
-- DeepEval：ContextualRecallMetric 的归因判断
-- Ragas：ContextRecall 与参考声明分解
+- DeepEval：`ContextualRecallMetric` 及其模板和逐句裁决
 
-**动手理解**：删除一个关键片段，让返回资料保持相关；再补回片段，观察覆盖变化。
+动手理解：在保持其余返回片段高度相关的前提下删去一条关键文档，再补回该文档，观察精确率与召回率如何各自变化。
 
-**学会的标志**：能指出漏掉的具体事实，并解释高精度为何不保证高召回。
+学会的标志：能指出漏掉的具体事实，并说明高上下文精度为什么无法自动保证高召回。
 
 [教材](../course/e07_context_recall/README.zh.md) · [源码导读](../course/e07_context_recall/source_walkthrough.md)
 
@@ -200,25 +195,24 @@ Agent 接到任务，读文件、查资料、调用工具，最后给出回答�
 
 回答里的每条事实，资料都支持吗？
 
-把回答拆成声明，再逐条判断上下文是否支持。
+把生成回答拆成独立声明，逐条对照送入模型的上下文判断是否获得支持。
 
-**知识点**
+知识点：
 
-- 声明拆解与 NLI
-- 支持、矛盾、未提及
-- DeepEval 与 Ragas 的裁决及聚合差异
-- 空声明、边界裁决与上下文范围
+- 事实抽取（`truths`）与声明拆解（`claims`）
+- 支持（`yes`）、矛盾（`no`）与未提及（`borderline`）三类裁决
+- `penalize_ambiguous_claims` 与明确支持比例的聚合口径
+- 空声明约定与裁决数量对齐校验
 
-**本课代码**：复用回答和实际上下文；只增加声明判定与聚合。
+本课代码：复用实际回答与上下文，新增声明级忠实度判定与严格支持比例统计。
 
-**源码依据**
+源码依据：
 
-- DeepEval：FaithfulnessMetric、schema 与模板
-- Ragas：Faithfulness、声明生成与 NLI
+- DeepEval：`FaithfulnessMetric`、`schema` 与三步提示词模板
 
-**动手理解**：在正确回答中加一条资料没有的事实，再换掉证据；沿声明查看分数为何变化。
+动手理解：在忠实回答里插入一条资料未提及的细节或一处数字矛盾，沿着抽取出的 `truths` 和 `claims` 追踪分数变化。
 
-**学会的标志**：能逐条解释失去支持的位置，区分证据忠实度与客观事实正确性。
+学会的标志：能逐条指出失去依据的声明位置，区分“忠于给定资料”和“现实世界事实正确”。
 
 [教材](../course/e08_faithfulness/README.zh.md) · [源码导读](../course/e08_faithfulness/source_walkthrough.md)
 
@@ -226,25 +220,24 @@ Agent 接到任务，读文件、查资料、调用工具，最后给出回答�
 
 忠于资料，为什么仍可能没有回答好问题？
 
-把切题、正确、完整和合理拒答分开评价。
+把回答是否切题、事实是否正确完整以及缺证据时是否合理拒答拆开度量。
 
-**知识点**
+知识点：
 
-- Answer/Response Relevancy
-- 事实正确性、TP/FP/FN 与 F-beta
-- 语义相似度的用途和局限
-- 需求覆盖、参考版本与缺证据拒答
+- 切题程度（`AnswerRelevancyMetric`）的逐陈述判定边界
+- 基于明确事实集合的 Precision、Recall 与 F-beta
+- `GEval` 任务标准在“证据充分”与“缺证据拒答”两分支上的判断
+- 语义切题分不能代替事实正确性与完整性的原因
 
-**本课代码**：复用现有 Agent；只增加参考答案和相应指标。
+本课代码：复用现有 Agent，引入参考事实标注、`AnswerRelevancyMetric` 与 `GEval` 任务量表。
 
-**源码依据**
+源码依据：
 
-- DeepEval：AnswerRelevancyMetric 与任务标准
-- Ragas：ResponseRelevancy、FactualCorrectness 与 SemanticSimilarity
+- DeepEval：`AnswerRelevancyMetric` 与 `GEval` 任务正确性量表
 
-**动手理解**：比较离题但真实、切题但错误、正确但漏项和无依据仍回答的四类输出。
+动手理解：对比“忠实但离题”“切题但算错”“正确但漏项”和“缺依据仍强行作答”四类样本在各指标下的表现。
 
-**学会的标志**：能选出对应问题的指标，避免用忠实度或相似度代替全部答案质量。
+学会的标志：能按故障维度挑选对应指标，不再拿忠实度或切题分替代整份答案质量。
 
 [教材](../course/e09_answer_quality/README.zh.md) · [源码导读](../course/e09_answer_quality/source_walkthrough.md)
 
@@ -252,25 +245,24 @@ Agent 接到任务，读文件、查资料、调用工具，最后给出回答�
 
 答案错了，应该先改资料、检索还是生成？
 
-固定任务，逐处改变证据，沿各阶段输入输出找到错误开始的位置。
+固定任务与生成输入模板，一次只改变链路上的一个环节，沿各阶段快照追查最早出现的证据缺口。
 
-**知识点**
+知识点：
 
-- 资料缺失、检索漏召回与上下文组装遗漏
-- 过期、冲突、无关资料与来源优先级
-- 上下文支持但事实过期的情形
-- Noise Sensitivity 的方向、分母与诊断限制
+- 知识库缺失、检索过滤遗漏与上下文组装截断
+- 文档过期、无关噪声与冲突规范的来源优先级
+- 高忠实度但低任务分（忠实于旧资料）的故障形态
+- `first_gap` 阶段排查与 `replay` 受控生成回放
 
-**本课代码**：在既有链路加入少量受控故障开关，不新增运行平台。
+本课代码：在既有 RAG 链路加入内存快照控制开关与受控生成回放，隔离变量。
 
-**源码依据**
+源码依据：
 
-- DeepEval：结合上下文与回答指标做分层诊断
-- Ragas：NoiseSensitivity 的声明判定和聚合
+- DeepEval：联合 `ContextualRelevancyMetric`、`FaithfulnessMetric` 与 `GEval` 任务标准做分层诊断
 
-**动手理解**：分别移除源资料、改变检索和加入干扰段落，每次只改一处。
+动手理解：依次制造源文档缺失、检索漏召回、组装丢弃、旧版替换与冲突干扰，每次只改动一处并检查阶段快照。
 
-**学会的标志**：能用阶段证据提出下一步排查，不从一个总分直接推断根因。
+学会的标志：能依据阶段证据指出下一步优先排查哪一层，不从单个总分倒推根因。
 
 [教材](../course/e10_rag_diagnosis/README.zh.md) · [源码导读](../course/e10_rag_diagnosis/source_walkthrough.md)
 
@@ -278,51 +270,49 @@ Agent 接到任务，读文件、查资料、调用工具，最后给出回答�
 
 名字选对了，工具就用对了吗？
 
-沿名字、参数和执行顺序判断工具行为是否满足当前任务。
+沿工具名、输入参数、调用顺序与实际返回状态分别评估工具轨迹。
 
-**知识点**
+知识点：
 
-- 工具名、参数与结果分别评价
-- 集合与序列、重复调用和漏调用
-- ToolCorrectness、ArgumentCorrectness 与 ToolCallAccuracy/F1
-- 权限拒绝、合法替代路径与多余步骤
+- 工具名称、参数字典与执行输出的分层评估
+- 无序覆盖、有序加权子序列（Weighted LCS）与精确序列匹配
+- `ToolCorrectnessMetric` 五种配置与 `ArgumentCorrectnessMetric` 参数语义判定
+- 预期权限拒绝、合法替代路线与多余调用的处理
 
-**本课代码**：复用第2课具名工具和权限；增加少量明确的工具目标。
+本课代码：复用第 2 课具名工具与权限校验，构建十组工具边界样本及两组实测任务。
 
-**源码依据**
+源码依据：
 
-- DeepEval：ToolCorrectnessMetric、ArgumentCorrectnessMetric
-- Ragas：ToolCallAccuracy 与 ToolCallF1
+- DeepEval：`ToolCorrectnessMetric` 与 `ArgumentCorrectnessMetric`
 
-**动手理解**：构造参数错误、顺序错误和额外调用，比较不同指标看见什么。
+动手理解：构造路径错误、顺序颠倒、目录冲突写入失败和多余读取等样本，比较五种规则配置和参数语义裁判各自看到什么。
 
-**学会的标志**：能解释高工具匹配分为何仍可能没有完成任务。
+学会的标志：能解释为什么工具调用拿到高匹配分，最终交付仍然可能失败。
 
 [教材](../course/e11_tool_quality/README.zh.md) · [源码导读](../course/e11_tool_quality/source_walkthrough.md)
 
 ## 12 任务完成度
 
-怎样确认 Agent 真的交付了用户要的结果？
+怎样确认 Agent 真正交付了用户要的结果？
 
-以实际文件、程序行为和业务状态定义最终目标。
+以独立子进程执行结果、文件状态和保护约束定义业务契约，再结合任务完成度语义裁判核对交付。
 
-**知识点**
+知识点：
 
-- 用户目标、完成声明与可观察结果
-- 行为边界与不得修改的文件
-- TaskCompletion 与 AgentGoalAccuracy
-- 自定义业务指标与关键条件
+- 用户目标、口头完成声明与可观察外部状态的区别
+- 函数行为探针、副作用（输入不变性）与受保护文件哈希检查
+- 自定义 `BaseMetric` 硬合约与 `TaskCompletionMetric` 的分工
+- `TaskCompletionMetric` 无 trace 兼容路径与摘要视野边界
 
-**本课代码**：在文件任务上增加一个小业务规则；无需复杂业务系统。
+本课代码：引入订单计费修复任务、独立探针 `inspect_delivery` 和 `DeliveryContract`。
 
-**源码依据**
+源码依据：
 
-- DeepEval：TaskCompletionMetric、BaseMetric
-- Ragas：AgentGoalAccuracy 与自定义 metric
+- DeepEval：`BaseMetric` 与 `TaskCompletionMetric`（含 `schema` 与抽取/裁决模板）
 
-**动手理解**：让输出文字相同的两次运行产生不同文件结果，对照外部规则与语义裁判。
+动手理解：让最终回复同样是“已完成。”的两组运行分别写入正确代码、错误代码和改动受保护文件，观察硬合约与语义裁判的反应。
 
-**学会的标志**：能给自己的业务写可检查的成功条件，并交代程序检查和模型判断各自的局限。
+学会的标志：能为具体业务编写可独立核验的完成条件，并清楚代码探针与语义裁判各自管不到的盲区。
 
 [教材](../course/e12_task_completion/README.zh.md) · [源码导读](../course/e12_task_completion/source_walkthrough.md)
 
@@ -330,25 +320,25 @@ Agent 接到任务，读文件、查资料、调用工具，最后给出回答�
 
 用户改了要求以后，Agent 还记得哪一版？
 
-沿多轮会话追踪当前有效约束，再检查模型实际可见的上下文。
+沿着多轮对话计算当前仍然有效的约束集合，同时记录每轮送进模型的真实前缀与归档恢复过程。
 
-**知识点**
+知识点：
 
-- 原始轨迹、实际可见上下文与压缩
-- 新增、覆盖与失效约束
-- 最小记忆示例与证据恢复
-- 知识保留、会话完整性与目标达成
+- 原始会话历史、模型可见输入与上下文摘要的区别
+- 用户约束的新增（`set`）、覆盖与取消（`drop`）状态演进
+- 归档文件恢复路径与多轮证据核验
+- `KnowledgeRetentionMetric`（反向 `yes` 极性）与 `ConversationCompletenessMetric`
 
-**本课代码**：加入少量多轮输入和一次压缩/记忆示例；不建设完整记忆平台。
+本课代码：增加多轮场景输入前缀选择、归档恢复样本以及会话指标检查。
 
-**源码依据**
+源码依据：
 
-- DeepEval：KnowledgeRetentionMetric、ConversationCompletenessMetric
-- Ragas：MultiTurnSample 与多轮目标评价
+- Learn Claude Code：`s08_context_compact` 与 `s09_memory`
+- DeepEval：`ConversationalTestCase`、`KnowledgeRetentionMetric` 与 `ConversationCompletenessMetric`
 
-**动手理解**：让用户先给规则再修改规则，分别保留和丢失关键上下文。
+动手理解：让用户先设定字数上限与旧路径，再改换路径并取消长度限制，对比完整历史、过期摘要和归档恢复下的执行轨迹。
 
-**学会的标志**：能按当时有效的要求评分，并分清没给模型看与模型看了没遵守。
+学会的标志：能按最新有效约束验收产物，分清“模型根本没看到更新”和“模型看到了却没遵守”。
 
 [教材](../course/e13_conversation/README.zh.md) · [源码导读](../course/e13_conversation/source_walkthrough.md)
 
@@ -356,25 +346,24 @@ Agent 接到任务，读文件、查资料、调用工具，最后给出回答�
 
 评分器自己的判断可信吗？
 
-用独立标签检查误判，再修正评分标准和提示词。
+冻结候选回答，用独立参考标签计算误接收与误拒绝，再排查篇幅、语言和展示位置对裁判的影响。
 
-**知识点**
+知识点：
 
-- 人工标注标准与分歧处理
-- 误接收、误拒绝、混淆矩阵与覆盖率
-- 位置、篇幅与语言偏差
-- 开发调参与留出验证；一致性不等于真值
+- 双人标注一致性与分歧仲裁（未仲裁保持 `None`）
+- 混淆矩阵、误接收率、误拒绝率与各维度覆盖率
+- 篇幅变体、跨语言变体与受控 A/B 位置对调检验
+- 按题族严格隔离开发集调参与留出集验证
 
-**本课代码**：复用第4课裁判；只增加标注对照和误判分析。
+本课代码：复用第 4 课裁判适配层，新增标签仲裁、按行统计汇总与位置对照检查。
 
-**源码依据**
+源码依据：
 
-- DeepEval：G-Eval 标准、步骤与 few-shot 选择
-- Ragas：prompt adapt、align 与指标校准
+- DeepEval：`GEval` 步骤、二元 `Rubric`、开发集示例选择与 `arena_g_eval` 匿名打乱机制
 
-**动手理解**：固定候选回答，改变顺序和篇幅，再用独立标签定位裁判分歧。
+动手理解：固定一组候选回答，运行原配置与修订配置两套 `GEval` 裁判，核对留出集上的误判变化和 A/B 位置翻转情况。
 
-**学会的标志**：能给出裁判适用范围和主要误判类型，不只报一个平均一致率。
+学会的标志：能同时给出裁判的误接收/误拒绝分布与覆盖率边界，不再只报一个平均一致率。
 
 [教材](../course/e14_judge_calibration/README.zh.md) · [源码导读](../course/e14_judge_calibration/source_walkthrough.md)
 
@@ -382,25 +371,24 @@ Agent 接到任务，读文件、查资料、调用工具，最后给出回答�
 
 分数变高，怎样判断改动真的有用？
 
-固定数据与评分条件，对同一道任务比较两个版本。
+固定题目、知识快照和评分标准，按 `(case_id, repeat, version)` 配对比较两个版本，结合分层失败与成本下结论。
 
-**知识点**
+知识点：
 
-- 配对比较、单因素与重复执行
-- 分层分析、失败案例与基本不确定性
-- 题族 bootstrap 的直觉与限制
-- 质量前提下的延迟、调用量和费用
+- 单因素控制、同题配对差值与交错运行顺序
+- 按题型分层排查平均分掩盖的局部退化
+- 按题族均值做 Bootstrap 重采样的直觉与小样本局限
+- 质量提升前提下的延迟、模型调用次数、缓存 token 与费用核算
 
-**本课代码**：复用全部必要模块，只增加版本配置和配对汇总。
+本课代码：复用第 5 课检索任务，新增 `context_limit` 版本对比、同题配对统计和用量汇总。
 
-**源码依据**
+源码依据：
 
-- DeepEval：dataset 与 evaluation run 的记录边界
-- Ragas：experiment 的逐行结果与版本比较
+- DeepEval：`EvaluationDataset`、`TestResult`、`EvaluationResult` 记录边界与 `GEval` 配对评分
 
-**动手理解**：只改变 top-k 或一个提示词，比较同题差值，再按题型拆开看。
+动手理解：固定 `k=3` 仅改变 `context_limit`（1 对 3），按题族与题型拆解同题差值，检查缺失配对如何影响覆盖率。
 
-**学会的标志**：能说明改进发生在哪些任务、是否稳定，以及质量和成本的交换。
+学会的标志：能说明改进发生在哪类任务、波动是否稳定，以及效果改善与调用成本之间的权衡。
 
 [教材](../course/e15_version_comparison/README.zh.md) · [源码导读](../course/e15_version_comparison/source_walkthrough.md)
 
@@ -408,32 +396,32 @@ Agent 接到任务，读文件、查资料、调用工具，最后给出回答�
 
 怎样让一次修复成为以后不会再犯的经验？
 
-把已学模块组合成一个可运行、可评测的编程 Agent。
+把前面 15 课的组件组合进一个可运行、可回归的编程 Agent，把真实交付缺口沉淀成长期门禁。
 
-**知识点**
+知识点：
 
-- 运行→采样→评分→定位→修复→回归
-- 失败入库、冻结配置与关键条件
-- 分项结果与接受/拒绝一次改动
-- 知识库挂载、模型边界与可复现证据
+- 从失败案例出发走完“运行 → 采样 → 评分 → 定位 → 修复 → 回归”闭环
+- `failure_candidates` 待复核队列与知识快照哈希校验
+- `DeliveryContract`、显式 `GEval` 量表与 `ContextualRecallMetric` 组合
+- 分项硬门禁下的 `blocked`、`reject`、`accept_in_scope` 与 `no_regression_observed`
 
-**本课代码**：只组合前课已讲的能力，不一次引入团队、调度或工作区管理平台。
+本课代码：串联第 2 课循环、第 5 课 TinyRAG、第 12 课独立检查和显式 `GEval` 完成度评估，建立门禁函数 `gate`。
 
-**源码依据**
+源码依据：
 
-- DeepEval：evaluate 与自定义指标组合
-- Ragas：Dataset、experiment 与指标结果汇总
+- Learn Claude Code：`s15_integrated_harness` 循环整合思路
+- DeepEval：`evaluate`、`assert_test`、`BaseMetric`、`GEval` 与 `ContextualRecallMetric`
 
-**动手理解**：为一个真实失败补题、做最小修复，再确认原问题改善且关键任务没有退化。
+动手理解：运行离线回归门禁并触发 `--live --judge` 对照，观察修改保护文件、算错边界条件和评分接口异常时门禁如何分别裁决。
 
-**学会的标志**：能把整条评测链讲清楚，并独立为自己的 Agent 加入持续回归。
+学会的标志：能讲清整条评测链路各层负责什么，并独立为自己的 Agent 搭建持续回归门禁。
 
 [教材](../course/e16_regression/README.zh.md) · [源码导读](../course/e16_regression/source_walkthrough.md) · [完整项目导读](integrated-project.md)
 
 ## 范围与依据
 
-主线只保留对解释评测有直接帮助的机制。计划、重试、权限与效率通过必要案例出现；完整团队调度、复杂记忆平台、MCP 协议、多模态和 SQL 专项不作为独立课程。
+主线课程聚焦于直接服务评测工程的核心机制。多 Agent 团队调度、复杂长期记忆平台、MCP 协议、多模态与 SQL 专项不作为独立课次展开。
 
-每课源码导读沿“输入字段→判据或模型裁决→聚合→边界”展开。官方文档用于解释概念，[固定版本](../references/versions.json)用于核对实际算法。同名指标分别说明；构造算例与真实调用明确区分。
+各课源码导读均沿着“输入字段 → 判据或模型裁决 → 聚合公式 → 适用边界”追查实现细节。概念讲解对照官方文档，具体算法和默认行为以[固定版本](../references/versions.json)记录的上游提交为准。
 
-[DeepEval 评测概念](https://deepeval.com/docs/evaluation-introduction) · [Ragas 指标概览](https://docs.ragas.io/en/stable/concepts/metrics/overview/) · [写作与制作规范](course-specification.md)
+[DeepEval 评测概念](https://deepeval.com/docs/evaluation-introduction) · [写作与制作规范](course-specification.md)

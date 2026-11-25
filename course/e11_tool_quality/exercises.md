@@ -2,10 +2,10 @@
 
 [教材](README.zh.md) · [参考解释](solutions.md)
 
-1. wrong_path 的工具名与参考相同。为什么常规参数匹配还能得到部分分数，而目标文件没有生成？
-2. 对比 reordered、extra_read、duplicate_write。保持参考顺序的子序列，与长度、每个位置完全一致，分别约束什么？
-3. tool_failed 参数完全匹配，实际写入却失败。哪个字段可以看出失败？输出比较和任务完成度又有何区别？
-4. 任务允许 Bash 复制。为什么单一文件工具参考可能给它低分？该改参考、改指标还是禁止这条路线？先说明评价目标。
-5. permission_recovery 中第一次 denied 是预期结果。如果只检查最终 status.txt，能否证明 Agent 没有尝试绕过？
-6. Ragas ToolCallF1 遇到额外一次相同 read_file 调用，为什么不一定下降？要评价重复次数，应保留什么？
-7. 没有调用时，Argument Correctness 原生值为 1。为什么不能由此认为该复制任务做得很好？
+1. `wrong_path` 调用的工具名与参考完全相同。为什么常规参数匹配还能拿到 `0.5` 分，而目标文件 `delivery.txt` 并没有生成？
+2. 对比 `reordered`、`extra_read`、`duplicate_write` 三种情况：保持参考顺序的加权子序列，与长度、位置全部一致的精确匹配，各自约束了什么？
+3. `tool_failed` 的参数与参考完全匹配，实际写入却失败了。从哪个字段能看到失败？工具输出匹配与最终任务完成度有什么区别？
+4. 复制任务允许用 `bash` 完成。为什么以文件工具为参考的规则匹配会给它 `0` 分？遇到这种情况应该改参考、换指标，还是禁止 `bash` 路线？请先明确评测目标。
+5. `permission_recovery` 中第一次收到 `denied` 是预期结果。如果只检查最终的 `status.txt`，能不能证明 Agent 没有用 `bash` 绕过权限限制？
+6. `ToolCorrectnessMetric` 在非精确模式下遇到 `extra_read` 或 `duplicate_write` 时为什么依然能得 `1` 分？如果要约束多余或重复调用，应该怎么处理？
+7. 当 `tools_called` 为空时，`ArgumentCorrectnessMetric` 的原生返回值是 `1`。为什么不能据此认为复制任务做得很好？

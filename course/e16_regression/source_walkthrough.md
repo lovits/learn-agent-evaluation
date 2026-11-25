@@ -1,72 +1,64 @@
-# 第16课源码导读：把证据接到判断上
+# e16 源码导读：把运行证据接到回归门禁
 
-## 一条完整调用链
+[教材](README.zh.md) · [运行入口](code.py) · [门禁评分](eval.py)
+
+## 本课调用链
 
 ```text
-code.main → 检查样本来源 → 每题 baseline / candidate
-  → run_case → 第5课 run_task → 第2课 agent_loop
-    → call_model → 具名工具 → 实际文件 / TinyRAG / Bash
-    → messages、retrievals、model_inputs、responses
+code.main → 校验知识文档哈希 → 遍历 case × (baseline, candidate)
+  → run_case → 第 5 课 run_task → 第 2 课 agent_loop
+    → call_model → 具名工具 (read_file / write_file / bash / search_knowledge)
+    → 保存 messages、retrievals、model_inputs、responses
   → evaluate_run
-    → 第12课 inspect_delivery → DeliveryContract
-    → 轨迹中的查询、读取与来源检查
-    → completion_metric → DeepEval G-Eval 显式0/1裁决
-    → 第7课 judge_recall → DeepEval ContextualRecallMetric
-  → gate → 分项关键条件 → 接受 / 拒绝 / 未决
-  → failure_candidates → 待人工复核，不自动入参考集
+    → 第 12 课 inspect_delivery → DeliveryContract (BaseMetric)
+    → checks (finished / knowledge_used / implementation_read / source_current)
+    → completion_metric → DeepEval GEval 显式 0/1 量表
+    → 第 7 课 judge_recall → DeepEval ContextualRecallMetric
+  → gate → 分项硬门禁 (accept_in_scope / no_regression_observed / reject / blocked)
+  → failure_candidates → 收集 accepted is not True 的待复核条目
 ```
 
-完整运行入口是 [code.py](code.py)。模型请求仍只提出动作，课程 Harness 才执行动作；真实输入与响应保留，参考分和独立检查不会注入被测模型。
+入口函数在 [code.py](code.py)。模型请求只负责返回决策，实际的文件读写、Bash 执行与 TinyRAG 检索全部由执行框架完成；每次请求的 `model_inputs`、原始 `responses` 与参考答案彼此隔离。
 
-## Learn Claude Code：组合已有机制
+为了防止多题实测中途因接口报错丢失前序证据，`main` 每跑完一个版本和每评完一条记录都会立即调用 `save(report, prefix="e16-suite")` 落盘，最后才统一计算 `gate` 与 `failure_candidates`。只要存在任意条目的 `accepted is None` 或 `run["status"] == "model_error"`，或者在 `--gate` 模式下门禁结果为 `reject` / `blocked`，进程退出码就会返回 `1`。
 
-固定版本 `448c75bb596917ad196cc1fb7558f459c5c50fdd` 的 [s15 agent_loop](https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s15_integrated_harness/code.py#L3155) 仍沿调用模型、判断工具、执行 handler、追加结果的结构。任务、上下文与其他机制进入同一循环。
+## 对照 Learn Claude Code
 
-本课保留这条教学思路，只组合前面已出现的文件工具、知识库、轨迹和评分。没有复制上游团队、cron、后台任务或工作树管理。工具结果是否返回消息，比工具列表有多长更能解释这里的执行过程。
+固定提交 `448c75bb596917ad196cc1fb7558f459c5c50fdd` 的 [s15_integrated_harness/code.py](https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s15_integrated_harness/code.py#L3155) 把多课累积的工具、上下文压缩与记忆机制继续收束在同一个 `agent_loop` 里：调用模型、检查工具调用、执行处理函数、把结果回写消息列表。
 
-## DeepEval：执行评分与决定是否接受要分开
+第 16 课延续了这种“多机制共跑同一循环”的组织方式，只组合前面课程已经建立的文件工具、路径权限、TinyRAG 检索与轨迹留痕，把多 Agent 团队协作、定时任务、后台进程与工作树调度保留在课程范围之外。只要工具结果持续回到 `messages` 并完整进入 `events` 和 `model_inputs`，评分端就能顺着统一结构追查每一步。
 
-[CI 回归指南](https://deepeval.com/guides/guides-regression-testing-in-cicd) 将固定用例和明确阈值接入持续检查。本课将可离线核对的行为检查与需要模型的语义复核分开，不把语义 fixture 的绿灯写成模型质量结论。
+## DeepEval：组合指标、门禁与显式量表
 
-固定版本 `34db63dd005ebc9a905c8ef4741ae0687c93c14c`：
+参考 DeepEval [CI 回归指南](https://deepeval.com/guides/guides-regression-testing-in-cicd) 与固定提交 `34db63dd005ebc9a905c8ef4741ae0687c93c14c` 的源码实现：
 
-- [evaluate](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/evaluate/evaluate.py#L213) 先校验输入、指标阈值，再按 AsyncConfig 选择同步或异步执行，返回 EvaluationResult。它能组织指标，不会替业务定义哪些失败可以被平均抵消。
-- 同文件的 [assert_test](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/evaluate/evaluate.py#L85) 检查结果并在明确失败时抛出断言；flaky 标记有特殊处理。不能把缺失裁决自动视为业务通过。
-- 本课复用已实现的逐条 measure 包装，DeliveryContract 是 BaseMetric，两个语义指标来自同一个 DeepEval。没有新增 Ragas 评分路径，也没有为展示 evaluate 再跑一次相同任务。
+- [evaluate](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/evaluate/evaluate.py#L213) 负责校验测试样本与指标阈值，按 `AsyncConfig` 选择同步或异步执行所有指标，并汇总成 `EvaluationResult`。它解决的是“批量跑指标”的调度问题，至于哪些条件失败可以互相抵消、哪些必须一票否决，需要业务门禁函数自己定义。
+- 同文件的 [assert_test](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/evaluate/evaluate.py#L85) 会在明确未达标时抛出断言失败，并对标记为 `flaky` 的样本做特殊放行处理。在回归门禁里，评测失败与数据缺失必须分开处理：接口异常或未完成取证要显式阻塞（`blocked`），绝不能静默通过或折算成业务零分。
 
-[evaluate_run](eval.py) 的接受条件没有总平均分：行为、运行过程、业务完成、证据覆盖分别满足明确条件。ContextualRecall 的 SDK passed 可能基于默认阈值，本课额外保存 threshold=1 与 accepted，保留原始 passed，避免覆盖 SDK 判断。
+[eval.py](eval.py) 复用第 4 课的 `score` 包装函数逐条调用指标：`DeliveryContract` 继承自 `BaseMetric`，`completion_metric` 基于 `GEval`，`judge_recall` 复用第 7 课的 `ContextualRecallMetric`。`evaluate_run` 刻意不把这些分项合成为一个总平均分，而是各自判定后取逻辑与；对于 `ContextualRecallMetric`，代码同时保存 SDK 原生的 `passed` 和本课要求的 `threshold=1.0` 下的 `accepted`，让严格门槛的来历清晰可查。
 
-### 为什么保留早期 TaskCompletion，再改成显式量表
+### 从 TaskCompletionMetric 改用显式 GEval 量表
 
-第12课已说明固定版本的无 tracing 兼容路径会提取 outcome 再评分。综合任务多了检索流程，outcome 若只保留业务结果，就可能遗漏原始工具证据；另有完整回答因未运行任务没有要求的仓库级检查被扣分。
+第 12 课在介绍 `TaskCompletionMetric` 时分析过它的无 trace 兼容路径：先由裁判从输入和工具调用里抽取一段 `outcome` 摘要，再对比目标打分。把这套机制搬进第 16 课的初次实测（`e16-suite-3260708bc9814150bda2de104e7930c6`）后，日志暴露出两个具体偏差：
 
-这些原始评分留在独立评测记录。当前 [completion_metric](eval.py) 复用已经讲过的 [GEval](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/g_eval/g_eval.py)：原任务作为 INPUT，原始回答、独立观察与 tool_events 一起作为 ACTUAL_OUTPUT，当前参考作为 EXPECTED_OUTPUT。量表显式列出全部要求，用0/1裁决。
+1. 摘要阶段偶尔漏掉已经成功执行的 `search_knowledge` 和 `read_file` 记录，随后却因为“未确认检索或读文件”扣分；另外还出现了对任务没有要求的“仓库级测试”额外扣分。
+2. 在 [observed_failure.json](observed_failure.json) 里，模型改完文件后在最终回复前遇到 `HTTP 502` 中断（`final_answer` 为 `null`），抽取出的 `outcome` 却概括出“已说明修复内容”，导致任务完成分仍然给出 `1.0`。
+
+因此，[completion_metric](eval.py) 改用 [GEval](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/g_eval/g_eval.py) 直接审阅原始证据：把原任务作为 `INPUT`，把包含 `agent_final_answer`、`independent_observation` 和完整 `tool_events` 的 JSON 作为 `ACTUAL_OUTPUT`，把当前参考作为 `EXPECTED_OUTPUT`。五条显式 `evaluation_steps` 配合 `(0, 0)` 与 `(1, 1)` 二元 `Rubric` 明确界定了评判边界：
 
 ```text
-正确计算与输入不变性 → 看独立观察
-查询与读文件过程 → 看真实事件
-必要的修复说明 → 看原始最终回答
-没有要求的仓库级检查 → 不增加成隐藏条件
+计算规则、空订单、零数量与输入不变性 → 依据 independent_observation
+先检索规范再读 billing.py 的流程       → 依据 tool_events（允许中途失败后修正）
+具体的中文修复或保持原样说明           → 依据 agent_final_answer（仅回复“已完成”判 0）
+任务未要求的仓库级测试或额外功能       → 不作为隐藏扣分项
 ```
 
-量表修正同时应用到两个版本，另做受控反例核对，不偷偷改原始回答或旧分。若两侧都通过，结论是修正了评分接线、当前未观察到版本退化，不能说提示词带来新收益。小型教学对照也不能冒充独立人工校准研究。
+这套修订后的 `completion_metric` 同时用于 `baseline` 与 `candidate` 两个版本，既不改写任何历史运行回答，也不覆写早期的 `TaskCompletionMetric` 存档记录。
 
-## Ragas：样本、指标与结果索引
+## 回归集与待复核边界
 
-[CI 页面](https://docs.ragas.io/en/stable/howtos/applications/add_to_ci/) 提醒使用自己的系统输出，而非只给固定示例数据评分。页面中的 in_ci 示例与本课固定源码接口存在版本差异，不能直接复制参数。
+[cases.jsonl](cases.jsonl) 里的三道任务全部属于公开调试用的 `Atlas_billing` 题族，每道题在 `--live --judge` 模式下只跑一次真实模型调用。这套用例适合验证回归门禁接线和拦截已知退化，要得出更广泛任务分布上的稳定性或效果提升结论，还需要在独立留出题族上做多次重复运行。
 
-固定版本 `8c63f10d500c44efbf24fdb9e2920de2104c321c` 的 [aevaluate](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/evaluation.py#L59)：
+`failure_candidates` 把所有 `accepted is not True` 的记录标记为 `needs_review`，后续排查必须先核对根因落在哪一层，再决定改哪里：模型接口或参数格式报错需要检查传输重试与工具 schema，上下文召回不足要调检索与分块，说明缺失或计算出错才去调整提示词或修复系统提示逻辑。
 
-1. 验证样本类型与指标必需字段，为指标准备模型等依赖。
-2. 按行与适用指标提交任务，用行、指标索引组织返回分数。
-3. 将 scores、dataset、traces 等合为 EvaluationResult。
-
-该固定版本已对 aevaluate 给出弃用提示，建议 experiment。第15课已读 [ExperimentWrapper.arun](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/experiment.py)，其完成顺序与单条异常还提醒我们显式保留任务身份和覆盖。不同入口的顺序保证不能混用。
-
-这些源码解释了为什么要验证字段、保留逐行证据，而不是照搬框架默认值。本课没有安装第二套评分接入，也不将 Ragas 的旧 CI 参数写进可运行代码。
-
-## 回归集的边界
-
-三个任务同属 Atlas billing，公开且用于调试，不能当独立留出集。当前仅比较一句提示改动，每题一次真实运行；不提供广泛任务上的统计提升证据。
-
-失败候选只进入待复核列表。确认任务、参考、文件和评分范围都有效，再补题和选择最小修复；针对接口异常改重试条件、针对证据不足改检索、针对说明不足改交付要求，不能一律改提示词。
+[样本与评测记录](assessment.md)

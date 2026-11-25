@@ -1,62 +1,46 @@
-# e09 源码导读：不同分数在比较什么
+# e09 源码导读：切题性、事实覆盖与证据边界怎样各自打分
 
 [教材](README.zh.md) · [评分函数](eval.py) · [样本与真实 Agent 入口](code.py)
 
 ## 本课调用链
 
-`prepare` 读取六条构造样本与统一参考，校验 release、logs 的哈希。上下文直接从指定文档取出，是控制条件，不声称六种条件都是 TinyRAG 实际检索结果。fact_ids 是课程编写助手给出的事实标注，`fact_scores` 按集合求 TP、FP、FN 和 F-beta。
+[code.py](code.py) 中的 `prepare` 读取 [cases.jsonl](cases.jsonl) 的六组样本和统一 `spec`，逐一比对 `catalog()` 返回的 `atlas/release.md` 与 `atlas/logs.md` 的 SHA-256，确保基准文本没有改动。每条样本直接按 `case["context_paths"]` 取出对应文档作为 `retrieval_context`，以控制条件隔离单一变量。
 
-command 将命令与工作目录作为同一个必答单元，gate 和 fix 分别标注发布门槛及失败处理。错误命令即 command 单元未覆盖，不表示其中“根目录”几个字也错误。改成更细的声明划分后，需要重新标注，计数与权重也会变化。
+`cases.jsonl` 里的 `fact_ids` 将“在项目根目录运行 `python -m pytest -q`”合为 `command` 一个必答单元，把“全部检查通过才能提交发布”标为 `gate`、把“失败时先修复，不跳过失败项”标为 `fix`。如果回答把命令写成 `python -m unittest`，即使提到了“根目录”，整个 `command` 单元依然视为未覆盖。如果改用更细的事实拆分粒度，对应的 `fact_ids` 和 F-beta 数值也会随之变化。
 
-`--live` 复用第5课 `run_task`，真实查询可挂载知识库并回答，不新增 Agent 循环。保存全部轨迹、原始候选和实际 model_inputs；live sample 的 retrieval_context 由成功模型输入恢复。新回答不自动填事实 ID。
+命令行传入 `--live` 时，`main` 复用第 5 课的 `run_task`（`k=3`、`context_limit=2`），在隔离工作目录中实际调用 `search_knowledge` 并保存完整运行轨迹、原始检索候选和真实 `model_inputs`。由于新生成的 `live_agent` 回答没有预先标注 `fact_ids`，`code.py` 只对其执行原生裁判评分，不会强行套用静态事实标签。
 
-`--judge` 对各回答运行 DeepEval 原生 AnswerRelevancyMetric 与 G-Eval 任务标准。评分只从持久化记录取 input、actual_output、expected_output、retrieval_context 四个字段；完整工具调用留在记录中，不把工具字典错误当成答案质量问题。逐样本保存已完成评分和原始裁判返回。
+命令行传入 `--judge` 时，循环对每个条件从持久化样本里提取 `input`、`actual_output`、`expected_output` 和 `retrieval_context` 四个字段重建 `LLMTestCase`，分别传给 `judge_relevance` 与 `score(task_metric(model), sample)`。这样既把完整 `tools_called` 轨迹留在外层记录里，也避免 `AnswerRelevancyMetric` 或 `GEval` 因校验无关字段结构而中断；每次裁判返回后都会即时更新 `judge_calls` 并落盘保存进度。
 
-## DeepEval：切题性不校验事实
+## DeepEval：AnswerRelevancyMetric 的抽取与打分
 
-固定提交 [34db63d](https://github.com/confident-ai/deepeval/tree/34db63dd005ebc9a905c8ef4741ae0687c93c14c)，概念见 [Answer Relevancy](https://deepeval.com/docs/metrics-answer-relevancy)。
+以下源码分析基于 DeepEval 固定提交 [34db63d](https://github.com/confident-ai/deepeval/tree/34db63dd005ebc9a905c8ef4741ae0687c93c14c)，概念说明见 [Answer Relevancy](https://deepeval.com/docs/metrics-answer-relevancy)。
 
-沿 [answer_relevancy.py](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/answer_relevancy/answer_relevancy.py) 阅读：
+沿着 [answer_relevancy.py](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/answer_relevancy/answer_relevancy.py) 的同步 `llm` 路径阅读，执行过程如下：
 
-1. 必需参数只有 input、actual_output。`measure` 从回答生成 statements，再把问题与这些 statements 交给裁判；没有读取 expected_output 或 retrieval_context 来核验正确性。
-2. [generate_verdicts](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/answer_relevancy/templates/generate_verdicts.txt) 要求每条陈述一个 yes/no/borderline。这里 yes 是相关，no 是无关，borderline 是模糊或可能有辅助作用的信息；与 Faithfulness 的判据不同。
-3. `_calculate_score` 以 yes、borderline 为通过项，调用 QAG 聚合。未提取 statements 时，原生空裁决默认得 1；本课保留 sdk_score，但对外标记不适用。裁决数不齐记错误，类型对齐不证明语义判断已正确。
-4. include_reason=False 跳过总分解释；陈述抽取与逐项裁决仍各需一次请求，原始 statements 与 verdicts 都保留。
+1. `_required_params` 只要求 `input` 和 `actual_output`。`measure` 先调用 `_generate_statements` 从 `actual_output` 抽取出陈述列表 `self.statements`，再交给 `_generate_verdicts` 对照问题逐条打标签，全程不读取 `expected_output` 或 `retrieval_context`。
+2. 模板 [generate_verdicts](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/answer_relevancy/templates/generate_verdicts.txt) 要求为每条陈述输出 `yes`、`no` 或 `borderline`。其中 `yes` 表示直接切题，`no` 表示跑题，`borderline` 表示可能起辅助作用的相关信息或无法直接解答的周边说明。
+3. `_calculate_score` 调用 `score_qag_verdicts`，默认以 `(Verdict.YES, Verdict.BORDERLINE)` 作为通过集合，计算两者合计占比。当 `statements` 为空时，原生默认逻辑直接返回 `1.0`。
+4. 设置 `include_reason=False` 会跳过最后一步 `_generate_reason`，因此每次评测发起两次模型请求（陈述抽取和逐条裁决）。
 
-因此，它看不到“用户还问了但回答没说”的全部遗漏，也不会因为命令错了就必然低分。完整性与正确性需要自己的比较对象。
+为了防止空回答或格式漂移产生误导分，[eval.py](eval.py) 中的 `judge_relevance` 在拿到原始返回后先记录 `sdk_score`、`statements` 和 `verdicts`：当 `statements` 为空时将对外 `status` 改为 `not_applicable` 并把 `score` 与 `passed` 设为 `None`；当 `len(verdicts) != len(statements)` 时标为 `error` 并置空分数。同时需要记住，由于分母是已抽取的陈述数，模型漏掉用户追问的条款不会出现在 `statements` 里，因此切题分高无法说明回答完整或命令正确。
 
-## DeepEval：用 G-Eval 写清任务标准
+## 集合算式：fact_scores 的分母与边界
 
-[官方 Answer Correctness 指南](https://deepeval.com/guides/guides-answer-correctness-metric) 以 G-Eval 展示按应用选择参考、参数与标准的方法。本课复用第4课已读过的 G-Eval 路径，提供明确 evaluation_steps 和 0～2 rubric，再经 SDK 归一化。
+`fact_scores(predicted, reference, beta=1.0)` 先校验证据权重参数 `beta` 为有限正数，再对 `predicted` 和 `reference` 取集合去重，计算 `tp`、`fp`、`fn`：
 
-`task_metric` 把问题、回答、参考和实际上下文一起传入。参考用于检查应答事实；实际上下文用于判断这些事实是否可由回答方获得。模型按两种情况判读：有证据时检查正确与完整；缺证据时检查是否明确保留、请求补充，且没有猜测。
+- 精确率分母是 `tp + fp`，衡量回答给出的事实中有多少命中了参考集合；当 `predicted` 为空时返回 `None`。
+- 召回率分母是 `tp + fn`，衡量参考要求的事实有多少被回答覆盖；当 `reference` 为空时返回 `None`。
+- `fbeta` 按 `(1 + beta**2) * tp / ((1 + beta**2) * tp + beta**2 * fn + fp)` 计算；当分子分母同时为零（双方均为空集）时返回 `None`，以免把“无事实可比”误作 `0` 分或满分。
 
-这个评分有自己的任务语义，不能称为原生相关性、事实 F1 或三者平均。默认阈值也是教学选择，未经过业务校准。适配器没有 logprobs 能力时沿直接模型评分路径，原始返回与理由保留，不伪造概率加权。
+在分析结果时还要留意参考本身的范围：当回答里多出一条客观真实、但不在本题 `reference_fact_ids` 里的陈述（如 `off_topic` 里的 `logs`），它会落入 `fp`；而若参考集合本身遗漏了合理答案要素，同样会把真实有用的回答算成 `fp`。因此出现 `fp` 时要先核对题目范围与参考清单。
 
-## Ragas：双向事实判断与 F-beta
+## DeepEval：用 GEval 写清证据边界
 
-固定提交 [8c63f10](https://github.com/vibrantlabsai/ragas/tree/8c63f10d500c44efbf24fdb9e2920de2104c321c)，概念见 [Factual Correctness](https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/factual_correctness/)。本课没有运行 Ragas。
+[官方 Answer Correctness 指南](https://deepeval.com/guides/guides-answer-correctness-metric) 示范了用 `GEval` 结合特定应用目标定制正确性指标的做法。本课复用第 4 课接入的 `GEval` 路径，在 [eval.py](eval.py) 的 `task_metric` 中把 `INPUT`、`ACTUAL_OUTPUT`、`EXPECTED_OUTPUT` 和 `RETRIEVAL_CONTEXT` 四个 `SingleTurnParams` 一起交给裁判。
 
-现代 [factual_correctness/metric.py](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/metrics/collections/factual_correctness/metric.py) 的 `ascore`：
+`evaluation_steps` 明确规定了两层核对顺序：第一层先检查 `retrieval_context` 是否足以支撑问题所需的发布规范；第二层根据证据是否充足走不同判定标准。如果上下文充足，按 `Rubric` 分别对完全覆盖给 `2` 分、仅部分正确给 `1` 分、跑题或矛盾或拒答给 `0` 分；如果上下文缺少发布规范，只要明确说明缺失并请求补充、不靠猜测作答就给 `2` 分，即便蒙对了 `expected_output` 里的字面命令也只给 `0` 分。
 
-1. 把 response 拆为 claims，用 reference 做 NLI，得到回答方向的支持布尔数组；其通过数是 TP，未通过数是 FP。
-2. 非 precision 模式再把 reference 拆为 claims，以 response 作证据；反向未覆盖数是 FN。precision 模式跳过反向。
-3. precision 用 TP/(TP+FP+极小量)，recall 用 TP/(TP+FN+极小量)，f1 模式调用 `fbeta_score`；最后保留两位小数。
+SDK 随后按 `(原始分 - 0) / (2 - 0)` 将分档归一化到 `0` 到 `1`，再与 `threshold=1.0` 比较得出是否通过。由于本课的 `JudgeModel` 适配器沿直接结构化输出路径评分（不支持 token 级 `logprobs` 加权），保存的 `score` 直接对应三档归一化结果，`reason` 则完整记录裁判依据。`task_metric` 体现的是本课特定的证据策略标准，属于独立维度，不等于切题性与事实 F1 的平均值。
 
-TP 来自回答方向，FN 来自参考方向。两个方向的声明粒度未必一致，不能未经核对就假设它们是同一个严格一一对应的事实集合。本课的 ID 集合是简化、已对齐的算式例子，不是假装复现了全部 NLI 流程。
-
-atomicity 控制拆分粒度，coverage 控制提取覆盖范围，都会改变计数。`_decompose_and_verify_claims` 无声明或无判定时返回空数组，后续按当前公式聚合；这种 SDK 空值处理与本课显式 None 约定分别阅读。
-
-[utils.py 的 fbeta_score](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/metrics/utils.py) 先求 precision、recall，再作加权调和平均。β² 加大 FN 的代价；β>1 重视召回，β<1 重视精确。参考不完整时 FP 可能只是参考未支持的真实信息，不能直接等同客观错误。
-
-## Ragas：两种向量相似度比较不同对象
-
-[Response Relevancy 文档](https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/answer_relevance/) 对应现代 [answer_relevancy/metric.py](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/metrics/collections/answer_relevancy/metric.py)。实现按 strictness 次数从回答生成问题，计算它们与原问题的向量余弦均值。无有效生成问题返回 0；所有有效生成结果都标为 noncommittal 时将分数乘为 0。
-
-这和 DeepEval 的逐陈述相关性判断不是同一算法。合理拒答也可能在这类反向提问指标中受惩罚，所以它不直接回答“本场景是否该拒答”。原始余弦公式还需考虑模型、向量范数等数值边界，不能把名称当作概率标定。
-
-[Semantic Similarity 文档](https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/semantic_similarity/) 对应 [_semantic_similarity.py](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/metrics/collections/_semantic_similarity.py)。它分别嵌入 reference 与 response，按范数归一化后点乘；可选阈值再转二元值。当前实现对空文本用空格代替，这不等于答案已有效；相似度也不会逐事实证明关键数值或否定条件正确。
-
-本课只分析这两个相似度流程，没有训练或调用嵌入模型，也没有把 TF-IDF 数值冒充语义相似度实测。
-
-飞书原始资料：[DeepEval guides](https://my.feishu.cn/docx/RMSkdusn8oeS1XxCTp6cNAK6noc)、[Ragas docs](https://my.feishu.cn/docx/SOHsdGTt0ojxXoxVwbjcBzCYntg)。本课核对答案相关性与事实正确性相关段落，细节以固定源码和实际返回为准。
+[样本与评测记录](assessment.md)

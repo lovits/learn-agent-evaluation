@@ -4,48 +4,44 @@
 
 ## 资料与种子题
 
-`knowledge_base/course/upload.md` 是构造的教学资料，只给出上传请求头、最大大小和超限状态。它不代表真实生产 API。本课不发送上传请求，观察的是 Agent 读取文件与回答问题的过程。
+本课使用 `knowledge_base/course/upload.md` 作为资料源，内容涵盖上传请求头、文件大小上限和超限返回状态码，供 Agent 读取并回答问题。
 
-种子候选覆盖正常、错误前提、边界和缺证据，并专门放入重复、未审核、参考错误、缺引文和来源变更的例子。`origin=constructed_teaching_case` 与真实模型生成的 `live_model_candidate` 分开记录。
+种子候选覆盖正常、错误前提、边界和缺证据四类题型，同时包含重复题意、未审核、参考错误、缺少引文和来源变更等过滤用例。数据中通过 `origin=constructed_teaching_case` 和 `live_model_candidate` 区分手工种子与模型生成的候选。
 
 ## 模型生成与审核
 
-Docker 中实际执行了候选生成，运行编号为 `604338d8a76b406a92f64caa9059b750`。模型产生三道候选：认证头、恰好等于大小上限、超限响应与发送前检查。原始返回与模型传输信息保留在 JSON，三条原始审核状态均为 `pending`。
+在 Docker 环境中执行候选生成，运行编号为 `604338d8a76b406a92f64caa9059b750`。模型生成了三条候选（认证头、恰好等于大小上限、超限响应与发送前检查），初始审核状态均为 `pending`，原始返回内容保存在 JSON 记录中。
 
-随后由课程编写助手逐项对照原文核对参考，并规范题意键。这是 AI 辅助的教材审核演示，不是独立人工标签；真实业务应由掌握业务标准的人复核。
+随后逐条对照原文核对参考答案并规范题意键，整理结果如下：
 
 | 候选 | 审核与题意归属 | 数据整理结果 |
 |---|---|---|
-| generated-0 | 原文支持请求头，题意归入 token-header | 与 auth-header 重复，未再加入 |
-| generated-1 | 恰好 1048576 字节没有超过上限，归入 at-limit | 加入 upload-size 留出题族 |
-| generated-2 | 原文支持 HTTP 413 和发送前检查，归入 over-limit | 与既有超限题重复，未再加入 |
+| `generated-0` | 原文支持请求头，题意归入 `token-header` | 与 `auth-header` 重复，记为 `duplicate_intent` |
+| `generated-1` | 恰好 `1048576` 字节未超限，归入 `at-limit` | 纳入 `upload-size` 留出题族 |
+| `generated-2` | 原文支持 HTTP 413 与发送前检查，归入 `over-limit` | 与既有超限题重复，记为 `duplicate_intent` |
 
-原始模型题意、审核后的题意和审核理由都保留，便于区分模型建议与整理后的标签。
+记录中同时保留了模型原始建议的题意、审核后的题意和审核理由，方便追溯每次归类决策。
 
 ## 数据整理结果
 
-| 候选 | 实际判断 | 说明 |
+| 候选 | 整理结果 | 说明 |
 |---|---|---|
-| auth-header、auth-misplaced | 接受，开发集 | 同族、不同题意 |
-| size-limit、size-overflow | 接受，留出集 | 大小规则和超限行为保持同侧 |
-| billing-unknown | 接受，开发集 | 参考限定为所给资料没有说明 |
-| auth-paraphrase | duplicate_intent | 字面不同，题意键相同 |
-| pending、bad-reference | not_approved | 尚未审核或明确拒绝 |
-| missing-quote | missing_evidence | 即使批准标记存在，程序仍检查引文 |
-| stale-source | source_changed | 审核时的资料哈希已经不符 |
+| `auth-header`、`auth-misplaced` | 接受，开发集 | 同属认证题族，题意不同 |
+| `size-limit`、`size-overflow` | 接受，留出集 | 大小上限与超限行为保持同侧 |
+| `billing-unknown` | 接受，开发集 | 参考限定为所给资料未提及 |
+| `auth-paraphrase` | `duplicate_intent` | 字面不同，题意键相同 |
+| `pending`、`bad-reference` | `not_approved` | 待审核或已拒绝 |
+| `missing-quote` | `missing_evidence` | 即使有批准标记，缺少原文引文仍被拦截 |
+| `stale-source` | `source_changed` | 审核时记录的资料哈希与当前版本不符 |
 
-合并种子与已审核模型候选后，13 条候选形成 6 条样本，开发集和留出集各 3 条。题号、题意键唯一，两侧题族不相交，四类任务均有覆盖。逐项 audit、两个真实 `EvaluationDataset` 的 Golden 导出见 JSON。
-
-这些检查只能说明这份教学数据符合当前结构约束，不能证明参考全都正确，也不能证明它代表真实用户分布。
+合并种子题与审核通过的模型候选后，13 条候选最终整理为 6 条有效样本，开发集和留出集各占 3 条。题号唯一、题意键唯一、两侧题族完全不相交，四类题型全部覆盖。逐条审计日志和两个 `EvaluationDataset` 的 `Golden` 导出保存在 JSON 中。
 
 ## 复用 Agent 的真实运行
 
-Docker 中执行 `auth-header`，运行编号为 `c2d4a4a765774873a3d26a02ef7a073a`。Agent 实际调用 `read_file("upload.md")`，工具返回文件内容，随后回答 token 应放在 `X-Project-Token` 头中，循环正常停止。
+在 Docker 环境中执行 `auth-header` 任务，运行编号为 `c2d4a4a765774873a3d26a02ef7a073a`。Agent 调用 `read_file("upload.md")` 获取原文内容，随后回答 token 应放在 `X-Project-Token` 请求头中，循环正常停止。
 
-导出的 DeepEval 样本保留了真实工具参数、结果和最终回答，`expected_output` 另取自题目中的参考。JSON 中还保存资料哈希与数据划分。
+导出的 DeepEval `LLMTestCase` 完整保留了工具调用参数、返回结果和实际回答，`expected_output` 独立取自审核后的参考，元数据中附带资料哈希和数据集划分。由于本课尚未接入答案评分指标，`answer_quality_score` 字段记录为 `null`。
 
-本课没有运行答案质量指标，`answer_quality_score` 为 `null`。不能将一次样本构造成功或一次正常停止解释为 Agent 的准确率。
+## 自动化检查覆盖项
 
-## 软件检查覆盖什么
-
-检查包含：资料变更后重新审核、越界资料路径拒绝、待审核候选排除、同意改写去重，以及人为把同族题分到两侧后能发现泄漏。软件检查使用受控数据，不冒充真实模型结果。
+本课配套检查覆盖五类关键边界：资料更新后触发 `source_changed`、越界资料路径被拒绝、待审核候选被排除、同义改写按题意键去重，以及人为将同族题目拆到两侧时检出题族泄漏。完整结构化记录见 [assessment.json](assessment.json)。

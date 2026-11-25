@@ -4,36 +4,35 @@
 
 ## 本课调用链
 
-`agent_loop → execute → HANDLERS` 执行动作。`execute` 将拒绝、参数错误和执行错误分别返回，循环把结果同时写入事件和工具消息。`to_deepeval` 只读取已有记录，生成一份 DeepEval 样本。
+命令行入口仍在 [course/run.py](../run.py) 与 [course/grade.py](../grade.py)：
 
-事件编号标记一次运行内的模型步和动作位置。一个用户任务可以触发多次模型响应；以整次任务作为单个端到端样本，并不要求 Agent 只调用一次模型。
+1. `course.run` 读取 `cases.jsonl` 中的任务和初始文件，初始化干净的工作目录，调用 [code.py](code.py) 中的 `agent_loop`。
+2. `agent_loop` 沿 `agent_loop → execute → HANDLERS` 链路分发动作。[tools.py](tools.py) 中的 `execute` 将权限拒绝、参数非法和执行出错分别归类返回，循环再把结果同步写入 `run["events"]` 和 `messages`。
+3. `course.grade` 根据 `run_id` 取出运行记录和工作目录，交给 [eval.py](eval.py) 做文件与事件核验，同时调用 [samples.py](samples.py) 中的 `to_deepeval` 把已有记录转换为 DeepEval 样本。
 
-## Learn Claude Code：分发与权限
+事件编号 `{step}.{index}` 标记单次运行内的模型步数和动作序号。一个用户任务往往包含多轮模型响应，把整次任务整理为单个端到端样本时，这些位置编号能完整保留执行顺序。
 
-固定版本的 [s02](https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s02_tool_use/code.py) 用工具表分发调用，[s03](https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s03_permission/code.py) 在执行前处理权限。
+## 对照 Learn Claude Code
 
-本课取其中最小部分：三个处理函数、文件路径检查和事件列表。没有独立审批系统，也没有完整追踪平台。`resolve` 后检查目录范围可识别静态符号链接越界，但不提供并发攻击下的文件系统隔离；Bash 也不受这个文件函数约束。
+对照上游固定版本的 [s02_tool_use/code.py](https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s02_tool_use/code.py) 和 [s03_permission/code.py](https://github.com/shareAI-lab/learn-claude-code/blob/448c75bb596917ad196cc1fb7558f459c5c50fdd/s03_permission/code.py)，本课保留了最核心的两块机制：按名称查表分发工具，以及在文件读写前做路径边界检查。
 
-## DeepEval：调用记录保留在哪里
+这里使用 `resolve()` 配合 `is_relative_to()` 拦截相对路径和静态符号链接越界，作用域限定在具名文件工具 `read_file` 与 `write_file` 内，`bash` 继续复用第 1 课的教学执行器。
 
-[官方样本说明](https://deepeval.com/docs/evaluation-test-cases)给出输入、实际输出和工具字段。核对固定版本的 [LLMTestCase 与 ToolCall](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/test_case/llm_test_case.py)：`ToolCall` 保存名字、输入参数和输出，`LLMTestCase.tools_called` 携带调用列表。
+## 对应 DeepEval 的样本模型
 
-`to_deepeval` 将实际事件逐条转换。没有写入 `expected_tools`，因为实际调用不能同时充当参考调用。工具输出中的状态是本课显式编码的内容，不代表所有原生指标都会自动判断权限和执行成败。工具质量一课会检查相应指标究竟读了哪些字段。
+[DeepEval 官方样本说明](https://deepeval.com/docs/evaluation-test-cases)用输入、实际输出和工具调用描述一次待测运行。对照固定版本的 [LLMTestCase 与 ToolCall](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/test_case/llm_test_case.py) 源码：
 
-原生 trace 入口见 [tracing.py](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/tracing/tracing.py)。本课位置编号只承担轻量归属，没有冒充框架的 trace/span 对象。
+- `ToolCall` 记录单次工具调用的 `name`、`input_parameters` 和 `output`。
+- `LLMTestCase` 通过 `input`、`actual_output` 和 `tools_called` 汇总整次任务的过程证据。
 
-## Ragas：样本为何需要过程信息
+`to_deepeval` 按事件顺序构造 `tools_called`，并将包含状态的返回字典写入 `output`，便于后续区分成功、拒绝与报错。转换时刻意不填充 `expected_tools`，因为实际调用属于“待测行为”，预期工具列表需要从独立的题目定义中提供。
 
-[官方样本说明](https://docs.ragas.io/en/stable/concepts/components/eval_sample/)区分单轮问答与多轮过程。固定版本的 [dataset_schema.py](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/dataset_schema.py) 定义样本字段与消息校验；[messages.py](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/messages.py) 将 AI 调用与工具反馈分开表示。
+DeepEval 原生的 trace/span 追踪机制位于 [tracing.py](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/tracing/tracing.py)，本课先用轻量的 `{step}.{index}` 位置编号维护事件归属，完整的追踪与指标评估会在后续课程展开。
 
-这里借它理解一个原则：评测过程，需要保留过程证据。只有任务与最终回答，就无法判断中间是否被拒绝、调用是否出错。本课用原始消息与事件保存这些证据，实际接入只使用 DeepEval。
+## 样本表示与任务评分的边界
 
-## 转换没有改变哪些事实
+导出 `LLMTestCase` 验证的是数据结构是否完整，外层记录依然保留 `run_id`、停止状态和原始消息历史。如果模型因步数超限或接口异常退出，`actual_output` 会记为空字符串，但外层状态仍如实反映 `step_limit` 或 `model_error`。
 
-外层仍保留 `run_id`、运行状态和原始事件。停止或模型错误不会因为成功创建了 SDK 对象就变成任务完成。没有最终回答时使用空字符串，是满足文本视图的表示方式；评测选择仍应检查外层状态。
-
-本课实际调用了 SDK 构造和校验，没有运行 LLM 裁判或框架质量指标。文件任务由 [evaluate](eval.py) 独立检查；样本表示与质量评分的边界在这里可以直接看见。
-
-任务入口在 [course.run](../run.py)，它读取本课样本、创建本次目录并调用循环；[course.grade](../grade.py) 根据运行编号读取结果，再进入本课评分函数。
+具体的任务成败由 [eval.py](eval.py) 里的 `evaluate` 独立检查磁盘文件和事件状态，把“数据格式转换”和“质量判分”两条线分开，后续接入各类 DeepEval 评分指标时就能直接复用同一份样本。
 
 [样本与评测记录](assessment.md)

@@ -1,53 +1,40 @@
-# e10 源码导读：阶段缺口与错误归因
+# e10 源码导读：阶段缺口与噪声归因如何排查
 
 [教材](README.zh.md) · [阶段回放](code.py) · [缺口检查与噪声算式](eval.py)
 
-## 本课实际调用链
+## 本课调用链
 
-`prepare` 校验第9课冻结记录与原始资料哈希。每个条件深拷贝资料快照，固定真实运行的第一条检索查询，再调用原生 TinyRAG。source_missing 在查询前移除文档，stale_source 修改快照内容并重算哈希；挂载文件未修改。
+[code.py](code.py) 中的 `prepare` 首先读取第 9 课 `assessment.json` 与挂载知识库，校验两者的 SHA-256 哈希，确保冻结轨迹和基准语料没有漂移。随后从真实运行记录里提取 `trace["retrievals"][0]["query"]`，在内存里为七组条件深拷贝文档清单并调用原生 TinyRAG 的 `retrieve(..., limit=3)`。
 
-native_hits 是原生返回，retrieved 是控制处理后的检索输出，selected 是准备送入模型的片段。retrieval_miss 是主动过滤，不是事后宣称原生查询漏召回；assembly_drop 则只改变 selected。noise、conflict 追加明确标注的 constructed 片段，不伪造检索来源。
+各条件在内存快照和下游环节逐一隔离变量：
 
-`first_gap` 依次检查目标文档、内容版本、检索输出与组装结果，报告最先观察到的缺口。这只是当前短文、已知参考来源的检查器，不是任意文档的语义根因定位。哈希变化需审核，不能自动断定旧版本错误。
+- `source_missing` 在检索前从内存 `documents` 列表剔除 `atlas/release.md`，磁盘文件保持原样。
+- `stale_source` 修改内存里 `atlas/release.md` 的命令为 `python -m unittest` 并重算该条哈希，因此 `documents` 清单与 `knowledge_version` 均随之更新。
+- `retrieval_miss` 保留原生返回的 `native_hits`，只在 `retrieved` 阶段过滤掉目标规范路径。
+- `assembly_drop` 保留完整的 `retrieved`，仅在截取前两条形成 `selected` 后剔除目标规范路径。
+- `noise` 与 `conflict` 不修改 `documents` 清单（因此 `knowledge_version` 与 `baseline` 一致），只在 `selected` 末尾追加明确标为 `constructed context injection` 的片段。
 
-`replay` 深拷贝最后一次真实生成输入，替换唯一知识结果，附加每组相同的来源策略。tools={} 且拒绝新工具调用，使模型不能靠再次检索消除控制条件。实际 retrieval_context 从这次 model_input 提取；原始参考仅用于评分，未传给生成模型。
+`replay` 深拷贝最后一次成功模型的输入消息 `trace["model_inputs"][-1]`，往首条消息追加统一的资料使用与冲突优先级规则，并把唯一一条 `kind == "knowledge_context"` 的工具输出替换成当前条件的 `knowledge_version` 和 `contexts`。随后以 `tools={}` 调用 `call_model` 生成回答（若模型返回新工具调用则抛错中止），并通过 `sent_contexts([messages])` 从本次实际送入模型的消息重建 `LLMTestCase.retrieval_context`。命令行传入 `--judge` 时必须同时传入 `--live`，逐条件执行评测并在每轮 `finally` 块即时保存结果和 `judge_calls`。
 
-七种条件的调用是受控生成回放，不是七次新完整 Agent 运行。接口错误单独记录，逐条件保存已完成结果及原始裁判返回。
+## DeepEval：阶段证据与生成指标分工
 
-## DeepEval：阶段证据与答案指标配合
+以下源码分析基于 DeepEval 固定提交 [34db63d](https://github.com/confident-ai/deepeval/tree/34db63dd005ebc9a905c8ef4741ae0687c93c14c)，架构参考 [RAG Evaluation 指南](https://deepeval.com/guides/guides-rag-evaluation)。
 
-固定提交 [34db63d](https://github.com/confident-ai/deepeval/tree/34db63dd005ebc9a905c8ef4741ae0687c93c14c)。[RAG Evaluation 指南](https://deepeval.com/guides/guides-rag-evaluation) 将检索器与生成器分开评价；本课进一步保留来源和上下文组装阶段，避免把检索输出与模型实际输入混为一谈。
+DeepEval 将检索质量与生成质量拆开评价：在检索侧，第 6 课使用过的 [ContextualRelevancyMetric](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/contextual_relevancy/contextual_relevancy.py) 只读取 `input` 与最终 `retrieval_context`，无法分辨这份上下文缺失究竟是源于知识库缺文档、检索器漏召回还是上下文组装阶段被截断。本课保留 `documents`、`native_hits`、`retrieved`、`selected` 四份中间产物，正是为了补齐检索与生成之间的组装观测空白。
 
-[ContextualRelevancyMetric](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/contextual_relevancy/contextual_relevancy.py) 根据问题，对上下文拆出的陈述判相关，再求 yes 比例。它不读取资料目录、原始候选与组装日志，因此相同上下文可有相同分数，却来自不同故障阶段。第6课保留其原生执行与具体导读，本课不重复跑全套指标。
+在生成侧，本课直接复用第 8 课的 `judge_faithfulness`（封装 [faithfulness.py](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/faithfulness/faithfulness.py)）与第 9 课的 `task_metric`（`GEval`）：
 
-本课实际复用第8课 [FaithfulnessMetric 包装](../e08_faithfulness/eval.py) 与第9课 [G-Eval 任务标准](../e09_answer_quality/eval.py)。前者的原生 [faithfulness.py](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/faithfulness/faithfulness.py) 从本次上下文抽 truths、从回答抽 claims，再判 verdicts。默认 yes 与 borderline 都通过，不能将默认分数解释成每条声明均有明确支持；support_score 单独保留 yes 比例。
+1. `FaithfulnessMetric` 从当次 `retrieval_context` 抽取 `truths`，再从重放生成的 `actual_output` 抽取 `claims`，最后逐条判定 `yes`/`no`/`borderline`。由于原生默认将 `borderline` 算作通过，`judge_faithfulness` 另存只统计 `yes` 的 `support_score` 供复核。
+2. 当上下文混入冲突信息时，`_generate_truths` 从原始片段抽取事实可能丢失“哪条来自 `atlas/release.md`、哪条来自旧备忘”的来源优先级，导致遵循主规范的正确回答在 NLI 阶段被误判为与旧备忘矛盾；因此必须把 `truths` 与 `verdicts` 原样保存下来查验。
+3. `task_metric` 把问题、回答、当前标准 `expected_output` 和当次 `retrieval_context` 一起交给 `GEval`，从而既能发现 `stale_source` 下“忠于旧文档却偏离当前规范”的问题，也能肯定 `source_missing`、`retrieval_miss`、`assembly_drop` 下“证据不足时主动拒答”的合规行为。
 
-在冲突资料中，truths 提取可能丢失来源及其优先级。单纯对全部 truths 判断是否矛盾，不一定等价于按当前主规范回答。G-Eval 同时读取问题、回答、当前参考与实际上下文，按本课策略解释完整回答或合理保留；这也仍是模型裁决，不替代阶段事实或来源审核。
+## 诊断函数：first_gap 与 noise_fraction 的代码细节
 
-因此，faithfulness 高、任务质量低时应回看参考与来源版本；存在阶段缺口而任务质量高时，可能是模型正确保留了缺失信息。两类观察都不能从一个分数直接推成根因。
+[eval.py](eval.py) 里的两个轻量诊断函数把阶段检查与噪声归因算式独立出来：
 
-## Ragas：从支持矩阵到 Noise Sensitivity
+- `first_gap(documents, retrieved, selected, source)` 按固定顺序检查文档存在性、内容 SHA-256 一致性、`retrieved` 路径命中以及 `selected` 路径命中，返回最早出现的缺口标识或 `None`。它面向单篇短规范、已知目标路径的链路排查；若文档包含多个切片或路径名相同而关键段落未入选，还需继续核对具体的 `chunk_id` 与正文内容。
+- `noise_fraction(correct, relevant_support, irrelevant_support)` 严格校验三个布尔数组长度一致且元素类型为 `bool`（空列表时返回 `{"relevant": None, "irrelevant": None}`）。它以 `len(correct)` 为分母，计算两项占比：`relevant` 统计 `not c and r`（未被参考支持但有相关资料支撑的陈述），`irrelevant` 统计 `not c and i and not r`（未被参考支持且仅由无关资料支撑的陈述）。
 
-固定提交 [8c63f10](https://github.com/vibrantlabsai/ragas/tree/8c63f10d500c44efbf24fdb9e2920de2104c321c)，概念见 [Noise Sensitivity](https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/noise_sensitivity/)。本课不执行 Ragas。
+这里需要留意两处指标解读边界：其一，当某篇文档同时包含部分正确规则和一条过时命令时，因为触及了部分参考信息，它在归因分类上仍可能属于相关资料，从而把错命令算进 `relevant` 侧；其二，由于分母是全部回答陈述数，回答里多说几句无关紧要但正确的废话会稀释错误占比，却没有真正减少错话数量。单次重放还带有模型采样随机性，涉及版本对比与置信区间评估时将在第 15 课继续展开。
 
-现代 [noise_sensitivity/metric.py](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/metrics/collections/noise_sensitivity/metric.py) 的 `ascore`：
-
-1. 分别把 reference 与 response 拆为声明。
-2. 对每份 context，判断它对参考声明和回答声明的支持，构成 retrieved2ground_truth 与 retrieved2answer 两个矩阵。行对应声明，列对应资料。
-3. 再用 reference 判断回答声明，得到 ground_truth2answer。其布尔取反就是代码里的 incorrect；这里指参考未支持，不是外部世界已证明错误。
-4. `_compute_score` 将支持至少一条参考声明的资料列标为 relevant_retrieved，再判断回答声明是否得到这些资料列中任意一列支持。
-5. relevant 模式统计 relevant_faithful 与 incorrect 的交集；irrelevant 模式统计无关资料的支持，并先用 `&= ~relevant_faithful` 排除同时被相关资料支持的声明。最后对全部回答声明取均值。
-
-因此，相关资料的定义依赖参考声明支持，不等同第6课单纯与问题主题相关。一个混杂了正确条件和错误命令的旧规范，仍可能属于 relevant 类，错误命令也就可能进入 relevant 方向。
-
-[util.py](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/metrics/collections/noise_sensitivity/util.py) 委托公共声明生成和 NLI 提示词，输出声明、理由与整数 verdict；代码用真假值转为布尔支持关系。声明拆分、参考完整性和裁判判断都会影响矩阵，不能只看最终均值。
-
-本课 `noise_fraction` 的三组向量是假设这些矩阵已得到之后的简化聚合示例，标签由编写助手构造，不是对七次回放的自动语义判断。长度和布尔类型需对齐；空列表返回 None。原实现只先检查输入字符串与列表非空，空抽取会产生空矩阵，后续 max/mean 没有统一的完整保护，不能一概说框架对空声明返回有效零分。
-
-## 分母与诊断限制
-
-分母是全部回答声明数，不是错误声明数。增加正确声明可能降低这个比例，即使错误支持数量没变；零分也可能遗漏大量要求。不同拆分粒度或参考版本的数值不能直接横比。
-
-Noise Sensitivity 不是基线分数减去加噪后分数，也不是严格因果证明。它描述参考未支持声明与不同资料的支持关系。受控回放有助于观察变化位置，单次生成差异仍可能含有随机性；正式版本比较与不确定性在第15课展开。
-
-飞书原始资料：[DeepEval guides](https://my.feishu.cn/docx/RMSkdusn8oeS1XxCTp6cNAK6noc)、[Ragas docs](https://my.feishu.cn/docx/SOHsdGTt0ojxXoxVwbjcBzCYntg)。本课核对 RAG 分层评价与 NoiseSensitivity 相关段落，具体聚合以固定源码为准。
+[样本与评测记录](assessment.md)

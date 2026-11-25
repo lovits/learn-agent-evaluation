@@ -2,41 +2,33 @@
 
 [教材](README.zh.md) · [评分代码](eval.py) · [原始记录](assessment.json)
 
-## 样本怎样选
+## 样本设计
 
-本课只用一个文件任务 `hello`。要求创建指定结构的 `hello.py`，运行后报告实际结果。它足够小，可以把用户要求、执行证据与判断条件逐项对应起来。
+本课围绕最小文件任务 `hello` 设计了三条样本：一条真实模型运行，用来验证正常闭环；两条受控反例，用来检验评分器能不能拦住典型的假完成。
 
-| 样本 | 构造方式 | 要观察什么 |
+| 样本 | 来源 | 检验重点 |
 |---|---|---|
-| `hello` | 公开任务交给真实模型驱动的 Agent，在 Docker 中执行 | 命令输出与当前文件是否同时符合要求 |
-| `claim_only` | 用受控响应直接返回空动作和“已完成” | 模型正常停止是否会被误当成任务完成 |
-| `changed_artifact` | 受控执行产生正确输出，再把当前文件改错 | 旧输出能否掩盖错误文件 |
+| `hello` | 将公开任务交给真实模型驱动的 Agent，在 Docker 隔离目录中执行 | 命令实际输出与落盘文件能否同时满足要求 |
+| `claim_only` | 受控模型响应：不调用工具，直接返回 `"已完成"` | 循环正常停止（`finished`）时会不会漏判空操作 |
+| `changed_artifact` | 受控反例：执行记录里保留正确输出，但把工作区里的 `hello.py` 改错 | 历史终端输出能不能掩盖损坏的最终文件 |
 
-后两项是验证规则边界的构造反例，不代表真实模型发生过这些错误。
+## 真实模型运行结果
 
-## 已保存的真实运行
+运行编号为 `5f409464de6e4b5e8c2e76e651384402`（对应[原始运行证据](https://github.com/lovits/learn-agent-evaluation/blob/main/generation/runtime-evidence.json)，提交 `090cf621ba3aa7f6456ce4d1a0b4c4a48241cb4e`）。模型发出命令创建并执行 `hello.py`，进程返回退出码 `0`，`stdout` 为 `Hello, World!\n`。
 
-运行编号：`5f409464de6e4b5e8c2e76e651384402`。模型提出的 Bash 命令实际执行，返回退出码 `0`，stdout 为 `Hello, World!\n`。
-
-| 条件 | 检查依据 | 本条结果 |
+| 检查项 | 判定依据 | 结果 |
 |---|---|---|
-| `model_stopped` | 循环以 `finished` 结束 | 通过 |
-| `output_observed` | 成功命令的 stdout 包含指定文字 | 通过 |
-| `requested_file` | 当前文件 AST 符合单条 print | 通过 |
+| `model_stopped` | 循环在模型不再调用工具时以 `finished` 退出 | 通过 |
+| `output_observed` | 存在退出码为 `0` 且 `stdout` 含 `Hello, World!` 的事件 | 通过 |
+| `requested_file` | 工作区内 `hello.py` 的 AST 与单条 `print("Hello, World!")` 一致 | 通过 |
 
-三项全部满足，任务判断为 `passed=true`。这是这个固定小任务的一次运行，不是通用编程能力的准确率。
+三项检查全部通过，总评 `passed=true`。
 
-## 反例得到什么结果
+## 受控反例结果
 
-| 构造反例 | 正常停止 | 正确输出 | 正确文件 | 总体判断 |
+| 样本 | `model_stopped` | `output_observed` | `requested_file` | 总评 |
 |---|---|---|---|---|
-| claim_only | 通过 | 未通过 | 未通过 | 不接受 |
-| changed_artifact | 通过 | 通过 | 未通过 | 不接受 |
+| `claim_only` | 通过 | 未通过 | 未通过 | 未通过 |
+| `changed_artifact` | 通过 | 通过 | 未通过 | 未通过 |
 
-`claim_only` 说明正常停止不会补出动作和文件。`changed_artifact` 说明评分器检查的是当前产物：保留旧 stdout，仍不能让错误文件通过。
-
-## 记录的范围
-
-真实模型运行来自已保存的 [Docker 原始记录](https://github.com/lovits/learn-agent-evaluation/blob/main/generation/runtime-evidence.json)，对应源码提交 `090cf621ba3aa7f6456ce4d1a0b4c4a48241cb4e`。构造反例另外执行并单独标记，完整输入与逐项判断保存在本课 JSON。
-
-这里没有评价最终解释的语言质量，也没有证明输出必定来自某个指定命令。AST 规则只用于本题结构，不证明任意程序行为等价。
+对比这两行可以看到分项检查的价值：`claim_only` 证明“正常停止”不等于“做过操作”；`changed_artifact` 证明过程日志不能替代对当前磁盘产物的核验。完整结构化记录保存在同目录的 [assessment.json](assessment.json) 中。

@@ -2,90 +2,63 @@
 
 [教材](README.zh.md) · [裁判和统计](eval.py) · [固定运行入口](code.py)
 
-## 固定的是候选回答，不是新生成答案
+## 冻结候选与标注仲裁
 
-`cases.jsonl` 保存问题、当前参考、提供资料、候选回答与课程参考标签。这里没有重新调用 Agent 生成答案；--judge 才实际调用 DeepEval 裁判，默认运行只是明确标记的构造分数聚合练习。
+`cases.jsonl` 保存题目、当前参考规范、检索资料、候选回答以及 `reference_label`。运行 [code.py](code.py) 时不会重新调用 Agent 生成回答：默认模式使用每行自带的 `fixture_score` 演示聚合统计，加上 `--judge` 后才调用 DeepEval `GEval` 裁判。
 
-reference_label 与 label_reason 由课程作者构造，不是独立人工标注。human_label 全部为空；unlabeled 还故意不提供课程参考标签，用于说明未标注不能被偷偷算对。标注处理示例中的两份标签和仲裁同样是构造布尔例子，没有虚构两名真人。
+数据集里同时保留了 `reference_label` 和 `human_label` 两个字段。`reference_label` 与 `label_reason` 记录课程参考判断，`human_label` 留空以备接入人工复核；`unlabeled` 样本有意将参考标签设为空，用来验证统计代码会把它排除在一致率分母之外。
 
-`reconcile` 只在两份标签一致时采用共同结果；有分歧时需显式仲裁，否则保留 None。真实人工流程还应保存各自理由、证据与仲裁者。两个人一致也可能沿用了同一错误标准，不能把一致自动当成真值。
+`reconcile` 实现双人标注合并逻辑：两份布尔标签一致时采用共同结果，出现分歧时取显式传入的 `adjudicated`，未仲裁则保持 `None`。在生产标注流程中，还需要把两位标注员的理由、依据和仲裁者信息一并落盘，并定期抽查双方是否共同遵循了最新标准。
 
-## 逐行统计，不独立删除两边
+## 按行对齐的统计实现
 
-`summarize` 先保留有课程参考标签的行，再筛选评分成功的行，最后对同一行中的 reference_label、passed 计数。
+`summarize` 先过滤出具备布尔 `reference_label` 的样本，再从中筛选评分状态为 `ok` 的行，最后按同一行的 `reference_label` 与 `passed` 累计四个计数：
 
 - TP：参考接受，裁判接受。
-- FP：参考拒绝，裁判却接受，即误接收。
-- TN：参考拒绝，裁判也拒绝。
-- FN：参考接受，裁判却拒绝，即误拒绝。
+- FP：参考拒绝，裁判接受（误接收）。
+- TN：参考拒绝，裁判拒绝。
+- FN：参考接受，裁判拒绝（误拒绝）。
 
-一致率分母是实际进入比较的行数；误接收率分母为参考拒绝行 FP+TN，误拒绝率分母为参考接受行 FN+TP。空分母保持 None，不填成完美或零表现。
+三项指标使用各自对应的分母：一致率除以有效比较行数；误接收率除以参考拒绝行数 `FP + TN`；误拒绝率除以参考接受行数 `FN + TP`。当分母为 0 时，`ratio` 辅助函数直接返回 `None`。
 
-同时保留参考标签覆盖率、人工标签覆盖率、所有行评分覆盖率与已标注行评测覆盖率。参考标签缺失和模型评分失败不是同一种缺失。评分失败不能当成拒绝标签，否则会悄悄改变混淆矩阵。
+汇总字典同时输出 `reference_label_coverage`、`human_label_coverage`、`scoring_coverage` 和 `evaluation_coverage`。把“缺少标签”和“裁判调用报错”分开统计，可以防止接口失败被悄悄折算成拒绝样本而扭曲混淆矩阵。
 
-## DeepEval：步骤、量表和阈值
+## DeepEval：步骤、量表与阈值
 
-固定提交 [34db63d](https://github.com/confident-ai/deepeval/tree/34db63dd005ebc9a905c8ef4741ae0687c93c14c)，概念见 [G-Eval](https://deepeval.com/docs/metrics-llm-evals)。
+本课对应 DeepEval 固定提交 [34db63d](https://github.com/confident-ai/deepeval/tree/34db63dd005ebc9a905c8ef4741ae0687c93c14c)，核心概念参考 [G-Eval 文档](https://deepeval.com/docs/metrics-llm-evals)。
 
-沿 [g_eval.py](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/g_eval/g_eval.py) 看：
+沿 [g_eval.py](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/g_eval/g_eval.py) 追踪调用路径：
 
-1. evaluation_params 决定哪些样本字段进入评价。本课显式提供问题、候选、当前参考与可见资料；参考标签不塞进待评分样本。
-2. `_generate_evaluation_steps` 有现成步骤就直接返回；未提供时才根据 criteria 生成。本课两个版本均固定步骤，避免每行再生成一套判据。
-3. rubric 决定原始分数范围。非 strict 模式下，measure 按 `(原分数 - 下界) / 范围跨度` 归一化；它不是将分数解释成正确概率。
-4. threshold 决定 passed。原版0—2量表中的部分正确0.5，在阈值1下仍是拒绝；不能看到原始分下降就宣布误判率下降。
+1. `evaluation_params` 控制哪些样本字段进入裁判提示词。本课显式传入 `INPUT`、`ACTUAL_OUTPUT`、`EXPECTED_OUTPUT` 与 `RETRIEVAL_CONTEXT`，`reference_label` 不放入样本。
+2. `_generate_evaluation_steps` 在调用方已经提供 `evaluation_steps` 时直接返回，不再用模型自动生成步骤。本课两套配置都固定了步骤列表，保证每条样本使用同一套判据。
+3. `rubric` 定义原始分值区间。在非 strict 模式下，`measure` 按 `(原始分 - 下界) / 范围跨度` 做线性归一化。
+4. `threshold` 决定最终的 `passed` 布尔值。原配置采用 0 至 2 量表，部分正确得 0.5，在 `threshold=1.0` 下仍判为拒绝；因此比较版本时必须同时看原始分与通过状态。
 
-原版复用第9课 task_metric。修订版把当前规范冲突、绕过门槛和跳过失败列为优先拒绝条件，再解释证据不足时的合理保留。它同时改为二元量表并附开发示例，因此是整个裁判配置的比较，不能把变化单独归因于某一行提示词。
+原配置复用第 9 课的 `task_metric`。修订配置 `revised_metric` 把“与当前规范矛盾、未通过检查即发布、跳过失败项”放在最前面作为硬失败条件，随后说明证据不足时的合理保留，并改用 0/1 二元量表和开发集示例。
 
-本课 JudgeModel 不提供 log probabilities，沿用原始结构化分数路径；没有声称实际使用了加权 token 概率。第4课包装继续检查有限范围与评分错误，原始理由保留。
+本课使用的 `JudgeModel` 走结构化 JSON 评分路径，外层沿用第 4 课的 `score` 包装函数检查分值范围、捕获异常并保留原始 `reason`。
 
-## Few-shot 只能从开发材料选
+## 开发集示例与题族隔离
 
-`development_examples` 只选择 split=dev 且有参考标签的 Atlas 样本，连同其判据写入 evaluation_steps。Boreal、Cedar 题族留出，语言与篇幅变体随原题族一起划分；程序拒绝题族跨集合。
+`development_examples` 只选取 `split == "dev"` 且带有布尔 `reference_label` 的 `Atlas` 样本，连同 `label_reason` 序列化后追加到 `evaluation_steps` 末尾。`Boreal` 与 `Cedar` 题族全部留出，同题的语言和篇幅变体随题族一起归属留出集。
 
-这是显式的少量示例，不是 G-Eval 自动替我们寻找了正确示例。示例本身也来自课程构造参考，不能写成“已经人工校准”。本次看真实结果前固定修订配置，没有再依据留出分数调整规则。
+[code.py](code.py) 在运行初期计算开发集与留出集的题族交集，一旦发现跨集合题族就抛出 `ValueError`。这种硬校验能拦住同一道题的不同改写版本同时出现在示例和验证集中。
 
-题族分开仍不等于真正独立的外部测试：这些项目任务共享同一发布模板，只有两个留出题族。多个等价回答也不等于多个独立任务。因此本课只能演示组织与诊断方法，不能证明广泛泛化。
+## 形式变体与位置对照
 
-## 位置、篇幅与语言各自怎么观察
+长短变体和中英变体围绕同一参考事实构造，用来检查裁判是否会因为篇幅或语言切换而跨过通过阈值。分析差异前需要先确认候选回答没有引入额外错误，把事实差异和形式偏差区分开。
 
-篇幅与语言变体保持同一参考含义，比较它们是否跨越接受阈值。措辞等价需要先核对；如果长答案多了错误，差异就不能简单归为篇幅偏差。
+位置对照由 `pair_metric` 执行，输入是同一对一好一坏候选拼接成的 `Candidate A` 与 `Candidate B`。`GEval` 返回 `1` 表示 A 更好，`0` 表示 B 更好。主程序交换 A/B 顺序跑两轮，并把每轮分数映射回候选 ID 后再对比胜者，非 `0`/`1` 或异常结果记为 `None`。
 
-位置例子使用同一对候选，显式构造 Candidate A、Candidate B，再交换文本位置。pair_metric 仍由 DeepEval GEval 执行，1表示A更好、0表示B更好。映射回候选ID后再比较，不能把两次原始0/1不同误当成判断翻转。
+查看 DeepEval 原生的 [arena_g_eval/utils.py](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/arena_g_eval/utils.py) 可以发现，Arena 模式会在内部对候选名称做匿名映射和随机打乱。因此只交换传入列表的顺序，无法保证底层模型恰好看到严格对调的 A/B 位置。本课通过显式拼装 `Candidate A` 和 `Candidate B` 文本实现受控对调，避免随机化掩盖位置效应。关于位置偏差与篇幅偏差的系统讨论可参考论文 [Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena](https://arxiv.org/abs/2306.05685)。
 
-这份受控比较只有一好一坏，不适用于平局或模棱两可的任意回答；非0/1结果保留为未决。它不是 ArenaGEval 的通用胜率。
+## 结合前课分歧检查评分单位
 
-阅读原生 [arena_g_eval/utils.py](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/arena_g_eval/utils.py) 可以看到匿名映射与展示顺序都会随机化。因此仅调换传给 Arena 的列表，并不能保证模型恰好看到一次严格的位置对调。本课用明确候选文本控制这个小例子的呈现，不改写上游随机化实现。
+[casebook.json](casebook.json) 绑定了第 12、13 课原始记录的 SHA-256 哈希，摘录任务说明、工具事件、规则检查结果和原裁判理由：
 
-一次顺序对照同时受模型波动影响；没有观察到翻转不证明不存在位置偏差。相关研究见 [Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena](https://arxiv.org/abs/2306.05685)。论文指出位置和篇幅等偏差，不意味着本课已经对这些偏差测得稳定发生率。
+- 第 12 课中，代码行为满足了程序契约，但最终回复遗漏了题目要求的说明义务，此时语义扣分反映的是另一层要求。
+- 第 13 课中，磁盘文件已经正确写入，但纯文本会话指标读不到工具执行结果，因此低会话分不能推翻文件交付事实。
 
-## Ragas：align 改了什么
+保留这些原样案例，是为了提醒我们在修改裁判提示词之前，先核对评分单位和输入证据范围是否选对。
 
-固定提交 [8c63f10](https://github.com/vibrantlabsai/ragas/tree/8c63f10d500c44efbf24fdb9e2920de2104c321c)，参考 [Align an LLM as a Judge](https://docs.ragas.io/en/stable/howtos/applications/align-llm-as-judge/)。本课不实际执行 Ragas。
-
-指南将固定回答交给裁判，再与专家 target 对照、分析分歧。专家标签的来源是该指南的数据集说明，不是本课构造标签的来源。
-
-[metrics/base.py](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/metrics/base.py) 的 SimpleBaseMetric.align 将训练行的输入与指标输出放入 DynamicFewShotPrompt。它做的是推理时示例检索，不等于更新了基础模型权重。
-
-[dynamic_few_shot.py](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/prompt/dynamic_few_shot.py) 的 format 按当前输入、数量限制与相似度阈值选择示例。没有 embedding 时会使用最近示例；“动态选择”不是永远具有语义相关性保证。
-
-同一固定版本还保留 MetricWithLLM.train 的 instruction / demonstration 优化路径。它使用不同提示接口，不能把所有同名 align、train 与 collections 的模型适配混为一套 API。
-
-validate_alignment 中可看到 gold 与 pred 各自过滤 None 后再 zip 的实现。若缺失位置不同，就有错位比较的风险。课程统计直接按样本行对齐，并另外报告缺失，避免拿删除后的数组位置当成样本身份。
-
-## Ragas：翻译示例不保证跨语言公平
-
-参考 [语言适配](https://docs.ragas.io/en/stable/howtos/customizations/metrics/metrics_language_adaptation/)。
-
-固定版本 [pydantic_prompt.py](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/prompt/pydantic_prompt.py) 的 adapt 提取并翻译示例字符串，复制提示对象并更新语言。默认不翻译 instruction，设置 adapt_instruction=True 才另作翻译。翻译后仍需检查术语、否定与判据是否保留，并用目标语言的独立样本验证。
-
-较新 collections 使用 [prompt/metrics/base_prompt.py](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/prompt/metrics/base_prompt.py) 接口，文档示例与遗留 PydanticPrompt 应分别追踪。不能只改 language 字段就宣布偏差消除。本课中英候选对照只是一组观察，没有执行翻译适配或第二套评分。
-
-## 把前课分歧作为案例，不擅自改分
-
-[casebook.json](casebook.json) 绑定第12、13课原始记录的文件哈希，摘取任务、真实工具事件、独立条件和原裁判理由。
-
-第12课程序行为通过，但用户还有说明义务；程序契约与语义分的差异未必是裁判错误。第13课文件已写，语言层会话样本却没有工具证据；不能凭低会话分宣布文件未交付。
-
-这两类分歧先要明确评分单位与证据范围，再由独立标注者判断。案例没有被本课发布规范裁判重新打分，也没有被偷偷补写一句完成声明。它们用于说明：发现分歧后，先修标准、证据或指标选择，不能只追求更高一致率。
-
-原始资料：[DeepEval docs](https://my.feishu.cn/docx/Ve2RdP0tyoPsumxuhnxcvsXuneD)、[Ragas docs](https://my.feishu.cn/docx/SOHsdGTt0ojxXoxVwbjcBzCYntg)。本课核对固定步骤、量表、专家对照与语言适配相关内容。
+参考资料：[DeepEval 文档整理](https://my.feishu.cn/docx/Ve2RdP0tyoPsumxuhnxcvsXuneD)。

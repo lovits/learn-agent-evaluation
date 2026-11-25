@@ -4,47 +4,47 @@
 
 ## 本课调用链
 
-`code.main` 读取构造回答，或复用第二课的 `agent_loop` 产生真实回答，再构造 `LLMTestCase`。`UploadContract.measure` 检查 JSON 合约；`GEval.measure` 判断 explanation 的含义。`score` 分别保留状态、分数、阈值判断和理由，不把两项平均成一个总分。
+`code.py` 中的 `main` 从 [cases.jsonl](cases.jsonl) 读入五条对照样本，或者在传入 `--live-agent` 时复用第 2 课的 `agent_loop` 读取 `upload.md` 生成真实回答，再组装成 `LLMTestCase`。
 
-规则检查对象、字段集合、类型和固定数值。解释只检查非空字符串。即使这段话写错了，结构也可能达标。
+每条样本都会分别交给 [eval.py](eval.py) 中的两套指标独立执行：`UploadContract.measure` 校验 JSON 结构、字段集合、字段类型和固定常量；`explanation_metric` 构建的 `GEval` 则读取任务、实际输出与参考答案，给出解释字段的语义得分。`score` 包装函数分别记录两者的 `status`、`score`、`passed` 与 `reason`，保留各自诊断信息而不做简单平均。
 
-`eval_course/judge.py` 是 DeepEval 的模型适配器：继承 `DeepEvalBaseLLM`，经已有宿主机接口请求模型，再用指标传入的 Pydantic schema 校验 JSON。它不读取 Agent 工作目录。`calls` 保留模型原始文本、耗时和 usage；没有价格依据时不推算费用。
+模型裁判请求通过 [judge.py](../../eval_course/judge.py) 中的 `JudgeModel` 发出。`JudgeModel` 继承 `DeepEvalBaseLLM`，经宿主机桥接地址请求模型，再用指标传入的 Pydantic schema 对返回文本执行 `schema.model_validate_json` 校验，同时将原始返回、耗时和 token `usage` 追加到 `self.calls`。
 
 ## DeepEval：G-Eval 怎样得到分数
 
-固定提交：[34db63d](https://github.com/confident-ai/deepeval/tree/34db63dd005ebc9a905c8ef4741ae0687c93c14c)。概念参考 [G-Eval](https://deepeval.com/docs/metrics-llm-evals) 和[自定义指标](https://deepeval.com/docs/metrics-custom)。
+本课对应 DeepEval 固定提交 [34db63d](https://github.com/confident-ai/deepeval/tree/34db63dd005ebc9a905c8ef4741ae0687c93c14c)，官方概念说明见 [G-Eval](https://deepeval.com/docs/metrics-llm-evals) 与[自定义指标](https://deepeval.com/docs/metrics-custom)。
 
-沿 [g_eval.py](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/g_eval/g_eval.py) 看四处：
+沿着 [g_eval.py](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/g_eval/g_eval.py) 跟踪同步 `measure` 路径，执行分为四步：
 
-1. `__init__` 保存所选字段、判据或步骤、rubric 和阈值。`criteria` 交给模型生成步骤；本课直接给 `evaluation_steps`，固定实际评分步骤，不同时传两种参数。
-2. `_validate` 核对需要的样本字段。`_results_prompt` 把所选字段、编号步骤、rubric 和分数区间组装为提示词。本课只传任务、回答和参考，工具轨迹不参与这一语义分。
-3. `_generate_evaluation_steps` 遇到已有步骤直接返回。`_evaluate` 调用 `generate_rubric_score` 得到原始分和理由。
-4. 非 strict 模式下，`measure` 使用 `(原始分 - 下界) / (上界 - 下界)`。本课量表为 0—2，因此除以 2。阈值 1 表示要求达到完整档；它不是“正确概率为 100%”。
+1. `__init__` 保存评估字段（`evaluation_params`）、评分步骤或判据、`rubric` 和 `threshold`。若传入 `criteria`，DeepEval 会额外让模型生成步骤；本课直接提供固定的 `evaluation_steps`，保证每次评估使用相同的审题规则。
+2. `_validate` 核对样本是否包含所需字段，随后 `_results_prompt` 把选定字段、编号步骤、量表和分值区间拼接成裁判提示词。本课只传入 `INPUT`、`ACTUAL_OUTPUT` 与 `EXPECTED_OUTPUT`，工具轨迹不参与语义评分。
+3. `_generate_evaluation_steps` 检测到已有 `evaluation_steps` 后直接返回，跳过步骤生成请求；接着 `_evaluate` 调用 `generate_rubric_score` 获取原始分和理由。
+4. 在非 `strict_mode` 下，`measure` 按 `(原始分 - 下界) / (上界 - 下界)` 将原始分归一化。本课量表为 `0` 至 `2`，因此除以 `2`；`threshold=1.0` 表示回答必须达到 `2` 分这一完整档位，代表含义完整覆盖，而非正确概率。
 
-[decision.py](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/utils/decision.py) 的 `generate_rubric_score` 还区分模型是否支持 logprobs。支持时可对评分 token 做加权；本课适配器明确不支持，走结构化分数分支，不宣称运行了概率加权。
+[decision.py](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/utils/decision.py) 中的 `generate_rubric_score` 会检查模型是否支持 logprobs：支持时会对分值 token 做概率加权；本课 `JudgeModel.supports_log_probs()` 返回 `False`，因此稳定走结构化分数分支，返回离散整数档位。
 
-[generation.py](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/utils/generation.py) 的 `generate_with_schema_and_extract` 接收 schema 实例或解析 JSON。本课适配器进一步执行 `schema.model_validate_json`；`score` 检查最终数值有限且位于 0—1。合法 JSON 仍可能判断错误，第 14 课再用标签校准裁判。
+[generation.py](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/utils/generation.py) 的 `generate_with_schema_and_extract` 负责解析模型返回并应用 schema。在 `JudgeModel` 验证 JSON 结构通过后，`score` 会继续检查返回值是否为 `0` 至 `1` 之间的有限浮点数。需要注意，JSON 结构合规仍可能包含误判，裁判自身的准确性会在第 14 课通过对照标签来校准。
 
-[BaseMetric](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/base_metric.py) 提供分数、理由、错误与阈值字段。本课 `UploadContract` 继承它，实现同步与异步测量，直接使用 DeepEval 样本，不另建评测框架。
+## BaseMetric 与 DAGMetric
 
-[DAGMetric](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/dag/dag.py) 把任务和判断节点组织成有向无环图，适合多阶段判据；其中判断仍可调用模型。一个 JSON 合约用几条明确规则已经足够，本课只读其分支组织思路，不运行 DAG。
+[base_metric.py](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/base_metric.py) 定义了指标的通用属性与接口契约（`score`、`reason`、`success`、`threshold` 以及 `measure` / `a_measure`）。本课的 `UploadContract` 直接继承 `BaseMetric`，因此可以无缝接入 `score` 包装函数和 DeepEval 的 `LLMTestCase` 样本结构。
 
-## Ragas：二元判定与分档量表
+对于需要多阶段条件分支的复杂判定，DeepEval 还提供了 [DAGMetric](https://github.com/confident-ai/deepeval/blob/34db63dd005ebc9a905c8ef4741ae0687c93c14c/deepeval/metrics/dag/dag.py)，允许把确定性规则节点与模型裁判节点编排成有向无环图。本课的 JSON 合约只需平铺核对几个字段条件，因此用单步 `BaseMetric` 子类即可清晰表达。
 
-固定提交：[8c63f10](https://github.com/vibrantlabsai/ragas/tree/8c63f10d500c44efbf24fdb9e2920de2104c321c)。只作原理对照，本课没有 Ragas 调用或第二套评分。
+## 集合指标的评分单位
 
-[AspectCritic](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/metrics/_aspect_critic.py) 是该提交保留的旧接口：`definition` 进入提示词，输出 `reason` 与二元 `verdict`，然后由 `_compute_score` 取裁决。代码虽然保留 strictness 的多数票逻辑，这一版本 `_ascore` 实际给 `_compute_score` 的是单个 response；不能据参数名就说已经多次独立投票。概念见 [Aspect Critique](https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/aspect_critic/)。
+`set_scores` 接收的是已经确定好边界的项目 ID 列表，例如本课用来演示分母的 `header`、`limit` 和 `status`，它本身不承担从自然语言抽取标签的职责。
 
-现代 collections 的 [DomainSpecificRubrics](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/metrics/collections/domain_specific_rubrics/metric.py) 在初始化时把量表写入 prompt，`ascore` 组装任务、回答及可选参考/上下文，再返回 `MetricResult(value=float(result.score), reason=result.feedback)`。默认分档为 1—5，没有在此处自动变成 DeepEval 的 0—1；比较分数之前必须先看量表。
+函数先通过 `set` 去重，再以交集大小作为 `TP`、预测集合大小作为 `TP + FP`、参考集合大小作为 `TP + FN`，计算 `precision`、`recall` 与 `F1 = 2 * TP / (预测项数 + 参考项数)`。当某侧分母为空时返回 `None`，避免把无从算起的比例硬写成零分。后续检索课与工具课会在这个统一算式下，分别把条目单位替换成文档、事实或工具调用。
 
-[MetricResult](https://github.com/vibrantlabsai/ragas/blob/8c63f10d500c44efbf24fdb9e2920de2104c321c/src/ragas/metrics/result.py) 保存 value、reason 和可选 traces，允许多种结果类型。结果容器本身不定义“多少分算完成”，也不能替你选分母。
+## 评分状态与错误处理
 
-## Precision / recall 的单位
+[eval.py](eval.py) 中的 `score` 函数把每次测量结果分为三类清晰状态：
 
-`set_scores` 的输入是已经确定的项目 ID 集合，不是从回答自动抽出的事实。本课的 `header`、`limit`、`status` 只是解释分母的构造标签。
+- 正常完成且数值落在 `0` 至 `1` 之间：记录 `status="ok"`，若条件不满足则产生有效的 `0.0` 分。
+- 网络连接失败、返回内容无法通过 Pydantic schema 校验或分值越界：记录 `status="error"`，将 `score` 与 `passed` 设为 `None`，并在 `reason` 中保留异常详情。
+- 集合算式遇到空分母：返回 `None` 代表指标当前未定义。
 
-交集数为 TP，预测集合大小为 TP+FP，参考集合大小为 TP+FN。重复 ID 先去重。precision 分母是预测项数，recall 分母是参考项数；F1 为 `2TP/(预测项数+参考项数)`。空分母保留 `None`，这是本课显式选定的约定。后面的检索课、工具课会各自规定评分单位，不能把同一公式中的单位随意替换。
+将这三种情况连同 `ok` 计数与 `error` 计数一并报告，才能避免把基础设施故障或空分母误算进模型能力均值。
 
-## 评分状态
-
-`score` 只把已取得的有效数值记为 `ok`；网络、解析或数值校验错误记为 `error`，分数与是否达标均为空。规则判定不满足是有效零分；空集合分母的 `None` 表示未定义。三者需要连同状态解释，不能全填成 0 后求平均。
+[样本与评测记录](assessment.md)

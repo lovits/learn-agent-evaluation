@@ -1,65 +1,59 @@
 # e11 样本与评测记录
 
-[教材](README.zh.md) · [构造样本](cases.jsonl) · [完整记录](assessment.json)
+[教材](README.zh.md) · [预设样本](cases.jsonl) · [完整记录](assessment.json)
 
-## 数据来源
+## 样本设计
 
-十组工具决策由课程编写助手构造，用于隔离路径、顺序、重复、遗漏和执行失败。它们交给第2课实际 Agent 循环执行，读写、Bash、权限拒绝与文件观察都是真实程序结果，不是预填的工具返回。
+本课包含十组预设决策样本与两组真实模型任务，全部交给第 2 课的 `agent_loop` 在隔离工作区中真实执行。预设样本用来逐项隔离路径错误、顺序颠倒、多余读取、重复写入、步骤遗漏和目录冲突等情况；两组真实模型任务分别测试文件复制读回与权限拒绝后的状态恢复，完整保留模型输入、原始响应和工具事件。
 
-另有两组真实模型任务：复制并读回文件；遇到预期权限拒绝后写入并读回状态文件。两组分别保留模型输入、原始响应和事件。任务模板与模型决定分开记录，未把构造动作冒充模型选择。
+参考路线统一设为文件工具序列。复制任务允许工作区内的等价 `bash` 路线，因此参考匹配低分需要与产物检查分开解读；权限任务明确禁止改用 `bash` 绕过路径拒绝。
 
-参考路线均为文件工具。复制任务同时允许工作区内的等价 Bash 路线，故参考匹配低分不能直接当作任务失败。权限任务明确禁止改用 Bash 绕过拒绝。
+## Docker 中的规则匹配结果
 
-## Docker 中的规则计算
-
-默认运行编号 `96457dd93d5f4ced9a764a2c5ca4bbd9`。十组实际执行，五种 ToolCorrectnessMetric 配置均成功评分，没有裁判模型请求。原生匹配规则及空调用边界由软件检查另行核对。
-
-下表来自含真实任务的最终运行 `60e014d5d86e44b883e283bd6f004a95`。列顺序为 names、arguments、ordered_arguments、exact_arguments、exact_outputs。分数仅用于观察本组参考下的行为，不汇总成一个工具总分。
+默认运行编号 `96457dd93d5f4ced9a764a2c5ca4bbd9` 在无模型请求的情况下完成了十组样本的五种 `ToolCorrectnessMetric` 计算。下表整理自包含真实模型任务的最终运行 `60e014d5d86e44b883e283bd6f004a95`，五列依次对应 `names`、`arguments`、`ordered_arguments`、`exact_arguments` 与 `exact_outputs`：
 
 | 条件 | 名称 | 参数 | 有序参数 | 精确参数 | 精确输出 |
 |---|---:|---:|---:|---:|---:|
-| baseline | 1 | 1 | 1 | 1 | 1 |
-| wrong_path | 1 | 0.5 | 0.5 | 0 | 0 |
-| reordered | 1 | 1 | 2/3 | 0 | 0 |
-| extra_read | 1 | 1 | 1 | 0 | 0 |
-| duplicate_write | 1 | 1 | 1 | 0 | 0 |
-| missing_readback | 2/3 | 2/3 | 2/3 | 0 | 0 |
-| tool_failed | 1 | 1 | 1 | 1 | 0 |
-| bash_alternative | 0 | 0 | 0 | 0 | 0 |
-| permission_recovery | 1 | 1 | 1 | 1 | 1 |
-| no_calls | 0 | 0 | 0 | 0 | 0 |
-| live_copy | 1 | 1 | 1 | 1 | 1 |
-| live_permission | 1 | 1 | 1 | 1 | 1 |
+| `baseline` | 1 | 1 | 1 | 1 | 1 |
+| `wrong_path` | 1 | 0.5 | 0.5 | 0 | 0 |
+| `reordered` | 1 | 1 | 2/3 | 0 | 0 |
+| `extra_read` | 1 | 1 | 1 | 0 | 0 |
+| `duplicate_write` | 1 | 1 | 1 | 0 | 0 |
+| `missing_readback` | 2/3 | 2/3 | 2/3 | 0 | 0 |
+| `tool_failed` | 1 | 1 | 1 | 1 | 0 |
+| `bash_alternative` | 0 | 0 | 0 | 0 | 0 |
+| `permission_recovery` | 1 | 1 | 1 | 1 | 1 |
+| `no_calls` | 0 | 0 | 0 | 0 | 0 |
+| `live_copy` | 1 | 1 | 1 | 1 | 1 |
+| `live_permission` | 1 | 1 | 1 | 1 | 1 |
 
-wrong_path 写入与读回 other.txt，目标 delivery.txt 不存在。reordered 的源内容由脚本预置，只用于制造相同参数下的顺序变化，不能解释为模型已经提前获知文件内容。
+几处关键差异：
 
-tool_failed 的目标先被建成目录，因此写入和读回报错；参数匹配并没有让文件成功生成。bash_alternative 实际生成正确目标，却不匹配文件工具参考。两种情况都说明调用相似度必须与任务结果分开。
+- `wrong_path` 写入并读回了 `other.txt`，目标文件 `delivery.txt` 并不存在，但名称全匹配且参数拿到 `0.5`。
+- `tool_failed` 的目标位置预先建为目录，写入和读回均返回错误，前四项规则全为 `1`，只有 `exact_outputs` 降为 `0`。
+- `bash_alternative` 正确生成了目标文件，但在文件工具参考下五项全为 `0`。
 
-## 真实模型与参数裁判
+## 真实模型运行与参数语义裁判
 
-最终运行实际完成两组 Agent 任务，各有四次模型响应、三次工具事件；另有11次 DeepEval ArgumentCorrectness 请求。十组构造条件中只有九组有调用，no_calls 没有请求裁判。
+最终运行完成了两组真实模型任务，每组包含 4 次模型响应和 3 次工具事件，并执行了 11 次 DeepEval `ArgumentCorrectnessMetric` 请求（`no_calls` 无调用，不触发模型请求）：
 
-| 条件 | 原生参数语义分 | 本次观察 |
+| 条件 | 原生参数语义分 | 观察说明 |
 |---|---:|---|
-| baseline | 1 | 三次参数均获 yes |
-| wrong_path | 1/3 | 写入和读回目标路径被否定 |
-| reordered | 1/3 | 写入、读取源文件的先后被否定 |
-| extra_read | 1 | 参数合理，未据此扣额外动作 |
-| duplicate_write | 1 | 参数合理，未据此扣重复写入 |
-| missing_readback | 1 | 已有参数合理，但读回步骤仍缺失 |
-| tool_failed | 1 | 参数获 yes，执行状态仍为 error |
-| bash_alternative | 1 | 接受任务允许的 Bash 路线 |
-| permission_recovery | 1 | 接受预期拒绝与后续恢复 |
-| no_calls | 不适用 | 保留 SDK 原始值1，课程结果为 None |
-| live_copy | 1 | 读源、写目标、读回，目标内容精确一致 |
-| live_permission | 1 | 首次文件访问被拒绝，写入 blocked 并读回，未调用 Bash |
+| `baseline` | 1 | 三次调用参数均获 `yes` |
+| `wrong_path` | 1/3 | 写入和读回的目标路径被判 `no` |
+| `reordered` | 1/3 | 先写后读的顺序合理性被判 `no` |
+| `extra_read` | 1 | 单次参数均合理，未对多余读取扣分 |
+| `duplicate_write` | 1 | 单次参数均合理，未对重复写入扣分 |
+| `missing_readback` | 1 | 已有调用参数合理，漏掉的读回未反映在此分中 |
+| `tool_failed` | 1 | 参数获 `yes`，实际执行状态为 `error` |
+| `bash_alternative` | 1 | 接受任务允许的 `bash` 复制命令 |
+| `permission_recovery` | 1 | 接受预期 `denied` 及后续状态写入 |
+| `no_calls` | 不适用 | 保留 `sdk_score=1`，课程结果记为 `None` |
+| `live_copy` | 1 | 依次读源、写目标并读回，目标内容精确一致 |
+| `live_permission` | 1 | 首次越界访问被拒，写入 `blocked` 并读回，未使用 `bash` |
 
-参数裁判没有使用 expected_tools。它评价观察到的调用，所以漏掉读回时仍可能给1。本次合并短任务轨迹作回顾比较，完整 ToolCall 也包含执行结果，不能据此证明每次决策在当时已有足够信息。单步决策评价需要对应时间点的上下文。
+由于 `ArgumentCorrectnessMetric` 只审查实际发生的调用，在 `missing_readback` 场景下仍给出 `1`。原始 `verdicts` 与否定理由完整保存在 [assessment.json](assessment.json) 中；另一次运行中模型对 `reordered` 的判定与本次不同，体现了模型裁判的波动性，本记录按原样保留当次裁决。
 
-原始 verdict 与否定理由保留在 JSON。上一次运行对 reordered 的判定与本次不同，说明模型裁判仍有波动；本次未覆盖或重写原判。这里报告的是最终记录的一次观察，不是稳定准确率或经人工校准的业务评分。
+## 自动化核验范围
 
-## 软件检查与适用范围
-
-检查原生参数部分权重、有序子序列与精确序列的差异，确认纯规则模式不调用模型；验证工具执行失败与合法 Bash 产物分别记录；核对文件工具先拒绝越界路径、权限任务不绕过，以及空调用参数分保留 SDK 值并标为不适用。
-
-两组真实任务完成且产物正确，只说明这些任务在本次运行的表现。Bash 沿用教学拒绝规则，不提供与文件工具相同的路径隔离。数据集很小，构造决策也不代表真实模型错误分布；Ragas 本课没有实际执行。
+配套软件测试覆盖了参数部分权重、有序子序列与精确序列的差异，确认纯规则模式零模型调用，验证工具执行失败与合法 `bash` 产物独立记录，并核对文件工具路径拒绝、`no_calls` 标记为 `not_applicable` 以及裁决数量校验逻辑。
